@@ -168,18 +168,22 @@ The algorithm gets as input $\mathcal{X}$ and the number of points in the smalle
 \item[] \textbf{Phase 2:}
 \begin{itemize}
 \item[] Let $L_C = c_1,\ldots,c_p$.
-\item[] Let $D$ denote the $k$ clusters found so far. 
-\item[] Let $E$ denote the list of clusterings found so far.
+\item[] Let $L$ denote the list of nice clusterings found so far. Initialize $L := \phi$
+\item[] Let $T$ denote the hierarchical clustering tree. Initialize $T$ to be the tree with nodes $c_1,\ldots,c_k$ without any edges.
+\item[] Let $D$ denote the current clustering. Initialize $D = (c_1,\ldots.c_k)$.
+\item[] for $i=k+1$ to $p$
 \begin{itemize}
-\item[] Initialize $D = (c_1,\ldots.c_k)$ and $E = \phi$. Iterate over the list of centers $L_C$.
-\item[] Given a new center $c_i$, $D' = D \cup c_i$ is a set of $k+1$ clusters. Merge the two closest centers in $D'$ to get a $k$-clustering. Assign $D$ to be that $k$-clustering. $E = E \cup D$.
+\item[] Merge the two closest clusters in $D\cup c_i$ to get a new $k$-clustering. 
+\item[] Merge the two clusters in the tree $T$. Update $D$. 
+\item[] If $D$ is a nice clustering
+\begin{itemize}
+\item[] $L = L \cup D$.
+\end{itemize}
 \end{itemize}
 
-\item[] In this way, we build a hierarchical clustering forest. This forest has $k$ trees corresponding to the $k$ different clusters we found. If the desired output is a tree rather than a forest, then 
-\begin{itemize}
-\item[] Use single linkage to merge the $k$-clusters found so far. 
-\end{itemize}
-The output of this phase is a hierarchical tree and a list of possible nice clusterings. 
+\item[] // We built a forest with $k$ trees corresponding to the $k$ different clusters we found. 
+\item[] Use single linkage to merge the $k$-clusters found so far. Update $T$.
+\item[] Output $L$ and $T$.
 \end{itemize}
 \label{alg:Known}
 \end{alg}
@@ -194,7 +198,7 @@ Given a $(2,8)$-nice set $\mathcal{X}$, Algorithm \ref{alg:Known} outputs
 \end{itemize}
 \end{theorem}
 
-\noindent Note that Alg \ref{alg:NotKnown}, outputs a list of possible clusterings with size $O(|\mathcal{X}|^2)$. However, with the knowledge of another parameter ($\min|B_i|$), Alg \ref{alg:Known} improves the size of this list to $O(|\mathcal{X}|)$.
+%\noindent Note that Alg \ref{alg:NotKnown}, outputs a list of possible clusterings with size $O(|\mathcal{X}|^2)$. However, with the knowledge of another parameter ($\min|B_i|$), Alg \ref{alg:Known} improves the size of this list to $O(|\mathcal{X}|)$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
