@@ -1,0 +1,97 @@
+\documentclass[11pt]{article}
+
+
+%%%%% Packages %%%%%
+\usepackage[paper]{nickstyle}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amssymb, amsmath}
+
+
+
+%%%%% Macros %%%%%
+\setlength{\parindent}{24pt}
+\renewcommand{\bar}[1]{\overline{#1}}
+
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{conj}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\newcommand{\ConjName}[1]{\label{con:#1}}
+\newcommand{\Conj}[1]{Conjecture~\ref{con:#1}}
+\newcommand{\ProblemName}[1]{\label{prob:#1}}
+\newcommand{\Problem}[1]{Problem~\ref{prob:#1}}
+\renewcommand{\dot}{\bullet}
+\newcommand{\Tr}{\operatorname{tr}}
+\newcommand{\eps}{\epsilon}
+
+\newcommand{\lmax}{\lambda_\mathrm{max}}
+\newcommand{\lmin}{\lambda_\mathrm{min}}
+\newcommand{\ufinal}{u_\mathrm{final}}
+\newcommand{\lfinal}{l_\mathrm{final}}
+\newcommand{\umax}{u_\mathrm{max}}
+
+\newcommand{\Symraw}{\mathbb{S}}
+\newcommand{\Sym}[1][]{\Symraw^{\ifthenelse{\equal{#1}{}}{m}{#1}}}
+\newcommand{\Psd}[1][]{\Symraw_+^{\ifthenelse{\equal{#1}{}}{m}{#1}}}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\iprod}[2]{\langle #1, #2 \rangle}
+\newcommand{\paren}[2][]{#1({#2}#1)}
+\newcommand{\qform}[2]{\transp{#2}#1#2}
+\newcommand{\transp}[1]{#1^T}
+
+
+
+% Simple (outer) environment for algorithms
+\newenvironment{outer_alg}{
+    \begin{list}{}{
+        \setlength{\itemsep}{2pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\topsep}{1pt}
+        \setlength{\leftmargin}{5pt}
+    }
+}
+{
+    \end{list}
+}
+
+% Simple environments for algorithms
+\newenvironment{alg}{
+    \begin{list}{}{
+        \setlength{\itemsep}{2pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\topsep}{1pt}
+    }
+}
+{
+    \end{list}
+}
+
+
+
+
+%%%%% Title %%%%%
+\title{\LARGE Clusterability}
+\author{}
+
+
+%%%%% Document Body %%%%%
+\begin{document}
+\maketitle
+
+\section{Problem Statement}
+
+\subsection{Notation}
+For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined as the average of points in $B$. Radius of the set $B$ is defined as $r(B)=\max_{x\in B} |x-c(B)|$.
+
+\begin{definition}[Niceness assumption]
+% Adding C_{k+1} as garbage collector?
+Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $C_1,\ldots,C_k$ is $(\lambda,\nu)$-nice if the following conditions hold. There exist sets $B_1,\ldots,B_k\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset C_{j_i}$.
+\begin{itemize}
+\item{\bf{Separation}:} For all $i,j\in[k], |c(B_i)-c(B_j)|\geq \nu\cdot\max\{r(B_i),r(B_j)\}$
+\item{\bf{Sparse Noise}}: For any ball $B\subset \mathcal{X}$ for which $r(B)\leq \lambda \cdot max_{i\in[k]} r(B_i)$, $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}$|\leq 
+\end{itemize}
+\end{definition}
+
+\end{document}
