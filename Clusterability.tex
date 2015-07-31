@@ -98,4 +98,21 @@ Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $C_1,\ldots
 
 \subsection{Based on the knowledge of $\min |B_i|$}
 The algorithm gets as input $\mathcal{X}$ and the number of points in the smallest cluster $\min |B_i| = t$ (say). This algorithm works in two phases.
+
+\noindent \textbf{Phase 1:}\\ Let $L$ denote the balls found so far. Initialize $L = \phi$.
+\begin{itemize}
+\item Let $B_S$ be smallest ball such that $c_S \in \mathcal{X}$, $|B_S| \ge t$  and $|B_S \cap L | = \phi$.
+\item $L = L \cup B_S$.
+\item Delete all the points that are in $B_S$. That is, $\mathcal{X} = \mathcal{X}\setminus B_S$.
+\item Repeat till such a ball $B_S$ exists.
+\end{itemize}
+
+\noindent \textbf{Phase 2:}\\ The first phase outputs a list of balls $L$. Let $L_C = c_1,\ldots,c_p$ be a list of centers of these balls. During the second phase, we use single linkage to cluster the centers $c_1,\ldots,c_p$ and build a hierarchical tree. We do this in an iterative manner. Let $D = c_1$
+\begin{itemize}
+\item Let $B_S$ be smallest ball such that $c_S \in \mathcal{X}$, $|B_S| \ge t$  and $|B_S \cap L | = \phi$.
+\item $L = L \cup B_S$.
+\item Delete all the points that are in $B_S$. That is, $\mathcal{X} = \mathcal{X}\setminus B_S$.
+\item Repeat till such a ball $B_S$ exists.
+\end{itemize}
+
 \end{document}
