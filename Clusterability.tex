@@ -102,20 +102,12 @@ Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $P=\{P_1,\l
 
 \noindent {\bf Goal}: Given the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that does $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with sets $B = \{B_1,\ldots,B_k\}$ the induced clustering of $C$ on $B$, i.e., $C|_B = \{B_1,\ldots,B_k\}$. 
 
-\section{Algorithm}
-
-
 \noindent {\bf Goal}: Gievn the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that do $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with slusters $B_1,\ldots,B_k$ the induced clustering of $C$ on $\{B_1,\ldots,B_k\}$ is equal to $\{B_1,\ldots,B_k\}$
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Algorithm}
-
-
-
-
-
 
 \subsection{Based on the knowledge of $\min |B_i|$}
 
@@ -144,8 +136,9 @@ The algorithm gets as input $\mathcal{X}$ and the number of points in the smalle
 
 We prove later that a pruning of this tree contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$. The algorithm also outputs a list $E$ of possible nice clusterings. We show that $|E| \in O(|\mathcal{X}|)$ and it contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$.
 
-
-
+\begin{theorem}
+Given $\mathcal{X}$ that is $(2,8)$
+\end{theorem}
 
 \subsection{No knowledge on $\min |B_i|$ }
 
