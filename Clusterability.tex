@@ -92,7 +92,7 @@ For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined
 
 \begin{definition}[Niceness assumption]
 % Adding C_{k+1} as garbage collector?
-Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $P=\{P_1,\ldots,P_k\}$ is $(\lambda,\nu)$-nice if the following conditions hold. There exist sets $B=B_1,\ldots,B_k\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset P_{j_i}$ and
+Given a set $\mathcal{X}$, we say that $\mathcal{X}$ is $(\lambda,\nu)$-nice if there exist a partitioning of $\mathcal{X}$, $P=\{P_1,\ldots,P_k\}$ which satisfies the following conditions. There exist sets $B=\{B_1,\ldots,B_k\}\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset P_{j_i}$ and
 \begin{itemize}
 \item{\bf{Separation}:} For all $i,j\in[k], |c(B_i)-c(B_j)|\geq \nu\cdot\max\{r(B_i),r(B_j)\}$
 \item{\bf{Sparse Noise}}: For any ball $B\subset \mathcal{X}$, if $r(B)\leq \lambda \cdot \max_{i\in[k]} r(B_i)$, then $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}| < \min_{i\in[k]}|B_i|$.
@@ -102,21 +102,15 @@ Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $P=\{P_1,\l
 
 \noindent {\bf Goal}: Given the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that does $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with sets $B = \{B_1,\ldots,B_k\}$ the induced clustering of $C$ on $B$, i.e., $C|_B = \{B_1,\ldots,B_k\}$. 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
 
 
 \noindent {\bf Goal}: Gievn the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that do $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with slusters $B_1,\ldots,B_k$ the induced clustering of $C$ on $\{B_1,\ldots,B_k\}$ is equal to $\{B_1,\ldots,B_k\}$
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Algorithm}
-
-
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Based on the knowledge of $\min |B_i|$}
 
 % All algoritthms are polynomial in n and k
@@ -144,9 +138,7 @@ The algorithm gets as input $\mathcal{X}$ and the number of points in the smalle
 
 We prove later that a pruning of this tree contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$. The algorithm also outputs a list $E$ of possible nice clusterings. We show that $|E| \in O(|\mathcal{X}|)$ and it contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$.
 
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{No knowledge on $\min |B_i|$ }
 
 Given the set $\mathcal{X}$,
@@ -179,7 +171,11 @@ Output the list of clusters $L={L_1,\ldots,L_l}$.
 \caption{Alg. for unknown $\min{B_i}$}
 \end{algorithm}
 
-\noindent The algorithm outputs a list $L$ of possible nice clusterings. We show that $|L| \in O(|\mathcal{X}|^2)$ and it contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$.
+\noindent The algorithm outputs a list $L$ of possible nice clusterings. We sh ow that $|L| \in O(|\mathcal{X}|^2)$ and it contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$.
+
+\begin{theorem}
+Given a $()$-nice set $\mathcal{X}$,
+\end{theorem}
 
 
 
