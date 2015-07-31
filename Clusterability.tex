@@ -92,55 +92,23 @@ For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined
 
 \begin{definition}[Niceness assumption]
 % Adding C_{k+1} as garbage collector?
-Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $P=\{P_1,\ldots,P_k\}$ is $(\lambda,\nu)$-nice if the following conditions hold. There exist sets $B=B_1,\ldots,B_k\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset P_{j_i}$ and
+Given a set $\mathcal{X}$, we say that $\mathcal{X}$ is $(\lambda,\nu)$-nice if there exists a partitioning of $\mathcal{X}$, $P=\{P_1,\ldots,P_k\}$ which satisfies the following conditions. There exist sets $B=\{B_1,\ldots,B_k\}\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset P_{j_i}$ and
 \begin{itemize}
 \item{\bf{Separation}:} For all $i,j\in[k], |c(B_i)-c(B_j)|\geq \nu\cdot\max\{r(B_i),r(B_j)\}$
-\item{\bf{Sparse Noise}}: For any ball $B\subset \mathcal{X}$, if $r(B)\leq \lambda \cdot \max_{i\in[k]} r(B_i)$, then $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}| < \min_{i\in[k]}|B_i|$.
+\item{\bf{Sparse Noise}}: For any ball $B\subset \mathcal{X}$, if $r(B)\leq \lambda \cdot \max_i r(B_i)$, then $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}| < \min_i |B_i|$.
 \end{itemize}
 \end{definition}
 
 
 \noindent {\bf Goal}: Given the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that does $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with sets $B = \{B_1,\ldots,B_k\}$ the induced clustering of $C$ on $B$, i.e., $C|_B = \{B_1,\ldots,B_k\}$. 
 
-\noindent {\bf Goal}: Gievn the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that do $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with slusters $B_1,\ldots,B_k$ the induced clustering of $C$ on $\{B_1,\ldots,B_k\}$ is equal to $\{B_1,\ldots,B_k\}$
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
 
-\subsection{Based on the knowledge of $\min |B_i|$}
 
-% All algoritthms are polynomial in n and k
+\noindent {\bf Goal}: Gievn the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that do $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with slusters $B_1,\ldots,B_k$ the induced clustering of $C$ on $\{B_1,\ldots,B_k\}$ is equal to $\{B_1,\ldots,B_k\}$
 
-The algorithm gets as input $\mathcal{X}$ and the number of points in the smallest cluster $\min |B_i| = t$ (say). This algorithm works in two phases.
-
-\noindent \textbf{Phase 1:}\\ Let $L$ denote the balls found so far. Initialize $L = \phi$.
-\begin{itemize}
-\item Let $B_S$ be smallest ball such that $c(B_S) \in \mathcal{X}$, $|B_S| \ge t$  and $|B_S \cap L | = \phi$.
-\item $L = L \cup B_S$.
-\item Delete all the points that are in $B_S$. That is, $\mathcal{X} = \mathcal{X}\setminus B_S$.
-\item Repeat till such a ball $B_S$ exists.
-\end{itemize}
-
-\noindent \textbf{Phase 2:}\\ The first phase outputs a list of balls $L$. Let $L_C = c_1,\ldots,c_p$ be a list of centers of these balls. During the second phase, we use single linkage to cluster the centers $c_1,\ldots,c_p$. The output of this phase is a hierarchical tree and a list of possible nice clusterings. Let $D$ denote the $k$ clusters found so far. Let $E$ denote the list of clusterings found so far.
-\begin{itemize}
-\item Initialize $D = (c_1,\ldots.c_k)$ and $E = \phi$. Iterate over the list of centers $L_C$.
-\item Given a new center $c_i$, $D' = D \cup c_i$ is a set of $k+1$ clusters. Merge the two closest centers in $D'$ to get a $k$-clustering. Assign $D$ to be that $k$-clustering. $E = E \cup D$.
-\end{itemize}
-
-\noindent In this way, we build a hierarchical clustering forest. This forest has $k$ trees corresponding to the $k$ different clusters we found. If the desired output is a tree rather than a forest, then 
-\begin{itemize}
-\item Use single linkage to merge the $k$-clusters found so far. 
-\end{itemize}
-
-We prove later that a pruning of this tree contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$. The algorithm also outputs a list $E$ of possible nice clusterings. We show that $|E| \in O(|\mathcal{X}|)$ and it contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$.
-
-\begin{theorem}
-Given $\mathcal{X}$ that is $(2,8)$
-\end{theorem}
-
-\subsection{No knowledge on $\min |B_i|$ }
+\subsection{Iterate over radius}
 
 Given the set $\mathcal{X}$,
 we consider all the $l$ possible different distances between elements of the set $\mathcal{X}$. We know that there are $O(n^2)$ such distances. We sort them as $d_1<\ldots<d_l$. The algorithm works iteratively as following:
@@ -148,31 +116,86 @@ we consider all the $l$ possible different distances between elements of the set
 
 \begin{algorithm}
 \begin{alg}
-\label{NotKnown}
 
-\item[] for $j=1$ to $l$
-\item[] Let $L_j$ denote the set of balls found in $j^{th}$ iteration. Initially $L_j=\phi$;
-\item[] set $d=d_j$;
+\item[] for $i=1$ to $l$
+\begin{itemize}
+
+\item[] Let $L_i$ denote the set of balls found in $i^{th}$ iteration. Initially $L_i=\phi$;
+\item[] set $d=d_i$;
+
+
+\item[] for $j=1$ to $k$
 
 \begin{itemize}
 
-\item[] for $i=1$ to $k$
-
-\begin{itemize}
-
-\item[] Let $B_i$ be the densest ball of radius $2d$. Add $B_i$ to $L_j$.
-\item[] Set $\mathcal{X}=\mathcal{X}\setminus B_{4d}(c(B_i))$. 
+\item[] Let $B_j$ be the densest ball of radius $2d$. Add $B_j$ to $L_i$.
+\item[] Set $\mathcal{X}=\mathcal{X}\setminus B_{4d}(c(B_j))$. 
 
 \end{itemize}
-
+If the clustering $L_i$ is nice, $L := L \cup L_i$.
 \end{itemize}
 
-Output the list of clusters $L={L_1,\ldots,L_l}$.
+Output the list of clusters $L$.
+\label{alg:NotKnown}
 \end{alg}
 \caption{Alg. for unknown $\min{B_i}$}
 \end{algorithm}
 
-\noindent The algorithm outputs a list $L$ of possible nice clusterings. We show that $|L| \in O(|\mathcal{X}|^2)$ and it contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$.
+\begin{theorem}
+Given a $(2,8)$-nice set $\mathcal{X}$, Algorithm \ref{alg:NotKnown} outputs a list $L$ of possible nice clusterings such that $|L| \in O(|\mathcal{X}|^2)$ and $L$ contains a clustering $C$ such that $C|_B = \{B_1,\ldots,B_k\}$.
+\end{theorem}
+
+\subsection{Based on the knowledge of $\min |B_i|$}
+
+% All algoritthms are polynomial in n and k
+
+The algorithm gets as input $\mathcal{X}$ and the number of points in the smallest cluster $\min |B_i| = t$ (say). This algorithm works in two phases.
+
+\begin{algorithm}
+\begin{alg}
+\item[] \textbf{Phase 1:}
+\begin{itemize}
+\item[] Let $L$ denote the balls found so far. Initialize $L = \phi$.
+\item[] Let $B_S$ be smallest ball such that $c(B_S) \in \mathcal{X}$, $|B_S| \ge t$  and $|B_S \cap L | = \phi$.
+\item[] while $B_S$ exists
+\begin{itemize}
+\item[] $L = L \cup B_S$. 
+\item[] $\mathcal{X} = \mathcal{X}\setminus B_S$.
+\end{itemize}
+\item[] $L_C = c(L)$. Output the list of centers $L_C$ to the second phase.
+\end{itemize}
+
+\item[] \textbf{Phase 2:}
+\begin{itemize}
+\item[] Let $L_C = c_1,\ldots,c_p$.
+\item[] Let $D$ denote the $k$ clusters found so far. 
+\item[] Let $E$ denote the list of clusterings found so far.
+\begin{itemize}
+\item[] Initialize $D = (c_1,\ldots.c_k)$ and $E = \phi$. Iterate over the list of centers $L_C$.
+\item[] Given a new center $c_i$, $D' = D \cup c_i$ is a set of $k+1$ clusters. Merge the two closest centers in $D'$ to get a $k$-clustering. Assign $D$ to be that $k$-clustering. $E = E \cup D$.
+\end{itemize}
+
+\item[] In this way, we build a hierarchical clustering forest. This forest has $k$ trees corresponding to the $k$ different clusters we found. If the desired output is a tree rather than a forest, then 
+\begin{itemize}
+\item[] Use single linkage to merge the $k$-clusters found so far. 
+\end{itemize}
+The output of this phase is a hierarchical tree and a list of possible nice clusterings. 
+\end{itemize}
+\label{alg:Known}
+\end{alg}
+\caption{Alg. for known $\min{B_i}$}
+\end{algorithm}
+
+\begin{theorem}
+Given a $(2,8)$-nice set $\mathcal{X}$, Algorithm \ref{alg:Known} outputs 
+\begin{itemize}
+\item A list $L$ of possible clusterings such that $|L| \in O(|\mathcal{X}|)$. $L$ contains a clustering $C$ such that $C|_B = \{B_1,\ldots,B_k\}$.
+\item A hierarchical clustering tree $T$. A pruning of this tree corresponds to a clustering $C$ such that $C|_B = \{B_1,\ldots,B_k\}$.
+\end{itemize}
+\end{theorem}
+
+\noindent Note that Alg \ref{alg:NotKnown}, outputs a list of possible clusterings with size $O(|\mathcal{X}|^2)$. However, with the knowledge of another parameter ($\min|B_i|$), Alg \ref{alg:Known} improves the size of this list to $O(|\mathcal{X}|)$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
