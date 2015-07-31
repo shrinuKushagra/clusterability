@@ -87,10 +87,10 @@ For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined
 
 \begin{definition}[Niceness assumption]
 % Adding C_{k+1} as garbage collector?
-Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $C_1,\ldots,C_k$ is $(\lambda,\nu)$-nice if the following conditions hold. There exist sets $B_1,\ldots,B_k\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset C_{j_i}$.
+Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $C_1,\ldots,C_k$ is $(\lambda,\nu)$-nice if the following conditions hold. There exist sets $B_1,\ldots,B_k\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset C_{j_i}$ and
 \begin{itemize}
 \item{\bf{Separation}:} For all $i,j\in[k], |c(B_i)-c(B_j)|\geq \nu\cdot\max\{r(B_i),r(B_j)\}$
-\item{\bf{Sparse Noise}}: For any ball $B\subset \mathcal{X}$ for which $r(B)\leq \lambda \cdot \max_{i\in[k]} r(B_i)$, $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}|\leq$ 
+\item{\bf{Sparse Noise}}: For any ball $B\subset \mathcal{X}$ for which $r(B)\leq \lambda \cdot max_{i\in[k]} r(B_i)$, $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}\leq \min_{i\in[k]}|B_i|$.
 \end{itemize}
 \end{definition}
 
