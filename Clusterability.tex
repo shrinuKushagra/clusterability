@@ -72,7 +72,7 @@
 
 
 %%%%% Title %%%%%
-\title{\LARGE Clusterability}
+\title{\LARGE Noise robust clustering}
 \author{}
 
 
@@ -88,7 +88,7 @@
 \section{Problem Statement}
 
 \subsection{Notation}
-For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined as the average of points in $B$. Radius of the set $B$ is defined as $r(B)=\max_{x\in B} |x-c(B)|$. For a given partitioning of set $\mathcal{X}$
+For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined as the average of points in $B$. Radius of the set $B$ is defined as $r(B)=\max_{x\in B} |x-c(B)|$. Define the induced clustering.
 
 \begin{definition}[Niceness assumption]
 % Adding C_{k+1} as garbage collector?
@@ -99,11 +99,28 @@ Given a set $\mathcal{X}$, we say that a partition of $\mathcal{X}$, $P=\{P_1,\l
 \end{itemize}
 \end{definition}
 
+
 \noindent {\bf Goal}: Given the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that does $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with sets $B = \{B_1,\ldots,B_k\}$ the induced clustering of $C$ on $B$, i.e., $C|_B = \{B_1,\ldots,B_k\}$. 
 
 \section{Algorithm}
 
+
+\noindent {\bf Goal}: Gievn the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that do $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with slusters $B_1,\ldots,B_k$ the induced clustering of $C$ on $\{B_1,\ldots,B_k\}$ is equal to $\{B_1,\ldots,B_k\}$
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Algorithm}
+
+
+
+
+
+
 \subsection{Based on the knowledge of $\min |B_i|$}
+
+% All algoritthms are polynomial in n and k
+
 The algorithm gets as input $\mathcal{X}$ and the number of points in the smallest cluster $\min |B_i| = t$ (say). This algorithm works in two phases.
 
 \noindent \textbf{Phase 1:}\\ Let $L$ denote the balls found so far. Initialize $L = \phi$.
@@ -124,5 +141,48 @@ The algorithm gets as input $\mathcal{X}$ and the number of points in the smalle
 \begin{itemize}
 \item Use single linkage to merge the $k$-clusters found so far. 
 \end{itemize}
+
 We prove later that a pruning of this tree contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$. The algorithm also outputs a list $E$ of possible nice clusterings. We show that $|E| \in O(|\mathcal{X}|)$ and it contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$.
+
+
+
+
+\subsection{No knowledge on $\min |B_i|$ }
+
+Given the set $\mathcal{X}$,
+we consider all the $l$ possible different distances between elements of the set $\mathcal{X}$. We know that there are $O(n^2)$ such distances. We sort them as $d_1<\ldots<d_l$. The algorithm works iteratively as following:
+
+
+\begin{algorithm}
+\begin{alg}
+\label{NotKnown}
+
+\item[] for $j=1$ to $l$
+\item[] Let $L_j$ denote the set of balls found in $j^{th}$ iteration. Initially $L_j=\phi$;
+\item[] set $d=d_j$;
+
+\begin{itemize}
+
+\item[] for $i=1$ to $k$
+
+\begin{itemize}
+
+\item[] Let $B_i$ be the densest ball of radius $2d$. Add $B_i$ to $L_j$.
+\item[] Set $\mathcal{X}=\mathcal{X}\setminus B_{4d}(c(B_i))$. 
+
+\end{itemize}
+
+\end{itemize}
+
+Output the list of clusters $L={L_1,\ldots,L_l}$.
+\end{alg}
+\caption{Alg. for unknown $\min{B_i}$}
+\end{algorithm}
+
+\noindent The algorithm outputs a list $L$ of possible nice clusterings. We show that $|L| \in O(|\mathcal{X}|^2)$ and it contains a clustering $C'$ such that $C'|_B = \{B_1,\ldots,B_k\}$.
+
+
+
+
+
 \end{document}
