@@ -1,2 +1,2 @@
 # clusterability
-Notion of clusterability
+Notions of clusterability
