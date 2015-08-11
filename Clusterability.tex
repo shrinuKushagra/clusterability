@@ -92,7 +92,7 @@ For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined
 
 \begin{definition}[Niceness assumption]
 % Adding C_{k+1} as garbage collector?
-Given a set $\mathcal{X}$, we say that $\mathcal{X}$ is $(\lambda,\nu)$-nice if there exists a partitioning of $\mathcal{X}$, $P=\{P_1,\ldots,P_k\}$ which satisfies the following conditions. There exist sets $B=\{B_1,\ldots,B_k\}\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset P_{j_i}$ and
+Given a set $\mathcal{X}$, we say that $\mathcal{X}$ is $(\lambda,\nu)$-nice if there exists a clustering of $\mathcal{X}$, $P=\{P_1,\ldots,P_k\}$ which satisfies the following conditions. There exist sets $B=\{B_1,\ldots,B_k\}\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset P_{j_i}$ and
 \begin{itemize}
 \item{\bf{Separation}:} For all $i,j\in[k], |c(B_i)-c(B_j)|\geq \nu\cdot\max\{r(B_i),r(B_j)\}$
 \item{\bf{Sparse Noise}}: For any ball $B\subset \mathcal{X}$, if $r(B)\leq \lambda \cdot \max_i r(B_i)$, then $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}| < \min_i |B_i|$.
@@ -100,13 +100,10 @@ Given a set $\mathcal{X}$, we say that $\mathcal{X}$ is $(\lambda,\nu)$-nice if 
 \end{definition}
 
 
-\noindent {\bf Goal}: Given the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that does $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with sets $B = \{B_1,\ldots,B_k\}$ the induced clustering of $C$ on $B$, i.e., $C|_B = \{B_1,\ldots,B_k\}$. 
+\noindent {\bf Goal}: Given the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that does $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice clustering $P$ with sets $B = \{B_1,\ldots,B_k\}$ the induced clustering of $C$ on $B$, i.e., $C|_B = \{B_1,\ldots,B_k\}$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
-
-
-\noindent {\bf Goal}: Gievn the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that do $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice partitioning $P$ with slusters $B_1,\ldots,B_k$ the induced clustering of $C$ on $\{B_1,\ldots,B_k\}$ is equal to $\{B_1,\ldots,B_k\}$
 
 \subsection{Iterate over radius}
 
@@ -198,7 +195,7 @@ Given a $(2,8)$-nice set $\mathcal{X}$, Algorithm \ref{alg:Known} outputs
 \end{itemize}
 \end{theorem}
 
-%\noindent Note that Alg \ref{alg:NotKnown}, outputs a list of possible clusterings with size $O(|\mathcal{X}|^2)$. However, with the knowledge of another parameter ($\min|B_i|$), Alg \ref{alg:Known} improves the size of this list to $O(|\mathcal{X}|)$.
+\noindent Note that Alg \ref{alg:NotKnown}, outputs a list of possible clusterings with size $O(|\mathcal{X}|^2)$. However, with the knowledge of another parameter ($\min|B_i|$), Alg \ref{alg:Known} improves the size of this list to $O(|\mathcal{X}|)$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
