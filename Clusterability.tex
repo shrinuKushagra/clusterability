@@ -129,10 +129,10 @@ we consider all the $l$ possible different distances between elements of the set
 		\item[] Let $B$ be the densest ball of radius $2d$ such that $c(B) \in \mathcal{X}$.
 		\item[] Add $B$ to $L_i$. Set $\mathcal{X}=\mathcal{X}\setminus B_{4d}(c(B))$. 
 	\end{itemize}
-	\item[] If the clustering $L_i$ is nice
-	\begin{itemize}
-		\item[] $L := L \cup L_i$.
-	\end{itemize}
+	%\item[] If the clustering $L_i$ is nice
+	%\begin{itemize}
+	\item[] $L := L \cup L_i$.
+	%\end{itemize}
 \end{itemize}
 Output the list of clusters $L$.
 \label{alg:NotKnown}
@@ -141,9 +141,15 @@ Output the list of clusters $L$.
 \end{algorithm}
 
 \begin{theorem}
-Given a $(2,8)$-nice set $\mathcal{X}$, Algorithm \ref{alg:NotKnown} outputs a list $L$ of possible nice clusterings such that $|L| \in O(|\mathcal{X}|^2)$ and $L$ contains a clustering $C$ such that $C|_B = \{B_1,\ldots,B_k\}$.
+Given a $(2,8)$-nice set $\mathcal{X}$. Let $B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Then, Algorithm \ref{alg:NotKnown} outputs a list $L$ of sets of balls of size $\Theta(|\mathcal{X}|^2)$. $L$ contains a set $B' = \{B_1',\ldots,B_k'\}$ such that 
+\begin{itemize}
+	\item The clustering $C'$ induced by $B'$ is such that $C'|_B = \{B_1,\ldots,B_k\}$.
+	\item The sets $B$ and $B'$ are unique under intersection. That is, for all $i\neq j$, $B_i \cap B_j' = \phi$ and for all $i$, $B_i \cap B_i' \neq \phi$
+\end{itemize}
+
 \end{theorem}
 \begin{proof}
+Let $r = \max_i r(B_i)$. Let $d_1$The algorithm considers all $l = \Theta(n^2)$ possible pairs of distances. Let $d_i \le r < d_{i+1}$. Line 5 of Alg \ref{alg:NotKnown} selects the densest ball $B$ of radius $2d_i$. Let $c(B) = c \in \mathcal{X}$. Now, $B$ is the densest ball (with $c(B) \in \mathcal{X}$) of radius $2d_i$ and $d_i \le r < d_{i+1}$ then $B$ is also the densest ball of radius $2r$ with $c(B) \in \mathcal{X}$. 
 \end{proof}
 
 \begin{theorem}
