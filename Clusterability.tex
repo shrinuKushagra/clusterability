@@ -94,7 +94,7 @@ For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined
 % Adding C_{k+1} as garbage collector?
 Given a set $\mathcal{X}$, we say that $\mathcal{X}$ is $(\lambda,\nu)$-nice if there exists a clustering of $\mathcal{X}$, $P=\{P_1,\ldots,P_k\}$ which satisfies the following conditions. There exists balls $B=\{B_1,\ldots,B_k\}\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset P_{j_i}$ and
 \begin{itemize}
-\item{\bf{Separation}:} For all $i,j\in[k], |c(B_i)-c(B_j)|\geq \nu\cdot\max\{r(B_i),r(B_j)\}$
+\item{\bf{Separation}:} For all $i,j\in[k], |c(B_i)-c(B_j)| > \nu\cdot\max_t \thinspace r(B_t)$
 \item{\bf{Sparse Noise}}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \lambda \cdot \max \thinspace r(B_i)$, then $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}| < \min_i |B_i|$.
 \end{itemize}
 \end{definition}
@@ -111,59 +111,58 @@ We can check if the balls $B_i$ satisfy the separation condition in time $O(k^2)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
-
-\subsection{Iterate over radius}
-
-Given the set $\mathcal{X}$,
-we consider all the $l$ possible different distances between elements of the set $\mathcal{X}$. We know that there are $O(n^2)$ such distances. We sort them as $d_1<\ldots<d_l$. The algorithm works iteratively as following:
-
+\subsection{Based on the knowledge of $\max r(B_i)$}
+Given a set $\mathcal{X}$, we assume that our algorithm knows the value of the maximum radius. Iteratively, we find the densest ball of twice the maximum radius. Delete some points and repeat till we find $k$ such balls. The algorithm is described in detail below.
 
 \begin{algorithm}
 \begin{alg}
-\item[] for $i=1$ to $l$
-\begin{itemize}
-	\item[] Let $L_i$ denote the set of balls found in $i^{th}$ iteration. Initially $L_i=\phi$
-	\item[] set $d=d_i$
-	\item[] for $j=1$ to $k$
+%\item[] for $i=1$ to $l$
+%\begin{itemize}
+%	\item[] Let $L_i$ denote the set of balls found in $i^{th}$ iteration. Initially $L_i=\phi$
+%	\item[] set $d=d_i$
+	\item[] Set $r = \max_i \thinspace r(B_i)$
+	\item[] for $i=1$ to $k$
 	\begin{itemize}
-		\item[] Let $B$ be the densest ball of radius $2d$ such that $c(B) \in \mathcal{X}$.
-		\item[] Add $B$ to $L_i$. Set $\mathcal{X}=\mathcal{X}\setminus B_{4d}(c(B))$. 
+		\item[] Let $B_i'$ be the densest ball of radius $2r$ such that $c(B_i') \in \mathcal{X}$.
+		\item[] Set $\mathcal{X}=\mathcal{X}\setminus B_{4r}(c(B_i'))$. 
 	\end{itemize}
 	%\item[] If the clustering $L_i$ is nice
 	%\begin{itemize}
-	\item[] $L := L \cup L_i$.
+%	\item[] $L := L \cup L_i$.
 	%\end{itemize}
-\end{itemize}
-Output the list of clusters $L$.
+%\end{itemize}
+Output the clustering $C'$ induced by $B' = \{B_1',\ldots,B_k'\}$.
 \label{alg:NotKnown}
 \end{alg}
-\caption{Alg. for unknown $\min{B_i}$}
+\caption{Alg. for known $\max{r(B_i)}$}
 \end{algorithm}
 
 \begin{theorem}
-Given a $(2,8)$-nice set $\mathcal{X}$. Let $B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Then, Algorithm \ref{alg:NotKnown} outputs a list $L$ of sets of balls of size $\Theta(|\mathcal{X}|^2)$. $L$ contains a set $B' = \{B_1',\ldots,B_k'\}$ such that 
+Given a $(2,8)$-nice set $\mathcal{X}$. Let $B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Given $r = \max r(B_i)$, then Algorithm \ref{alg:NotKnown} outputs a set $B' = \{B_1',\ldots,B_k'\}$ such that 
 \begin{itemize}
-	\item The clustering $C'$ induced by $B'$ is such that $C'|_B = \{B_1,\ldots,B_k\}$.
 	\item The sets $B$ and $B'$ are unique under intersection. That is, for all $i\neq j$, $B_i \cap B_j' = \phi$ and for all $i$, $B_i \cap B_i' \neq \phi$
+	\item The clustering $C'$ induced by $B'$ is such that $C'|_B = \{B_1,\ldots,B_k\}$.	
 \end{itemize}
 
 \end{theorem}
 \begin{proof}
-Let $r = \max_i r(B_i)$. Let $d_1$The algorithm considers all $l = \Theta(n^2)$ possible pairs of distances. Let $d_i \le r < d_{i+1}$. Line 5 of Alg \ref{alg:NotKnown} selects the densest ball $B$ of radius $2d_i$. Let $c(B) = c \in \mathcal{X}$. Now, $B$ is the densest ball (with $c(B) \in \mathcal{X}$) of radius $2d_i$ and $d_i \le r < d_{i+1}$ then $B$ is also the densest ball of radius $2r$ with $c(B) \in \mathcal{X}$. 
+Assume that $B_1'$ is such that for all $i$, $B_1' \cap B_i = \phi$. Observe that $B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\} = B_1'$. Observe that $B_1'$ is the densest ball of radius $2r$ with $c(B_1') \in \mathcal{X}$. Hence, $|B_1'| \ge |B_i|$ for all $i$. Hence, $|B_1'| \ge \min |B_i|$. Thus, $|B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\}| \ge \min |B_i|$ which contradicts the fact that $B$ satisfies the sparseness condition. 
+
+Without loss of generality, let $B_1' \cap B_1 \neq \phi$. Separation $\nu = 8$ implies that for all $i\neq 1$, $B_1' \cap B_i = \phi$ . Since, $B_1' \cap B_1 \neq \phi$, $|c(B_1)-c(B_1')| \le 3r$ and for all $i\neq 1$, $|c(B_1')-c(B_i)| > 5r$. Hence, setting $\mathcal{X} = \mathcal{X}\setminus B_{4r}(c(B_1'))$ ensures that $\mathcal{X} \cap B_1 = \phi$ and for all $i\neq 1$, $\mathcal{X} \cap B_i = B_i$. Similarly, we get that $B_2' \cap B_2 \neq \phi$ and for all $i \neq 2$, $B_2' \cap B_i = \phi$.
+
+Let $x \in B_i$. Now, $|x-c(B_i')| \le |x-c(B_i)| + |c(B_i')-c(B_i)| \le r+3r = 4r$. For $j \neq i$, $|x-c(B_j')| \ge |c(B_j')-c(B_i)| - |x-c(B_i)| > 5r - r = 4r$. Hence, we see that the clustering $C'$ assigns $x$ to the $i^{th}$ cluster. Hence, $C'|_B = \{B_1,\ldots,B_k\}$
 \end{proof}
 
 \begin{theorem}
 Algorithm \ref{alg:NotKnown} runs in time $O($poly$(|\mathcal{X}|,k))$.
 \end{theorem}
 \begin{proof}
-The outermost for-loop considers $l$ possible distance where $l \in O(n^2)$. The inner for-loop runs $k$ times. During each iteration, we find the densest ball of some given radius ($2d$). For each point in $\mathcal{X}$, we count the number of points whose distance is $\le 2d$. This can take $O(n)$ in the worst case. Hence, finding the densest ball takes $O(n^2)$ time. Similarly, deleting points from $\mathcal{X}$ takes $O(n^2)$ time. Hence, the inner for loop takes $O(n^4k)$ time.
-
-Using Lemma \ref{lemma:chknice}, we see that checking if a clustering is nice takes $O(n^2+k^2)$ time. Hence, for all $l$ values, this takes $O(n^4+n^2k^2)$ time. Hence, the algorithm takes $O(n^4k+n^2k^2)$ time which is polynomial in $n$ and $k$.
+During each iteration, we find the densest ball of radius $2r$. For each point in $\mathcal{X}$, we count the number of points whose distance is $\le 2r$. This can take $O(n)$ in the worst case. Hence, finding the densest ball takes $O(n^2)$ time. Similarly, deleting points from $\mathcal{X}$ takes $O(n^2)$ time. Hence, the for-loop takes $O(n^2k)$ time.
 \end{proof}
 
 \subsection{Based on the knowledge of $\min |B_i|$}
 %All algoritthms are polynomial in n and k
-The algorithm gets as input $\mathcal{X}$ and the number of points in the smallest cluster $\min |B_i| = t$ (say). This algorithm works in two phases.
+In this case, we assume that the algorithm doesn't know the value of $r = \max r(B_i)$. We assume that the algorithm knows the number of points in the smallest cluster $\min |B_i| = t$ (say). This algorithm works in two phases.
 
 \begin{algorithm}
 \begin{alg}
@@ -205,7 +204,7 @@ The algorithm gets as input $\mathcal{X}$ and the number of points in the smalle
 \end{algorithm}
 
 \begin{theorem}
-Given a $(2,8)$-nice set $\mathcal{X}$, Algorithm \ref{alg:Known} outputs 
+Given a $(2,8)$-nice set $\mathcal{X}$. Let $B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Given $t = \min |B_i|$, Algorithm \ref{alg:Known} outputs 
 \begin{itemize}
 \item A list $L$ of possible clusterings such that $|L| \in O(|\mathcal{X}|)$. $L$ contains a clustering $C$ such that $C|_B = \{B_1,\ldots,B_k\}$.
 \item A hierarchical clustering tree $T$. A pruning of this tree corresponds to a clustering $C$ such that $C|_B = \{B_1,\ldots,B_k\}$.
