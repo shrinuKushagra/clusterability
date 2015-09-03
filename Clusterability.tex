@@ -1,15 +1,10 @@
 \documentclass[11pt]{article}
-
-
-%%%%% Packages %%%%%
 \usepackage[paper]{nickstyle}
 \usepackage{color}
 \usepackage{hyperref}
 \usepackage{amssymb, amsmath}
 
-
-
-%%%%% Macros %%%%%
+\newcommand{\mc}{\mathcal}
 \setlength{\parindent}{24pt}
 \renewcommand{\bar}[1]{\overline{#1}}
 
@@ -88,31 +83,34 @@
 \section{Problem Statement}
 
 \subsection{Notation}
-For any set $B\subset X$, we denote $c(B)$ as the center of $B$ which is defined as the average of points in $B$. Radius of the set $B$ is defined as $r(B)=\max_{x\in B} |x-c(B)|$. Define the induced clustering.
+For any set $B\subset \mc X$, we denote $c(B)$ as the center of $B$ which is defined as the average of points in $B$. Radius of the set $B$ is defined as $r(B)=\max_{x\in B} |x-c(B)|$. 
+
+A $k$-clustering of the set $\mc X$ is defined as the set $\mc C = \{C_1,\ldots,C_k\}$ such that $C_i \subseteq \mc X$, $\cup C_i = \mc X$ and $C_i \cap C_j = \phi$. For any $x \in \mc X$, if $x \in C_i$, we say that $x$ lies in the $i^{th}$ cluster. Sometimes, we also denote the clustering by $\mc C = \{c_1,\ldots,c_k\}$ where $c_i \in \mc X$. For any $x \in \mc X$, $x$ lies in the cluster given by $\argmin |x-c_i|$.
 
 \begin{definition}[Niceness assumption]
 % Adding C_{k+1} as garbage collector?
-Given a set $\mathcal{X}$, we say that $\mathcal{X}$ is $(\lambda,\nu)$-nice if there exists a clustering of $\mathcal{X}$, $P=\{P_1,\ldots,P_k\}$ which satisfies the following conditions. There exists balls $B=\{B_1,\ldots,B_k\}\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j_i\in[k]$ such that $B_i\subset P_{j_i}$ and
+Given a set $\mc X$, we say that $\mc X$ is $(\lambda,\nu)$-nice if there exists a clustering of $\mc X$, $\mc C=\{C_1,\ldots,C_k\}$ which satisfies the following conditions. There exists balls $\mc B=\{B_1,\ldots,B_k\}\subset \mathcal{X}$ such that for every $i\in[k]$, there exists $j(i)\in[k]$ such that $B_i\subset C_{j(i)}$ and
 \begin{itemize}
 \item{\bf{Separation}:} For all $i,j\in[k], |c(B_i)-c(B_j)| > \nu\cdot\max_t \thinspace r(B_t)$
 \item{\bf{Sparse Noise}}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \lambda \cdot \max \thinspace r(B_i)$, then $|B\cap \{X \backslash \cup_{i\in[k]} B_i\}| < \min_i |B_i|$.
 \end{itemize}
+\label{defn:niceness}
 \end{definition}
 
-\noindent {\bf Goal}: Given the set $\mathcal{X}$ and the value $k$, our goal is to design an algorithm that does $k$-clustering $C=\{C_1,\ldots,C_k\}$ on set $\mathcal{X}$ such that  for any $(\lambda,\nu)$-nice clustering $P$ with sets $B = \{B_1,\ldots,B_k\}$ the induced clustering of $C$ on $B$, i.e., $C|_B = \{B_1,\ldots,B_k\}$. 
+\noindent {\bf Goal}: Given the set $\mc X$ and the value $k$, our goal is to design an algorithm that outputs a $k$-clustering $\mc C' =\{C_1',\ldots,C_k'\}$ on set $\mc X$ such that  for any $(\lambda,\nu)$-nice clustering $\mc C$ with sets $\mc B = \{B_1,\ldots,B_k\}$, the induced clustering of $\mc C'$ on $\mc B$, i.e., $\mc C'|_\mc B = \{B_1,\ldots,B_k\}$. 
 
 \begin{lemma}
 \label{lemma:chknice}
-Given a $(\lambda,\nu)$-nice set $\mathcal{X}$. Given a $k$-clustering $C = \{C_1,\ldots,C_k\}$ of $\mathcal{X}$ and corresponding balls $B = \{B_1,\ldots,B_k\}$, i.e. $B_i \subseteq C_i$, we can check if $C$ is nice in time poynomial in $|\mathcal{X}|$ and $k$.
+Given a $(\lambda,\nu)$-nice set $\mc X$. Given a $k$-clustering $\mc C = \{C_1,\ldots,C_k\}$ of $\mc X$ and corresponding balls $\mc B = \{B_1,\ldots,B_k\}$, i.e. $B_i \subseteq C_i$, we can check if $\mc C$ is nice in time poynomial in $|\mc X|$ and $k$.
 \end{lemma}
 \begin{proof}
-We can check if the balls $B_i$ satisfy the separation condition in time $O(k^2)$. To check if they satisfy the sparse noise condition, it is easy to see that it takes time $O(n^2)$ where $n = |\mathcal{X}|$. Hence, given the set of balls and the clustering induced by the balls $(C,B)$, we can test in $O(n^2+k^2)$ time if the clustering satisfies the niceness conditions.
+We can check if the balls $B_i$ satisfy the separation condition in time $O(k^2)$. To check if they satisfy the sparse noise condition, it is easy to see that it takes time $O(n^2)$ where $n = |\mathcal{X}|$. Hence, given the set of balls and the clustering induced by the balls $(\mc C,\mc B)$, we can test in $O(n^2+k^2)$ time if the clustering satisfies the niceness conditions.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
 \subsection{Based on the knowledge of $\max r(B_i)$}
-Given a set $\mathcal{X}$, we assume that our algorithm knows the value of the maximum radius. Iteratively, we find the densest ball of twice the maximum radius. Delete some points and repeat till we find $k$ such balls. The algorithm is described in detail below.
+Given a set $\mc X$, we assume that our algorithm knows the value of the maximum radius. Iteratively, we find the densest ball of twice the maximum radius. Delete some points and repeat till we find $k$ such balls. The algorithm is described in detail below.
 
 \begin{algorithm}
 \begin{alg}
@@ -124,33 +122,39 @@ Given a set $\mathcal{X}$, we assume that our algorithm knows the value of the m
 	\item[] for $i=1$ to $k$
 	\begin{itemize}
 		\item[] Let $B_i'$ be the densest ball of radius $2r$ such that $c(B_i') \in \mathcal{X}$.
-		\item[] Set $\mathcal{X}=\mathcal{X}\setminus B_{4r}(c(B_i'))$. 
+		\item[] Set $\mc X=\mc X\setminus B_{4r}(c(B_i'))$. 
 	\end{itemize}
 	%\item[] If the clustering $L_i$ is nice
 	%\begin{itemize}
 %	\item[] $L := L \cup L_i$.
 	%\end{itemize}
 %\end{itemize}
-Output the clustering $C'$ induced by $B' = \{B_1',\ldots,B_k'\}$.
+\item[] Let $\mc B' := \{B_1',\ldots,B_k'\}$ and $c(\mc B') = \{c(B_1'),\ldots,c(B_k')\}$.
+\item[] Output $\mc B'$ and the clustering $\mc C'$ induced by $c(\mc B')$.
 \label{alg:NotKnown}
 \end{alg}
 \caption{Alg. for known $\max{r(B_i)}$}
 \end{algorithm}
 
 \begin{theorem}
-Given a $(2,8)$-nice set $\mathcal{X}$. Let $B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Given $r = \max r(B_i)$, then Algorithm \ref{alg:NotKnown} outputs a set $B' = \{B_1',\ldots,B_k'\}$ such that 
+Given a $(2,8)$-nice set $\mc X$. Let $\mc B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Given $r = \max r(B_i)$, then Algorithm \ref{alg:NotKnown} outputs a set $\mc B' = \{B_1',\ldots,B_k'\}$ such that 
 \begin{itemize}
-	\item The sets $B$ and $B'$ are unique under intersection. That is, for all $i\neq j$, $B_i \cap B_j' = \phi$ and for all $i$, $B_i \cap B_i' \neq \phi$
-	\item The clustering $C'$ induced by $B'$ is such that $C'|_B = \{B_1,\ldots,B_k\}$.	
+	\item The sets $\mc B$ and $\mc B'$ are unique under intersection. That is there exists a permutation of the set $\mc B$ such that, for all $i\neq j$, $B_i \cap B_j' = \phi$ and for all $i$, $B_i \cap B_i' \neq \phi$
+	\item The clustering $\mc C'$ induced by $\mc B'$ is such that $\mc C'|_\mc B = \{B_1,\ldots,B_k\}$.	
 \end{itemize}
 
 \end{theorem}
-\begin{proof}
-Assume that $B_1'$ is such that for all $i$, $B_1' \cap B_i = \phi$. Observe that $B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\} = B_1'$. Observe that $B_1'$ is the densest ball of radius $2r$ with $c(B_1') \in \mathcal{X}$. Hence, $|B_1'| \ge |B_i|$ for all $i$. Hence, $|B_1'| \ge \min |B_i|$. Thus, $|B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\}| \ge \min |B_i|$ which contradicts the fact that $B$ satisfies the sparseness condition. 
+\begin{proof} Let $B_1',\ldots,B_i'$ be the balls found till the $i^{th}$ iteration. Also, observe that after every iteration we delete some points from $\mc X$. Let $\mc X_i$ denote the points in $\mc X$ after the $i^{th}$ iteration. 
 
-Without loss of generality, let $B_1' \cap B_1 \neq \phi$. Separation $\nu = 8$ implies that for all $i\neq 1$, $B_1' \cap B_i = \phi$ . Since, $B_1' \cap B_1 \neq \phi$, $|c(B_1)-c(B_1')| \le 3r$ and for all $i\neq 1$, $|c(B_1')-c(B_i)| > 5r$. Hence, setting $\mathcal{X} = \mathcal{X}\setminus B_{4r}(c(B_1'))$ ensures that $\mathcal{X} \cap B_1 = \phi$ and for all $i\neq 1$, $\mathcal{X} \cap B_i = B_i$. Similarly, we get that $B_2' \cap B_2 \neq \phi$ and for all $i \neq 2$, $B_2' \cap B_i = \phi$.
+\textit{Induction hypothesis}: For all $1\le i \le l$, $B_i \cap B_i' \neq \phi$ and $X_l \cap \{\cup_{i=1}^l B_i\} = \phi$.
 
-Let $x \in B_i$. Now, $|x-c(B_i')| \le |x-c(B_i)| + |c(B_i')-c(B_i)| \le r+3r = 4r$. For $j \neq i$, $|x-c(B_j')| \ge |c(B_j')-c(B_i)| - |x-c(B_i)| > 5r - r = 4r$. Hence, we see that the clustering $C'$ assigns $x$ to the $i^{th}$ cluster. Hence, $C'|_B = \{B_1,\ldots,B_k\}$
+\textit{Base case}: We wish to prove that $B_1 \cap B_1' \neq \phi$. Assume for the sake of contradiction, that $B_1'$ is such that for all $i$, $B_1' \cap B_i = \phi$. Now, $B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\} = B_1'$. Observe that $B_1'$ is the densest ball of radius $2r$ with $c(B_1') \in \mathcal{X}$. Hence, for all $i$, $|B_1'| \ge |B_i|$. Hence, $|B_1'| \ge \min_{i=1}^k |B_i|$. Thus, $|B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\}| \ge \min |B_i|$ which contradicts the fact that $\mc B$ satisfies the sparseness condition. Thus, $\exists i$ s.t. $B_i \cap B_1' \neq \phi$. Without loss of generality, let $B_i = B_1$. Now, $r(B_1) \le r$, $r(B_1') = 2r$ and $B_1 \cap B_1' \neq \phi$, hence $|c(B_1')-c(B_1)| \le 3r$. Thus, $B_1 \subseteq B_{4r}(c(B_1'))$ and hence $X_1 \cap B_1 = \phi$. 
+
+\textit{Induction step}: We are given that for all $1\le i \le l$, $B_i \cap B_i' \neq \phi$. We wish to prove that $B_{l+1} \cap B_{l+1}' \neq \phi$. The proof for the induction step follows the exact same arguments as the base case.
+
+Hence, we get that for all $i$, $B_i \cap B_i' = \phi$. Separation $\nu = 8$ implies that for all $j\neq i$, $B_i' \cap B_j' = \phi$ and $B_i' \cap B_j = \phi$. This completes the proof of the first part of the theorem.
+
+Let $x \in B_i$. Observe that, $|c(B_i)-c(B_i')| \le 3r$ and for all $j\neq i$, $|c(B_i')-c(B_j)| > 5r$. Now, $|x-c(B_i')| \le |x-c(B_i)| + |c(B_i')-c(B_i)| \le r+3r = 4r$. For $j \neq i$, $|x-c(B_j')| \ge |c(B_j')-c(B_i)| - |x-c(B_i)| > 5r - r = 4r$. Hence, we see that the clustering $\mc C'$ assigns $x$ to the $i^{th}$ cluster. Hence, $\mc C'|_\mc B = \{B_1,\ldots,B_k\}$.
 \end{proof}
 
 \begin{theorem}
@@ -167,49 +171,169 @@ In this case, we assume that the algorithm doesn't know the value of $r = \max r
 \begin{algorithm}
 \begin{alg}
 \item[] \textbf{Phase 1:}
+%\begin{itemize}
+\item[] Let $\mc S$ denote the balls found so far. Initialize $\mc S = \phi$.
+\item[] Let $D$ be the sorted list of distances between all pairs of points in $\mc X$. $D = \{d_1,\ldots,d_t\}$. Note that $t \le |\mc X|^2/2$.
+\item[] for $i=1$ to $t$
 \begin{itemize}
-\item[] Let $L$ denote the balls found so far. Initialize $L = \phi$.
-\item[] Let $B_S$ be smallest ball such that $c(B_S) \in \mathcal{X}$, $|B_S| \ge t$  and $|B_S \cap L | = \phi$.
-\item[] while $B_S$ exists
+\item[] foreach $x \in \mc X$
 \begin{itemize}
-\item[] $L = L \cup B_S$. 
-\item[] $\mathcal{X} = \mathcal{X}\setminus B_S$.
+\item[] Let $B$ be a ball of radius $d_i$ centered at $x$.
+\item[] if $|B| \ge t$ and $|B \cap \mathcal{S} | = \phi$
+\begin{itemize}
+\item[] $\mathcal{S} = \mathcal{S} \cup B$. 
+\item[] $\mc X = \mc X\setminus B$.
 \end{itemize}
-\item[] $L_C = c(L)$. Output the list of centers $L_C$ to the second phase.
 \end{itemize}
+\end{itemize}
+\item[] Output $\mc S := \{B_1',\ldots,B_p'\}$ to the second phase.
+%\end{itemize}
 
 \item[] \textbf{Phase 2:}
-\begin{itemize}
-\item[] Let $L_C = c_1,\ldots,c_p$.
-\item[] Let $L$ denote the list of nice clusterings found so far. Initialize $L := \phi$
-\item[] Let $T$ denote the hierarchical clustering tree. Initialize $T$ to be the tree with nodes $c_1,\ldots,c_k$ without any edges.
-\item[] Let $D$ denote the current clustering. Initialize $D = (c_1,\ldots.c_k)$.
+%\begin{itemize}
+\item[] Let $L_C$ denote the list of centers of balls found in the first phase. That is, $L_C = (c_1,\ldots,c_p)$ where $c_i = c(B_i')$.
+\item[] Let $\mc L$ denote the list of clusterings found so far. Initialize $\mc L := \phi$
+\item[] Let $\mc C_i$ denote the current clustering. Initialize $\mc C_k = \{c_1,\ldots,c_k\}$.
 \item[] for $i=k+1$ to $p$
 \begin{itemize}
-\item[] Merge the two closest clusters in $D\cup c_i$ to get a new $k$-clustering. 
-\item[] Merge the two clusters in the tree $T$. Update $D$. 
-\item[] If $D$ is a nice clustering
-\begin{itemize}
-\item[] $L = L \cup D$.
-\end{itemize}
-\end{itemize}
+\item[] Let $\mc D$ denote the $(k+1)$-clustering given by $\mc D = \mc C_{i-1} \cup c_i$. 
+\item[] Let $c_r, c_s$ ($r < s$) denote the closest two clusters in $\mc D$. That is $$(c_r, c_s) = \argmin_{c_u,c_v \in \mc D, u < v} |c_u -c_v|$$
+\item[] $\mc C_i = \mc D \setminus c_s$.
+\item[] $\mc L = \mc L \cup \mc C_i$.
+%\end{itemize}
 
-\item[] // We built a forest with $k$ trees corresponding to the $k$ different clusters we found. 
-\item[] Use single linkage to merge the $k$-clusters found so far. Update $T$.
-\item[] Output $L$ and $T$.
+%\item[] // We built a forest with $k$ trees corresponding to the $k$ different clusters we found. 
+%\item[] Use single linkage to merge the $k$-clusters found so far. Update $T$.
 \end{itemize}
+\item[] Output $\mc L$ %and $T$.
 \label{alg:Known}
 \end{alg}
 \caption{Alg. for known $\min{B_i}$}
 \end{algorithm}
 
-\begin{theorem}
-Given a $(2,8)$-nice set $\mathcal{X}$. Let $B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Given $t = \min |B_i|$, Algorithm \ref{alg:Known} outputs 
+Before we prove any results about the algorithm, we need to define some quantities and conventions that will be used in the proof.
 \begin{itemize}
-\item A list $L$ of possible clusterings such that $|L| \in O(|\mathcal{X}|)$. $L$ contains a clustering $C$ such that $C|_B = \{B_1,\ldots,B_k\}$.
-\item A hierarchical clustering tree $T$. A pruning of this tree corresponds to a clustering $C$ such that $C|_B = \{B_1,\ldots,B_k\}$.
+\item $\mc B = \{B_1, \ldots, B_k\}$ - The set of balls in the dataset $\mc X$ that satisfy the separation and sparseness condition (Defn. \ref{defn:niceness})
+\item $\mc S = \{B_1', \ldots, B_p'\}$ - The set of balls found in the first phase of Alg. \ref{alg:Known}. 
+\item $L_C = \{c_1, \ldots, c_p\}$ - The set of centers of the balls in $\mc S$.  
 \end{itemize}
+Note that we denote the balls that were found by the Alg. \ref{alg:Known} as $B_i'$ and their centers by $c_i$. 
+\begin{itemize}
+\item $\mc L = \{\mc C_k, \ldots, \mc C_p\}$ - The set of possible clusterings outputed by Alg. \ref{alg:Known}. 
+\end{itemize}
+
+\begin{definition}[Good Index]
+\label{defn:goodIdx}
+Let $\mc B, \mc L$ and $\mc S$ be as defined above. We say that an index $g$ is good if it has the following properties.
+\begin{itemize}
+\item $\forall i \le g$, $\exists m$ such that $B_i' \cap B_m \neq \phi$
+%\item $\forall m$, $B_{g+1}' \cap B_m = \phi$
+\item $\forall m$, $\exists i \le g$ such that $B_i' \cap B_m \neq \phi$
+\end{itemize}
+The next lemma shows that there exists a good index.
+\end{definition}
+
+\begin{lemma}
+Given a $(2,12)$-nice set $\mc X$. Let $\mc B, \mc L$ and $\mc S$ be as defined above. Define $r:= \max r(B_i)$. Then there exists an index $g$ which is good (Defn. \ref{defn:goodIdx}).
+\label{lemma:goodIdx}
+\end{lemma}
+
+\begin{proof}
+Let $\mc T = \{i: B_i' \cap B_m = \phi$ for all $m\}$. If $\mc T = \phi$ then let $q = p+1$. Otherwise let $q = \min(\mc T)$. We will claim that $g = q-1$ is the required good index in both cases.
+
+From the definition of the set $\mc T$ and $g$, we know that $\forall i \le g$, $B_i' \cap B_m \neq \phi$ for some $m$. Hence, we see that the index $g$ satisfies the first goodness criteria. We prove that it also satisfies the second criteria by contradiction. Assume that there exists $l$ such that $\forall i \le g$, $B_i' \cap B_l = \phi$.
+
+Let $B$ be some ball with center $x \in B_l$ and radius $r_B \le \max_{y \in B_l} |x-y| \le 2r(B_l)$. Then $B$ contains atleast $t$ points. Observe that since $B_t' \cap B_m = \phi$ for all $m$ and $\mc X$ is $(2,12)$-nice, $r(B_t') > 2r$. Hence, Alg \ref{alg:Known} adds $B$ to $\mc S$ before it adds $B_t'$. Hence, $B = B_i'$ for some $i\le g$. This contradicts the assumption that $B_i' \cap B_l = \phi$ for all $i \le g$. Hence, we get that there exists a good index. 
+\end{proof}
+
+
+\begin{lemma}
+Given a $(2,12)$-nice set $\mc X$. Let $\mc B, \mc S$ and $\mc L$ be as defined above. Given $t = \min |B_i|$. Denote by $r := \max r(B_i)$. Let $g = \min \{i: i$ is a good index\}. Then for all $i\le g$, $r(B_i') \le 2r$.
+
+\label{lemma:centerDist}
+\end{lemma}
+
+\begin{proof}
+Let $\mc T = \{B_1', \ldots, B_g'\}$. Alg. \ref{alg:Known} considers the radius of balls in sorted order. Hence, $r(B_1') \le r(B_2') \le \ldots \le r(B_g')$. Since $g$ is good, there exists $B_l$ such that $B_g' \cap B_l \neq \phi$. The claim is that $B_g'$ is the only ball in $\mc T$ which intersects $B_l$. Assume that this is not the case. Then there exists $h < g$ such that $B_h' \cap B_l \neq \phi$. Hence, the index $g-1$ is good. This contradicts the minimality of $g$. 
+
+Hence, $B_g'$ is the only ball that intersects $B_l$. Now, we claim that $\forall i \le g, r(B_i') \le 2r(B_l)$. Assume that this is not the case. Let $q$ be the first index such that $r(B_q') > 2r(B_l) \ge r(B_{q-1})$. Let $B$ be some ball with center $x \in B_l$ and radius $r_B \le \max_{y \in B_l} |x-y| \le 2r(B_l)$. Then $B$ contains atleast $t$ points. Hence, Alg \ref{alg:Known} adds $B$ to $\mc S$ before it adds $B_q'$. Hence, $B$ is equal to one of $B_1', \ldots, B_{q-1}'$. This contradicts the fact that $\forall i \le g-1$, $B_i' \cap B_l = \phi$. Thus, $r(B_g') \le 2r(B_l) \le 2r$. 
+\end{proof}
+
+\begin{corollary}
+Given a $(2,12)$-nice set $\mc X$. Let $\mc B, \mc S, L_C$ and $\mc L$ be as defined above. Given $t = \min |B_i|$. Denote by $r := \max r(B_i)$. Let $g = \min \{i: i$ is a good index\}. Then for all $i,j \le g$
+\begin{itemize}
+\item If $B_i' \cap B_m \neq \phi$ and $B_j' \cap B_m\neq\phi$ for some $m$, then $|c_i-c_j| \le 6 r(B_m) \le 6r$.
+\item If $B_i' \cap B_m \neq \phi$ and $B_j' \cap B_n\neq\phi$ for some $m,n$, then $|c_i-c_j| > 6r$.
+\end{itemize}
+\label{cor:centerDist}
+\end{corollary}
+
+\begin{proof}
+We will use Lemma \ref{lemma:centerDist} and the  triangle equality to prove the two results. For the first case, $|c_i-c_j| \le |c_i-c(B_m)| + |c(B_m)-c_j| \le r(B_i') + r(B_m) + r(B_m) + r(B_j') \le 2r + r + r + 2r = 6r$. For the second case, $|c_i-c_j| \ge  |c(B_m)-c_j| - |c_i-c(B_m)| \ge |c(B_m)-c(B_n)| - |c(B_n) - c_j| - |c_i-c(B_m)| > 12r - 3r -3r = 6r$.
+\end{proof}
+
+\begin{theorem}
+Given a $(2,12)$-nice set $\mc X$. Let $\mc B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Given $t = \min |B_i|$, Algorithm \ref{alg:Known} outputs a list $\mc L$ of possible clusterings of size $|\mc L| \in O(|\mc X|)$. $\mc L$ contains a clustering $\mc C$ such that $\mc C|_{\mc B} = \{B_1,\ldots,B_k\}$.
 \end{theorem}
+
+\begin{proof}
+$\mc L$ contains a list of clusterings $\mc C_k,\ldots,\mc C_p$. Let $g$ be the first index which has the properties as stated in Lemma \ref{lemma:goodIdx}. Let $\mc C_g$ be the corresponding clustering. We will show that the clustering $\mc C_g$ is such that $\mc C_g|_{\mc B} = \{B_1,\ldots,B_k\}$. 
+
+Let $\mc C_g = \{c_{g(1)},\ldots,c_{g(k)}\}$ and let $B_{g(1)}',\ldots,B_{g(k)}'$ be the corresponding balls. The claim is that for every $m \le k$ there exists $i \le k$ such that $B_m \cap B_{g(i)}' \neq \phi$. For the sake of contradiction, assume that this is not the case. 
+
+Hence, there exists ball $B_n$ (say) such that for all $i$, $B_{g(i)}' \cap B_n = \phi$ for all $i$. From the definition of $g$, we know that for all $i$, $B_{g(i)}$ intersects some ball $B_m$. Hence, from the pigeonhole principle we get that there exists indices $m, i$ and $j$ such that $B_{g(i)} \cap B_m \neq \phi$ and $B_{g(j)} \cap B_m \neq \phi$. From Cor. \ref{cor:centerDist}, we get that $|c_{g(i)}-c_{g(j)}| \le 6r$.
+
+Fromt the definition of $g$, there exists some index $n_1$ such that $B_{n_1}' \cap B_n \neq \phi$. Let $n_1, \ldots, n_r$ be all the indices such that $B_{n_i}' \cap B_n \neq \phi$. Observe that by the $g^{th}$ iteration of ALgorithm \ref{alg:Known}, all the centers $c_{n_1}, \ldots, c_{n_r}$ were deleted. Let $c_{n_r}$ be the last center out of these that was deleted. Then for some $c_i$, $|c_i - c_{n_r}|$ was the minimum distance between any two clusters at some step (say $q^{th}$ step) of the algorithm. Note that $B_i' \cap B_n \neq \phi$. Hence, using Cor. \ref{cor:centerDist} we get that $|c_i - c_{n_r}| > 6r$. 
+
+Observe that centers $|c_{g(i)}-c_{g(j)}| \le 6r < |c_i - c_{n_r}|$. However, $c_{g(i)}$ and $c_{g(j)}$ were not picked at the $q^{th}$ step of the algorithm. This is a contradiction. Hence, we get that $\forall m$, $\exists i$ such that $B_m \cap B_{g(i)} \neq \phi$. Hence, we get that the sets $\mc B$ and $\mc B' = \{B'_{g(1)}, \ldots, B'_{g(k)}\}$ are unique under intersection.
+
+Let $x \in B_i$. WLOG let $B_{g(i)}'$ intersect $B_i$. Now using Lemma \ref{lemma:centerDist} and the triangle inequality, 
+\vspace{-3mm}
+\begin{align*}
+|x-c(B_{g(i)}')| \le |x-c(B_i)| + |c(B_{g(i)}')-c(B_i)| \le |x-c(B_i)| + r(B_{g(i)}')+ r(B_i) \le r+ 2r + r = 4r.
+\end{align*} 
+For $j \neq i$, using Lemma \ref{lemma:centerDist} again we get that
+\vspace{-3mm}
+\begin{align*} 
+|x-c(B_{g(j)}')| &\ge |c(B_{g(j)}')-c(B_i)| - |x-c(B_i)| \ge |c(B_i)-c(B_j)| - |c(B_{g(j)}')-c(B_j)| - |x-c(B_i)|\\
+ &> 12r - r -3r = 9r.
+\end{align*} 
+Hence, we see that the clustering $\mc C_g$ assigns $x$ to the $i^{th}$ cluster. Hence, $\mc C_g|_\mc B = \{B_1,\ldots,B_k\}$.
+ 
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
