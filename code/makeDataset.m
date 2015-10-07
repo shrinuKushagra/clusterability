@@ -1,23 +1,24 @@
-function [centroid] = makeDataset()
+function [X, centroid] = makeDataset()
 	K = 3;
-	s1 = 2000; c1 = [0.0 0.0]; 
-	s2 = 2000; c2 = [8.0 0.0]; 
-	s3 = 2000; c3 = [0.0 8.0]; 
+	s = [2000 2000 2000];
+	c = [0.0 0.0; 8.0 0.0; 0.0 8.0];
 
-	noiseSize = 6000; noiseRange = [-2 10; -2 10];
+	noiseSize = 10000; noiseRange = [-10 15; -10 15];
 
-	nicePt = makeCircle(c1, 1.0, s1);
-	nicePt = [nicePt; makeCircle(c2, 1.0, s2)];
-	nicePt = [nicePt; makeCircle(c3, 1.0, s3)];
-	noisePt = makeNoise(noiseRange(1,:), noiseRange(2,:), noiseSize);
+	nicePt = makeCircle(c(1, :), 1.0, s(1));
+	nicePt = [nicePt; makeCircle(c(2, :), 1.0, s(2))];
+	nicePt = [nicePt; makeCircle(c(3, :), 1.0, s(3))];
+	noisePt = makeNoise(noiseRange(1, :), noiseRange(2, :), noiseSize);
 
 	X = [nicePt; noisePt];
+	y = [ones(s(1), 1); 2*ones(s(2), 1); 3*ones(s(3), 1)];
 	[class, centroid] = kmeans(X, K);
 
 	plot(nicePt(:,1), nicePt(:,2), '.b');
 	hold on;
-	plot(noisePt(:,1), noisePt(:,2), '.g');
 	plot(centroid(:,1), centroid(:,2), '.xr');
+	plot(noisePt(:,1), noisePt(:,2), '.g');
+	%plot(c(:,1), c(:,2), '.ob');
 end
 
 function [pts] = makeCircle(center, radius, noPoints)
