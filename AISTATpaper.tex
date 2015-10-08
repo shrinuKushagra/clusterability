@@ -214,18 +214,12 @@ Given a set $\mc X$ and $k$, we say that $\mc X$ is $(\lambda,\nu, \eta)$-nice i
 %\vspace{-2mm}
 \begin{align*}
 |B\cap \{X \backslash \cup_i B_i\}| < \min_i |B_i|
-\end{align*}.
+\end{align*}
 \end{itemize}
 \label{defn:niceness}
 \end{definition}
 
-\vspace{-10mm}
-\noindent {\bf Goal}: Given a $(\lambda, \nu, \eta)$-nice set $\mc X$ and $k$, our goal is to design an algorithm that outputs a $k$-clustering $\mc C' =\{C_1',\ldots,C_k'\}$ of $\mc X$ with the following properties. Let $\mc B = \{B_1,\ldots,B_k\}$ be some set which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. Then the clustering $\mc C'$ should be consistent with $\mc B$. That is, 
-\begin{align*}
-	\mc C'|_\mc B = \{B_1,\ldots,B_k\}
-\end{align*} 
-
-\vspace{2mm}
+\vspace{1mm}
 \begin{lemma}
 \label{lemma:chknice}
 Given a $(\lambda,\nu, \eta)$-nice set $\mc X$, $k$ and a set of balls $\mc B = \{B_1,\ldots,B_k\}$, we can verify if the set $\mc B$ is $\lambda$-separated, $\nu$-dense and $\eta$-sparse in time poynomial in $|\mc X|$ and $k$.
@@ -234,15 +228,24 @@ Given a $(\lambda,\nu, \eta)$-nice set $\mc X$, $k$ and a set of balls $\mc B = 
 Checking if the balls are separated and dense takes $O(k^2 + |\mc X|)$. Verifying the sparseness condition takes time $O(|\mc X|^2)$.
 \end{proof}
 
-\subsection{Uniqueness of solution}
-Note that given any set $\mc X$ which is $(\lambda, \nu, \eta)$-nice, there can exist different sets $\mc B$ which satisfy the separation, dense and sparseness conditions. We require that a clustering $\mc C'$ outputed by an algorithm should be consistent with one such $\mc B$. The following question arises. 
+\section{Objective}
+Given a $(\lambda, \nu, \eta)$-nice set $\mc X$ and $k$. Let $\mc B = \{B_1,\ldots,B_k\}$ be a set of balls which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. We say that a $k$-clustering $\mc C' =\{C_1',\ldots,C_k'\}$ of $\mc X$ is consistent with $\mc B$ if
+%\vspace{-3mm}
+\begin{align*}
+	\mc C'|_\mc B = \{B_1,\ldots,B_k\}
+\end{align*}
+We consider the following different goals for a clustering algorithm. 
+\begin{itemize}[noitemsep,nolistsep]
+\item {\em Consistent with one} - The algorithm outputs a clustering $\mc C'$ which is consistent with some $\mc B$.
+\item {\em List of solutions} - The algorithm outputs a list of clusterings $\mc L$ with the following property. For every $\mc B$, there exists $\mc C' \in \mc L$ that is consistent with $\mc B$.
+\item {\em Unique solution} - The algorithm outputs a clustering $\mc C'$ which is consistent with all $\mc B$.
+\end{itemize}
 
-{\em Is it possible to output a clustering $\mc C'$ which is consistent with all such $\mc B$'s?}
+The goal of unique solution is very ambitious. In general, a unique solution doesn't always exist. In this section, we wish to examine conditions under which the solution is unique. If the solution is not unique we wish to output a {\em list of solutions}.  
 
-If such a $\mc C'$ exists then we say that our solution is `unique' (for all $\mc B$'s). In this section, we wish to examine conditions under which the solution is unique. 
+Given any set $\mc B = \{B_1,\ldots, B_k\}$ which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. We consider two possible parametrizations of the set $\mc B$. First is the maximum radius $r = \max_i r(B_i)$. The second is the number of points in the smallest ball $t = \min_i |B_i|$.
 
-Given any set $\mc B = \{B_1,\ldots, B_k\}$ which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. We parametrize it by the following two quantities. $r = \max_i r(B_i)$ and $t = \min_i |B_i|$.
-
+\subsection{Unique solution for fixed $r = \max \thinspace r(B_i)$}
 \begin{lemma}
 \label{lemma:uniqueR}
 Let $\mc X$ be $(\lambda, \nu, \eta)$-nice. Let $\mc B' = \{B_1',\ldots, B_k'\} \subseteq \mc X$ be any set with $r = \max_i r(B_i)$ which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. Then there exists a set $\mc B(r) = \{B_1,\ldots,B_k\}$ such that the sets $\mc B(r)$ and $\mc B'$ are unique under intersection. That is 
@@ -261,14 +264,7 @@ Let $\mc X, \mc B', \mc B(r)$ be as defined in Lemma \ref{lemma:uniqueR}. Let $\
 \begin{proof}
 \end{proof}
 
-Thm. \ref{theorem:uniqueR} shows that for a fixed value of $r$, $\mc C(r)$ is the unique solution for all $\mc B'$ such that $\max_i r(B_i') = r$. In Section \ref{section:fixedR}, we will present an algorithm that finds this solution. 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Algorithm}
-\subsection{Based on the knowledge of $\max r(B_i)$}
-\label{section:fixedR}
-Given a set $\mc X$, we assume that our algorithm knows the value of the maximum radius. Iteratively, we find the densest ball of twice the maximum radius. Delete some points and repeat till we find $k$ such balls. The algorithm is described in detail below.
+Thm. \ref{theorem:uniqueR} shows that for a fixed value of $r$, $\mc C(r)$ is the unique solution for all $\mc B'$ such that $\max_i r(B_i') = r$. The proof of Lemma \ref{lemma:uniqueR} actually gives an algorithm   
 
 \begin{algorithm}
 \begin{alg}
@@ -313,7 +309,7 @@ Algorithm \ref{alg:NotKnown} runs in time $O($poly$(|\mathcal{X}|,k))$.
 During each iteration, we find the densest ball of radius $2r$. For each point in $\mathcal{X}$, we count the number of points whose distance is $\le 2r$. This can take $O(n)$ in the worst case. Hence, finding the densest ball takes $O(n^2)$ time. Similarly, deleting points from $\mathcal{X}$ takes $O(n^2)$ time. Hence, the for-loop takes $O(n^2k)$ time.
 \end{proof}
 
-\subsection{Based on the knowledge of $\min |B_i|$}
+\subsection{Finding a solution for  fixed $t = \min |B_i|$}
 %All algoritthms are polynomial in n and k
 In this case, we assume that the algorithm doesn't know the value of $r = \max r(B_i)$. We assume that the algorithm knows the number of points in the smallest cluster $\min |B_i| = t$ (say). This algorithm works in two phases.
 
