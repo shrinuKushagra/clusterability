@@ -1,18 +1,25 @@
 \documentclass[twoside]{article}
 \usepackage{aistats2016}
-\usepackage[paper]{nickstyle}
+%\usepackage[paper]{nickstyle}
 
 \usepackage{color}
 \usepackage{hyperref}
-\usepackage{amssymb, amsmath}
+\usepackage{amssymb, amsmath, amsfonts, amsthm}
+\usepackage{thmtools}
+\usepackage{algorithm} 
 
 \newcommand{\mc}{\mathcal}
 \setlength{\parindent}{24pt}
 \renewcommand{\bar}[1]{\overline{#1}}
 
+\newtheorem{theorem}{Theorem}
 \newtheorem{fact}[theorem]{Fact}
 \newtheorem{conj}[theorem]{Conjecture}
 \newtheorem{problem}[theorem]{Problem}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
 \newcommand{\ConjName}[1]{\label{con:#1}}
 \newcommand{\Conj}[1]{Conjecture~\ref{con:#1}}
 \newcommand{\ProblemName}[1]{\label{prob:#1}}
@@ -65,7 +72,7 @@
     \end{list}
 }
 
-
+\DeclareMathOperator{\argmin}{argmin}
 
 %%%%% Title %%%%%
 \title{\LARGE Clusterability with structural noise}
@@ -382,15 +389,17 @@ Fromt the definition of $g$, there exists some index $n_1$ such that $B_{n_1}' \
 Observe that centers $|c_{g(i)}-c_{g(j)}| \le 6r < |c_i - c_{n_r}|$. However, $c_{g(i)}$ and $c_{g(j)}$ were not picked at the $q^{th}$ step of the algorithm. This is a contradiction. Hence, we get that $\forall m$, $\exists i$ such that $B_m \cap B_{g(i)} \neq \phi$. Hence, we get that the sets $\mc B$ and $\mc B' = \{B'_{g(1)}, \ldots, B'_{g(k)}\}$ are unique under intersection.
 
 Let $x \in B_i$. WLOG let $B_{g(i)}'$ intersect $B_i$. Now using Lemma \ref{lemma:centerDist} and the triangle inequality,
-\vspace{-3mm}
+%\vspace{-3mm}
 \begin{align*}
-|x-c(B_{g(i)}')| \le |x-c(B_i)| + |c(B_{g(i)}')-c(B_i)| \le |x-c(B_i)| + r(B_{g(i)}')+ r(B_i) \le r+ 2r + r = 4r.
+&|x-c(B_{g(i)}')| \le |x-c(B_i)| + |c(B_{g(i)}')-c(B_i)| \\
+&\le |x-c(B_i)| + r(B_{g(i)}')+ r(B_i) \le r+ 2r + r = 4r.
 \end{align*} 
 For $j \neq i$, using Lemma \ref{lemma:centerDist} again we get that
-\vspace{-3mm}
+%\vspace{-3mm}
 \begin{align*} 
-|x-c(B_{g(j)}')| &\ge |c(B_{g(j)}')-c(B_i)| - |x-c(B_i)| \ge |c(B_i)-c(B_j)| - |c(B_{g(j)}')-c(B_j)| - |x-c(B_i)|\\
- &> 12r - r -3r = 9r.
+&|x-c(B_{g(j)}')| \ge |c(B_{g(j)}')-c(B_i)| - |x-c(B_i)|\\
+& \ge |c(B_i)-c(B_j)| - |c(B_{g(j)}')-c(B_j)| - |x-c(B_i)| \\
+&> 12r - r -3r = 9r.
 \end{align*} 
 Hence, we see that the clustering $\mc C_g$ assigns $x$ to the $i^{th}$ cluster. Hence, $\mc C_g|_\mc B = \{B_1,\ldots,B_k\}$.
  
