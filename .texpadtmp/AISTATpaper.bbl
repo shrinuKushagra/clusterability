@@ -1,0 +1,55 @@
+\begin{thebibliography}{BDH14}
+
+\bibitem[ABD09]{ackerman2009clusterability}
+Margareta Ackerman and Shai Ben-David.
+\newblock Clusterability: A theoretical study.
+\newblock In {\em International Conference on Artificial Intelligence and
+  Statistics}, pages 1--8, 2009.
+
+\bibitem[ABS12]{awasthi2012center}
+Pranjal Awasthi, Avrim Blum, and Or~Sheffet.
+\newblock Center-based clustering under perturbation stability.
+\newblock {\em Information Processing Letters}, 112(1):49--54, 2012.
+
+\bibitem[BBV08]{balcan2008discriminative}
+Maria-Florina Balcan, Avrim Blum, and Santosh Vempala.
+\newblock A discriminative framework for clustering via similarity functions.
+\newblock In {\em Proceedings of the fortieth annual ACM symposium on Theory of
+  computing}, pages 671--680. ACM, 2008.
+
+\bibitem[BD15]{ben2015computational}
+Shai Ben-David.
+\newblock Computational feasibility of clustering under clusterability
+  assumptions.
+\newblock {\em arXiv preprint arXiv:1501.00437}, 2015.
+
+\bibitem[BDH14]{ben2014clustering}
+Shai Ben-David and Nika Haghtalab.
+\newblock Clustering in the presence of background noise.
+\newblock In {\em Proceedings of the 31st International Conference on Machine
+  Learning (ICML-14)}, pages 280--288, 2014.
+
+\bibitem[BL12a]{balcan2012clustering}
+Maria~Florina Balcan and Yingyu Liang.
+\newblock Clustering under perturbation resilience.
+\newblock In {\em Automata, Languages, and Programming}, pages 63--74.
+  Springer, 2012.
+
+\bibitem[BL12b]{bilu2012stable}
+Yonatan Bilu and Nathan Linial.
+\newblock Are stable instances easy?
+\newblock {\em Combinatorics, Probability and Computing}, 21(05):643--660,
+  2012.
+
+\bibitem[DLS12]{daniely2012clustering}
+Amit Daniely, Nati Linial, and Michael Saks.
+\newblock Clustering is difficult only when it does not matter.
+\newblock {\em arXiv preprint arXiv:1205.4891}, 2012.
+
+\bibitem[NJB05]{narasimhan2005q}
+Mukund Narasimhan, Nebojsa Jojic, and Jeff~A Bilmes.
+\newblock Q-clustering.
+\newblock In {\em Advances in Neural Information Processing Systems}, pages
+  979--986, 2005.
+
+\end{thebibliography}

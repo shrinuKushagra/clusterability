@@ -1,4 +1,5 @@
-\documentclass[11pt]{article}
+\documentclass[twoside]{article}
+\usepackage{aistats2016}
 \usepackage[paper]{nickstyle}
 \usepackage{color}
 \usepackage{hyperref}
@@ -75,6 +76,11 @@
 \begin{document}
 \maketitle
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 Clustering is the process of partitioning a given data set such that objects in the same partition are similar to one another while objects in different partitions are different. The most common clustering methods are often either linkage-based or center-based. In linkage based clustering, the goal is not to find a single partition but a hiearchy of partitions represented using a clustering tree (hierarchical clustering). These methods start by having each point in its own cluster. Then, two closest (or most similar) clusters are merged together using some similarity measure until the whole data is just a single cluster. One of the common drawbacks of these methods is that they are not robust to noise \cite{narasimhan2005q}. 
 
@@ -84,7 +90,10 @@ Hence, to improve the theoretical understanding of clustering and to explain the
 
 Each of the different notions of clustering that have been proposed, attempt to capture some nice property of the data. The results generally follow one of the two directions. One category of results show that under the proposed clusterability notion some known center-based algorithm runs in polynomial time. The other category of results propose some new clustering algorithm and show that the proposed algorithm runs in polynomial time if the data satisfies the niceness conditions. Now, we will survey each of the known clusterability notions and the known results.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Previous Work}
+In this section we will talk about previous work
 \subsection{Notions of Clusterability}
 
 \subsubsection*{$(\epsilon, \delta)$-Center Pertubation \cite{ackerman2009clusterability}}
@@ -101,27 +110,34 @@ The definition basically says that an optimal clustering remains optimal for sma
 
 Awasthi et. al \cite{awasthi2012center} consider the problem of clustering with center-based objective functions. They give an algorithm based on single-linkage heurestic and prove that it runs in polynomial time if $\alpha \ge 3$. Balcan et. al \cite{balcan2012clustering} make progress on the same problem and give a polynomial-time algorithm for $\alpha \ge 1+\sqrt{2}$. 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{$\alpha$-Center Proximity \cite{awasthi2012center}}
 \begin{definition}
 Given $(\mc X, d)$. Let $\mc C = \{c_1, \ldots, c_k\}$ be a clustering of $\mc X$. We say that $\mc X$ has $\alpha$-center proximity w.r.t $\mc C$, if for all $i \le k$ and for all $x \in C_i$, $d(x,c_i) < \alpha d(x, c_j)$ where $j \neq i$.   
 \end{definition}
 The definition basically says that a point is $\alpha$-times closer to its own center than to any other center.  Awasthi et. al \cite{awasthi2012center} showed that center proximity is a weaker notion than pertubation resilience. That is, if an instance is $\alpha$-pertubation resilient then it is also has $\alpha$-center proximity. Both \cite{awasthi2012center} and \cite{balcan2012clustering} essentially work with $\alpha$-center proximity. The former shows gives a polynomial-time algorithm for $\alpha \ge 3$ and then uses this result to show that this algorithm is also pertubation resilient. The latter does the same for $\alpha \ge 1 + \sqrt{2}$. 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Clusterability with noise}
 In the previous section, we discussed various notions of clustering. However, these notions assumed that the entire data set had a particular property. This can be unrealistic in real-life situations. A more realistic scenario would be one in which most of the data set had a given property. The fraction of points which violate the nice property (for eg. $\alpha$-pertubation resilience) is also referred to as noise. We discuss notions of clusterability which take noise into account. 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{$\nu$-Separated Balls \cite{ben2014clustering}}
 \begin{definition}
 Given $\mc X$. Let $\mc I \subseteq \mc X$ be such that $\mc I = \cup_{i=1}^k B_i$ where each $B_i$ is a ball such that rad$(B_i) \le r$ and for all $i \neq j$, $|c(B_i)-c(B_j)| > \nu$ where $c(B)$ denotes the center of a ball.
 \end{definition}
 The remaining part of the data $\mc N = \mc X \setminus \mc I$ denotes the noise. Ben-David et. al \cite{ben2014clustering} give a generic algorithm for how to augment any center-based algorithm into one which is robust to noise. For small noise, the robustified algorithm outputs a clustering $\mc C'$ of $\mc X$ such that $\mc C'|_{\mc I}$ is the optimal clustering of $\mc I$.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{$(\alpha, \epsilon)$-Pertubation Resilience \cite{balcan2012clustering}}
 \begin{definition}
 Given $(\mc X, d)$. Let $\mc C$ be an optimal clustering for $(\mc X, d)$ under some objective function $\phi$. Let $d'$ be an $\alpha$-pertubation of $d$ and $\mc C'$ be an optimal clustering for $(\mc X, d')$. $\mc X$ has $(\alpha, \epsilon)$-PR if for every $d'$ which is an $\alpha$-pertubation of $d$, $\mc C'$ is $\epsilon$-close to $\mc C$.
 \end{definition}
 $(\alpha, \epsilon)$-pertubation resilience is a natural relxation of $\alpha$-pertubation resilience. Balcan et. al \cite{balcan2012clustering} obtained positive results for $(\alpha, \epsilon)$-PR when $\phi$ is the $k$-median objective function. They give a polynomial-time algorithm which produces a $O(1+\epsilon/\rho)$ ($\rho$ is fraction of points in the smallest cluster) approximation to the optimum provided $\alpha > 2 + \sqrt{7}$. The number of noisy points that they can handle for the $k$-median objective is $\le n\epsilon$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{$\nu$-Strict Separation \cite{balcan2008discriminative}}
 \begin{definition}
 Given $(\mc X, d)$. Let $C(x)$ denote the cluster to which $x$ belongs. We say that $\mc X$ has strict separation if for all $y \in C(x)$ and for all $z \not\in C(x)$, $d(x,y) < d(x,z)$. We say that $\mc X$ has $\nu$-strict separation if there exists $\mc X' \subseteq \mc X$ such that $|\mc X\setminus \mc X'| < \nu|\mc X|$ and $\mc X'$ has strict separation.
@@ -149,7 +165,7 @@ Balcan et. al \cite{balcan2008discriminative} show that if size of the smallest 
 \end{tabular}
 \end{table}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Contribution}
 Table \ref{table:clusterabilitynotions} shows the different notions of clusterability that have been proposed in the literature. All the notions only deal with quantitative noise. That is, they give efficient algorithms when the noise is small. For example, Balcan et. al \cite{balcan2012clustering} give an algorithm for $(\alpha, \epsilon)$-pertubation resilience. Their algorithm can only handle noise which is in $O(\epsilon)$. Similarly, other notions of clusterability can only handle a small amount of noise.
 
