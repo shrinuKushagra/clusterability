@@ -105,7 +105,10 @@ This paper is organized as follows. In section \ref{sec:previous} we will talk a
 \section{Previous Work}
 \label{sec:previous}
 
-Various notions of clusterability has been proposed in the past. The majority of work focus on the fact that clustering can be done efficiently on the data sets that follow some nice structure i.e. they are well clusterable.
+Various notions of clusterability has been proposed in the past. The majority of work focus on the fact that clustering can be done efficiently on the data sets that follow some nice structure i.e. they are well clusterable. 
+
+\subsection{Clusterability Assumptions}
+
 
 Bilu et al \cite{bilu2012stable} consider an input of an optimization problem to be \emph{stable} if small multiplicative perturbations of the input does not change the optimal solution of optimization task. Specially, they give an efficient algorithm to find the max-cut of well stable graphs.
 Another line of work \cite{awasthi2012center, balcan2012clustering} , consider similar condition on the input of center-based clustering tasks, and proposed efficient clustering algorithms for sufficiently stable inputs.
@@ -138,10 +141,24 @@ The last clusterability assumption that we want to mention is called {$\alpha$-C
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Clusterability with noise}
-In the previous section, we discussed various notions of clusterability. However, these notions all assume that the entire data set has a particular property. This can be unrealistic in real-life situations. A more realistic scenario would be the one in which most of the data set have a given nice property. The fraction of points which violate the nice property (for eg. $\alpha$-pertubation resilience) is also referred to as noise. We discuss notions of clusterability which take noise into account. 
+All the clusterability notions discussed so far assume that the entire data set enjoys some nice property. This can be unreasonable in the real-life situations. A more realistic scenario would be the one in which most of the input data have a given nice structure but the remaining points violate it. The fraction of points that violate the niceness condition is referred to as npise.
+%(for eg. $\alpha$-pertubation resilience)
+In this section, we discuss notions of clusterability which take noise into account. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\cite{balcan2012clustering} generalize their algorithm to give an approximation of the $k$-means optimal solution for the data sets which satisfy $\alpha$-perturbation resilience for a big fraction of the points. Their result approximation guaranty is based on the assumption that the fraction of noisy points is very small.
+
+
+\cite{ben2014clustering}
+
+
+
+Balcan et. al \cite{balcan2008discriminative}
+
+
+
 \subsubsection*{$\nu$-Separated Balls \cite{ben2014clustering}}
 \begin{definition}
 Given $\mc X$. Let $\mc I \subseteq \mc X$ be such that $\mc I = \cup_{i=1}^k B_i$ where each $B_i$ is a ball such that rad$(B_i) \le r$ and for all $i \neq j$, $|c(B_i)-c(B_j)| > \nu$ where $c(B)$ denotes the center of a ball.
@@ -150,11 +167,11 @@ The remaining part of the data $\mc N = \mc X \setminus \mc I$ denotes the noise
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection*{$(\alpha, \epsilon)$-Pertubation Resilience \cite{balcan2012clustering}}
-\begin{definition}
-Given $(\mc X, d)$. Let $\mc C$ be an optimal clustering for $(\mc X, d)$ under some objective function $\phi$. Let $d'$ be an $\alpha$-pertubation of $d$ and $\mc C'$ be an optimal clustering for $(\mc X, d')$. $\mc X$ has $(\alpha, \epsilon)$-PR if for every $d'$ which is an $\alpha$-pertubation of $d$, $\mc C'$ is $\epsilon$-close to $\mc C$.
-\end{definition}
-$(\alpha, \epsilon)$-pertubation resilience is a natural relxation of $\alpha$-pertubation resilience. Balcan et. al \cite{balcan2012clustering} obtained positive results for $(\alpha, \epsilon)$-PR when $\phi$ is the $k$-median objective function. They give a polynomial-time algorithm which produces a $O(1+\epsilon/\rho)$ ($\rho$ is fraction of points in the smallest cluster) approximation to the optimum provided $\alpha > 2 + \sqrt{7}$. The number of noisy points that they can handle for the $k$-median objective is $\le n\epsilon$.
+%\subsubsection*{$(\alpha, \epsilon)$-Pertubation Resilience \cite{balcan2012clustering}}
+%\begin{definition}
+%Given $(\mc X, d)$. Let $\mc C$ be an optimal clustering for $(\mc X, d)$ under some objective function $\phi$. Let $d'$ be an $\alpha$-pertubation of $d$ and $\mc C'$ be an optimal clustering for $(\mc X, d')$. $\mc X$ has $(\alpha, \epsilon)$-PR if for every $d'$ which is an $\alpha$-pertubation of $d$, $\mc C'$ is $\epsilon$-close to $\mc C$.
+%\end{definition}
+%$(\alpha, \epsilon)$-pertubation resilience is a natural relxation of $\alpha$-pertubation resilience. Balcan et. al \cite{balcan2012clustering} obtained positive results for $(\alpha, \epsilon)$-PR when $\phi$ is the $k$-median objective function. They give a polynomial-time algorithm which produces a $O(1+\epsilon/\rho)$ ($\rho$ is fraction of points in the smallest cluster) approximation to the optimum provided $\alpha > 2 + \sqrt{7}$. The number of noisy points that they can handle for the $k$-median objective is $\le n\epsilon$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{$\nu$-Strict Separation \cite{balcan2008discriminative}}
@@ -163,6 +180,8 @@ Given $(\mc X, d)$. Let $C(x)$ denote the cluster to which $x$ belongs. We say t
 \end{definition}
 Balcan et. al \cite{balcan2008discriminative} show that if size of the smallest cluster is greater than $5\nu|\mc X|$ then their algorithm produces a hierarchical clustering tree such that a pruning of the tree is $\nu$-close to the ground truth clustering. 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}
 \centering
 \caption{Different notions of clusterability. The type and amount of noise these notions can handle.}
