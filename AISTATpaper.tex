@@ -232,7 +232,11 @@ Checking if the balls are separated and dense takes $O(k^2 + |\mc X|)$. Verifyin
 \end{proof}
 
 \subsection{Uniqueness of solution}
-Note that given any set $\mc X$ which is $(\lambda, \nu, \eta)$-nice, there can exist different sets $\mc B$ which satisfy the separation, dense and sparseness conditions. In this section, we wish to examine conditions under which the solution is `unique' and under which condition multiple solutions are possible. 
+Note that given any set $\mc X$ which is $(\lambda, \nu, \eta)$-nice, there can exist different sets $\mc B$ which satisfy the separation, dense and sparseness conditions. We require that a clustering $\mc C'$ outputed by an algorithm should be consistent with one such $\mc B$. The following question arises. 
+
+{\em Is it possible to output a clustering $\mc C'$ which is consistent with all such $\mc B$'s?}
+
+If such a $\mc C'$ exists then we say that our solution is `unique' (for all $\mc B$'s). In this section, we wish to examine conditions under which the solution is unique. 
 
 Given any set $\mc B = \{B_1,\ldots, B_k\}$ which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. We parametrize it by the following two quantities. $r = \max_i r(B_i)$ and $t = \min_i |B_i|$.
 
@@ -247,29 +251,30 @@ Let $\mc X$ be $(\lambda, \nu, \eta)$-nice. Let $\mc B' = \{B_1',\ldots, B_k'\} 
 \begin{proof}
 \end{proof}
 
+\begin{theorem}
+\label{theorem:uniqueR}
+Let $\mc X, \mc B', \mc B(r)$ be as defined in Lemma \ref{lemma:uniqueR}. Let $\mc C(r)$ be the clustering induced by the centers of $\mc B(r)$. Then, $\mc C(r)|_{B'} = \{B_1', \ldots, B_k'\}$. 
+\end{theorem}
+\begin{proof}
+\end{proof}
+
+Thm. \ref{theorem:uniqueR} shows that for a fixed value of $r$, $\mc C(r)$ is the unique solution for all $\mc B'$ such that $\max_i r(B_i') = r$. In Section \ref{section:fixedR}, we will present an algorithm that finds this solution. 
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algorithm}
 \subsection{Based on the knowledge of $\max r(B_i)$}
+\label{section:fixedR}
 Given a set $\mc X$, we assume that our algorithm knows the value of the maximum radius. Iteratively, we find the densest ball of twice the maximum radius. Delete some points and repeat till we find $k$ such balls. The algorithm is described in detail below.
 
 \begin{algorithm}
 \begin{alg}
-%\item[] for $i=1$ to $l$
-%\begin{itemize}
-%	\item[] Let $L_i$ denote the set of balls found in $i^{th}$ iteration. Initially $L_i=\phi$
-%	\item[] set $d=d_i$
-	\item[] Set $r = \max_i \thinspace r(B_i)$
-	\item[] for $i=1$ to $k$
+\item[] Set $r = \max_i \thinspace r(B_i)$
+\item[] for $i=1$ to $k$
 	\begin{itemize}
 		\item[] Let $B_i'$ be the densest ball of radius $2r$ such that $c(B_i') \in \mathcal{X}$.
 		\item[] Set $\mc X=\mc X\setminus B_{4r}(c(B_i'))$. 
 	\end{itemize}
-	%\item[] If the clustering $L_i$ is nice
-	%\begin{itemize}
-%	\item[] $L := L \cup L_i$.
-	%\end{itemize}
-%\end{itemize}
 \item[] Let $\mc B' := \{B_1',\ldots,B_k'\}$ and $c(\mc B') = \{c(B_1'),\ldots,c(B_k')\}$.
 \item[] Output $\mc B'$ and the clustering $\mc C'$ induced by $c(\mc B')$.
 \label{alg:NotKnown}
