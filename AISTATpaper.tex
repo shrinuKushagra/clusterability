@@ -104,12 +104,12 @@ This paper is organized as follows. In section \ref{sec:previous} we will talk a
 \section{Previous Work}
 \label{sec:previous}
 
-Various notions of clusterability has been proposed in the past. The majority of work focus on the fact that clustering can be done efficiently on data sets that follow some nice structure i.e. they are well clusterable.
+Various notions of clusterability has been proposed in the past. The majority of work focus on the fact that clustering can be done efficiently on the data sets that follow some nice structure i.e. they are well clusterable.
 
-Bilu et al \cite{bilu2012stable} consider a data set to be nice if small multiplicative perturbations of the input does not change the optimal clustering of it.
+Bilu et al \cite{bilu2012stable} consider an input of an optimization problem to be \emph{stable} if small multiplicative perturbations of the input does not change the optimal solution of optimization task. Specially, they give an efficient algorithm to find the max-cut of well stable graphs.
+Another line of work \cite{awasthi2012center, balcan2012clustering} , consider similar condition on the input of center-based clustering tasks, and proposed efficient clustering algorithms for sufficiently stable inputs.
 
-
-Another line of work, focus on center-based clustering tasks. It is assumed that the input data set has a clusterability assumption and an efficient clustering algorithms is designed to output a clustering with near-optimal cost. Ackerman et. al \cite{ackerman2009clusterability} proposed a notion of clusterability based on the fact that the cost of optimal clustering of a data set should not change considerably if the centers of optimal clusters are slightly perturbed.  
+Ackerman et. al \cite{ackerman2009clusterability} proposed a notion of clusterability based on the fact that the cost of optimal clustering of a data set should not change considerably if the centers of optimal clusters are slightly perturbed. Given this condition, they design an efficient clustering algorithms that outputs a clustering with near-optimal cost. 
 
 {$(\epsilon, \delta)$-Center Pertubation }
 \cite{ackerman2009clusterability}
