@@ -104,25 +104,27 @@ This paper is organized as follows. In section \ref{sec:previous} we will talk a
 \section{Previous Work}
 \label{sec:previous}
 
-Various notions of clusterability has been proposed in the past. The majority of works focus on the fact that clustering can be done efficiently on data sets that follow some nice structure i.e. they are well clusterable.
-\cite{ackerman2009clusterability} proposed a notion of clusterability based on the fact that the cost of optimal clustering of a data set should not have considerable change if the centres of optimal clusters are slightly perturbed. 
-%Using this assumption, an efficient clustering algorithm is presented that outputs a clustering with near-optimal cost. 
-Similarly, \cite{bilu2012stable} consider a data set to be nice if small multiplicative perturbations of the input does not change the optimal clustering of it.
+Various notions of clusterability has been proposed in the past. The majority of work focus on the fact that clustering can be done efficiently on data sets that follow some nice structure i.e. they are well clusterable.
 
-%{$(\epsilon, \delta)$-Center Pertubation }
-%\cite{ackerman2009clusterability}
-%\begin{definition}
-%Given a data set $\mc X$. We say that two clusterings $\mc C$ and $\mc C'$ are $\epsilon$-close, if there exists centers $c_1,\ldots, c_k \in \mc C$ and centers $c_1',\ldots, c_k' \in \mc C'$ such that $\|c_i - c_i'\| \le \epsilon$. $\mc X$ is $(\epsilon, \delta)$-CP clusterable, if for every clustering $\mc C$ of $\mc X$ that is $\epsilon$-close to some optimal $k$-clustering of $\mc X$, $Cost(\mc C) \le (1 + \delta) \thinspace Cost(OPT(\mc X))$. 
-%\end{definition}
-%Ben-David et. al \cite{ackerman2009clusterability} give an algorithm and prove that if $\mc X$ is $(\epsilon, \delta)$-CP clusterable then the algorithm runs in $O(kn^{k/\epsilon^2})$ and outputs a clustering $\mc C$ such that the cost of $Cost(\mc C) \le (1+\delta)\thinspace Cost(OPT(\mc X))$. The authors also refer to this notion as \textbf{Additive Pertubation Robustness (APR)} \cite{ben2015computational}.  
+Bilu et al \cite{bilu2012stable} consider a data set to be nice if small multiplicative perturbations of the input does not change the optimal clustering of it.
 
-%\subsection*{$\alpha$-Pertubation Resilience \cite{bilu2012stable}}
-%\begin{definition}
-%Given $(\mc X, d)$ where $\mc X$ is the data set and $d$ is a distance function. We say that $d'$ is an $\alpha$-pertubation of $d$ if for every $x,y \in \mc X$, $d(x,y) \le d'(x,y) \le \alpha d(x,y)$. $\mc X$ has $\alpha$-PR if there exists an optimal clustering $\mc C$ for $(\mc X, d)$ such that for every $d'$ which is an $\alpha$-pertubation of $d$, $\mc C$ is also an optimal clustering for $(\mc X, d')$.
-%\end{definition}
-%The definition basically says that an optimal clustering remains optimal for small multiplicative pertubation of the input. Bilu and Linial \cite{bilu2012stable} consider the problem of max-cut clustering of a graph. They give an algorithm for this problem and prove that it runs in polynomial-time provided $\alpha > \min \{\sqrt{n\Delta}, n/2\}$ where $\Delta$ is the maximum degree of the graph.
-%
-%Awasthi et. al \cite{awasthi2012center} consider the problem of clustering with center-based objective functions. They give an algorithm based on single-linkage heurestic and prove that it runs in polynomial time if $\alpha \ge 3$. Balcan et. al \cite{balcan2012clustering} make progress on the same problem and give a polynomial-time algorithm for $\alpha \ge 1+\sqrt{2}$. 
+
+Another line of work, focus on center-based clustering tasks. It is assumed that the input data set has a clusterability assumption and an efficient clustering algorithms is designed to output a clustering with near-optimal cost. Ackerman et. al \cite{ackerman2009clusterability} proposed a notion of clusterability based on the fact that the cost of optimal clustering of a data set should not change considerably if the centers of optimal clusters are slightly perturbed.  
+
+{$(\epsilon, \delta)$-Center Pertubation }
+\cite{ackerman2009clusterability}
+\begin{definition}
+Given a data set $\mc X$. We say that two clusterings $\mc C$ and $\mc C'$ are $\epsilon$-close, if there exists centers $c_1,\ldots, c_k \in \mc C$ and centers $c_1',\ldots, c_k' \in \mc C'$ such that $\|c_i - c_i'\| \le \epsilon$. $\mc X$ is $(\epsilon, \delta)$-CP clusterable, if for every clustering $\mc C$ of $\mc X$ that is $\epsilon$-close to some optimal $k$-clustering of $\mc X$, $Cost(\mc C) \le (1 + \delta) \thinspace Cost(OPT(\mc X))$. 
+\end{definition}
+Ben-David et. al \cite{ackerman2009clusterability} give an algorithm and prove that if $\mc X$ is $(\epsilon, \delta)$-CP clusterable then the algorithm runs in $O(kn^{k/\epsilon^2})$ and outputs a clustering $\mc C$ such that the cost of $Cost(\mc C) \le (1+\delta)\thinspace Cost(OPT(\mc X))$. The authors also refer to this notion as \textbf{Additive Pertubation Robustness (APR)} \cite{ben2015computational}.  
+
+\subsection*{$\alpha$-Pertubation Resilience \cite{bilu2012stable}}
+\begin{definition}
+Given $(\mc X, d)$ where $\mc X$ is the data set and $d$ is a distance function. We say that $d'$ is an $\alpha$-pertubation of $d$ if for every $x,y \in \mc X$, $d(x,y) \le d'(x,y) \le \alpha d(x,y)$. $\mc X$ has $\alpha$-PR if there exists an optimal clustering $\mc C$ for $(\mc X, d)$ such that for every $d'$ which is an $\alpha$-pertubation of $d$, $\mc C$ is also an optimal clustering for $(\mc X, d')$.
+\end{definition}
+The definition basically says that an optimal clustering remains optimal for small multiplicative pertubation of the input. Bilu and Linial \cite{bilu2012stable} consider the problem of max-cut clustering of a graph. They give an algorithm for this problem and prove that it runs in polynomial-time provided $\alpha > \min \{\sqrt{n\Delta}, n/2\}$ where $\Delta$ is the maximum degree of the graph.
+
+Awasthi et. al \cite{awasthi2012center} consider the problem of clustering with center-based objective functions. They give an algorithm based on single-linkage heurestic and prove that it runs in polynomial time if $\alpha \ge 3$. Balcan et. al \cite{balcan2012clustering} make progress on the same problem and give a polynomial-time algorithm for $\alpha \ge 1+\sqrt{2}$. 
 
 \subsubsection*{$\alpha$-Center Proximity \cite{awasthi2012center}}
 \begin{definition}
