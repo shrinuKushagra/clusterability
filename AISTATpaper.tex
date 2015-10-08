@@ -111,26 +111,29 @@ Another line of work \cite{awasthi2012center, balcan2012clustering} , consider s
 
 Ackerman et. al \cite{ackerman2009clusterability} proposed a notion of clusterability based on the fact that the cost of optimal clustering of a data set should not change considerably if the centers of optimal clusters are slightly perturbed. Given this condition, they design an efficient clustering algorithms that outputs a clustering with near-optimal cost. 
 
-{$(\epsilon, \delta)$-Center Pertubation }
-\cite{ackerman2009clusterability}
-\begin{definition}
-Given a data set $\mc X$. We say that two clusterings $\mc C$ and $\mc C'$ are $\epsilon$-close, if there exists centers $c_1,\ldots, c_k \in \mc C$ and centers $c_1',\ldots, c_k' \in \mc C'$ such that $\|c_i - c_i'\| \le \epsilon$. $\mc X$ is $(\epsilon, \delta)$-CP clusterable, if for every clustering $\mc C$ of $\mc X$ that is $\epsilon$-close to some optimal $k$-clustering of $\mc X$, $Cost(\mc C) \le (1 + \delta) \thinspace Cost(OPT(\mc X))$. 
-\end{definition}
-Ben-David et. al \cite{ackerman2009clusterability} give an algorithm and prove that if $\mc X$ is $(\epsilon, \delta)$-CP clusterable then the algorithm runs in $O(kn^{k/\epsilon^2})$ and outputs a clustering $\mc C$ such that the cost of $Cost(\mc C) \le (1+\delta)\thinspace Cost(OPT(\mc X))$. The authors also refer to this notion as \textbf{Additive Pertubation Robustness (APR)} \cite{ben2015computational}.  
+The last clusterability assumption that we want to mention is called {$\alpha$-Center Proximity\cite{awasthi2012center}} and is similar in nature to the condition that we suggest. The definition basically says that a point is $\alpha$-times closer to its own center than to any other center. 
 
-\subsection*{$\alpha$-Pertubation Resilience \cite{bilu2012stable}}
-\begin{definition}
-Given $(\mc X, d)$ where $\mc X$ is the data set and $d$ is a distance function. We say that $d'$ is an $\alpha$-pertubation of $d$ if for every $x,y \in \mc X$, $d(x,y) \le d'(x,y) \le \alpha d(x,y)$. $\mc X$ has $\alpha$-PR if there exists an optimal clustering $\mc C$ for $(\mc X, d)$ such that for every $d'$ which is an $\alpha$-pertubation of $d$, $\mc C$ is also an optimal clustering for $(\mc X, d')$.
-\end{definition}
-The definition basically says that an optimal clustering remains optimal for small multiplicative pertubation of the input. Bilu and Linial \cite{bilu2012stable} consider the problem of max-cut clustering of a graph. They give an algorithm for this problem and prove that it runs in polynomial-time provided $\alpha > \min \{\sqrt{n\Delta}, n/2\}$ where $\Delta$ is the maximum degree of the graph.
+%
+%{$(\epsilon, \delta)$-Center Pertubation }
+%\cite{ackerman2009clusterability}
+%\begin{definition}
+%Given a data set $\mc X$. We say that two clusterings $\mc C$ and $\mc C'$ are $\epsilon$-close, if there exists centers $c_1,\ldots, c_k \in \mc C$ and centers $c_1',\ldots, c_k' \in \mc C'$ such that $\|c_i - c_i'\| \le \epsilon$. $\mc X$ is $(\epsilon, \delta)$-CP clusterable, if for every clustering $\mc C$ of $\mc X$ that is $\epsilon$-close to some optimal $k$-clustering of $\mc X$, $Cost(\mc C) \le (1 + \delta) \thinspace Cost(OPT(\mc X))$. 
+%\end{definition}
+%Ben-David et. al \cite{ackerman2009clusterability} give an algorithm and prove that if $\mc X$ is $(\epsilon, \delta)$-CP clusterable then the algorithm runs in $O(kn^{k/\epsilon^2})$ and outputs a clustering $\mc C$ such that the cost of $Cost(\mc C) \le (1+\delta)\thinspace Cost(OPT(\mc X))$. The authors also refer to this notion as \textbf{Additive Pertubation Robustness (APR)} \cite{ben2015computational}.  
+%
+%\subsection*{$\alpha$-Pertubation Resilience \cite{bilu2012stable}}
+%\begin{definition}
+%Given $(\mc X, d)$ where $\mc X$ is the data set and $d$ is a distance function. We say that $d'$ is an $\alpha$-pertubation of $d$ if for every $x,y \in \mc X$, $d(x,y) \le d'(x,y) \le \alpha d(x,y)$. $\mc X$ has $\alpha$-PR if there exists an optimal clustering $\mc C$ for $(\mc X, d)$ such that for every $d'$ which is an $\alpha$-pertubation of $d$, $\mc C$ is also an optimal clustering for $(\mc X, d')$.
+%\end{definition}
+%The definition basically says that an optimal clustering remains optimal for small multiplicative pertubation of the input. Bilu and Linial \cite{bilu2012stable} consider the problem of max-cut clustering of a graph. They give an algorithm for this problem and prove that it runs in polynomial-time provided $\alpha > \min \{\sqrt{n\Delta}, n/2\}$ where $\Delta$ is the maximum degree of the graph.
+%
+%Awasthi et. al \cite{awasthi2012center} consider the problem of clustering with center-based objective functions. They give an algorithm based on single-linkage heurestic and prove that it runs in polynomial time if $\alpha \ge 3$. Balcan et. al \cite{balcan2012clustering} make progress on the same problem and give a polynomial-time algorithm for $\alpha \ge 1+\sqrt{2}$. 
 
-Awasthi et. al \cite{awasthi2012center} consider the problem of clustering with center-based objective functions. They give an algorithm based on single-linkage heurestic and prove that it runs in polynomial time if $\alpha \ge 3$. Balcan et. al \cite{balcan2012clustering} make progress on the same problem and give a polynomial-time algorithm for $\alpha \ge 1+\sqrt{2}$. 
-
-\subsubsection*{$\alpha$-Center Proximity \cite{awasthi2012center}}
-\begin{definition}
-Given $(\mc X, d)$. Let $\mc C = \{c_1, \ldots, c_k\}$ be a clustering of $\mc X$. We say that $\mc X$ has $\alpha$-center proximity w.r.t $\mc C$, if for all $i \le k$ and for all $x \in C_i$, $d(x,c_i) < \alpha d(x, c_j)$ where $j \neq i$.   
-\end{definition}
-The definition basically says that a point is $\alpha$-times closer to its own center than to any other center.  Awasthi et. al \cite{awasthi2012center} showed that center proximity is a weaker notion than pertubation resilience. That is, if an instance is $\alpha$-pertubation resilient then it is also has $\alpha$-center proximity. Both \cite{awasthi2012center} and \cite{balcan2012clustering} essentially work with $\alpha$-center proximity. The former shows gives a polynomial-time algorithm for $\alpha \ge 3$ and then uses this result to show that this algorithm is also pertubation resilient. The latter does the same for $\alpha \ge 1 + \sqrt{2}$. 
+%\subsubsection*{$\alpha$-Center Proximity \cite{awasthi2012center}}
+%\begin{definition}
+%Given $(\mc X, d)$. Let $\mc C = \{c_1, \ldots, c_k\}$ be a clustering of $\mc X$. We say that $\mc X$ has $\alpha$-center proximity w.r.t $\mc C$, if for all $i \le k$ and for all $x \in C_i$, $d(x,c_i) < \alpha d(x, c_j)$ where $j \neq i$.   
+%\end{definition}
+%The definition basically says that a point is $\alpha$-times closer to its own center than to any other center.  Awasthi et. al \cite{awasthi2012center} showed that center proximity is a weaker notion than pertubation resilience. That is, if an instance is $\alpha$-pertubation resilient then it is also has $\alpha$-center proximity. Both \cite{awasthi2012center} and \cite{balcan2012clustering} essentially work with $\alpha$-center proximity. The former shows gives a polynomial-time algorithm for $\alpha \ge 3$ and then uses this result to show that this algorithm is also pertubation resilient. The latter does the same for $\alpha \ge 1 + \sqrt{2}$. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Clusterability with noise}
