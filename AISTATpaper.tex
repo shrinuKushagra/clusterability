@@ -260,6 +260,7 @@ The goal of unique solution is very ambitious. In general, a unique solution doe
 Given any set $\mc B = \{B_1,\ldots, B_k\}$ which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. We consider two possible parametrizations of the set $\mc B$. First is the maximum radius $r = \max_i r(B_i)$. We show that for fixed $r$, it is possible to get a unique solution. The second is the number of points in the smallest ball $t = \min_i |B_i|$. In this case, we construct a list of possible solutions. Finally, we get rid of both the paramerizations and construct a list of solutions for any $\mc B$.
 
 \subsection{Unique solution for fixed $r$}
+\label{section:uniqueR}
 \begin{lemma}
 \label{lemma:uniqueR}
 Let $\mc X$ be $(8, \nu, 2)$-nice. Let $\mc B = \{B_1,\ldots, B_k\} \subseteq \mc X$ be any set with $r = \max_i r(B_i)$ which is $8$-separated, $\nu$-dense and $2$-sparse. Then there exists a set $\mc B(r) = \{B_1',\ldots,B_k'\}$ such that the sets $\mc B(r)$ and $\mc B$ are unique under intersection. That is 
@@ -307,6 +308,7 @@ During each iteration, we find the densest ball of radius $2r$. For each point i
 \end{proof}
 
 \subsection{List of solutions for fixed $t$}
+\label{section:structureT}
 %All algoritthms are polynomial in n and k
 We will first construct an example and show that for fixed $t$, a unique solution is not possible.
 \begin{example}
@@ -489,10 +491,16 @@ Let $t_1 = \nu |\mc X|$ and $t_2 = \frac{|\mc X|}{k}$. Then, using Thm. \ref{thm
 \end{align*}
 \end{proof}
 
-\section{Statistical stability}
+\section{Noise robustness}
+\begin{fact}
+Given a $(\lambda, \nu, \eta)$-nice set $\mc X$ and $k$. It is easy to see that the amount of noise in $\mc X$ upper bounded by $(1-k\nu)|\mc X|$. 
+\end{fact}
+
 
 \section{Conclusion and future work}
+We introduced a new notion of what it means for a dataset to be {\it clusterable} (Defn. \ref{defn:niceness}). Informally, our notion says that a dataset is clusterable if the following conditions hold. Firstly, it can be covered by a well-separated set of $k$ dense balls. Secondly, the noise is sparse. We then examine conditions under which a unique solution exists (Section \ref{section:uniqueR}) and when multiple solutions are possible (Section \ref{section:structureT}). When a unique solution exists, we give an algorithm that finds the solution (Alg. \ref{alg:NotKnown}). In other case, we show that the solution-space has some structure (Lemma \ref{lemma:structureT}) and then give an algorithm which finds those soluitions (Alg. \ref{alg:Known}). Finally, we give an algorithm (Alg. \ref{alg:allB}) which outputs a list containing all the nice solutions. We prove that our algorithms can handle noise which is linear in the size of the dataset. Previous known noise-robust algorithms could only handle a small amount of noise(say $\epsilon$ fraction of the dataset).
 
+In this work, we decomposed our dataset into nice and noise parts. We required that the nice part of the data be covered by separated and dense balls. In future, we want try other formalizations for the nice part of the data. For example, we can require that the nice part of the data has $\alpha$-centre proximity or it has $\nu$-strict separation. We would then like to propose efficient algorithms for these formalizations under sparse noise.
 \bibliographystyle{alpha}
 \bibliography{Clusterability} 
 
