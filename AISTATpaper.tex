@@ -105,12 +105,12 @@ In this work, ....
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Outline}
-This rest of this paper is organized as follows. In section \ref{sec:previous} we will talk about related work on clusterability assumptions and noise robustness. In section~\ref{sec:contribution} we will briefly mention the contribution of this paper and our main results. In section~\ref{sec:problem} we introduce the mathematical notation that we use and present formal definitions. In section~\ref{sec:noise} ... .In section~\ref{sec:future} we conclude our work and discuss future directions.
+This rest of this paper is organized as follows. In section \ref{sec:previous}, we will talk about related work on clusterability assumptions and noise robustness. In section~\ref{sec:contribution}, we will briefly mention the contribution of this paper and our main results. In section~\ref{sec:problem}, we introduce the mathematical notation that we use and present formal definitions. In section~\ref{sec:noise}, ... .In section~\ref{sec:future}, we conclude our work and discuss future directions.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Related Work}
 \label{sec:previous}
 
-Various notions of clusterability has been proposed in the past. The majority of work focus on the fact that clustering can be done efficiently on the data sets that follow some nice structure i.e. they are well clusterable.
+Various notions of clusterability has been proposed in the past. The majority of work focus on the fact that clustering can be done efficiently on the data sets that follow some nice structure i.e., they are well clusterable.
 
 \subsection{Clusterability Assumptions}
 
@@ -205,11 +205,11 @@ Our clusterability assumption is similar in nature to the definition proposed by
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Contribution}
 \label{sec:contribution}
-Table \ref{table:clusterabilitynotions} shows the different notions of clusterability (in the presence of noise) that have been proposed in the literature. All the notions only deal with small quantitative noise. That is, they give efficient clustering algorithms only when there exist a small fraction of noisy points in the data.
+Table~\ref{table:clusterabilitynotions} shows the different notions of clusterability (in the presence of noise) that have been proposed in the literature. All the notions only deal with small quantitative noise. That is, they give efficient clustering algorithms only when there exist a small fraction of noisy points in the data.
 % is small. For example, Balcan et. al \cite{balcan2012clustering} assume that the data follows $(\alpha, \epsilon)$-pertubation resilience property and they give an efficient algorithm for approximating . Their algorithm can only handle noise which is in $O(\epsilon)$. Similarly, other notions of clusterability can only handle a small amount of noise.
-One of the reasons for this is that these algorithms make no additional assumption on noise other than that it should be small. However, it might make more sense to make some structural assumptions on the noise rather than its size. Intuitively, we expect that the noise is \emph{sparse}. That is, it is not `concentrated' at one place and rather spread across the given data set. In other words, we want to say that the noisy points do not pretend to be a cluster. 
+One of the reasons for this is that these algorithms make no additional assumption on noise other than that it should be small. However, it might make more sense to make some structural assumptions on the noise rather than its size. Intuitively, we expect the noise to be\emph{sparse}. That is, it is not ``concentrated" at any place and rather spread across the given data set. In other words, we want to say that the noisy points should not pretend to be a cluster. 
 
-In this work, we want to formalize this assumption as \emph{structural sparse noise}. We define our notion of $\nu$-separated balls with sparse noise. Under this assumption, we give two algorithms. The first algorithm deals with the case when the maximum radius of the balls is known to the algorithm. Ben David et. al \cite{ben2014clustering} work with the same assumption. The other algorithm which is slightly more involved works with the case when the maximum radius is not known. In this case, we output a small list of possible solutions such that one of the clusterings in the list is same (on the non-noisy part of data) as the target clustering. 
+We will formalize the sparsity assumption on noise and define a data set to be clusterable if it contains well separated sufficiently dense balls and the rest of points spread sparsely in the space. {\color{red}[EDIT]} Under this assumption, we give two algorithms. The first algorithm deals with the case when the maximum radius of the balls is known to the algorithm. Ben David et. al \cite{ben2014clustering} work with the same assumption. The other algorithm works with the case when the maximum radius is not known. In this case, we output a small list of possible solutions such that one of the clusterings in the list is same (on the non-noisy part of data) as the target clustering. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem Statement}
@@ -218,9 +218,9 @@ In this section....
 \subsection{Notation}
 For any set $B\subset \mc X$, we denote $c(B)$ as the center of $B$ which is defined as the average of points in $B$. Radius of the set $B$ is defined as $r(B)=\max_{x\in B} |x-c(B)|$. 
 
-A $k$-clustering of the set $\mc X$ is defined as the set $\mc C = \{C_1,\ldots,C_k\}$ such that $C_i \subseteq \mc X$, $\cup C_i = \mc X$ and $C_i \cap C_j = \phi$. For any $x \in \mc X$, if $x \in C_i$, we say that $x$ lies in the $i^{th}$ cluster. Sometimes, we also denote the clustering by $\mc C = \{c_1,\ldots,c_k\}$ where $c_i \in \mc X$. For any $x \in \mc X$, $x$ lies in the cluster given by $\argmin |x-c_i|$.
+A $k$-clustering of the set $\mc X$ is defined as the set $\mc C = \{C_1,\ldots,C_k\}$ such that $C_i \subseteq \mc X$ for all $i\in[k]$ and $\cup_{i\in[k]} C_i = \mc X$ and $C_i \cap C_j = \phi$ for all $i\neq j$. For any $x \in \mc X$, if $x \in C_i$, we say that $x$ lies in the $i^{th}$ cluster. Sometimes, we also denote the clustering $C$ by $\mc C = \{c_1,\ldots,c_k\}$ where $c_i \in \mc X$ for all $i\in[k]$. This means that for any $x \in \mc X$, $x$ lies in the cluster given by $\argmin_{i \in [k]} |\lvert{x-c_i}\rvert|$.
 
-\begin{definition}[Niceness assumption]
+\begin{definition}[Clusterability assumption]
 % Adding C_{k+1} as garbage collector?
 Given a set $\mc X$ and $k$, we say that $\mc X$ is $(\lambda,\nu, \eta)$-nice if there exists balls $\mc B=\{B_1,\ldots,B_k\}\subset \mathcal{X}$ with the following properties.
 \vspace{-3mm}
