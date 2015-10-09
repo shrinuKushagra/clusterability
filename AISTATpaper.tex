@@ -150,18 +150,17 @@ In this section, we discuss notions of clusterability which take noise into acco
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \cite{balcan2012clustering} assume that a big fraction of input data is sufficiently stable and generalize their algorithm to give an approximation of the $k$-means optimal solution. Their approximation guaranty is based on the assumption that the fraction of noisy points is very small.
+Balcan et. al \cite{balcan2008discriminative} consider the problem of finding the ground-truth clustering of the data. They assume that every point of the data set is closer to the points in its true cluster than the points outside. Based on this assumption, they introduce an efficient algorithm which outputs a hierarchical clustering tree. It's claimed that a pruning of this tree is provably close to the true clustering if the size of smallest true cluster is small.
 
-Balcan et. al \cite{balcan2008discriminative} consider the problem of finding the ground-truth clustering of the data. They assume that every point of the data set is closer to the points in its true cluster than the points outside. Based on this assumption, and limiting the size of the smallest true cluster, they introduce an efficient algorithm which outputs a hierarchical clustering tree. It's claimed that a pruning of this tree is provably close to the true clustering.
-
-\cite{ben2014clustering}
+Our clusterability assumption is similar in nature to the definition proposed by Ben-David et al. In \cite{ben2014clustering} a subset of data is defined to have \emph{$\nu$-separated balls} condition, if it can be covered by $k$ well separated balls of bounded radius. Given an input data set with small fraction of noise, Ben-David et al introduce a generic algorithm for how to augment any center-based algorithm to output the underlying $k$-clustering of the un-noisy part of the data.
 
 
-\subsubsection*{$\nu$-Separated Balls \cite{ben2014clustering}}
-\begin{definition}
-Given $\mc X$. Let $\mc I \subseteq \mc X$ be such that $\mc I = \cup_{i=1}^k B_i$ where each $B_i$ is a ball such that rad$(B_i) \le r$ and for all $i \neq j$, $|c(B_i)-c(B_j)| > \nu$ where $c(B)$ denotes the center of a ball.
-\end{definition}
-The remaining part of the data $\mc N = \mc X \setminus \mc I$ denotes the noise. Ben-David et. al \cite{ben2014clustering} give a generic algorithm for how to augment any center-based algorithm into one which is robust to noise. For small noise, the robustified algorithm outputs a clustering $\mc C'$ of $\mc X$ such that $\mc C'|_{\mc I}$ is the optimal clustering of $\mc I$.
-
+%\subsubsection*{$\nu$-Separated Balls \cite{ben2014clustering}}
+%\begin{definition}
+%Given $\mc X$. Let $\mc I \subseteq \mc X$ be such that $\mc I = \cup_{i=1}^k B_i$ where each $B_i$ is a ball such that rad$(B_i) \le r$ and for all $i \neq j$, $|c(B_i)-c(B_j)| > \nu$ where $c(B)$ denotes the center of a ball.
+%\end{definition}
+%The remaining part of the data $\mc N = \mc X \setminus \mc I$ denotes the noise. Ben-David et. al \cite{ben2014clustering} give a generic algorithm for how to augment any center-based algorithm into one which is robust to noise. For small noise, the robustified algorithm outputs a clustering $\mc C'$ of $\mc X$ such that $\mc C'|_{\mc I}$ is the optimal clustering of $\mc I$.
+%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsubsection*{$(\alpha, \epsilon)$-Pertubation Resilience \cite{balcan2012clustering}}
