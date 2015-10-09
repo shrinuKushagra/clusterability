@@ -111,8 +111,8 @@ Various notions of clusterability has been proposed in the past. The majority of
 \subsection{Clusterability Assumptions}
 
 
-Bilu et al \cite{bilu2012stable} consider an input of an optimization problem to be \emph{stable} if small perturbations of the input does not change the optimal solution. Specially, they give an efficient algorithm to find the max-cut of decently stable graphs.
-In the same direction, \cite{awasthi2012center, balcan2012clustering}, consider similar condition on the input of center-based clustering tasks, and proposed efficient algorithms that outputs the optimal clustering of the data for sufficiently stable input. Another natural assumption \cite{ackerman2009clusterability} is that cost of optimal clustering should not change considerably if the centers of optimal clusters are slightly perturbed. Given this condition, Ackerman et al design an efficient clustering algorithms that outputs a clustering with near-optimal cost. 
+Bilu et al. \cite{bilu2012stable} consider an input of an optimization problem to be \emph{stable} if small perturbations of the input does not change the optimal solution. Specially, they give an efficient algorithm to find the max-cut of sufficiently stable graphs.
+In the same direction, \cite{awasthi2012center, balcan2012clustering}, consider similar condition on the input of center-based clustering tasks, and propose efficient algorithms that outputs the optimal clustering of the data. Another natural assumption \cite{ackerman2009clusterability} on the data is that cost of optimal clustering should not change considerably if the centers of optimal clusters are slightly perturbed. Given this condition, Ackerman et al. design an efficient clustering algorithm that outputs a clustering with near-optimal cost. 
 
 %The last clusterability assumption that we want to mention is called {$\alpha$-Center Proximity\cite{awasthi2012center}} and is similar in nature to the condition that we suggest. The definition basically says that a point is $\alpha$-times closer to its own center than to any other center. 
 %
@@ -140,7 +140,7 @@ In the same direction, \cite{awasthi2012center, balcan2012clustering}, consider 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Clusterability with noise}
-All the clusterability notions discussed so far assume that the entire data set enjoys some nice property. This can be unreasonable in the real-life situations. A more realistic scenario would be the one in which most of the input data have a given nice structure but the remaining points violate it. The fraction of points that violate the niceness condition is referred to as noise.
+All the clusterability notions discussed so far assume that the entire data set enjoys some nice property. This can be unreasonable in the real-life situations. A more realistic scenario would be the one in which most of the input data have a given nice structure but the remaining points violate the structure. The fraction of points that disrigard the niceness property is referred to as noise.
 %(for eg. $\alpha$-pertubation resilience)
 In this section, we discuss notions of clusterability which take noise into account. 
 
@@ -150,7 +150,8 @@ In this section, we discuss notions of clusterability which take noise into acco
 \cite{balcan2012clustering} assume that a big fraction of input data is sufficiently stable and generalize their algorithm to give an approximation of the $k$-means optimal solution. Their approximation guaranty is based on the assumption that the fraction of noisy points is very small.
 Balcan et. al \cite{balcan2008discriminative} consider the problem of finding the ground-truth clustering of the data. They assume that every point of the data set is closer to the points in its true cluster than the points outside. Based on this assumption, they introduce an efficient algorithm which outputs a hierarchical clustering tree. It's claimed that a pruning of this tree is provably close to the true clustering if the size of smallest true cluster is small.
 
-Our clusterability assumption is similar in nature to the definition proposed by Ben-David et al. In \cite{ben2014clustering} a subset of data is defined to have \emph{$\nu$-separated balls} condition, if it can be covered by $k$ well separated balls of bounded radius. Given an input data set with small fraction of noise, Ben-David et al introduce a generic algorithm for how to augment any center-based algorithm to output the underlying $k$-clustering of the un-noisy part of the data.
+Our clusterability assumption is similar in nature to the definition proposed by Ben-David et al. In \cite{ben2014clustering}, a subset of data is defined to have \emph{$\nu$-separated balls} condition, if it can be covered by $k$ balls of bounded radius which are separated by distance at least $\nu$. Given an input data set with small fraction of noise, Ben-David et al. introduce a generic algorithm for how to augment any center-based algorithm to output the underlying $k$-clustering of the un-noisy part of the data.
+
 
 
 %\subsubsection*{$\nu$-Separated Balls \cite{ben2014clustering}}
@@ -187,20 +188,21 @@ Our clusterability assumption is similar in nature to the definition proposed by
 \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\textbf{Clusterability} \\ \textbf{Notion}\end{tabular}} &  & \textbf{Small noise} &  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}\textbf{Structural}\\ \textbf{noise}\end{tabular}} \\ 
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{}\\\hline
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{}\\
-\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}$\nu$-separated balls\\ ($r$ known)\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}$O\big(\frac{1}{k+1}\big)$ \\ \cite{ben2014clustering} \end{tabular}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c}{Alg. \ref{alg:NotKnown}} \\
+\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}$\nu$-separated balls\\ (known radius)\\ \cite{ben2014clustering}\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}$O\big(\frac{1}{k+1}\big)$ \end{tabular}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c}{Alg. \ref{alg:NotKnown}} \\
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} \\ 
-\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}$\nu$-separated balls\\ ($r$ unknown)\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{$??$} & \multicolumn{1}{c|}{} & \multicolumn{1}{c}{Alg. \ref{alg:Known}} \\
+\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}$\nu$-separated balls\\ (unknown radius)\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{$??$} & \multicolumn{1}{c|}{} & \multicolumn{1}{c}{Alg. \ref{alg:Known}} \\
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} \\
-\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}$(\alpha, \epsilon)$-pertubation \\ resilience\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}$O(\epsilon)$\\ \cite{balcan2012clustering}\end{tabular}} & \multicolumn{1}{c|}{} & \emph{Current work} \\
+\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}
+$(\alpha, \epsilon)$-pertubation \\ resilience \\\cite{balcan2012clustering}\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}$O(\epsilon)$\end{tabular}} & \multicolumn{1}{c|}{} & \emph{Current work} \\
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} \\ 
-\multicolumn{1}{c|}{$\nu$-strict separation} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}} $O(\nu)$ \\ \cite{balcan2008discriminative}\end{tabular}} & &\emph{Future work} \\ \hline
+\multicolumn{1}{c|}{$\nu$-strict separation}\\\cite{balcan2008discriminative} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}} $O(\nu)$ \\ \end{tabular}} & &\emph{Future work} \\ \hline
 \end{tabular}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Contribution}
-Table \ref{table:clusterabilitynotions} shows the different notions of clusterability that have been proposed in the literature. All the notions only deal with quantitative noise. That is, they give efficient algorithms when the noise is small. For example, Balcan et. al \cite{balcan2012clustering} give an algorithm for $(\alpha, \epsilon)$-pertubation resilience. Their algorithm can only handle noise which is in $O(\epsilon)$. Similarly, other notions of clusterability can only handle a small amount of noise.
-
+Table \ref{table:clusterabilitynotions} shows the different notions of clusterability (in the presence of noise) that have been proposed in the literature. All the notions only deal with small quantitative noise. That is, they give efficient clustering algorithms only when there exist a small fraction of noisy points in the data.
+% is small. For example, Balcan et. al \cite{balcan2012clustering} assume that the data follows $(\alpha, \epsilon)$-pertubation resilience property and they give an efficient algorithm for approximating . Their algorithm can only handle noise which is in $O(\epsilon)$. Similarly, other notions of clusterability can only handle a small amount of noise.
 One of the reasons for this is that these algorithms make no additional assumption on noise other than that it should be small. However, it might make more sense to make some structural assumptions on the noise rather than its size. Intuitively, we expect that the noise is \emph{sparse}. That is, it is not `concentrated' at one place and rather spread across the given data set. In other words, we want to say that the noisy points do not pretend to be a cluster. 
 
 In this work, we want to formalize this assumption as \emph{structural sparse noise}. We define our notion of $\nu$-separated balls with sparse noise. Under this assumption, we give two algorithms. The first algorithm deals with the case when the maximum radius of the balls is known to the algorithm. Ben David et. al \cite{ben2014clustering} work with the same assumption. The other algorithm which is slightly more involved works with the case when the maximum radius is not known. In this case, we output a small list of possible solutions such that one of the clusterings in the list is same (on the non-noisy part of data) as the target clustering. 
