@@ -20,6 +20,7 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}[theorem]{Example}
 
 \newcommand{\ConjName}[1]{\label{con:#1}}
 \newcommand{\Conj}[1]{Conjecture~\ref{con:#1}}
@@ -262,28 +263,32 @@ We consider the following different goals for a clustering algorithm.
 
 The goal of unique solution is very ambitious. In general, a unique solution doesn't always exist. In this section, we wish to examine conditions under which the solution is unique. If the solution is not unique we wish to output a {\em list of solutions}.  
 
-Given any set $\mc B = \{B_1,\ldots, B_k\}$ which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. We consider two possible parametrizations of the set $\mc B$. First is the maximum radius $r = \max_i r(B_i)$. The second is the number of points in the smallest ball $t = \min_i |B_i|$.
+Given any set $\mc B = \{B_1,\ldots, B_k\}$ which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. We consider two possible parametrizations of the set $\mc B$. First is the maximum radius $r = \max_i r(B_i)$. We show that for fixed $r$, it is possible to get a unique solution. The second is the number of points in the smallest ball $t = \min_i |B_i|$. In this case, we construct a list of possible solutions. Finally, we get rid of both the paramerizations and construct a list of solutions for any $\mc B$.
 
-\subsection{Unique solution for fixed $r = \max \thinspace r(B_i)$}
+\subsection{Unique solution for fixed $r$}
 \begin{lemma}
 \label{lemma:uniqueR}
-Let $\mc X$ be $(\lambda, \nu, \eta)$-nice. Let $\mc B' = \{B_1',\ldots, B_k'\} \subseteq \mc X$ be any set with $r = \max_i r(B_i)$ which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. Then there exists a set $\mc B(r) = \{B_1,\ldots,B_k\}$ such that the sets $\mc B(r)$ and $\mc B'$ are unique under intersection. That is 
+Let $\mc X$ be $(8, \nu, 2)$-nice. Let $\mc B = \{B_1,\ldots, B_k\} \subseteq \mc X$ be any set with $r = \max_i r(B_i)$ which is $8$-separated, $\nu$-dense and $2$-sparse. Then there exists a set $\mc B(r) = \{B_1',\ldots,B_k'\}$ such that the sets $\mc B(r)$ and $\mc B$ are unique under intersection. That is 
 \begin{itemize}[nolistsep]
 \item For all $i$, $B_i \cap B_i' \neq \phi$. 
 \item For all $i\neq j$, $B_i \cap B_j' = \phi$.
 \end{itemize}
 \end{lemma} 
 \begin{proof}
+Let $B_1'$ be the densest ball of radius $2r$ such that $c(B_1') \in \mc X$. Assume for the sake of contradiction, that $B_1'$ is such that for all $i$, $B_1' \cap B_i = \phi$. Now, $B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\} = B_1'$. Observe that $|B_1'| \ge \min_i |B_i|$. Thus, $|B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\}| \ge \min |B_i|$ which contradicts the fact that $\mc B$ satisfies the sparseness condition. Thus, $\exists i$ s.t. $B_i \cap B_1' \neq \phi$. $\lambda \ge 8$ implies that $B_1' \cap B_j = \phi$ for all $j \neq i$. Without loss of generality, let $B_i = B_1$. 
+
+Let $\mc X_1 = \mc X \setminus B_{4r}(c(B_1'))$. Observe that $B_1 \subseteq B_{4r}(c(B_1'))$ and hence $X_1 \cap B_1 = \phi$. Let $B_2'$ be the densest ball with $c(B_2') \in \mc X_1$. Now, using the same argument as above, we get that $B_2' \cap B_2 \neq \phi$ and $B_2' \cap B_i = \phi$ for all $i\neq 2$. Now, we define $\mc X_2 = \mc X_1 \setminus B_{4r}(c(B_2'))$. Repeating this process $k$ times gives balls $B_1', \ldots, B_k'$ with the desired properties.
 \end{proof}
 
 \begin{theorem}
 \label{theorem:uniqueR}
-Let $\mc X, \mc B', \mc B(r)$ be as defined in Lemma \ref{lemma:uniqueR}. Let $\mc C(r)$ be the clustering induced by the centers of $\mc B(r)$. Then, $\mc C(r)|_{B'} = \{B_1', \ldots, B_k'\}$. 
+Let $\mc X, \mc B, \mc B(r)$ be as defined in Lemma \ref{lemma:uniqueR}. Let $\mc C(r)$ be the clustering induced by the centers of $\mc B(r)$. Then, $\mc C(r)|_{\mc B} = \{B_1, \ldots, B_k\}$. 
 \end{theorem}
 \begin{proof}
+Let $x \in B_i$. Observe that, $|c(B_i)-c(B_i')| \le 3r$ and for all $j\neq i$, $|c(B_i')-c(B_j)| > 5r$. Now, $|x-c(B_i')| \le |x-c(B_i)| + |c(B_i')-c(B_i)| \le r+3r = 4r$. For $j \neq i$, $|x-c(B_j')| \ge |c(B_j')-c(B_i)| - |x-c(B_i)| > 5r - r = 4r$. Hence, we see that the clustering $\mc C(r)$ assigns $x$ to the $i^{th}$ cluster. Hence, $\mc C(r)|_\mc B = \{B_1,\ldots,B_k\}$.
 \end{proof}
 
-Thm. \ref{theorem:uniqueR} shows that for a fixed value of $r$, $\mc C(r)$ is the unique solution for all $\mc B'$ such that $\max_i r(B_i') = r$. The proof of Lemma \ref{lemma:uniqueR} actually gives an algorithm   
+Thm. \ref{theorem:uniqueR} shows that for a fixed value of $r$, $\mc C(r)$ is the unique solution for all $\mc B'$ such that $\max_i r(B_i') = r$. The proof of Lemma \ref{lemma:uniqueR} actually gives an algorithm for finding the set $\mc B(r)$ and the clustering $\mc C(r)$ which we describe next. Note that for a given $r$, if there exists a set $\mc B = \{B_1,\ldots,B_k\}$ which is $8$-separated, $\nu$-dense and $2$-sparse such that $\max r(B_i) = r$, then Alg. \ref{alg:NotKnown} finds a clustering which is consistent with $\mc B$.
 
 \begin{algorithm}
 \begin{alg}
@@ -297,29 +302,8 @@ Thm. \ref{theorem:uniqueR} shows that for a fixed value of $r$, $\mc C(r)$ is th
 \item[] Output $\mc B'$ and the clustering $\mc C'$ induced by $c(\mc B')$.
 \label{alg:NotKnown}
 \end{alg}
-\caption{Alg. for known $\max{r(B_i)}$}
+\caption{Alg. for fixed $\max \thinspace r(B_i)$}
 \end{algorithm}
-
-\begin{theorem}
-Given a $(2,8)$-nice set $\mc X$. Let $\mc B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Given $r = \max r(B_i)$, then Algorithm \ref{alg:NotKnown} outputs a set $\mc B' = \{B_1',\ldots,B_k'\}$ such that 
-\begin{itemize}
-	\item The sets $\mc B$ and $\mc B'$ are unique under intersection. That is there exists a permutation of the set $\mc B$ such that, for all $i\neq j$, $B_i \cap B_j' = \phi$ and for all $i$, $B_i \cap B_i' \neq \phi$
-	\item The clustering $\mc C'$ induced by $\mc B'$ is such that $\mc C'|_\mc B = \{B_1,\ldots,B_k\}$.	
-\end{itemize}
-
-\end{theorem}
-\begin{proof} Let $B_1',\ldots,B_i'$ be the balls found till the $i^{th}$ iteration. Also, observe that after every iteration we delete some points from $\mc X$. Let $\mc X_i$ denote the points in $\mc X$ after the $i^{th}$ iteration. 
-
-\textit{Induction hypothesis}: For all $1\le i \le l$, $B_i \cap B_i' \neq \phi$ and $X_l \cap \{\cup_{i=1}^l B_i\} = \phi$.
-
-\textit{Base case}: We wish to prove that $B_1 \cap B_1' \neq \phi$. Assume for the sake of contradiction, that $B_1'$ is such that for all $i$, $B_1' \cap B_i = \phi$. Now, $B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\} = B_1'$. Observe that $B_1'$ is the densest ball of radius $2r$ with $c(B_1') \in \mathcal{X}$. Hence, for all $i$, $|B_1'| \ge |B_i|$. Hence, $|B_1'| \ge \min_{i=1}^k |B_i|$. Thus, $|B_1' \cap \{X \backslash \cup_{i\in[k]} B_i\}| \ge \min |B_i|$ which contradicts the fact that $\mc B$ satisfies the sparseness condition. Thus, $\exists i$ s.t. $B_i \cap B_1' \neq \phi$. Without loss of generality, let $B_i = B_1$. Now, $r(B_1) \le r$, $r(B_1') = 2r$ and $B_1 \cap B_1' \neq \phi$, hence $|c(B_1')-c(B_1)| \le 3r$. Thus, $B_1 \subseteq B_{4r}(c(B_1'))$ and hence $X_1 \cap B_1 = \phi$. 
-
-\textit{Induction step}: We are given that for all $1\le i \le l$, $B_i \cap B_i' \neq \phi$. We wish to prove that $B_{l+1} \cap B_{l+1}' \neq \phi$. The proof for the induction step follows the exact same arguments as the base case.
-
-Hence, we get that for all $i$, $B_i \cap B_i' = \phi$. Separation $\nu = 8$ implies that for all $j\neq i$, $B_i' \cap B_j' = \phi$ and $B_i' \cap B_j = \phi$. This completes the proof of the first part of the theorem.
-
-Let $x \in B_i$. Observe that, $|c(B_i)-c(B_i')| \le 3r$ and for all $j\neq i$, $|c(B_i')-c(B_j)| > 5r$. Now, $|x-c(B_i')| \le |x-c(B_i)| + |c(B_i')-c(B_i)| \le r+3r = 4r$. For $j \neq i$, $|x-c(B_j')| \ge |c(B_j')-c(B_i)| - |x-c(B_i)| > 5r - r = 4r$. Hence, we see that the clustering $\mc C'$ assigns $x$ to the $i^{th}$ cluster. Hence, $\mc C'|_\mc B = \{B_1,\ldots,B_k\}$.
-\end{proof}
 
 \begin{theorem}
 Algorithm \ref{alg:NotKnown} runs in time $O($poly$(|\mathcal{X}|,k))$.
@@ -328,10 +312,27 @@ Algorithm \ref{alg:NotKnown} runs in time $O($poly$(|\mathcal{X}|,k))$.
 During each iteration, we find the densest ball of radius $2r$. For each point in $\mathcal{X}$, we count the number of points whose distance is $\le 2r$. This can take $O(n)$ in the worst case. Hence, finding the densest ball takes $O(n^2)$ time. Similarly, deleting points from $\mathcal{X}$ takes $O(n^2)$ time. Hence, the for-loop takes $O(n^2k)$ time.
 \end{proof}
 
-\subsection{Finding a solution for  fixed $t = \min |B_i|$}
+\subsection{List of solutions for fixed $t$}
 %All algoritthms are polynomial in n and k
-In this case, we assume that the algorithm doesn't know the value of $r = \max r(B_i)$. We assume that the algorithm knows the number of points in the smallest cluster $\min |B_i| = t$ (say). This algorithm works in two phases.
+We will first construct an example and show that for fixed $t$, a unique solution is not possible.
+\begin{example}
+\label{example:notuniqueT}
+Let $\mc X \subseteq \mathbf{R}^2$ be the following. Let $B_1 = B((-0.9, 0.0), 0.1)$, $B_2 = B((0.9, 0.0), 0.1)$ and $B_3 = B((8.0, 0.0), 1)$ and each $B_i$ contains $t$ points. Let $\mc X = B_1 \cup B_2 \cup B_3$ and $k = 2$.
 
+Let $\mc B = \{B_1, B_2\}$ and $\mc B' = \{B((0,0), 1), B_3\}$. It is easy to see that both $\mc B$ and $\mc B'$ are $8$-separated, $1/3$-dense and $1$-sparse. However, no clustering exists that can be consistent with both $\mc B$ and $\mc B'$.
+\end{example}
+
+\begin{lemma}
+\label{lemma:structureT}
+Let $\mc X$ be $(\lambda, \nu, \eta)$-nice. Let $\mc B = \{B_1,\ldots, B_k\} \subseteq \mc X$ and $\mc B' = \{B_1',\ldots, B_k'\} \subseteq \mc X$ be two sets which are $\lambda$-separated, $\nu$-dense and $\eta$-sparse. Let $t = \min_i |B_i| = \min_i |B_i'|$. WLOG, assume that $\max r(B_i) = r_1 < r_2 = \max r(B_i')$. Then, for all $i$, there exists $j$ such that $B_i \cap B_j' \neq \phi$.
+\end{lemma} 
+\begin{proof}
+Assume that there exists $B_i$ such that for all $B_j'$, $B_i \cap B_j' = \phi$. Now, $B_i$ violates the sparseness condittion w.r.t $\mc B'$. Hence, such a ball $B_i$ cant exist. 
+\end{proof}
+
+Example \ref{example:notuniqueT} and Lemma \ref{lemma:structureT} together show that although a unique solution is not possible but the solution has some structure. Namely, the set $\mc B$ with the smallest $r$ must intersect with ones which have greater $r$. 
+
+We present an algorithm (Alg. \ref{alg:Known}) which outputs a list of clusterings $\mc L$. We will then show that for any ball $\mc B$ with $\min |B_i| = t$, $\mc L$ contains a clustering which is consistent with $\mc B$.
 \begin{algorithm}
 \begin{alg}
 \item[] \textbf{Phase 1:}
@@ -372,24 +373,24 @@ In this case, we assume that the algorithm doesn't know the value of $r = \max r
 \item[] Output $\mc L$ %and $T$.
 \label{alg:Known}
 \end{alg}
-\caption{Alg. for known $\min{B_i}$}
+\caption{Alg. for fixed $\min|B_i|$}
 \end{algorithm}
 
 Before we prove any results about the algorithm, we need to define some quantities and conventions that will be used in the proof.
-\begin{itemize}
-\item $\mc B = \{B_1, \ldots, B_k\}$ - The set of balls in the dataset $\mc X$ that satisfy the separation and sparseness condition (Defn. \ref{defn:niceness})
+\begin{itemize}[nolistsep,noitemsep]
+\item $\mc B = \{B_1, \ldots, B_k\}$ - Any set of balls in the dataset $\mc X$ that satisfies the separation, density and sparseness condition.
 \item $\mc S = \{B_1', \ldots, B_p'\}$ - The set of balls found in the first phase of Alg. \ref{alg:Known}. 
 \item $L_C = \{c_1, \ldots, c_p\}$ - The set of centers of the balls in $\mc S$.  
 \end{itemize}
 Note that we denote the balls that were found by the Alg. \ref{alg:Known} as $B_i'$ and their centers by $c_i$. 
-\begin{itemize}
+\begin{itemize}[nolistsep,noitemsep]
 \item $\mc L = \{\mc C_k, \ldots, \mc C_p\}$ - The set of possible clusterings outputed by Alg. \ref{alg:Known}. 
 \end{itemize}
 
 \begin{definition}[Good Index]
 \label{defn:goodIdx}
 Let $\mc B, \mc L$ and $\mc S$ be as defined above. We say that an index $g$ is good if it has the following properties.
-\begin{itemize}
+\begin{itemize}[nolistsep,noitemsep]
 \item $\forall i \le g$, $\exists m$ such that $B_i' \cap B_m \neq \phi$
 %\item $\forall m$, $B_{g+1}' \cap B_m = \phi$
 \item $\forall m$, $\exists i \le g$ such that $B_i' \cap B_m \neq \phi$
