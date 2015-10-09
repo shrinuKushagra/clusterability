@@ -142,22 +142,18 @@ The last clusterability assumption that we want to mention is called {$\alpha$-C
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Clusterability with noise}
-All the clusterability notions discussed so far assume that the entire data set enjoys some nice property. This can be unreasonable in the real-life situations. A more realistic scenario would be the one in which most of the input data have a given nice structure but the remaining points violate it. The fraction of points that violate the niceness condition is referred to as npise.
+All the clusterability notions discussed so far assume that the entire data set enjoys some nice property. This can be unreasonable in the real-life situations. A more realistic scenario would be the one in which most of the input data have a given nice structure but the remaining points violate it. The fraction of points that violate the niceness condition is referred to as noise.
 %(for eg. $\alpha$-pertubation resilience)
 In this section, we discuss notions of clusterability which take noise into account. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\cite{balcan2012clustering} generalize their algorithm to give an approximation of the $k$-means optimal solution for the data sets which satisfy $\alpha$-perturbation resilience for a big fraction of the points. Their result approximation guaranty is based on the assumption that the fraction of noisy points is very small.
+\cite{balcan2012clustering} assume that a big fraction of input data is sufficiently stable and generalize their algorithm to give an approximation of the $k$-means optimal solution. Their approximation guaranty is based on the assumption that the fraction of noisy points is very small.
 
+Balcan et. al \cite{balcan2008discriminative} consider the problem of finding the ground-truth clustering of the data. They assume that every point of the data set is closer to the points in its true cluster than the points outside. Based on this assumption, and limiting the size of the smallest true cluster, they introduce an efficient algorithm which outputs a hierarchical clustering tree. It's claimed that a pruning of this tree is provably close to the true clustering.
 
 \cite{ben2014clustering}
-
-
-
-Balcan et. al \cite{balcan2008discriminative}
-
 
 
 \subsubsection*{$\nu$-Separated Balls \cite{ben2014clustering}}
@@ -175,11 +171,11 @@ The remaining part of the data $\mc N = \mc X \setminus \mc I$ denotes the noise
 %$(\alpha, \epsilon)$-pertubation resilience is a natural relxation of $\alpha$-pertubation resilience. Balcan et. al \cite{balcan2012clustering} obtained positive results for $(\alpha, \epsilon)$-PR when $\phi$ is the $k$-median objective function. They give a polynomial-time algorithm which produces a $O(1+\epsilon/\rho)$ ($\rho$ is fraction of points in the smallest cluster) approximation to the optimum provided $\alpha > 2 + \sqrt{7}$. The number of noisy points that they can handle for the $k$-median objective is $\le n\epsilon$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection*{$\nu$-Strict Separation \cite{balcan2008discriminative}}
-\begin{definition}
-Given $(\mc X, d)$. Let $C(x)$ denote the cluster to which $x$ belongs. We say that $\mc X$ has strict separation if for all $y \in C(x)$ and for all $z \not\in C(x)$, $d(x,y) < d(x,z)$. We say that $\mc X$ has $\nu$-strict separation if there exists $\mc X' \subseteq \mc X$ such that $|\mc X\setminus \mc X'| < \nu|\mc X|$ and $\mc X'$ has strict separation.
-\end{definition}
-Balcan et. al \cite{balcan2008discriminative} show that if size of the smallest cluster is greater than $5\nu|\mc X|$ then their algorithm produces a hierarchical clustering tree such that a pruning of the tree is $\nu$-close to the ground truth clustering. 
+%\subsubsection*{$\nu$-Strict Separation \cite{balcan2008discriminative}}
+%\begin{definition}
+%Given $(\mc X, d)$. Let $C(x)$ denote the cluster to which $x$ belongs. We say that $\mc X$ has strict separation if for all $y \in C(x)$ and for all $z \not\in C(x)$, $d(x,y) < d(x,z)$. We say that $\mc X$ has $\nu$-strict separation if there exists $\mc X' \subseteq \mc X$ such that $|\mc X\setminus \mc X'| < \nu|\mc X|$ and $\mc X'$ has strict separation.
+%\end{definition}
+%Balcan et. al \cite{balcan2008discriminative} show that if size of the smallest cluster is greater than $5\nu|\mc X|$ then their algorithm produces a hierarchical clustering tree such that a pruning of the tree is $\nu$-close to the ground truth clustering. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
