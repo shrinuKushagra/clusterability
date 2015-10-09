@@ -87,8 +87,8 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Abstract}
-
+\begin{abstract}
+\end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 Clustering is the process of partitioning a given data set such that objects in the same partition are similar to one another while objects in different partitions are different. The most common clustering methods are often either linkage-based or center-based. In linkage based clustering, the goal is not to find a single partition but a hiearchy of partitions represented using a clustering tree (hierarchical clustering). These methods start by having each point in its own cluster. Then, two closest (or most similar) clusters are merged together using some similarity measure until the whole data is just a single cluster. One of the common drawbacks of these methods is that they are not robust to noise \cite{narasimhan2005q}. 
@@ -185,17 +185,16 @@ Our clusterability assumption is similar in nature to the definition proposed by
 \begin{tabular}{c|ccc|c}
 \hline
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{}\\
-\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\textbf{Clusterability} \\ \textbf{Notion}\end{tabular}} &  & \textbf{Small noise} &  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}\textbf{Structural}\\ \textbf{noise}\end{tabular}} \\ 
+\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}\textbf{Clusterability} \\ \textbf{Notion}\end{tabular}} &  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}\textbf{Small}\\ \textbf{noise}\end{tabular}} &  & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}\textbf{Structural}\\ \textbf{noise}\end{tabular}} \\ 
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{}\\\hline
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{}\\
 \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}$\nu$-separated balls\\ (known radius)\\ \cite{ben2014clustering}\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}$O\big(\frac{1}{k+1}\big)$ \end{tabular}} & \multicolumn{1}{c|}{} & \multicolumn{1}{c}{Alg. \ref{alg:NotKnown}} \\
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} \\ 
 \multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}$\nu$-separated balls\\ (unknown radius)\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{$??$} & \multicolumn{1}{c|}{} & \multicolumn{1}{c}{Alg. \ref{alg:Known}} \\
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} \\
-\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}
-$(\alpha, \epsilon)$-pertubation \\ resilience \\\cite{balcan2012clustering}\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}$O(\epsilon)$\end{tabular}} & \multicolumn{1}{c|}{} & \emph{Current work} \\
+\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}$(\alpha, \epsilon)$-pertubation \\ resilience \\\cite{balcan2012clustering}\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}$O(\epsilon)$\end{tabular}} & \multicolumn{1}{c|}{} & \emph{Future work} \\
 \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l}{} \\ 
-\multicolumn{1}{c|}{$\nu$-strict separation}\\\cite{balcan2008discriminative} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}} $O(\nu)$ \\ \end{tabular}} & &\emph{Future work} \\ \hline
+\multicolumn{1}{c|}{\begin{tabular}[c]{@{}c@{}}{$\nu$-strict separation}\\\cite {balcan2008discriminative}\end{tabular}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}} $O(\nu)$ \\ \end{tabular}} & &\emph{Future work} \\ \hline
 \end{tabular}
 \end{table}
 
@@ -424,6 +423,7 @@ We will use Lemma \ref{lemma:goodIdx} and the  triangle equality to prove the tw
 \end{proof}
 
 \begin{theorem}
+\label{thm:givenT}
 Given a $(12,\nu,2)$-nice set $\mc X$. Let $\mc B = \{B_1,\ldots,B_k\}$ be any set which is $12$-separated, $\nu$-dense and $2$-sparse and such that $\min |B_i| = t$. Then Algorithm \ref{alg:Known} outputs a list $\mc L$ of possible clusterings of size $|\mc L| \in O(|\mc X|/t)$. $\mc L$ contains a clustering $\mc C$ such that $\mc C|_{\mc B} = \{B_1,\ldots,B_k\}$.
 \end{theorem}
 
@@ -455,6 +455,7 @@ Hence, we see that the clustering $\mc C_g$ assigns $x$ to the $i^{th}$ cluster.
 \end{proof}
 
 \subsection{List of solutions for any $\mc B$}
+
 \begin{algorithm}
 \begin{alg}
 \item[] Input : $\mc X$, $k$ and parameters $\lambda$, $\nu$ and $\eta$.
@@ -471,7 +472,26 @@ Output $\mc L$.
 \caption{Alg. for any $\mc B$}
 \end{algorithm}
 
+\begin{theorem}
+Given a $(12,\nu,2)$-nice set $\mc X$ and $k$. Let $\mc B = \{B_1,\ldots,B_k\}$ be any set which is $12$-separated, $\nu$-dense and $2$-sparse. Then Algorithm \ref{alg:allB} outputs a list $\mc L$ of possible clusterings such that
+\begin{itemize}[nolistsep, noitemsep]
+\item $|\mc L| \in O(|\mc X|\log |\mc X|)$. 
+\item $\mc L$ contains a clustering $\mc C$ such that $\mc C|_{\mc B} = \{B_1,\ldots,B_k\}$.
+\end{itemize}
+\end{theorem}
 
+\begin{proof}
+Let $\mc B = \{B_1,\ldots,B_k\}$ be any set which is $12$-separated, $\nu$-dense and $2$-sparse. Let $t = \min |B_i|$. We know that $\nu |\mc X| \le t \le |\mc X|/k$. Let $\mc O$ be the list of clusterings outputed when we run Alg. \ref{alg:Known} with $|\min B_i| = t$. We know that there exists $\mc C \in \mc O$ such that $\mc C$ is consistent with $\mc B$. Hence, $\mc C \in \mc L$.
+
+Let $t_1 = \nu |\mc X|$ and $t_2 = \frac{|\mc X|}{k}$. Then, using Thm. \ref{thm:givenT}, we see that 
+\begin{align*}
+	|\mc L| \le |\mc X|\Big(\frac{1}{t_1}+\ldots+\frac{1}{t_2}\Big) \in O(|\mc X|\log |\mc X|)
+\end{align*}
+\end{proof}
+
+\section{Statistical stability}
+
+\section{Conclusion and future work}
 
 \bibliographystyle{alpha}
 \bibliography{Clusterability} 
