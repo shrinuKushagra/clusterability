@@ -353,6 +353,10 @@ We present an algorithm (Alg. \ref{alg:Known}) which outputs a list of clusterin
 \item[] \textbf{Phase 2:}
 %\begin{itemize}
 \item[] Let $L_C$ denote the list of centers of balls found in the first phase. That is, $L_C = (c_1,\ldots,c_p)$ where $c_i = c(B_i')$.
+\item[] if $p < k$
+\begin{itemize}
+	\item[] No solution exists. Exit. 
+\end{itemize}
 \item[] Let $\mc L$ denote the list of clusterings found so far. Initialize $\mc L := \phi$
 \item[] Let $\mc C_i$ denote the current clustering. Initialize $\mc C_k = \{c_1,\ldots,c_k\}$.
 \item[] for $i=k+1$ to $p$
@@ -374,7 +378,7 @@ We present an algorithm (Alg. \ref{alg:Known}) which outputs a list of clusterin
 
 Before we prove any results about the algorithm, we need to define some quantities and conventions that will be used in the proof.
 \begin{itemize}[nolistsep,noitemsep]
-\item $\mc B = \{B_1, \ldots, B_k\}$ - Any set of balls in the dataset $\mc X$ that satisfies the separation, density and sparseness condition.
+\item $\mc B = \{B_1, \ldots, B_k\}$ - Any set of balls in the dataset $\mc X$ which is $12$-separated, $\nu$-dense and $2$-sparse and $\min |B_i| = t$.
 \item $\mc S = \{B_1', \ldots, B_p'\}$ - The set of balls found in the first phase of Alg. \ref{alg:Known}. 
 \item $L_C = \{c_1, \ldots, c_p\}$ - The set of centers of the balls in $\mc S$.  
 \end{itemize}
@@ -395,34 +399,21 @@ The next lemma shows that there exists a good index.
 \end{definition}
 
 \begin{lemma}
-Given a $(2,12)$-nice set $\mc X$. Let $\mc B, \mc L$ and $\mc S$ be as defined above. Define $r:= \max r(B_i)$. Then there exists an index $g$ which is good (Defn. \ref{defn:goodIdx}).
+Given a $(12,\nu,2)$-nice set $\mc X$. Let $\mc B, \mc L$ and $\mc S$ be as defined above. Define $r:= \max r(B_i)$. Then there exists an index $g$ which is good (Defn. \ref{defn:goodIdx}). In addition, for all $i\le g$, $r(B_i') \le 2r$.
 \label{lemma:goodIdx}
 \end{lemma}
 
 \begin{proof}
-Let $\mc T = \{i: B_i' \cap B_m = \phi$ for all $m\}$. If $\mc T = \phi$ then let $q = p+1$. Otherwise let $q = \min(\mc T)$. We will claim that $g = q-1$ is the required good index in both cases.
+Let $\mc T = \{i: r(B_i') \le 2r\}$. Let $g = \max(\mc T)$. We will claim that $g$ is the required good index. We will prove that it has both the properties by contradiction. 
 
-From the definition of the set $\mc T$ and $g$, we know that $\forall i \le g$, $B_i' \cap B_m \neq \phi$ for some $m$. Hence, we see that the index $g$ satisfies the first goodness criteria. We prove that it also satisfies the second criteria by contradiction. Assume that there exists $l$ such that $\forall i \le g$, $B_i' \cap B_l = \phi$.
+Assume that $\exists l \le g$ such that for all $m$, $B_l' \cap B_m = \phi$. Now, $r(B_l') \le 2r$. This contradicts the $2$-sparseness of $\mc B$. This proves the first requirement.
 
-Let $B$ be some ball with center $x \in B_l$ and radius $r_B \le \max_{y \in B_l} |x-y| \le 2r(B_l)$. Then $B$ contains atleast $t$ points. Observe that since $B_t' \cap B_m = \phi$ for all $m$ and $\mc X$ is $(2,12)$-nice, $r(B_t') > 2r$. Hence, Alg \ref{alg:Known} adds $B$ to $\mc S$ before it adds $B_t'$. Hence, $B = B_i'$ for some $i\le g$. This contradicts the assumption that $B_i' \cap B_l = \phi$ for all $i \le g$. Hence, we get that there exists a good index. 
-\end{proof}
-
-
-\begin{lemma}
-Given a $(2,12)$-nice set $\mc X$. Let $\mc B, \mc S$ and $\mc L$ be as defined above. Given $t = \min |B_i|$. Denote by $r := \max r(B_i)$. Let $g = \min \{i: i$ is a good index\}. Then for all $i\le g$, $r(B_i') \le 2r$.
-
-\label{lemma:centerDist}
-\end{lemma}
-
-\begin{proof}
-Let $\mc T = \{B_1', \ldots, B_g'\}$. Alg. \ref{alg:Known} considers the radius of balls in sorted order. Hence, $r(B_1') \le r(B_2') \le \ldots \le r(B_g')$. Since $g$ is good, there exists $B_l$ such that $B_g' \cap B_l \neq \phi$. The claim is that $B_g'$ is the only ball in $\mc T$ which intersects $B_l$. Assume that this is not the case. Then there exists $h < g$ such that $B_h' \cap B_l \neq \phi$. Hence, the index $g-1$ is good. This contradicts the minimality of $g$. 
-
-Hence, $B_g'$ is the only ball that intersects $B_l$. Now, we claim that $\forall i \le g, r(B_i') \le 2r(B_l)$. Assume that this is not the case. Let $q$ be the first index such that $r(B_q') > 2r(B_l) \ge r(B_{q-1})$. Let $B$ be some ball with center $x \in B_l$ and radius $r_B \le \max_{y \in B_l} |x-y| \le 2r(B_l)$. Then $B$ contains atleast $t$ points. Hence, Alg \ref{alg:Known} adds $B$ to $\mc S$ before it adds $B_q'$. Hence, $B$ is equal to one of $B_1', \ldots, B_{q-1}'$. This contradicts the fact that $\forall i \le g-1$, $B_i' \cap B_l = \phi$. Thus, $r(B_g') \le 2r(B_l) \le 2r$. 
+Now, assume that $\exists l$ such that for all $i \le g$, $B_i' \cap B_l = \phi$. Let $B$ be some ball with center $x \in B_l$ and radius $r_B \le \max_{y \in B_l} |x-y| \le 2r(B_l)$. Then $B$ contains atleast $t$ points. Also, note that $|c(B)-c(B_i')| > 12r - r -2r = 8r$. Hence, $B \cap \{\cup_{i=1}^g B_i\} = \phi$. Hence, $B$ can be added to $\mc S$ by the algorithm \ref{alg:Known}. This contradicts the maximality of $\mc T$.
 \end{proof}
 
 \begin{corollary}
-Given a $(2,12)$-nice set $\mc X$. Let $\mc B, \mc S, L_C$ and $\mc L$ be as defined above. Given $t = \min |B_i|$. Denote by $r := \max r(B_i)$. Let $g = \min \{i: i$ is a good index\}. Then for all $i,j \le g$
-\begin{itemize}
+Given a $(12,\nu,2)$-nice set $\mc X$. Let $\mc B, \mc S, L_C$ and $\mc L$ be as defined above. Denote by $r := \max r(B_i)$. Let $g$ be as defined in Lemma \ref{lemma:goodIdx}. Then for all $i,j \le g$
+\begin{itemize}[nolistsep,noitemsep]
 \item If $B_i' \cap B_m \neq \phi$ and $B_j' \cap B_m\neq\phi$ for some $m$, then $|c_i-c_j| \le 6 r(B_m) \le 6r$.
 \item If $B_i' \cap B_m \neq \phi$ and $B_j' \cap B_n\neq\phi$ for some $m,n$, then $|c_i-c_j| > 6r$.
 \end{itemize}
@@ -430,15 +421,15 @@ Given a $(2,12)$-nice set $\mc X$. Let $\mc B, \mc S, L_C$ and $\mc L$ be as def
 \end{corollary}
 
 \begin{proof}
-We will use Lemma \ref{lemma:centerDist} and the  triangle equality to prove the two results. For the first case, $|c_i-c_j| \le |c_i-c(B_m)| + |c(B_m)-c_j| \le r(B_i') + r(B_m) + r(B_m) + r(B_j') \le 2r + r + r + 2r = 6r$. For the second case, $|c_i-c_j| \ge  |c(B_m)-c_j| - |c_i-c(B_m)| \ge |c(B_m)-c(B_n)| - |c(B_n) - c_j| - |c_i-c(B_m)| > 12r - 3r -3r = 6r$.
+We will use Lemma \ref{lemma:goodIdx} and the  triangle equality to prove the two results. For the first case, $|c_i-c_j| \le |c_i-c(B_m)| + |c(B_m)-c_j| \le r(B_i') + r(B_m) + r(B_m) + r(B_j') \le 2r + r + r + 2r = 6r$. For the second case, $|c_i-c_j| \ge  |c(B_m)-c_j| - |c_i-c(B_m)| \ge |c(B_m)-c(B_n)| - |c(B_n) - c_j| - |c_i-c(B_m)| > 12r - 3r -3r = 6r$.
 \end{proof}
 
 \begin{theorem}
-Given a $(2,12)$-nice set $\mc X$. Let $\mc B = \{B_1,\ldots,B_k\}$ be the set of any balls that satisfy the separation and sparseness condition. Given $t = \min |B_i|$, Algorithm \ref{alg:Known} outputs a list $\mc L$ of possible clusterings of size $|\mc L| \in O(|\mc X|)$. $\mc L$ contains a clustering $\mc C$ such that $\mc C|_{\mc B} = \{B_1,\ldots,B_k\}$.
+Given a $(12,\nu,2)$-nice set $\mc X$. Let $\mc B = \{B_1,\ldots,B_k\}$ be any set which is $12$-separated, $\nu$-dense and $2$-sparse and such that $\min |B_i| = t$. Then Algorithm \ref{alg:Known} outputs a list $\mc L$ of possible clusterings of size $|\mc L| \in O(|\mc X|/t)$. $\mc L$ contains a clustering $\mc C$ such that $\mc C|_{\mc B} = \{B_1,\ldots,B_k\}$.
 \end{theorem}
 
 \begin{proof}
-$\mc L$ contains a list of clusterings $\mc C_k,\ldots,\mc C_p$. Let $g$ be the first index which has the properties as stated in Lemma \ref{lemma:goodIdx}. Let $\mc C_g$ be the corresponding clustering. We will show that the clustering $\mc C_g$ is such that $\mc C_g|_{\mc B} = \{B_1,\ldots,B_k\}$. 
+$\mc L$ contains a list of clusterings $\mc C_k,\ldots,\mc C_p$. Let $g$ be as stated in Lemma \ref{lemma:goodIdx}. Let $\mc C_g$ be the corresponding clustering. We will show that the clustering $\mc C_g$ is such that $\mc C_g|_{\mc B} = \{B_1,\ldots,B_k\}$. 
 
 Let $\mc C_g = \{c_{g(1)},\ldots,c_{g(k)}\}$ and let $B_{g(1)}',\ldots,B_{g(k)}'$ be the corresponding balls. The claim is that for every $m \le k$ there exists $i \le k$ such that $B_m \cap B_{g(i)}' \neq \phi$. For the sake of contradiction, assume that this is not the case. 
 
@@ -448,13 +439,13 @@ Fromt the definition of $g$, there exists some index $n_1$ such that $B_{n_1}' \
 
 Observe that centers $|c_{g(i)}-c_{g(j)}| \le 6r < |c_i - c_{n_r}|$. However, $c_{g(i)}$ and $c_{g(j)}$ were not picked at the $q^{th}$ step of the algorithm. This is a contradiction. Hence, we get that $\forall m$, $\exists i$ such that $B_m \cap B_{g(i)} \neq \phi$. Hence, we get that the sets $\mc B$ and $\mc B' = \{B'_{g(1)}, \ldots, B'_{g(k)}\}$ are unique under intersection.
 
-Let $x \in B_i$. WLOG let $B_{g(i)}'$ intersect $B_i$. Now using Lemma \ref{lemma:centerDist} and the triangle inequality,
+Let $x \in B_i$. WLOG let $B_{g(i)}'$ intersect $B_i$. Now using Lemma \ref{lemma:goodIdx} and the triangle inequality,
 %\vspace{-3mm}
 \begin{align*}
 &|x-c(B_{g(i)}')| \le |x-c(B_i)| + |c(B_{g(i)}')-c(B_i)| \\
 &\le |x-c(B_i)| + r(B_{g(i)}')+ r(B_i) \le r+ 2r + r = 4r.
 \end{align*} 
-For $j \neq i$, using Lemma \ref{lemma:centerDist} again we get that
+For $j \neq i$, using Lemma \ref{lemma:goodIdx} again we get that
 %\vspace{-3mm}
 \begin{align*} 
 &|x-c(B_{g(j)}')| \ge |c(B_{g(j)}')-c(B_i)| - |x-c(B_i)|\\
@@ -462,8 +453,24 @@ For $j \neq i$, using Lemma \ref{lemma:centerDist} again we get that
 &> 12r - r -3r = 9r.
 \end{align*} 
 Hence, we see that the clustering $\mc C_g$ assigns $x$ to the $i^{th}$ cluster. Hence, $\mc C_g|_\mc B = \{B_1,\ldots,B_k\}$.
- 
 \end{proof}
+
+\subsection{List of solutions for any $\mc B$}
+\begin{algorithm}
+\begin{alg}
+\item[] Input : $\mc X$, $k$ and parameters $\lambda$, $\nu$ and $\eta$.
+\item[] Initialize $\mc L = \phi$. 
+\item[] for $t = \nu|\mc X|$ to $\frac{|\mc X|}{k}$ 
+\begin{itemize}
+\item[] Run Alg. \ref{alg:Known} with $\min |B_i| = t$.
+\item[] Let $\mc O$ be the output of the alg \ref{alg:Known}.
+\item[] $\mc L = \mc L \cup \mc O$.
+\end{itemize}
+Output $\mc L$.
+\label{alg:allB}
+\end{alg}
+\caption{Alg. for any $\mc B$}
+\end{algorithm}
 
 
 
