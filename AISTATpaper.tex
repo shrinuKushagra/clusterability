@@ -515,20 +515,6 @@ Observe that smaller the $\nu$ larger is the noise allowed in the set $|\mc X|$.
 
 In this section, we wish to claim that our algorithms can handle noise which is linear in the size of the dataset $|\mc X|$. Recall tha, Alg. \ref{alg:NotKnown} needed that $|\mc X|$ be $(8, \nu, 2)$-nice while Algs. \ref{alg:Known} and \ref{alg:allB} required that the dataset be $(12, \nu, 2)$-nice. 
 
-We will now construct a few simple examples of sets which are $(8, \nu, 2)$-nice and $(12, \nu, 2)$-nice and show that for each of them the noise is linear in $|\mc X|$. For each of them, we will also calculate the length of the list outputed by Alg. \ref{alg:allB}. Also, we will mostly be working in $\mathbb{R}^2$. We will use the convention $B(c, r)$ to denote a ball centered at $c$ of radius $r$.  
-
-\begin{example}
-Fix $k = 2$. Let $B_1 = B( (0,0), 1)$, $B_2 = B( (\lambda, 0), 1)$. Let $B_1, B_2$ each contain $1/4^{th}$ of the total number of points. Let $B_3 = B( (\lambda/2, 0), 1)$, $B_4 = B( (\lambda/2, 4), 1)$, $B_5 = B( (\lambda/2, 8), 1)$ and $B_6 = B( (\lambda/2, -4), 1)$. Let $\mc X = B_1 \cup \ldots \cup B_6$.
-\end{example}
-\noindent In this case, we see that $\mc X$ is $(\lambda, 1/4, 2)$-nice. $\mc B = \{B_1, B_2\}$ is $\lambda$-separated, $0.25$-dense and $2$-sparse. In this case, the size of the noise is $|\mc X|/2$. 
-
-For $\lambda \ge 8$ and given $r = 1$, it is easy to see that Alg. \ref{alg:NotKnown} outputs a clustering which is consistent with $B_1, B_2$.
-
-For $\lambda \ge 12$ and given $t = |\mc X|/4$, we can see that Alg. \ref{alg:Known} outputs a list of size one is consistent with $B_1, B_2$.
-
-For $\lambda \ge 12$, Alg. \ref{alg:allB} considers $t$ values starting from $|\mc X|/4$ to $|\mc X|/2$. For $t = |\mc X|/4$ it gets a list of size one. For higher values of $t$, it either outputs a list of size one or it doesn't find a list at all. Hence, Alg. \ref{alg:allB} outputs a list of size atmost $|\mc X|/4$. 
-
-Hence, we see that for this simple example all of our algorithms are able to handle noise of size $|\mc X|/2$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and future work}
