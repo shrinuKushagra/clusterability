@@ -91,19 +91,23 @@
 \end{abstract}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-Clustering is the process of partitioning a given data set such that objects in the same partition are similar to one another while objects in different partitions are different. The most common clustering methods are either linkage-based or center-based algorithms. In linkage-based clustering, the goal is not to find a single partition but a hierarchy of partitions. This hierarchy is represented in a tree such that each level of the tree gives a clustering of data set with specific number of clusters. Linkage-based clustering methods start by having each point in its own cluster. Then, the two most \emph{similar} clusters are merged together using some \emph{similarity} measure. The process ends when the whole data is just a single cluster. One of the common drawbacks of these methods is that they are not robust to noise \cite{narasimhan2005q}. 
+Clustering is the process of partitioning a given data set such that objects in the same partition are similar to one another while objects in different partitions are different. The most common clustering methods are linkage-based and center-based algorithms.
+
+ In linkage-based clustering, the goal is not to find a single partition but a hierarchy of partitions. This hierarchy is represented in a tree such that each level of the tree gives a clustering of data set with specific number of clusters. Linkage-based clustering methods start by having each point in its own cluster. Then, the two most \emph{similar} clusters are merged together using some \emph{similarity} measure. The process ends when the whole data is a single cluster. One of the common drawbacks of linkage-based methods is that they are not robust to noise \cite{narasimhan2005q}. 
 
 Center-based clustering tasks are defined as discrete optimization problems. The goal is to find the set of centers which minimize the objective function. It is known that the problem of optimizing most of the commonly-used clustering objective functions is NP-Hard. Still, center-based clustering algorithms are routinely and successfully employed in practice.
 
-Hence, to improve the theoretical understanding of clustering and to explain the apparent gap between theory and practice, various notions of clustering have been proposed. The intuition is that real-world data is not `wort-case' and often enjoy some nice properties which are exploited by the clustering algorithms. In this regard, the \emph{CDNM} hypothesis has become quite popular. It says that ``Clustering is Difficult only when it does Not Matter" \cite{daniely2012clustering}.    
+To improve the theoretical understanding of the apparent gap between theory and practice, various notions of a ``clusterable" data have been proposed. The intuition is that real-world data is not ``wort-case" and it often enjoy some nice properties which are exploited by the clustering algorithms. In this regard, the \emph{CDNM} hypothesis has become quite popular. It says that ``Clustering is Difficult only when it does Not Matter" \cite{daniely2012clustering}.    
 
-Each of the different notions of clustering that have been proposed, attempt to capture some nice property of the data. The results generally follow one of the two directions. One category of results show that under the proposed clusterability notion some known center-based algorithm runs in polynomial time. The other category of results propose some new clustering algorithm and show that the proposed algorithm runs in polynomial time if the data satisfies the niceness conditions. Now, we will survey each of the known clusterability notions and the known results.
+There has been a broad study of what it means for a data set to be ``clusterable". Each of the different notions of clusterability that have been proposed, attempt to capture some nice property of the data. The results generally follow one of the two directions. One category of results show that under the proposed clusterability assumption, some known center-based algorithm will output the optimal clustering in polynomial time. The other category of results propose some new clustering algorithm and show that the proposed algorithm finds the optimal clustering in polynomial time if the data satisfies the clusterability assumption. 
+
+In this work, ....
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Outline}
-This paper is organized as follows. In section \ref{sec:previous} we will talk about related work
+This rest of this paper is organized as follows. In section \ref{sec:previous} we will talk about related work on clusterability assumptions and noise robustness. In section~\ref{sec:contribution} we will briefly mention the contribution of this paper and our main results. In section~\ref{sec:problem} we introduce the mathematical notation that we use and present formal definitions. In section~\ref{sec:noise} ... .In section~\ref{sec:future} we conclude our work and discuss future directions.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Previous Work}
+\section{Related Work}
 \label{sec:previous}
 
 Various notions of clusterability has been proposed in the past. The majority of work focus on the fact that clustering can be done efficiently on the data sets that follow some nice structure i.e. they are well clusterable.
@@ -200,15 +204,17 @@ Our clusterability assumption is similar in nature to the definition proposed by
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Contribution}
+\label{sec:contribution}
 Table \ref{table:clusterabilitynotions} shows the different notions of clusterability (in the presence of noise) that have been proposed in the literature. All the notions only deal with small quantitative noise. That is, they give efficient clustering algorithms only when there exist a small fraction of noisy points in the data.
 % is small. For example, Balcan et. al \cite{balcan2012clustering} assume that the data follows $(\alpha, \epsilon)$-pertubation resilience property and they give an efficient algorithm for approximating . Their algorithm can only handle noise which is in $O(\epsilon)$. Similarly, other notions of clusterability can only handle a small amount of noise.
 One of the reasons for this is that these algorithms make no additional assumption on noise other than that it should be small. However, it might make more sense to make some structural assumptions on the noise rather than its size. Intuitively, we expect that the noise is \emph{sparse}. That is, it is not `concentrated' at one place and rather spread across the given data set. In other words, we want to say that the noisy points do not pretend to be a cluster. 
 
 In this work, we want to formalize this assumption as \emph{structural sparse noise}. We define our notion of $\nu$-separated balls with sparse noise. Under this assumption, we give two algorithms. The first algorithm deals with the case when the maximum radius of the balls is known to the algorithm. Ben David et. al \cite{ben2014clustering} work with the same assumption. The other algorithm which is slightly more involved works with the case when the maximum radius is not known. In this case, we output a small list of possible solutions such that one of the clusterings in the list is same (on the non-noisy part of data) as the target clustering. 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem Statement}
-
+\label{sec:problem}
+In this section....
 \subsection{Notation}
 For any set $B\subset \mc X$, we denote $c(B)$ as the center of $B$ which is defined as the average of points in $B$. Radius of the set $B$ is defined as $r(B)=\max_{x\in B} |x-c(B)|$. 
 
@@ -242,7 +248,10 @@ Given a $(\lambda,\nu, \eta)$-nice set $\mc X$, $k$ and a set of balls $\mc B = 
 Checking if the balls are separated and dense takes $O(k^2 + |\mc X|)$. Verifying the sparseness condition takes time $O(|\mc X|^2)$.
 \end{proof}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Objective}
+\label{objective}
 Given a $(\lambda, \nu, \eta)$-nice set $\mc X$ and $k$. Let $\mc B = \{B_1,\ldots,B_k\}$ be a set of balls which is $\lambda$-separated, $\nu$-dense and $\eta$-sparse. We say that a $k$-clustering $\mc C' =\{C_1',\ldots,C_k'\}$ of $\mc X$ is consistent with $\mc B$ if
 %\vspace{-3mm}
 \begin{align*}
@@ -495,7 +504,9 @@ Let $t_1 = \nu |\mc X|$ and $t_2 = \frac{|\mc X|}{k}$. Then, using Thm. \ref{thm
 \end{align*}
 \end{proof}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Noise robustness}
+\label{sec:noise}
 \begin{fact}
 Given a $(\lambda, \nu, \eta)$-nice set $\mc X$ and $k$. It is easy to see that the amount of noise in $\mc X$ is upper bounded by $(1-k\nu)|\mc X|$. 
 \end{fact}
@@ -519,8 +530,10 @@ For $\lambda \ge 12$, Alg. \ref{alg:allB} considers $t$ values starting from $|\
 
 Hence, we see that for this simple example all of our algorithms are able to handle noise of size $|\mc X|/2$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and future work}
-We introduced a new notion of what it means for a dataset to be {\it clusterable} (Defn. \ref{defn:niceness}). Informally, our notion says that a dataset is clusterable if the following conditions hold. Firstly, it can be covered by a well-separated set of $k$ dense balls. Secondly, the noise is sparse. We then examine conditions under which a unique solution exists (Section \ref{section:uniqueR}) and when multiple solutions are possible (Section \ref{section:structureT}). When a unique solution exists, we give an algorithm that finds the solution (Alg. \ref{alg:NotKnown}). In other case, we show that the solution-space has some structure (Lemma \ref{lemma:structureT}) and then give an algorithm which finds those soluitions (Alg. \ref{alg:Known}). Finally, we give an algorithm (Alg. \ref{alg:allB}) which outputs a list containing all the nice solutions. We prove that our algorithms can handle noise which is linear in the size of the dataset. Previous known noise-robust algorithms could only handle a small amount of noise(say $\epsilon$ fraction of the dataset).
+\label{sec:future}
+We introduced a new notion of what it means for a dataset to be {\it clusterable} (Def.~\ref{defn:niceness}). Informally, our notion says that a dataset is clusterable if the following conditions hold. Firstly, it can be covered by a well-separated set of $k$ dense balls. Secondly, the noise is sparse. We then examine conditions under which a unique solution exists (Sec.~\ref{section:uniqueR}) and when multiple solutions are possible (Sec.~\ref{section:structureT}). When a unique solution exists, we give an algorithm that finds the solution (Alg. \ref{alg:NotKnown}). In other case, we show that the solution-space has some structure (Lemma \ref{lemma:structureT}) and then give an algorithm which finds those soluitions (Alg. \ref{alg:Known}). Finally, we give an algorithm (Alg. \ref{alg:allB}) which outputs a list containing all the nice solutions. We prove that our algorithms can handle noise which is linear in the size of the dataset. Previous known noise-robust algorithms could only handle a small amount of noise(say $\epsilon$ fraction of the dataset).
 
 In this work, we decomposed our dataset into nice and noise parts. We required that the nice part of the data be covered by separated and dense balls. In future, we want try other formalizations for the nice part of the data. For example, we can require that the nice part of the data has $\alpha$-centre proximity or it has $\nu$-strict separation. We would then like to propose efficient algorithms for these formalizations under sparse noise.
 \bibliographystyle{alpha}
