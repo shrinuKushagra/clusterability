@@ -325,11 +325,11 @@ Let $\mc X$ be $(\lambda, \nu, \eta)$-nice. Let $\mc B = \{B_1,\ldots, B_k\} \su
 \begin{proof}
 Assume that there exists $B_i$ such that for all $B_j'$, $B_i \cap B_j' = \phi$. Now, $B_i$ violates the sparseness condittion w.r.t $\mc B'$. Hence, such a ball $B_i$ cant exist. 
 \end{proof}
-
+\vspace{-2mm}
 Example \ref{example:notuniqueT} and Lemma \ref{lemma:structureT} together show that although a unique solution is not possible but the solution has some structure. Namely, the set $\mc B$ with the smallest $r$ must intersect with ones which have greater $r$. 
 
-We present an algorithm (Alg. \ref{alg:Known}) which outputs a list of clusterings $\mc L$. We will then show that for any ball $\mc B$ with $\min |B_i| = t$, $\mc L$ contains a clustering which is consistent with $\mc B$.
-\begin{algorithm}
+We present an algorithm (Alg. \ref{alg:Known}) which outputs a list of clusterings $\mc L$. We will then show that for any ball $\mc B$ with $\min |B_i| = t$\footnote{Throughtout this section, we will assume that $t \ge \nu|\mc X|$.}, $\mc L$ contains a clustering which is consistent with $\mc B$. Intuitively, Alg. \ref{alg:Known} works as follows. In the first phase, we cover the set $|\mc X|$ with balls which have atleast $t$ points starting with the ball of smallest radius. In the second phase, we merge the balls found using some sort of an ``iterative variant" of single-linkage. 
+\begin{algorithm}[t]
 \begin{alg}
 \item[] \textbf{Phase 1:}
 %\begin{itemize}
@@ -466,7 +466,10 @@ Hence, we see that the clustering $\mc C_g$ assigns $x$ to the $i^{th}$ cluster.
 \begin{itemize}
 \item[] Run Alg. \ref{alg:Known} with $\min |B_i| = t$.
 \item[] Let $\mc O$ be the output of the alg \ref{alg:Known}.
+\item[] if $\mc O \not\in \mc L$
+\begin{itemize}
 \item[] $\mc L = \mc L \cup \mc O$.
+\end{itemize}
 \end{itemize}
 Output $\mc L$.
 \label{alg:allB}
@@ -475,9 +478,10 @@ Output $\mc L$.
 \end{algorithm}
 
 \begin{theorem}
+\label{thm:allB}
 Given a $(12,\nu,2)$-nice set $\mc X$ and $k$. Let $\mc B = \{B_1,\ldots,B_k\}$ be any set which is $12$-separated, $\nu$-dense and $2$-sparse. Then Algorithm \ref{alg:allB} outputs a list $\mc L$ of possible clusterings such that
 \begin{itemize}[nolistsep, noitemsep]
-\item $|\mc L| \in O(|\mc X|\log |\mc X|)$. 
+\item $|\mc L| \in O(|\mc X|\log (1/k\nu))$. 
 \item $\mc L$ contains a clustering $\mc C$ such that $\mc C|_{\mc B} = \{B_1,\ldots,B_k\}$.
 \end{itemize}
 \end{theorem}
@@ -487,15 +491,24 @@ Let $\mc B = \{B_1,\ldots,B_k\}$ be any set which is $12$-separated, $\nu$-dense
 
 Let $t_1 = \nu |\mc X|$ and $t_2 = \frac{|\mc X|}{k}$. Then, using Thm. \ref{thm:givenT}, we see that 
 \begin{align*}
-	|\mc L| \le |\mc X|\Big(\frac{1}{t_1}+\ldots+\frac{1}{t_2}\Big) \in O(|\mc X|\log |\mc X|)
+	|\mc L| \le |\mc X|\Big(\frac{1}{t_1}+\ldots+\frac{1}{t_2}\Big) \in O\bigg(|\mc X|\log\frac{1}{k\nu}\bigg)
 \end{align*}
 \end{proof}
 
 \section{Noise robustness}
 \begin{fact}
-Given a $(\lambda, \nu, \eta)$-nice set $\mc X$ and $k$. It is easy to see that the amount of noise in $\mc X$ upper bounded by $(1-k\nu)|\mc X|$. 
+Given a $(\lambda, \nu, \eta)$-nice set $\mc X$ and $k$. It is easy to see that the amount of noise in $\mc X$ is upper bounded by $(1-k\nu)|\mc X|$. 
 \end{fact}
 
+Observe that smaller the $\nu$ larger is the noise allowed in the set $|\mc X|$. However, Thm. \ref{thm:allB} shows that smaller the $\nu$, the larger is the size of the list that we output. Hence, we pay for the noise by allowing ourselves to output a list of larger size.
+
+In this section, we wish to claim that our algorithms can handle noise which is linear in the size of the dataset $|\mc X|$. Recall tha, Alg. \ref{alg:NotKnown} needed that $|\mc X|$ be $(8, \nu, 2)$-nice while Algs. \ref{alg:Known} and \ref{alg:allB} required that the dataset be $(12, \nu, 2)$-nice. 
+
+We will now construct a few simple examples of sets which are $(8, \nu, 2)$-nice and $(12, \nu, 2)$-nice and show that for each of them the noise is linear in $|\mc X|$. For each of them, we will also calculate the length of the list outputed by Alg. \ref{alg:allB}. Also, we will mostly 
+
+\begin{example}
+
+\end{example}
 
 \section{Conclusion and future work}
 We introduced a new notion of what it means for a dataset to be {\it clusterable} (Defn. \ref{defn:niceness}). Informally, our notion says that a dataset is clusterable if the following conditions hold. Firstly, it can be covered by a well-separated set of $k$ dense balls. Secondly, the noise is sparse. We then examine conditions under which a unique solution exists (Section \ref{section:uniqueR}) and when multiple solutions are possible (Section \ref{section:structureT}). When a unique solution exists, we give an algorithm that finds the solution (Alg. \ref{alg:NotKnown}). In other case, we show that the solution-space has some structure (Lemma \ref{lemma:structureT}) and then give an algorithm which finds those soluitions (Alg. \ref{alg:Known}). Finally, we give an algorithm (Alg. \ref{alg:allB}) which outputs a list containing all the nice solutions. We prove that our algorithms can handle noise which is linear in the size of the dataset. Previous known noise-robust algorithms could only handle a small amount of noise(say $\epsilon$ fraction of the dataset).
