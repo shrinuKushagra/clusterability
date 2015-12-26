@@ -109,9 +109,7 @@ Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $S \sub
 \section{Algorithm}
 The algorithm is closely based on the ideas of Balcan and Liang [?]. They consider noise which is small ($\epsilon$ fraction) in the size of the dataset. However, we dont place any restriction on the size of the noise but assume that it doesn't have any structure. Our algorithm works given a parameter $t$ (the number of point in the minimum cluster) which is similar to the parameterization in algorithm of Balcan and Liang.
 
-Before we describe our algorithm, we need to introduce some notations and conditions which will be used in the algorithm. Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$.
-
-Let $\mc C'$ be a given clustering of the set $\mc X$ and $p, q \in \mc X$. Let $B_{p,q} = B(p, d(p, q))$. Define $Y_{p,q} := \{C' \in \mc C' : C' \subseteq B_{p,q} \text{ or } |B_{p,q} \cap C'| \ge t/2\}$. 
+Our algorithm works given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Let $\mc C'$ be a given clustering of the set $\mc X$ and $p, q \in \mc X$. Let $B_{p,q} = B(p, d(p, q))$. Define $Y_{p,q} := \{C' \in \mc C' : C' \subseteq B_{p,q} \text{ or } |B_{p,q} \cap C'| \ge t/2\}$. 
 %For any $x \in \mc X$, let $B_x$ denote the ball centered at $x$ of radius atmost $r$. Define $\mc D_{p,q} = \{x \in \mc X\setminus B : |B_x| \ge t/2 \text{ and } \exists p' \in B \text{ such that } (\alpha-1) d(p', p) \ge d(p', x)\}$. 
 We say that the ball $B_{p,q}$ satisfies the \textbf{sparse distance condition} w.r.t clustering $\mc C'$ when the following holds.
 \begin{itemize}[noitemsep, leftmargin=*]
@@ -131,6 +129,8 @@ Intuitively, the algorithm (Alg. \ref{alg:alphacp}) works as follows. It starts 
 
 \begin{algorithm}[!ht]
 \begin{alg}
+	\item \textbf{Input: } $(\mc X, d), k$ and $t$
+	\item \textbf{Output: } A hierarchical clustering tree $T'$ of $\mc X$.
 	\item[1] Let $\mc C'$ denote the current clustering of $\mc X$. Initialize $\mc C'$ so that all points are in their own cluster. That is, $\mc C' = \{ \{x\}: x \in \mc X\}$.
 	\item[2] Iterate over all pairs of points $p, q$ in increasing order of the distance $d(p, q)$. If $B(p, d(p, q))$ satisfies the sparse distance condition then
 	\begin{itemize}
@@ -155,32 +155,32 @@ Intuitively, the algorithm (Alg. \ref{alg:alphacp}) works as follows. It starts 
 \begin{theorem}
 Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Alg. \ref{alg:alphacp} outputs a tree $T'$ with the following property. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C = \{C_1, \ldots, C_k\}$ of $\mc S$ induced by centers $c_1, \ldots, c_k \in \mc X$ which satisfy $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$. 
 
-If $\alpha \ge 2 + \sqrt 7$, $\eta \ge 1$ and $ \min_i|C_i| = t > 2$ then for every $1\le i \le k$, there exists a node $N_i$ in the tree $T'$ such that $C_i \subseteq N_i$ and for $j \neq i$, $C_j \cap N_i = \phi$ . That is, $N_i$ contains points from only one of the good clusters. 
+If $\alpha \ge 2 + \sqrt 7$, $\eta \ge 1$ and $ \min_i|C_i| = t \ge 2$ then for every $1\le i \le k$, there exists a node $N_i$ in the tree $T'$ such that $C_i \subseteq N_i$ and for $j \neq i$, $C_j \cap N_i = \phi$ . That is, $N_i$ contains points from only one of the good clusters. 
 \end{theorem}
 
 \begin{proof}
-Fix any $\mc S \subseteq \mc X$. Let $\mc C = \{C_1, \ldots, C_k\}$ be a clustering of $\mc S$ such that $\min |C_i| = t$ and $\mc C$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(C_i)$ and define $r := \max r_i$. Denote by $B_{p, q} = B(p, d(p, q))$. Let $\mc C' = \{C_1', \ldots, C_{k'}'\}$ be the current clustering of $\mc X$ (as defined in Alg. \ref{alg:alphacp}). Note that whenever $B_{p, q}$ satisfies the sparse-distance condition, all the clusters in $Y_{p, q}$ are merged together and the clustering $\mc C'$ is updated. Throughout the proof, we will denote by $C_i \in \mc C$ the clusters of the set $\mc S$ and by $C_i' \in \mc C'$ the clusters of the set $\mc X$.
+Fix any $\mc S \subseteq \mc X$. Let $\mc C = \{C_1, \ldots, C_k\}$ be a clustering of $\mc S$ such that $\min |C_i| = t$ and $\mc C$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(C_i)$ and define $r := \max r_i$. Let $\mc C' = \{C_1', \ldots, C_{k'}'\}$ be the current clustering of $\mc X$ (as defined in Alg. \ref{alg:alphacp}). Let $p, q \in \mc X$ and denote by $B_{p, q} = B(p, d(p, q))$. Note that whenever $B_{p, q}$ satisfies the sparse-distance condition, all the clusters in $Y_{p, q}$ are merged together and the clustering $\mc C'$ is updated. Throughout the proof, we will denote by $C_i \in \mc C$ the clusters of the set $\mc S$ (also called `good' clusters) and by $C_i' \in \mc C'$ the clusters of the set $\mc X$.
 
-We will prove the theorem by proving two key facts. First, we will show that at any step, if the algorithm merges points from $C_i$ with points from $C_j$, then at that step the distance being considered $d = d(p,q) > r_i$. Then, we show that when the algorithm considers the distance $d = d(c_i, q_i) = r_i$, it merges all points from $C_i$ (and possibly points from $\mc X\setminus \mc S$) into a single cluster $C_i'$. Hence, there exists a node in the tree $N_i$ which contains all the points from $C_i$. 
+We will prove the theorem by proving two key facts. First, we will show that at any step, if the algorithm merges points from a good cluster $C_i$ with points from another good cluster $C_j$, then at that step the distance being considered $d = d(p,q) > r_i$. Then, we show that when the algorithm considers the distance $d = d(c_i, q_i) = r_i$, it merges all points from the good cluster $C_i$ (and possibly points from $\mc X\setminus \mc S$) into a single cluster $C_i'$. Hence, there exists a node in the tree $N_i$ which contains all the points from $C_i$ and no points from any other good cluster $C_j$. 
 
 \noindent\textit{\underline{Proof of Fact 1}}\\
-Consider the first merge step which merges points from $C_i$ with points from some other cluster $C_j$. Denote by $B_{p,q} = B(p, d(p, q))$, the ball that satisfies the sparse distance condition at this merge step. Then, there exists a cluster $C_i' \in Y_{p,q}$ such that $C_i \cap C_j' \neq \phi$ and for all $n \neq i$, $C_n \cap C_i' = \phi$. Also, there exists cluster $C_j' \in Y_{p, q}$ such that $C_j' \cap C_j \neq \phi$ for some $C_j$ and $C_j' \cap C_i = \phi$.
+Consider the first merge step which merges points from a good cluster $C_i$ with points from some other good cluster. Let $p, q \in \mc X$ be the pair of points being considered at this step and $B_{p,q} = B(p, d(p, q))$ the ball that satisfies the sparse distance condition at this merge step. Then, there exists a cluster $C_i' \in Y_{p,q}$ such that $C_i \cap C_i' \neq \phi$ and for all $n \neq i$, $C_n \cap C_i' = \phi$. Also, there exists cluster $C_j' \in Y_{p, q}$ such that $C_j' \cap C_j \neq \phi$ for some $C_j$ and $C_j' \cap C_i = \phi$.
 
+We need to show that $d(p, q) > r_i$. However, before we can prove that we need another result which is proved as a claim below. We then prove the desired result (Claim \ref{claim:maxrirj}).
 \begin{claim}
 \label{claim:fromBothCluster}
-If $d(p, q) \le r,$ then $B_{p, q} \cap C_i \neq \phi$ and there exists $n \neq i$ such that $B_{p, q} \cap C_n \neq \phi$.
+Let $p, q \in \mc X$, $B_{p, q}$, $C_i, C_i', C_j'$ be as defined above. If $d(p, q) \le r,$ then $B_{p, q} \cap C_i \neq \phi$ and there exists $n \neq i$ such that $B_{p, q} \cap C_n \neq \phi$.
 \end{claim}
 \vspace{-0.1in} $C_i' \in Y_{p, q}$. In the first case, if $C_i' \subseteq B_{p, q}$ then $B_{p,q}$ contains points from $C_i$ by set inclusion. In the second case assume that $|C_i' \cap B_{p,q}| \ge t/2$. For the sake of contradiction, assume that $B_{p, q}$ contains no points from $C_i$. That is, $B \cap C_i' \subseteq C_i' \setminus C_i \subseteq \mc X \setminus \mc S$. This implies that $B \cap C_i' \subseteq B \cap \{\mc X \setminus \mc S\}$. Hence, $|B\cap \{\mc X \setminus \mc S\}| \ge |B \cap C_i'| > t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, $B_{p, q} \cap C_i \neq \phi$.
 
 $C_j' \in Y_{p, q}$. In the first case, if $C_j' \subseteq B_{p, q}$ then $B_{p,q}$ contains points from some $C_j$ by set inclusion. In the second case assume that $|C_j' \cap B_{p,q}| \ge t/2$. For the sake of contradiction, assume that for all $n \neq i$, $B_{p, q}$ contains no points from $C_n$. That is, $B_{p, q} \cap C_j' \subseteq C_j' \setminus (\cup_{n \neq i} C_n) \subseteq \mc X \setminus \mc S$. This implies that $B_{p, q} \cap C_j' \subseteq B_{p,q} \cap \{\mc X \setminus \mc S\}$. Hence, $|B_{p, q}\cap \{\mc X \setminus \mc S\}| \ge |B_{p,q} \cap C_i'| > t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, there exists $C_n \neq C_i$ such that $B_{p, q} \cap C_n \neq \phi$.
 
-
 \begin{claim}
 \label{claim:maxrirj}
-$d(p, q) > r_i$.
+Let the framework be as given in Claim \ref{claim:fromBothCluster}. Then, $d(p, q) > r_i$.
 \end{claim}
 
-\noindent If $d(p, q) > r$, then the claim follows trivially. We assume that $d(p, q) \le r$. From claim \ref{claim:fromBothCluster}, $B_{p, q}$ contains $p_i \in C_i$ and $p_j \in C_j$. Let $r_i = d(c_i, q_i)$ for some $q_i \in C_i$.
+\vspace{-0.1in} If $d(p, q) > r$, then the claim follows trivially. We assume that $d(p, q) \le r$. From claim \ref{claim:fromBothCluster}, $B_{p, q}$ contains $p_i \in C_i$ and $p_j \in C_j$. Let $r_i = d(c_i, q_i)$ for some $q_i \in C_i$.
 \begin{align*}
 d(c_i, q_i) &< \frac{1}{\alpha} d(q_i, c_j) \le \frac{1}{\alpha} \bigg[ d(p_j, c_j) + d(p_i, p_j) + d(p_i, q_i)\bigg] < \frac{1}{\alpha} \bigg[ \frac{1}{\alpha}d(p_j, c_i) + d(p_i, p_j) + 2d(c_i, q_i)\bigg]\\
 & < \frac{1}{\alpha} \bigg[ \frac{1}{\alpha}d(p_i, p_j) + \frac{1}{\alpha}d(c_i, q_i) + d(p_i, p_j) + 2d(c_i, q_i)\bigg]
@@ -188,30 +188,36 @@ d(c_i, q_i) &< \frac{1}{\alpha} d(q_i, c_j) \le \frac{1}{\alpha} \bigg[ d(p_j, c
 This implies that $(\alpha^2 - 2\alpha - 1)d(q_i, c_i) < (\alpha + 1) d(p_i, p_j)$. For $\alpha \ge 2 + \sqrt 7$, this implies that $d(c_i, q_i) < d(p_i, p_j)/2$. Now, using triangle inequality, we get that $d(c_i, q_i) < d(p_i, p_j)/2 \le \frac{1}{2}[d(p, p_i) + d(p, p_j)] < d(p, q)$.\\
 
 \noindent\textit{\underline{Proof of Fact 2}}\\
-Consider the merge step when $p = c_i$ and $q = q_i$ such that $d(p, q) = r_i$.
+Consider the merge step when $p = c_i$ and $q = q_i$ such that $d(p, q) = r_i$. We will prove that the ball $B(c_i, q_i)$ satisfies the sparse-distance condition. Hence, all the points from the good cluster $C_i$ will be merged together. Note that this step merges all the clusters in $Y_{c_i, q_i}$. Hence to complete the proof, we also show that all the clusters in $Y_{c_i, q_i}$ don't intersect with any other good cluster $C_j$. We state this formally below and then prove it.
+
 \begin{claim}
 %\vspace{-0.1in}
 \label{claim:dciqi}
-$B(c_i, r_i)$ satisfies the sparse distance condition.
+Let $c_i \in \mc X$ denote the center of the cluster $C_i$ and $q_i$ is such that $d(c_i, q_i) = r_i$. Then, $B(c_i, r_i)$ satisfies the sparse distance condition and for all $C' \in Y_{c_i, q_i}$, for all $j \neq i, C' \cap C_j = \phi$.
 \end{claim}
 
-\vspace{-0.1in} Denote by $B = B(c_i, q_i)$. We will show that all the two sparse distance conditions are satisfied. First, observe that $|B| = |C_i| \ge t$.
+\vspace{-0.1in} Denote by $B = B(c_i, q_i)$. $|B| = |C_i| \ge t$. Observe that, for all $C' \in \mc C'$, $|C'| = 1$ or $|C'| \ge t$. We need to prove two statements. If $C' \cap B \neq \phi$, then $C' \in Y_{p,q}$ and $C' \cap C_j = \phi$. 
 
-Observe that, for all $C' \in \mc C'$, $|C'| = 1$ or $|C'| \ge t$. We need to show that if $C' \cap B \neq \phi$, then $C' \in Y_{p,q}$. In the first case, assume that $|C'| = 1$. Then, $C' \cap B \neq \phi \implies C' = C' \cap B \subseteq B$. Hence, $C' \in Y_{p,q}$. In the second case, assume that $|C'|\ge t$ and $C' \cap B \neq \phi$. Let $h(C')$ denote the height of the cluster in the tree $T'$.
+\begin{itemize}[nolistsep]
+\item Case 1. $|C'| = 1$. If $C' \cap B \neq \phi \implies C' \subseteq B$. Hence, $C' \in Y_{p,q}$ and for all $j \neq i$, $C' \cap C_j = \phi$
 
-Case 1. $h(C') = 1$. In this case, there exists a ball $B'$ such that $B' = C'$. From Claim \ref{claim:maxrirj}, we know that since $r(B') < r_i \le r$, for all $j \neq i$, $B' \cap C_j = \phi$. Hence, $|B'\setminus C_i| \le t/2$. $|B\cap C'| = |C'| - |C'\setminus B| = |C'| - |B'\setminus C_i| \ge t/2$.
+\item Case 2. $|C'|\ge t$. $C' \cap B \neq \phi$. Let $h(C')$ denote the height of the cluster in the tree $T'$. Now, we consider two subcases.
+\begin{itemize}
+\renewcommand\labelitemii{$\circ$}
+\item Case 2.1. $h(C') = 1$. In this case, there exists a ball $B'$ such that $B' = C'$. We know that $r(B') \le r_i \le r$. Hence using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $B' \cap C_j = \phi$. Thus, $|B'\setminus C_i| \le t/2 \implies |B\cap C'| = |C'| - |C'\setminus B| = |C'| - |B'\setminus C_i| \ge t/2$. Hence, $C' \in Y_{c_i, q_i}$.
 
-Case 2. $h(C') > 1$. Then there exists some $C''$ such that $h(C'') = 1$ and $C'' \subset C'$. Now, using set inclusion and the result from the first case, we get that $|B\cap C'| \ge |B\cap C''| \ge t/2$. 
-
+\item Case 2.2. $h(C') > 1$. Then there exists some $C''$ such that $h(C'') = 1$ and $C'' \subset C'$. Now, using set inclusion and the result from the first case, we get that $|B\cap C'| \ge |B\cap C''| \ge t/2$. Hence, $C' \in Y_{c_i, q_i}$. Using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $C' \cap C_j = \phi$.
+\end{itemize} 
+\end{itemize}
 %Let $x \in D_{c_i, q_i}$. We claim that $x \not\in \mc S$. For the sake of contradiction, let us assume that $x \in C_j$ for some $j \neq i$. Now, $C_i$ and $C_j$ satisfy $\alpha$-center proximity. Using, Fact \ref{fact:alphacpDist}, we have that $\forall p' \in B$, $(\alpha - 1)d(p', c_i) < d(p', x)$. This contradicts the fact that $x \in D_{c_i, q_i}$. Hence, we get that $x \not\in \mc S$ which implies that $x \in \mc T$ (Defn. \ref{defn:alphacpnoise}). Thus, $D_{c_i, q_i} \subseteq \mc T$ and $|D_{c_i, q_i}| \le |\mc T| \le \epsilon |\mc X|$.  
 \end{proof}
 
 \begin{theorem}
-Given $\mc X$ and $k$ and parameters $t$ and $r$. Algorithm \ref{alg:alphacp} runs in $O(|\mc X|^3)$time.
+Given clustering instance $(\mc X, d)$, $k$ and $t$. Algorithm \ref{alg:alphacp} runs in $O(|\mc X|^3)$time.
 \end{theorem}
 
 \begin{proof}
-Let $n = |\mc X|$. Observe that given the ball $B = B(p, d(p, q))$, for any cluster $C$, checking if $C \in Y_{p, q}$ takes time O($|C|$). Doing this for all clusters takes O(n) time. The algorithm examines all the pairs of points and hence runs in $O(n^3)$ time.
+Let $n = |\mc X|$. Let $\mc C' =\{C_1', \ldots, C_{k'}'\}$ denote the current clustering of $\mc X$ as defined in Alg. \ref{alg:alphacp}. Observe that given the ball $B_{p, q} = B(p, d(p, q))$, for any cluster $C' \in \mc C'$, checking if $C' \in Y_{p, q}$ takes time O($|C'|$). Doing this for all clusters takes O(n) time. The algorithm examines all the pairs of points and hence runs in $O(n^3)$ time.
 \end{proof}
 %\begin{fact}
 %\label{fact:alphacpDist}
