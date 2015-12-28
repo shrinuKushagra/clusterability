@@ -1,0 +1,132 @@
+\documentclass[11pt]{article}
+\usepackage[paper]{nickstyle}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amssymb, amsmath}
+\usepackage{enumitem}
+
+\newcommand{\mc}{\mathcal}
+\setlength{\parindent}{24pt}
+\renewcommand{\bar}[1]{\overline{#1}}
+
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{conj}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\newcommand{\ConjName}[1]{\label{con:#1}}
+\newcommand{\Conj}[1]{Conjecture~\ref{con:#1}}
+\newcommand{\ProblemName}[1]{\label{prob:#1}}
+\newcommand{\Problem}[1]{Problem~\ref{prob:#1}}
+\renewcommand{\dot}{\bullet}
+\newcommand{\Tr}{\operatorname{tr}}
+\newcommand{\eps}{\epsilon}
+
+\newcommand{\lmax}{\lambda_\mathrm{max}}
+\newcommand{\lmin}{\lambda_\mathrm{min}}
+\newcommand{\ufinal}{u_\mathrm{final}}
+\newcommand{\lfinal}{l_\mathrm{final}}
+\newcommand{\umax}{u_\mathrm{max}}
+
+\newcommand{\Symraw}{\mathbb{S}}
+\newcommand{\Sym}[1][]{\Symraw^{\ifthenelse{\equal{#1}{}}{m}{#1}}}
+\newcommand{\Psd}[1][]{\Symraw_+^{\ifthenelse{\equal{#1}{}}{m}{#1}}}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\iprod}[2]{\langle #1, #2 \rangle}
+\newcommand{\paren}[2][]{#1({#2}#1)}
+\newcommand{\qform}[2]{\transp{#2}#1#2}
+\newcommand{\transp}[1]{#1^T}
+
+
+
+% Simple (outer) environment for algorithms
+\newenvironment{outer_alg}{
+    \begin{list}{}{
+        \setlength{\itemsep}{2pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\topsep}{1pt}
+        \setlength{\leftmargin}{5pt}
+    }
+}
+{
+    \end{list}
+}
+
+% Simple environments for algorithms
+\newenvironment{alg}{
+    \begin{list}{}{
+        \setlength{\itemsep}{2pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\topsep}{1pt}
+    }
+}
+{
+    \end{list}
+}
+
+%%%%% Title %%%%%
+\title{\LARGE Lower bound}
+\author{}
+
+
+%%%%% Document Body %%%%%
+\begin{document}
+\maketitle
+
+\section{Lower bounds for $(\alpha, \eta)$-center proximity}
+
+\begin{definition}[$(\alpha, \eta)$-center proximity]
+Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C = \{C_1, \ldots, C_k\}$ of $\mc S$ induced by centers $c_1, \ldots, c_k$ has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ if the following holds.
+
+\begin{itemize}[nolistsep, noitemsep]
+\label{defn:alphacpnoise}	
+
+\item[$\diamond$] {\bf $\alpha$-centre proximity}: For all $x \in C_i$ and $i\neq j$, $\thinspace\alpha d(x, c_i) < d(x, c_j)$
+\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \eta\max\limits_{i} \thinspace r(C_i)$, then $|B\cap (\mc X\setminus \mc S)| < \min\limits_{i} |C_i|/2$
+\end{itemize}
+\end{definition}
+
+\noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-center} {\it $t$-min nice} if there exist a clustering $\mc C=\{C_1,\ldots,C_k\}$ of $\mc S$ which satisfies $(\alpha, \eta)$-center proximity and $\min\limits_{i} \lvert C_i\rvert = t$. Note that given $(\mc X, d), k$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C$ of $\mc S$ which satisfy these conditions.
+
+\subsection{Goal}
+We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$.
+ Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min nice, there exists a pruning $\mc P'$ of the tree such that $\mc C'$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P'$) respects $\mc C$. 
+
+previously, we proposed a hierarchical clustering algorithm (Alg.\ref{alg:alphacp}). Thm.\ref{thm:alphacpnoise} proves that our algorithm indeed achieves the above mentioned goal.
+It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$.
+
+The output of our algorithm is a clustering tree that is able to capture all $(\alpha, \eta)$-center $t$-min nice subsets $\mc S$. More precisely, this tree has a pruning $\mc P'$ such that the corresponding clustering $\mc C'$ respects the clustering $\mc C$ of $\mc S$. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
