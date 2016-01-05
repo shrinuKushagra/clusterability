@@ -89,44 +89,39 @@ Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S 
 \noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-center} {\it $t$-min nice} if there exist a clustering $\mc C=\{C_1,\ldots,C_k\}$ of $\mc S$ which satisfies $(\alpha, \eta)$-center proximity and $\min\limits_{i} \lvert C_i\rvert = t$. Note that given $(\mc X, d), k$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C$ of $\mc S$ which satisfy these conditions.
 
 \subsection{Goal}
-We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$.
- Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min nice, there exists a pruning $\mc P'$ of the tree such that $\mc C'$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P'$) respects $\mc C$. 
+We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min nice, there exists a pruning $\mc P'$ of the tree such that $\mc C'$ (the clustering of the set $\mc X$ corresponding to the pruning) respects $\mc C$ (any clustering of $\mc S$ which satisfies $(\alpha, \eta)$-center proximity). 
 
-previously, we proposed a hierarchical clustering algorithm (Alg.\ref{alg:alphacp}). Thm.\ref{thm:alphacpnoise} proves that our algorithm indeed achieves the above mentioned goal.
-It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$.
+In the previous section we proposed a hierarchical clustering algorithm (Alg.\ref{alg:alphacp}) which acheives the desired goal for $\alpha > 2 + \sqrt{7}$ and $\eta \ge 1$. In this section, we want to show some negative results. Specifically, we will show that for $\alpha \le 2 + \sqrt{3}$ no algorithm exists which can acheive the above mentioned goal.
 
-The output of our algorithm is a clustering tree that is able to capture all $(\alpha, \eta)$-center $t$-min nice subsets $\mc S$. More precisely, this tree has a pruning $\mc P'$ such that the corresponding clustering $\mc C'$ respects the clustering $\mc C$ of $\mc S$. 
-
+\begin{theorem}
+Let $\mc X \subset \mathbf{R}$. 
+\end{theorem}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 \end{document}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
