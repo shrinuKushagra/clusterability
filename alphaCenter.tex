@@ -5,6 +5,9 @@
 \usepackage{amssymb, amsmath}
 \usepackage{enumitem}
 
+\usepackage{tikz}
+\usetikzlibrary{shapes,calc,arrows,through,intersections,decorations.pathreplacing, patterns}
+
 \newcommand{\mc}{\mathcal}
 \setlength{\parindent}{24pt}
 \renewcommand{\bar}[1]{\overline{#1}}
@@ -240,6 +243,47 @@ Given clustering instance $(\mc X, d)$, $k$ and $t$. Algorithm \ref{alg:alphacp}
 Let $n = |\mc X|$. Let $\mc C^{(l)} =\{C_1, \ldots, C_{k'}\}$ denote the current clustering of $\mc X$ as defined in Alg. \ref{alg:alphacp}. Observe that given the ball $B = B(p, d(p, q))$, for any cluster $C_i \in \mc C^{(l)}$, checking if $C_i \in Y_B^{C^{(l)}}$ takes time O($|C_i|$). Doing this for all clusters takes $O(n)$ time. The algorithm examines all the pairs of points and hence runs in $O(n^3)$ time.
 \end{proof}
 
+\subsection{Lower Bounds}
+Recall the framework in the previous sections. We were given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Our goal was to output a hierarchical clustering tree of $\mc X$ which has the following property. ``{\it For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, there exists a pruning $\mc P$ of the tree such that the clustering corresponding to the pruning $\mc C_{\mc X}^{\mc P}$ respects $\mc C_{\mc S}$.}'' Whenever, a tree has this property, we will say that the tree {\it captures} all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$.
+
+We proposed a polynomial-time algorithm (Alg. \ref{alg:alphacp}) and proved that for $\alpha \ge 2+\sqrt 7$ and $\eta \ge 1$, our algorithm achieves the desired objective. Another natural question to ask is that ``under what conditions or values of $\alpha$ and $\eta$ is it not possible to achieve our goal?'' The general flavour of results would be the following. We will show that if the value of $\alpha$ is below a certain threshold say $\alpha_0$ then no algorithm can succeed in achieving the desired goal. We first describe our lower bound results informally.
+
+\begin{enumerate}[nolistsep, noitemsep, label=\textbf{L.\arabic*}]
+\renewcommand\labelitemi{$\diamond$}
+\item \label{lowerBd:alphacp1} If $\alpha < 2 + \sqrt{5}$ and $\eta \ge 1$ (noise is sparse), then the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$. 
+\item \label{lowerBd:alphacp2} If $\alpha < 2 + \sqrt{3}$ and $\eta \ge 1$ (noise is sparse), then no algorithm can output a tree such that the tree captures all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$.
+\item \label{lowerBd:alphacp3} If $\alpha < 5$ and the number of noisy points $ > t+2$, then no algorithm can output a tree such that the tree captures all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$. Note that in this case, we do not assume that the noise is sparse.
+\end{enumerate}
+
+\noindent Its important to note that \ref{lowerBd:alphacp1} and \ref{lowerBd:alphacp2} are lower bounds for the case when we assume that the noise is sparse. However, \ref{lowerBd:alphacp3} shows that if we do not have assume that the noise is sparse then even for a large value of $\alpha$ no algorithm can `tolerate' $t+2$ noisy points where $t$ is the size of the minimum cluster. Note that Alg. \ref{alg:alphacp} can `tolerate' much more than $t+2$ noisy points as long the noise is {\it unstructured} or sparse. We will now prove each of the lower bound results.
+
+\begin{tikzpicture}[scale=7]
+
+	\coordinate (x) at (-0.02,0);
+	\coordinate (y) at (1.02,0);
+
+	\node[label=900:$0$] at (0,0) {};
+	\node[label=$\lambda$] at (0.2,0) {$\bullet$};
+	\node[label=$2\lambda$] at (0.4,0) {$\bullet$};
+	\node[label=$n\lambda$] at (0.8,0) {$\bullet$};
+	\node[label=270:$\frac{(2n+1)\lambda}{2}$] at (0.9,0) {$\bullet$};
+	\node[label=0:$1$] at (1,0)  {};
+	\node at (0.6,0.02) {$\ldots\ldots\ldots$};
+	
+	\draw[thick] (x) --(y);
+	
+	\draw (0,-0.05) -- (0,0.05);
+	\draw (0,-0.05) -- (0.03,-0.05);
+	\draw (0,0.05) -- (0.03,0.05);
+	
+	\draw (1,-0.05) -- (1,0.05);
+	\draw (1,-0.05) -- (0.97,-0.05);
+	\draw (1,0.05) -- (0.97,0.05);
+\end{tikzpicture}
+
+\begin{theorem}
+Fix $k$ and $t$. Define $t' = \frac{t}{2}-1$. Let $B_1 = \{t'$ points at $0 \cup 2$ points at $\}$
+\end{theorem}
 
 \section{Center Separation}
 

@@ -1,0 +1,23 @@
+\begin{tikzpicture}[scale=7]
+
+	\coordinate (x) at (-0.02,0);
+	\coordinate (y) at (1.02,0);
+
+	\node[label=900:$0$] at (0,0) {};
+	\node[label=$\lambda$] at (0.2,0) {$\bullet$};
+	\node[label=$2\lambda$] at (0.4,0) {$\bullet$};
+	\node[label=$n\lambda$] at (0.8,0) {$\bullet$};
+	\node[label=270:$\frac{(2n+1)\lambda}{2}$] at (0.9,0) {$\bullet$};
+	\node[label=0:$1$] at (1,0)  {};
+	\node at (0.6,0.02) {$\ldots\ldots\ldots$};
+	
+	\draw[thick] (x) --(y);
+	
+	\draw (0,-0.05) -- (0,0.05);
+	\draw (0,-0.05) -- (0.03,-0.05);
+	\draw (0,0.05) -- (0.03,0.05);
+	
+	\draw (1,-0.05) -- (1,0.05);
+	\draw (1,-0.05) -- (0.97,-0.05);
+	\draw (1,0.05) -- (0.97,0.05);
+\end{tikzpicture}

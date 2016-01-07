@@ -1,0 +1,64 @@
+\usepackage[paper]{nickstyle}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amssymb, amsmath}
+\usepackage{enumitem}
+
+\newcommand{\mc}{\mathcal}
+\setlength{\parindent}{24pt}
+\renewcommand{\bar}[1]{\overline{#1}}
+
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{conj}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\newcommand{\ConjName}[1]{\label{con:#1}}
+\newcommand{\Conj}[1]{Conjecture~\ref{con:#1}}
+\newcommand{\ProblemName}[1]{\label{prob:#1}}
+\newcommand{\Problem}[1]{Problem~\ref{prob:#1}}
+\renewcommand{\dot}{\bullet}
+\newcommand{\Tr}{\operatorname{tr}}
+\newcommand{\eps}{\epsilon}
+
+\newcommand{\lmax}{\lambda_\mathrm{max}}
+\newcommand{\lmin}{\lambda_\mathrm{min}}
+\newcommand{\ufinal}{u_\mathrm{final}}
+\newcommand{\lfinal}{l_\mathrm{final}}
+\newcommand{\umax}{u_\mathrm{max}}
+
+\newcommand{\Symraw}{\mathbb{S}}
+\newcommand{\Sym}[1][]{\Symraw^{\ifthenelse{\equal{#1}{}}{m}{#1}}}
+\newcommand{\Psd}[1][]{\Symraw_+^{\ifthenelse{\equal{#1}{}}{m}{#1}}}
+\newcommand{\Reals}{\mathbb{R}}
+\newcommand{\iprod}[2]{\langle #1, #2 \rangle}
+\newcommand{\paren}[2][]{#1({#2}#1)}
+\newcommand{\qform}[2]{\transp{#2}#1#2}
+\newcommand{\transp}[1]{#1^T}
+
+
+
+% Simple (outer) environment for algorithms
+\newenvironment{outer_alg}{
+    \begin{list}{}{
+        \setlength{\itemsep}{2pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\topsep}{1pt}
+        \setlength{\leftmargin}{5pt}
+    }
+}
+{
+    \end{list}
+}
+
+% Simple environments for algorithms
+\newenvironment{alg}{
+    \begin{list}{}{
+        \setlength{\itemsep}{2pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\topsep}{1pt}
+    }
+}
+{
+    \end{list}
+}
