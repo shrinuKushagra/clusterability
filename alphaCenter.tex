@@ -74,9 +74,12 @@
 \maketitle
 
 \section{Notation and definition}
-We are given a data set $\mc X$ with distance function $d$.  We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We denote a ball of radius $r$ at centre $x$ by $B(x, r)$. To specify that a clustering $\mc C$ partitions the set $\mc A$, we use the notation $\mc C_{\mc A}$.
+We are given a data set $\mc X$ with distance function $d$.  We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We denote a ball of radius $r$ at centre $x$ by $B(x, r)$. To specify that a clustering partitions the set $\mc A$, we use the notation $\mc C_{\mc A}$.
 
 \begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_{k'}\}$ be a clustering of $\mc X$ and $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$.
+\end{definition}
+
+\begin{definition}[$\mc C_{\mc X}$ restricted to $\mc S$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be a clustering of $\mc X$. We define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Note that $\mc C_{\mc X}|_{\mc S}$ is a clustering of the set $\mc S$. 
 \end{definition}
 
 \section{Center Separation}
@@ -91,7 +94,7 @@ $$d(c_i, c_j) > \lambda \enspace\max_{p \in [k]} \thinspace r(C_p)$$
 Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k$ has $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ if the following holds.
 
 \begin{itemize}[nolistsep, noitemsep]
-\label{defn:alphacpnoise}	
+\label{defn:lambdacsnoise}	
 
 \item[$\diamond$] {\bf $\lambda$-centre separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda \max_{p} r(S_p)$
 \item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \eta\max\limits_{i} \thinspace r(S_i)$, then $|B\cap (\mc X\setminus \mc S)| < \min\limits_{i} |S_i|/2$
@@ -101,6 +104,82 @@ Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S 
 \noindent A set $\mc S \subseteq \mc X$ is {\it $(\lambda, \eta)$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc S}=\{S_1,\ldots,S_k\}$ which satisfies $(\lambda, \eta)$-center separation,  $\min\limits_{i} \lvert S_i\rvert = t$ and $\max\limits_{i} r(S_i) = r$. Note that given $(\mc X, d), k, r$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
 
 %\noindent A clustering instance $(\mc X, d)$ satisfies $(\alpha, \eta)$-center proximity if there exist $\mc S \subseteq \mc X$ such that there exists a clustering $\mc C$ of $\mc S$ which has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$.
+
+\subsection{Algorithm}
+\begin{algorithm}[!ht]
+\begin{alg}
+	\item \textbf{Input: } $(\mc X, d), k, t$ and $r$
+	\item \textbf{Output: } A $k$-clustering $C$ of the set $\mc X$.\\
+	\item \textbf{Phase 1}
+	\item[1] Let $\mc L$ denote the list of balls found so far. Initialize $\mc L$ to be the empty set. $\mc L = \phi$.
+	\item[2] Iterate over all pairs of points $p, q \in \mc X$ in increasing order of the distance $d(p, q)$. Let $B := B(p, d(p, q))$. If $|B| \ge t$ and $r(B) \le r$ then
+	\begin{itemize}
+	\renewcommand\labelitemi{}
+		\item $\mc L = \mc L \thinspace\cup B$
+	\end{itemize}
+	\item[3] Output the list of balls $\mc L = \{B_1, \ldots, B_l\}$ to the second phase of the algorithm.\\
+	\item \textbf{Phase 2}
+	\item[1] Construct a graph $G = (V, E)$ as follows. $V = \{v_1, v_2, \ldots, v_l\}$. If $|B_i \cap B_j| \ge t/2$ then construct an edge between $v_i$ and $v_j$.
+	\item[2] Find $k$ connected components ($G_1, \ldots, G_{k}$) in the graph $G$. Construct a clustering $\mc C = \{C_1, \ldots, C_k\}$ of the set $\mc X$ as follows.
+	\begin{itemize}
+	\renewcommand\labelitemi{}
+		\item for $m \in 1$ to $k$
+		\begin{itemize}
+			\renewcommand\labelitemii{}
+			\item $C_m = \phi$
+			\item for all $v_n \in G_m$
+			\begin{itemize}
+				\renewcommand\labelitemiii{}
+				\item $C_m = C_m \cup B_n$
+			\end{itemize}
+		\end{itemize}
+	\end{itemize}
+	This step basically merges all the points in the same connected component together. After this step all the points in $\mc B = \cup_i B_i$ have been clustered.
+	\item[3] Assign $x \in \mc X \setminus \mc B$ to the cluster $C_i$ where $i := \argmin\limits_{j\in [k]} \min\limits_{y \in C_j}d(x, y)$. That is, assign $x$ to the closest cluster $C_i$. Output the clustering $\mc C = \{C_1, \ldots, C_k\}$. 
+\end{alg}
+\caption{Alg. for $(\lambda, \eta)$-center separation with parameters $t$ and $r$}
+\label{alg:lambdacs}
+\end{algorithm}
+
+\begin{theorem}
+Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $ \min_i|S_i^*| = t$ and $\max_i r(S_i^*) = r$.
+
+If $\lambda \ge 4$ and $\eta \ge 1$, then Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$ that is the clustering retricted to the set $S$ is same as the clustering $\mc C_{\mc S}^*$.
+\end{theorem}
+\begin{proof}
+Fix $\mc S \subseteq \mc X$. Let $\mc C_{\mc S}^* = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $\min |S_i^*| = t$ and $\max_i r(S_i^*) = r$. Also, denote by $r_i := r(S_i^*)$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be the clustering outputed by the algorithm. Throughout the proof, we will sometimes refer to $S_i^*$ as the `good clusters' and the set $\mc S$ as the good set.
+
+Let $\mc L = \{B_1, \ldots, B_l\}$ be the list of balls as outputed by Phase 1 of Alg. \ref{alg:lambdacs}. Let $G$ be the graph as constructed in Phase 2 of the algorithm. First observe that $s_i \in \mc X$ and $r_i \le r$. Hence, $B = B(s_i, r_i) \in \mc L$ and $B = S_i^*$. WLOG, denote this ball by $B^{(i)}$ and the corresponding vertex in the graph $G$ by $v^{(i)}$. We will prove the theorem by proving two key facts.  
+
+\begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
+\renewcommand\labelitemi{$\diamond$}
+\item \label{fact:lambda1} If two balls $B_{i1}$ and $B_{i2}$ intersect the same good cluster $S_i^*$ then the corresponding vertices $v_{i1}$ and $v_{i2}$ are connected by a path in $G$.
+\item \label{fact:lambda2} If a ball $B_{i1}$ intersects a good cluster $S_i^*$ and another ball $B_{j1}$ intersects some other good cluster $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$.	
+\end{enumerate}
+Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.\\
+
+\noindent\textit{\underline{Proof of Fact \ref{fact:lambda1}}}
+\begin{claim}
+\label{claim:lambda1}
+Let $\mc L, G, B^{(i)}$ and $v^{(i)}$ be as defined above. Let balls $B_{i1}, B_{i2} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{i2} \cap S_i^* \neq \phi$. Then there exists a path between vertices $v_{i1}$ and $v_{i2}$ in the graph $G$.
+\end{claim}
+\vspace{-0.1in} For the sake of contradiction, assume that $v_{i1}$ and $v^{(i)}$ are not connected by an edge in $G$. Hence, $|B_{i1} \cap B^{(i)}| < t/2 \implies |B_{i1} \setminus B^{(i)}| \ge t/2$. Now, observe that since $\lambda > 4$, for all $j \neq i$, $B_{i1} \cap S_j^* = \phi$. Thus, $B_{i1} \setminus B^{(i)} \subseteq \mc X \setminus \mc S$. Hence, we get that $|B_{i1} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, $v_{i1}$ is connected to $v^{(i)}$ by an edge in $G$. By symmetry, there exists an edge between $v_{i2}$ and $v^{(i)}$. Thus, $v_{i1}$ and $v_{i2}$ are connected in $G$.\\
+
+\noindent\textit{\underline{Proof of Fact \ref{fact:lambda2}}}
+\begin{claim}
+Let the framework be as in Claim \ref{claim:lambda1}. Let $B_{i1} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{j1}$ be such that $B_{j1} \cap S_j^* \neq \phi$. Then the vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
+\end{claim}
+\vspace{-0.1in} Now, we will show that if a ball $B_{i1}$ intersects $S_i^*$ and $B_{j1}$ intersects $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$. For the sake of contradiction, assume that $v_{i1}$ and $v_{j1}$ are connected by a path in $G$. Hence, there exists vertices $v_{i}$ and $v_{n}$ such that $v_i$ and $v_n$ are connected by an edge in $G$ and $B_i \cap S_i^* \neq \phi$ and $B_n \cap S_n^* \neq \phi$ for some $n \neq i$. $v_i$ and $v_n$ are connected, hence $|B_i \cap B_n| \ge t/2$. Now, $\lambda \ge 4$, thus $B_i \cap \{\mc S \setminus S_i^*\} = \phi$ and $B_n \cap \{\mc S\setminus S_n^*\} = \phi$. Thus, $B_i \cap B_n \subseteq \mc X \setminus \mc S$. Thus $|B_{i} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, we get that $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
+\end{proof}
+
+
+\begin{theorem}
+Given clustering instance $(\mc X, d)$, $k$ and parameters $r$ and $t$. Algorithm \ref{alg:lambdacs} runs in time which is polynomial in $|\mc X|$.
+\end{theorem}
+
+\begin{proof}
+Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaning steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
+\end{proof}
 
 
 \section{Center Proximity}
@@ -175,7 +254,7 @@ Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $
 	\item[3] Output clustering tree $T$. The leaves of $T$ are the points in dataset $\mc X$. The internal nodes corresppond to the merging performed in the previous step.
 	%\item[4] Construct $T$ from $T'$ by deleting the all nodes which do not have any children.
 \end{alg}
-\caption{Alg. for $(\alpha, \eta)$-center proximity with parameter $t = \min_i |C_i|$}
+\caption{Alg. for $(\alpha, \eta)$-center proximity with parameter $t$}
 \label{alg:alphacp}
 \end{algorithm}
 
@@ -254,7 +333,7 @@ Let $s_i$, $q_i$, $r_i$, $B$ and $Y$ be as defined above. Then, $B$ satisfies th
 \end{proof}
 
 \begin{theorem}
-Given clustering instance $(\mc X, d)$, $k$ and $t$. Algorithm \ref{alg:alphacp} runs in $O(|\mc X|^3)$time.
+Given clustering instance $(\mc X, d)$, $k$ and $t$. Algorithm \ref{alg:alphacp} runs in time which is polynomial in $|\mc X|$.
 \end{theorem}
 
 \begin{proof}
