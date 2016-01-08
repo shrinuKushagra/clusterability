@@ -4,6 +4,9 @@
 \usepackage{amssymb, amsmath}
 \usepackage{enumitem}
 
+\usepackage{tikz}
+\usetikzlibrary{shapes,calc,arrows,through,intersections,decorations.pathreplacing, patterns}
+
 \newcommand{\mc}{\mathcal}
 \setlength{\parindent}{24pt}
 \renewcommand{\bar}[1]{\overline{#1}}

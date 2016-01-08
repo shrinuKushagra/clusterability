@@ -1,72 +1,7 @@
 \documentclass[11pt]{article}
-\usepackage[paper]{nickstyle}
-\usepackage{color}
-\usepackage{hyperref}
-\usepackage{amssymb, amsmath}
-\usepackage{enumitem}
+\input{figures/utils}
 
-\usepackage{tikz}
-\usetikzlibrary{shapes,calc,arrows,through,intersections,decorations.pathreplacing, patterns}
-
-\newcommand{\mc}{\mathcal}
-\setlength{\parindent}{24pt}
-\renewcommand{\bar}[1]{\overline{#1}}
-
-\newtheorem{fact}[theorem]{Fact}
-\newtheorem{conj}[theorem]{Conjecture}
-\newtheorem{problem}[theorem]{Problem}
-\newcommand{\ConjName}[1]{\label{con:#1}}
-\newcommand{\Conj}[1]{Conjecture~\ref{con:#1}}
-\newcommand{\ProblemName}[1]{\label{prob:#1}}
-\newcommand{\Problem}[1]{Problem~\ref{prob:#1}}
-\renewcommand{\dot}{\bullet}
-\newcommand{\Tr}{\operatorname{tr}}
-\newcommand{\eps}{\epsilon}
-
-\newcommand{\lmax}{\lambda_\mathrm{max}}
-\newcommand{\lmin}{\lambda_\mathrm{min}}
-\newcommand{\ufinal}{u_\mathrm{final}}
-\newcommand{\lfinal}{l_\mathrm{final}}
-\newcommand{\umax}{u_\mathrm{max}}
-
-\newcommand{\Symraw}{\mathbb{S}}
-\newcommand{\Sym}[1][]{\Symraw^{\ifthenelse{\equal{#1}{}}{m}{#1}}}
-\newcommand{\Psd}[1][]{\Symraw_+^{\ifthenelse{\equal{#1}{}}{m}{#1}}}
-\newcommand{\Reals}{\mathbb{R}}
-\newcommand{\iprod}[2]{\langle #1, #2 \rangle}
-\newcommand{\paren}[2][]{#1({#2}#1)}
-\newcommand{\qform}[2]{\transp{#2}#1#2}
-\newcommand{\transp}[1]{#1^T}
-
-
-
-% Simple (outer) environment for algorithms
-\newenvironment{outer_alg}{
-    \begin{list}{}{
-        \setlength{\itemsep}{2pt}
-        \setlength{\parsep}{0pt}
-        \setlength{\parskip}{0pt}
-        \setlength{\topsep}{1pt}
-        \setlength{\leftmargin}{5pt}
-    }
-}
-{
-    \end{list}
-}
-
-% Simple environments for algorithms
-\newenvironment{alg}{
-    \begin{list}{}{
-        \setlength{\itemsep}{2pt}
-        \setlength{\parsep}{0pt}
-        \setlength{\parskip}{0pt}
-        \setlength{\topsep}{1pt}
-    }
-}
-{
-    \end{list}
-}
-
+\def\COMPLETE{}
 %%%%% Title %%%%%
 \title{\LARGE Clusterability with sparse noise}
 \author{}
@@ -257,20 +192,18 @@ We proposed a polynomial-time algorithm (Alg. \ref{alg:alphacp}) and proved that
 
 \noindent Its important to note that \ref{lowerBd:alphacp1} and \ref{lowerBd:alphacp2} are lower bounds for the case when we assume that the noise is sparse. However, \ref{lowerBd:alphacp3} shows that if we do not have assume that the noise is sparse then even for a large value of $\alpha$ no algorithm can `tolerate' $t+2$ noisy points where $t$ is the size of the minimum cluster. Note that Alg. \ref{alg:alphacp} can `tolerate' much more than $t+2$ noisy points as long the noise is {\it unstructured} or sparse. We will now prove each of the lower bound results.
 
-\begin{tikzpicture}[scale=7]
+\input{figures/lbdFig1}
 
-	\coordinate (x) at (-0.02,0);
-	\coordinate (y) at (1.02,0);
+\begin{theorem}
+Fix $k$ and $t$. Define $t' = \frac{t}{2}-1$. Let $B_1 = \{t'$ points at $0 \cup 2$ points at $\}$
+\end{theorem}
 
-	\node[label=$\lambda$] at (0.2,0) {$\bullet$};
-	\node[label=$2\lambda$] at (0.4,0) {$\bullet$};
-	\node[label=$n\lambda$] at (0.8,0) {$\bullet$};
-	\node[label=270:$\frac{(2n+1)\lambda}{2}$] at (0.9,0) {$\bullet$};
-	\node at (0.6,0.02) {$\ldots\ldots\ldots$};
-	
-	\draw[thick] (x) --(y);
-\end{tikzpicture}
+\input{figures/lbdFig2}
+\begin{theorem}
+Fix $k$ and $t$. Define $t' = \frac{t}{2}-1$. Let $B_1 = \{t'$ points at $0 \cup 2$ points at $\}$
+\end{theorem}
 
+\input{figures/lbdFig3}
 \begin{theorem}
 Fix $k$ and $t$. Define $t' = \frac{t}{2}-1$. Let $B_1 = \{t'$ points at $0 \cup 2$ points at $\}$
 \end{theorem}
