@@ -15,6 +15,7 @@
 We are given a data set $\mc X$ with distance function $d$.  We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We denote a ball of radius $r$ at centre $x$ by $B(x, r)$. To specify that a clustering partitions the set $\mc A$, we use the notation $\mc C_{\mc A}$.
 
 \begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_{k'}\}$ be a clustering of $\mc X$ and $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$.
+\label{defn:cxrespectscs}
 \end{definition}
 
 \begin{definition}[$\mc C_{\mc X}$ restricted to $\mc S$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be a clustering of $\mc X$. We define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Note that $\mc C_{\mc X}|_{\mc S}$ is a clustering of the set $\mc S$. 
@@ -26,6 +27,8 @@ We are given a data set $\mc X$ with distance function $d$.  We will use the not
 Given a clustering instance $(\mc X, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if the following holds. For all $x \in C_i$ and $i\neq j$, 
 $$\alpha d(x, c_i) < d(x, c_j)$$
 \end{definition}
+
+\noindent The set $\mc X$ is {\it $\alpha$-center} {\it $t$-min nice} if there exist a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ which satisfies $\alpha$-center proximity and $\min\limits_{i} \lvert C_i\rvert = t$.
 
 \begin{definition}[$(\alpha, \eta)$-center proximity]
 Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k$ has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ if the following holds.
@@ -99,9 +102,9 @@ Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $
 
 \begin{theorem}
 \label{thm:alphacpnoise}
-Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$. 
+Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i^*| = t \ge 2$, the following holds. 
 
-If $\alpha \ge 2 + \sqrt 7$, $\eta \ge 1$ and $ \min_i|S_i^*| = t \ge 2$, then for every $1\le i \le k$, there exists a node $N_i$ in the tree $T$ such that $S_i^* \subseteq N_i$ and for $j \neq i$, $S_j^* \cap N_i = \phi$ . That is, $N_i$ contains points from only one of the good clusters $S_i^*$.
+If $\alpha \ge 2 + \sqrt 7$ and $\eta \ge 1$, then for every $1\le i \le k$, there exists a node $N_i$ in the tree $T$ such that $S_i^* \subseteq N_i$ and for $j \neq i$, $S_j^* \cap N_i = \phi$ . That is, $N_i$ contains points from only one of the good clusters $S_i^*$.
 %{\color{red} Is it obvious that the nodes in the pruning are disjoint and they form a clustering of set X?} 
 \end{theorem}
 
@@ -179,6 +182,7 @@ Let $n = |\mc X|$. Let $\mc C^{(l)} =\{C_1, \ldots, C_{k'}\}$ denote the current
 \end{proof}
 
 \subsection{Lower Bounds}
+\label{sec:alphaLBd}
 Recall the framework in the previous sections. We were given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Our goal was to output a hierarchical clustering tree of $\mc X$ which has the following property. ``{\it For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, there exists a pruning $\mc P$ of the tree such that the clustering corresponding to the pruning $\mc C_{\mc X}^{\mc P}$ respects $\mc C_{\mc S}$.}'' Whenever, a tree has this property, we will say that the tree {\it captures} all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$.
 
 We proposed a polynomial-time algorithm (Alg. \ref{alg:alphacp}) and proved that for $\alpha \ge 2+\sqrt 7$ and $\eta \ge 1$, our algorithm achieves the desired objective. Another natural question to ask is that ``under what conditions or values of $\alpha$ and $\eta$ is it not possible to achieve our goal?'' The general flavour of results would be the following. We will show that if the value of $\alpha$ is below a certain threshold say $\alpha_0$ then no algorithm can succeed in achieving the desired goal. We first describe our lower bound results informally.
@@ -187,26 +191,81 @@ We proposed a polynomial-time algorithm (Alg. \ref{alg:alphacp}) and proved that
 \renewcommand\labelitemi{$\diamond$}
 \item \label{lowerBd:alphacp1} If $\alpha < 2 + \sqrt{5}$ and $\eta \ge 1$ (noise is sparse), then the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$. 
 \item \label{lowerBd:alphacp2} If $\alpha < 2 + \sqrt{3}$ and $\eta \ge 1$ (noise is sparse), then no algorithm can output a tree such that the tree captures all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$.
-\item \label{lowerBd:alphacp3} If $\alpha < 5$ and the number of noisy points $ > t+2$, then no algorithm can output a tree such that the tree captures all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$. Note that in this case, we do not assume that the noise is sparse.
+\item \label{lowerBd:alphacp3} If $\alpha \le 2\sqrt{2}+3$ and the number of noisy points $ > 3t/2+5$, then no algorithm can output a tree such that the tree captures all $\alpha$-center $t$-min nice subsets of $\mc X$. Note that in this case, we do not assume that the noise is sparse.
 \end{enumerate}
 
-\noindent Its important to note that \ref{lowerBd:alphacp1} and \ref{lowerBd:alphacp2} are lower bounds for the case when we assume that the noise is sparse. However, \ref{lowerBd:alphacp3} shows that if we do not have assume that the noise is sparse then even for a large value of $\alpha$ no algorithm can `tolerate' $t+2$ noisy points where $t$ is the size of the minimum cluster. Note that Alg. \ref{alg:alphacp} can `tolerate' much more than $t+2$ noisy points as long the noise is {\it unstructured} or sparse. We will now prove each of the lower bound results.
+\noindent Its important to note that \ref{lowerBd:alphacp1} and \ref{lowerBd:alphacp2} are lower bounds for the case when we assume that the noise is sparse. However, \ref{lowerBd:alphacp3} shows that if we do not have assume that the noise is sparse then even for a large value of $\alpha$ no algorithm can `tolerate' $3t/2+5$ noisy points where $t$ is the size of the minimum cluster. Note that Alg. \ref{alg:alphacp} can `tolerate' much more than $3t/2+5$ noisy points as long the noise is {\it unstructured} or sparse. We will now prove each of the lower bound results.
 
+The proof of the lower bounds will follow the follwing general structure. Firstly, we will construct the set $\mc X$, then we will construct sets $\mc S \subset \mc X$ which are $(\alpha, \eta)$-center $t$-min nice (for \ref{lowerBd:alphacp1} and \ref{lowerBd:alphacp2}) or $\alpha$-center $t$-min nice (for \ref{lowerBd:alphacp3}). Then we show that all the clusterings can not be captured by the output tree. Before, we begin the proof of the lower bounds, we need to introduce some notation. 
+
+Given the number of clusters $k$ and parameter $t$. Denote by $P_{i}(c) := B(c, 0)$ a ball of radius $0$ centered at $c$ such that $|B(c, 0)| = i$. We will sometimes omit $c$ and use the notation $P_i$ when the center is clear from the context. Recall that we defined what it means for a clustering $\mc C_{\mc X}$ to respect $\mc C_{\mc S}$ (Defn. \ref{defn:cxrespectscs}). With a slight abuse of notation, we will say that a pruning $P$ of a hierarchical clustering tree $T$ of $\mc X$ respects $\mc C_{\mc S}$, if the clustering corresponding to the pruning $\mc C_{\mc X}^P$ respects $\mc C_{\mc S}$. Also, if such a pruning $P$ exists, we will say that the tree $T$ respects $\mc C_{\mc S}$.
+
+\begin{figure}[!ht]
 \input{figures/lbdFig1}
+\caption{$\mc X \subseteq \mathbb{R}$ such that Alg. \ref{alg:alphacp} doesn't capture all the $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$}
+\label{fig:algAlphacp}
+\end{figure}
 
 \begin{theorem}
-Fix $k$ and $t$. Define $t' = \frac{t}{2}-1$. Let $B_1 = \{t'$ points at $0 \cup 2$ points at $\}$
+\label{thm:algAlphacp}
+Given the number of clusters $k$ and a parameter $t$. There exists a clustering instance $(\mc X, d)$ such that Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
+
+If $\alpha < 2 + \sqrt 5$ and $\eta \ge 1$ and then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
 \end{theorem}
 
+\begin{proof}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \{P_{t'}(0) \thinspace\cup\thinspace P_{t'}(2\alpha) \thinspace\cup\thinspace P_{t'}(4\alpha+2) \thinspace\cup\thinspace P_{t'}(6\alpha+2)\}$ and $O_2 = \{P_{2}(\alpha+1) \thinspace\cup\thinspace P_{2}(3\alpha+1) \thinspace\cup\thinspace P_{2}(5\alpha+1) \}$. For $3\le i\le k$, define $B_i = B(16\alpha+2+i\alpha, 0)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set $\mc X$ is also shown in Fig. \ref{fig:algAlphacp}.
+
+Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha+1) \thinspace\cup\thinspace P_{t'}(2\alpha) \}$ and $B_2 = \{\ P_{t'}(4\alpha+2) \thinspace\cup\thinspace P_{2}(5\alpha+1)\thinspace\cup\thinspace P_{t'}(6\alpha+2)\}$. Now, define $\mc S = \{B_1 \union \ldots \union B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{5}$, $\mc S$ is $(\alpha, 1)$-center $t$-min nice and the clustering $\mc C_{\mc S} = \{B_1, \ldots, B_k\}$ satisfies $(\alpha, 1)$-center proximity. However, we will show that the tree outputted by Alg. \ref{alg:alphacp} doesn't contain a pruning such that the corresponding clustering respects $\mc C_{\mc S}$.
+
+Denote by $B_{12} = \{P_{t'}(2\alpha) \union P_{2}(3\alpha+1) \union P_{t'}(4\alpha+2) \}$. Alg. \ref{alg:alphacp}, iterates through pairs of points in increasing order of their distance. Hence, it first merges points in $B_3$ to $B_k$ into $k-2$ clusters. Now, observe that $B_1, B_{12}$ and $B_{2}$ have the radius $\alpha + 1$ (as our centers must be part of the dataset $\mc X$). Hence, the algorithm can choose to merge points in $B_{12}$ into the same cluster before merging points from $B_1$ and $B_2$ together. In this case, there exists no pruning of the tree which respects the clustering $\mc C_{\mc S}$.
+\end{proof}
+
+\begin{figure}[!ht]
 \input{figures/lbdFig2}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$}
+\label{fig:noalgalphacp}
+\end{figure}
+
 \begin{theorem}
-Fix $k$ and $t$. Define $t' = \frac{t}{2}-1$. Let $B_1 = \{t'$ points at $0 \cup 2$ points at $\}$
+\label{thm:noalgalphacp}
+Given the number of clusters $k$ and a parameter $t$. For any algorithm which outputs a clustering tree $T$ of a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
+
+If $\alpha \le 2 + \sqrt 3$, $\eta \ge 1$ and , then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
 \end{theorem}
 
+\begin{proof}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = \union_{i=0}^4 P_{t'}(i\alpha-i)$ and $O_2 = \{P_{2}(\alpha-2) \thinspace\cup\thinspace P_{2}(2\alpha-3) \thinspace\cup\thinspace P_{2}(2\alpha-1) \thinspace\cup\thinspace P_{2}(3\alpha-2)\}$. For $3\le i\le k$, define $B_i = B(14\alpha-4+i\alpha, 0)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set is also shown in Fig. \ref{fig:noalgalphacp}.
+
+Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-2) \thinspace\cup\thinspace P_{t'}(\alpha-1) \}$ and $B_2 = \{\ P_{t'}(2\alpha-2) \thinspace\cup\thinspace P_{2}(2\alpha-1)\thinspace\cup\thinspace P_{t'}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t'}(\alpha-1) \thinspace\cup\thinspace  P_{2}(2\alpha-3) \thinspace\cup\thinspace P_{t'}(2\alpha-2) \}$ and $B_2' = \{\ P_{t'}(3\alpha-3) \thinspace\cup\thinspace P_{2}(3\alpha-2)\thinspace\cup\thinspace P_{t'}(4\alpha-4)\}$. 
+
+Now, define $\mc S = \{B_1 \union B_2 \union B_3\ldots \union B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \union B_2' \union B_3\ldots \union B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which respects both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
+
+For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
+\end{proof}
+
+\begin{figure}[!ht]
 \input{figures/lbdFig3}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-center $t$-min nice subsets of $\mc X$}
+\label{fig:nosparsealg}
+\end{figure}
+
 \begin{theorem}
-Fix $k$ and $t$. Define $t' = \frac{t}{2}-1$. Let $B_1 = \{t'$ points at $0 \cup 2$ points at $\}$
+\label{thm:nosparsealg}
+Given the number of clusters $k$ and a parameter $t$. For any algorithm which outputs a clustering tree $T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
+
+If $\alpha < 2\sqrt 2 + 3$ and $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
 \end{theorem}
+
+\begin{proof}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \union_{i=0}^6 P_{t'}(i\alpha-i)$ and $O_2 = \union_{i=1}^3 P_2(i\alpha-i-2) \union_{i=3}^5 P_2(i\alpha-i+2)$. For $3\le i\le k$, define $B_i = B(16\alpha-6+i\alpha, 0)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
+
+Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-3) \thinspace\cup\thinspace P_{t'}(\alpha-1) \}$ and $B_2 = \{\ P_{t'}(3\alpha-3) \thinspace\cup\thinspace P_{2}(3\alpha-1)\thinspace\cup\thinspace P_{t'}(4\alpha-4)\}$. Also, let $B_1' = \{P_{t'}(\alpha-1) \thinspace\cup\thinspace  P_{2}(2\alpha-4) \thinspace\cup\thinspace P_{t'}(2\alpha-2) \}$ and $B_2' = \{\ P_{t'}(4\alpha-4) \thinspace\cup\thinspace P_{2}(4\alpha-2)\thinspace\cup\thinspace P_{t'}(5\alpha-5)\}$. Also, let $B_1'' = \{P_{t'}(2\alpha-2) \thinspace\cup\thinspace  P_{2}(3\alpha-5) \thinspace\cup\thinspace P_{t'}(3\alpha-3) \}$ and $B_2'' = \{\ P_{t'}(5\alpha-5) \thinspace\cup\thinspace P_{2}(5\alpha-3)\thinspace\cup\thinspace P_{t'}(6\alpha-6)\}$. 
+
+Now, define $\mc S = \{B_1 \union B_2 \union B_3\ldots \union B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \union B_2' \union B_3\ldots \union B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \union B_2'' \union B_3\ldots \union B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2\sqrt{2} + 3$, all of $\mc S$, $\mc S'$ and $\mc S''$ are $\alpha$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\alpha$-center proximity. However, we will show that no algorithm can output a tree which respects $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
+
+For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
+\end{proof}
 
 \section{Center Separation}
 
@@ -215,6 +274,8 @@ Fix $k$ and $t$. Define $t' = \frac{t}{2}-1$. Let $B_1 = \{t'$ points at $0 \cup
 Given a clustering instance $(\mc X, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if the following holds. For all $i\neq j$, 
 $$d(c_i, c_j) > \lambda \enspace\max_{p \in [k]} \thinspace r(C_p)$$
 \end{definition}
+
+\noindent The set $\mc X$ is {\it $\lambda$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ which satisfies $\lambda$-center separation and $\min\limits_{i} \lvert C_i\rvert = t$ and $\max\limits_{i} r(C_i) = r$.
 
 \begin{definition}[$(\lambda, \eta)$-center separation]
 Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k$ has $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ if the following holds.
@@ -281,7 +342,7 @@ Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it con
 
 \begin{theorem}
 \label{thm:lambdacsnoise}
-Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $ \min_i|S_i^*| = t$ and $\max_i r(S_i^*) = r$.
+Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $ \min_i|S_i^*| = t$ and $\max_i r(S_i^*) = r$, the following holds.
 
 If $\lambda \ge 4$ and $\eta \ge 1$, then Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$ that is the clustering retricted to the set $S$ is same as the clustering $\mc C_{\mc S}^*$.
 \end{theorem}
@@ -319,6 +380,95 @@ Given clustering instance $(\mc X, d)$, $k$ and parameters $r$ and $t$. Algorith
 \begin{proof}
 Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaning steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
 \end{proof}
+
+\subsection{Lower Bounds}
+Recall the framework in the previous section. We were given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. Our goal was to output a hierarchical clustering $\mc C_{\mc X}$ which has the following property. ``{\it For every $\mc S \subseteq \mc X$ which is $(\lambda, \eta)$-separated $t$-min $r$-max nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation, $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_{\mc S}$.}'' Whenever the clustering has this property, we will say that it {\it captures} all $(\lambda, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+
+We proposed a polynomial-time algorithm (Alg. \ref{alg:lambdacs}) and proved that for $\lambda \ge 4$ and $\eta \ge 1$, our algorithm achieves the desired objective. Another natural question to ask is that ``under what conditions or values of $\lambda$ and $\eta$ is it not possible to achieve our goal?'' We first describe our lower bound results informally.
+
+\begin{enumerate}[nolistsep, noitemsep, label=\textbf{L.\arabic*}]
+\renewcommand\labelitemi{$\diamond$}
+\item \label{lowerBd:lambdacs1} If $\lambda < 4$ and $\eta \ge 1$ (noise is sparse), then no algorithm can output a clustering which captures all $(\lambda, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+\item \label{lowerBd:lambdacs2} If $\lambda < 6$ and the number of noisy points $ > 3t/2+5$, then no algorithm can output a clustering which captures all $\lambda$-center $t$-min $r$-max nice subsets of $\mc X$. Note that in this case, we do not assume that the noise is sparse.
+\end{enumerate}
+
+\noindent The proof of the lower bounds is similar to the lower bound results for center proximity. The notation used is similar to the notation of Sec. \ref{sec:alphaLBd}. We describe it here again for completeness. Given the number of clusters $k$ and parameter $t$. Denote by $P_{i}(c) := B(c, 0)$ a ball of radius $0$ centered at $c$ such that $|B(c, 0)| = i$. We will sometimes omit $c$ and use the notation $P_i$ when the center is clear from the context. 
+
+\begin{figure}[!ht]
+\input{figures/lambdaLBDFig1}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\lambda, \eta)$-separated $t$-min $r$-max nice subsets of $\mc X$}
+\label{fig:noalglambdacs}
+\end{figure}
+
+\begin{theorem}
+Given the number of clusters $k$ and parameters $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
+
+If $\lambda < 4$ and $\eta \ge 1$, then $\mc C_{\mc X}|_{\mc S} \neq \mc C_{\mc S}$, i.e., $\mc C_{\mc X}$ restricted to the set $\mc S$ doesn't equal $\mc C_{\mc S}$.
+\end{theorem}
+
+\begin{proof}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = \union_{i=0}^2 P_{t_2}(4ir)$ and $O_2 = \union_{i=0}^1 P_{t_1}(2r+4ir)$ and $O_3 = \union_{i=0}^3 P_{t_1}(r+2ir)$. For $3\le i\le k$, define $B_i = B(18r+ir, 0)$. Now, let $\mc X = O_1 \union O_2 \union O_3 \union B_3 \union \ldots \union B_k$. The set is also shown in Fig. \ref{fig:noalglambdacs}.
+
+Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(r) \thinspace\cup\thinspace P_{t_1}(2r) \}$ and $B_2 = \{\ P_{t_2}(4r) \thinspace\cup\thinspace P_{1}(5r)\thinspace\cup\thinspace P_{t_1}(6r)\}$. Also, let $B_1' = \{P_{t_1}(2r) \thinspace\cup\thinspace  P_{1}(3r) \thinspace\cup\thinspace P_{t_2}(4r) \}$ and $B_2' = \{\ P_{t_1}(6r) \thinspace\cup\thinspace P_{1}(7r)\thinspace\cup\thinspace P_{t_2}(8r)\}$.
+
+Now, define $\mc S = \{B_1 \union B_2 \union B_3\ldots \union B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \union B_2' \union B_3\ldots \union B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 4$, both $\mc S$ and $\mc S'$ are $(\lambda, 1)$-separated $t$-min $r$-max nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\lambda, 1)$-center proximity. 
+
+We will show that no algorithm can output a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$. For the sake of contradiction assume that this is indeed the case. There exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, there exists a cluster $C' \in \mc C_{\mc X}$ such that $C' \cap B_1 \neq \phi$ and $C' \cap B_2 \neq \phi$. This is a contradiction.
+\end{proof}
+
+\begin{figure}[!ht]
+\input{figures/lambdaLBDFig2}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\lambda$-separated $t$-min $r$-max nice subsets of $\mc X$}
+\label{fig:nosparsealglambdacs}
+\end{figure}
+
+\begin{theorem}
+Given the number of clusters $k$ and parameters $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\lambda$-center separation and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
+
+If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc C_{\mc X}|_{\mc S} \neq \mc C_{\mc S}$, i.e., $\mc C_{\mc X}$ restricted to the set $\mc S$ doesn't equal $\mc C_{\mc S}$.
+\end{theorem}
+
+\begin{proof}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \union_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \union_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = B(22r+ir, 0)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
+
+Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\thinspace P_{t'}(2r) \}$ and $B_2 = \{\ P_{t'}(6r) \thinspace\cup\thinspace P_{2}(7r)\thinspace\cup\thinspace P_{t'}(8r)\}$. Also, let $B_1' = \{P_{t'}(2r) \thinspace\cup\thinspace  P_{2}(3r) \thinspace\cup\thinspace P_{t'}(4r) \}$ and $B_2' = \{\ P_{t'}(8r) \thinspace\cup\thinspace P_{2}(9r)\thinspace\cup\thinspace P_{t'}(10r)\}$. Also, let $B_1'' = \{P_{t'}(4r) \thinspace\cup\thinspace  P_{2}(5r) \thinspace\cup\thinspace P_{t'}(6r) \}$ and $B_2'' = \{\ P_{t'}(10r) \thinspace\cup\thinspace P_{2}(11r)\thinspace\cup\thinspace P_{t'}(12r)\}$. 
+
+Now, define $\mc S = \{B_1 \union B_2 \union B_3\ldots \union B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \union B_2' \union B_3\ldots \union B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \union B_2'' \union B_3\ldots \union B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 6$, all of $\mc S$, $\mc S'$ and $\mc S''$ are $\lambda$-separated $t$-min $r$-max nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\lambda$-center separation.
+
+$\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$ and $\mc C_{\mc X}|_{\mc S''} = \mc C_{\mc S''}$. For the sake of contradiction assume that this is the case. There exists cluster $C_1 \in \mc C_{\mc X}$ such that such that $B_1 \subseteq C_1$ and $C_1 \cap B_2 = \phi$. Similarly, there exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$ and there exists cluster $C_1'' \in \mc C_{\mc X}$ such that such that $B_1'' \subseteq C_1''$ and $C_1'' \cap B_2'' = \phi$. Now, $C_1, C_1', C_1'' \in \mc X$ and $C_1 \cap C_1' \neq \phi$ and $C_1'' \cap C_1' \neq \phi$. Hence, $C_1 = C_1' = C_1''$. Hence, $B_1 \union B_1' \union B_1'' \subseteq C_1$. Observe, that $B_1'' \cap B_2 \neq \phi$. Hence, $C_1\cap B_2 \neq \phi$. This is a contradiction.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

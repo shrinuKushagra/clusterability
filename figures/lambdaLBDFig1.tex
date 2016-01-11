@@ -1,0 +1,56 @@
+\ifdefined\COMPLETE
+\else
+\documentclass[12pt]{article}
+\input{utils} %file containing all the used libraries
+\begin{document}
+\fi
+
+\def\alph{$2+\sqrt{5}$}
+\begin{tikzpicture}[scale=7]
+
+	\coordinate (x) at ($ (0.0,{sqrt(0)}) $);
+	\coordinate (y) at (2.05,0);
+	\draw[thick] (x) --(y);
+
+	\node[label=270:$P_{t_2}$] at (0.0,0) {$\bullet$};
+	\node[label={[yshift=-0.2cm]\scriptsize $r$}] at (0.075,0) {};
+	\node[label=270:$P_1$] at (0.15,0) {$\bullet$};
+	\node[label={[yshift=-0.2cm]\scriptsize $r$}] at (0.225,0) {};
+	\node[label=below:{$P_{t_1}$}] at (0.3,0) {$\bullet$};
+	\node[label={[yshift=-0.2cm]\scriptsize $r$}] at (0.375,0) {};
+	\node[label=270:$P_1$] at (0.45,0) {$\bullet$};
+	\node[label={[yshift=-0.2cm]\scriptsize $r$}] at (0.525,0) {};
+	\node[label=270:$P_{t_2}$] at (0.6,0) {$\bullet$};
+	\node[label={[yshift=-0.2cm]\scriptsize $r$}] at (0.675,0) {};
+	\node[label=270:$P_1$] at (0.75,0) {$\bullet$};
+	\node[label={[yshift=-0.2cm]\scriptsize $r$}] at (0.825,0) {};
+	\node[label=270:$P_{t_1}$] at (0.9,0) {$\bullet$};
+	\node[label={[yshift=-0.2cm]\scriptsize $r$}] at (0.975,0) {};
+	\node[label=270:$P_1$] at (1.05,0) {$\bullet$};	
+	\node[label={[yshift=-0.2cm]\scriptsize $r$}] at (1.125,0) {};
+	\node[label=270:$P_{t_2}$] at (1.2,0) {$\bullet$};	
+	\node[label={[yshift=-0.2cm]\scriptsize $10r$}] at (1.4,0) {};
+	\node[label=270:$B_3$](p3start) at (1.55,0) {$\bullet$};	
+	\node at (1.75,0.03) {$\ldots\ldots\ldots$};	
+	\node[label=270:$B_k$](p3end) at (1.95,0) {$\bullet$};	
+	\node(A) at (1.79,0.1) {\small $k-2$};	
+	
+	\node[label=270:$B_1$] at (0.15,-0.15) {};	
+	\node[label=270:$B_1'$] at (0.45,-0.15) {};	
+	\node[label=270:$B_2$] at (0.75,-0.15) {};	
+	\node[label=270:$B_2'$] at (1.05,-0.15) {};
+	
+	\draw (0.15,0) circle (0.15) ;
+	\draw[dashed] (0.45,0) circle (0.15);
+	\draw (0.75,0) circle (0.15);
+	\draw[dashed] (1.05, 0.0) circle (0.15) ;
+	\draw[decorate,decoration={brace,amplitude=5pt}]
+	(1.55, 0.05) -- (1.95, 0.05);
+	%\draw (A) -- (1.74, 0.06);
+\end{tikzpicture}
+
+
+\ifdefined\COMPLETE
+\else
+\end{document}
+\fi
