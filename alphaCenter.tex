@@ -189,8 +189,8 @@ We proposed a polynomial-time algorithm (Alg. \ref{alg:alphacp}) and proved that
 
 \begin{enumerate}[nolistsep, noitemsep, label=\textbf{L.\arabic*}]
 \renewcommand\labelitemi{$\diamond$}
-\item \label{lowerBd:alphacp1} If $\alpha < 2 + \sqrt{5}$ and $\eta \ge 1$ (noise is sparse), then the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$. 
-\item \label{lowerBd:alphacp2} If $\alpha < 2 + \sqrt{3}$ and $\eta \ge 1$ (noise is sparse), then no algorithm can output a tree such that the tree captures all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$.
+\item \label{lowerBd:alphacp1} If $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ (noise is sparse), then the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$. 
+\item \label{lowerBd:alphacp2} If $\alpha < 2 + \sqrt{3}$ and $\eta \le 1$ (noise is sparse), then no algorithm can output a tree such that the tree captures all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$.
 \item \label{lowerBd:alphacp3} If $\alpha \le 2\sqrt{2}+3$ and the number of noisy points $ > 3t/2+5$, then no algorithm can output a tree such that the tree captures all $\alpha$-center $t$-min nice subsets of $\mc X$. Note that in this case, we do not assume that the noise is sparse.
 \end{enumerate}
 
@@ -208,13 +208,13 @@ Given the number of clusters $k$ and parameter $t$. Denote by $P_{i}(c) := B(c, 
 
 \begin{theorem}
 \label{thm:algAlphacp}
-Given the number of clusters $k$ and a parameter $t$. There exists a clustering instance $(\mc X, d)$ such that Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
+Given the number of clusters $k$ and parameters $\alpha$, $\eta$ and $t$. There exists a clustering instance $(\mc X, d)$ such that Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
 
-If $\alpha < 2 + \sqrt 5$ and $\eta \ge 1$ and then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
+If $\alpha < 2 + \sqrt 5$ and $\eta \le 1$ and then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \{P_{t'}(0) \thinspace\cup\thinspace P_{t'}(2\alpha) \thinspace\cup\thinspace P_{t'}(4\alpha+2) \thinspace\cup\thinspace P_{t'}(6\alpha+2)\}$ and $O_2 = \{P_{2}(\alpha+1) \thinspace\cup\thinspace P_{2}(3\alpha+1) \thinspace\cup\thinspace P_{2}(5\alpha+1) \}$. For $3\le i\le k$, define $B_i = B(16\alpha+2+i\alpha, 0)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set $\mc X$ is also shown in Fig. \ref{fig:algAlphacp}.
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \{P_{t'}(0) \thinspace\cup\thinspace P_{t'}(2\alpha) \thinspace\cup\thinspace P_{t'}(4\alpha+2) \thinspace\cup\thinspace P_{t'}(6\alpha+2)\}$ and $O_2 = \{P_{2}(\alpha+1) \thinspace\cup\thinspace P_{2}(3\alpha+1) \thinspace\cup\thinspace P_{2}(5\alpha+1) \}$. For $3\le i\le k$, define $B_i = P_t(16\alpha+2+i\alpha)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set $\mc X$ is also shown in Fig. \ref{fig:algAlphacp}.
 
 Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha+1) \thinspace\cup\thinspace P_{t'}(2\alpha) \}$ and $B_2 = \{\ P_{t'}(4\alpha+2) \thinspace\cup\thinspace P_{2}(5\alpha+1)\thinspace\cup\thinspace P_{t'}(6\alpha+2)\}$. Now, define $\mc S = \{B_1 \union \ldots \union B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{5}$, $\mc S$ is $(\alpha, 1)$-center $t$-min nice and the clustering $\mc C_{\mc S} = \{B_1, \ldots, B_k\}$ satisfies $(\alpha, 1)$-center proximity. However, we will show that the tree outputted by Alg. \ref{alg:alphacp} doesn't contain a pruning such that the corresponding clustering respects $\mc C_{\mc S}$.
 
@@ -229,15 +229,15 @@ Denote by $B_{12} = \{P_{t'}(2\alpha) \union P_{2}(3\alpha+1) \union P_{t'}(4\al
 
 \begin{theorem}
 \label{thm:noalgalphacp}
-Given the number of clusters $k$ and a parameter $t$. For any algorithm which outputs a clustering tree $T$ of a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
+Given the number of clusters $k$ and parameters $\alpha$, $\eta$ and $t$. For any algorithm which outputs a clustering tree $T$ of a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
 
-If $\alpha \le 2 + \sqrt 3$, $\eta \ge 1$ and , then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
+If $\alpha \le 2 + \sqrt 3$, $\eta \le 1$ and , then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = \union_{i=0}^4 P_{t'}(i\alpha-i)$ and $O_2 = \{P_{2}(\alpha-2) \thinspace\cup\thinspace P_{2}(2\alpha-3) \thinspace\cup\thinspace P_{2}(2\alpha-1) \thinspace\cup\thinspace P_{2}(3\alpha-2)\}$. For $3\le i\le k$, define $B_i = B(14\alpha-4+i\alpha, 0)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set is also shown in Fig. \ref{fig:noalgalphacp}.
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = P_{t_1}(\alpha-1)\union P_{t_1}(3\alpha-3)$ and $O_2 = \{P_{1}(\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{1}(2\alpha-1) \thinspace\cup\thinspace P_{1}(3\alpha-2)\}$ and $O_3 = P_{t_2}(0)\union P_{t_2}(2\alpha-2)\union P_{t_2}(4\alpha-4)$. For $3\le i\le k$, define $B_i = P_t(14\alpha-4+i\alpha)$. Now, let $\mc X = \{O_1 \union O_2 \union O_3\union B_3 \union \ldots \union B_k\}$. The set is also shown in Fig. \ref{fig:noalgalphacp}.
 
-Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-2) \thinspace\cup\thinspace P_{t'}(\alpha-1) \}$ and $B_2 = \{\ P_{t'}(2\alpha-2) \thinspace\cup\thinspace P_{2}(2\alpha-1)\thinspace\cup\thinspace P_{t'}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t'}(\alpha-1) \thinspace\cup\thinspace  P_{2}(2\alpha-3) \thinspace\cup\thinspace P_{t'}(2\alpha-2) \}$ and $B_2' = \{\ P_{t'}(3\alpha-3) \thinspace\cup\thinspace P_{2}(3\alpha-2)\thinspace\cup\thinspace P_{t'}(4\alpha-4)\}$. 
+Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(\alpha-2) \thinspace\cup\thinspace P_{t_1}(\alpha-1) \}$ and $B_2 = \{\ P_{t_2}(2\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-1)\thinspace\cup\thinspace P_{t_1}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t_1}(\alpha-1) \thinspace\cup\thinspace  P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{t_2}(2\alpha-2) \}$ and $B_2' = \{\ P_{t_1}(3\alpha-3) \thinspace\cup\thinspace P_{1}(3\alpha-2)\thinspace\cup\thinspace P_{t_2}(4\alpha-4)\}$. 
 
 Now, define $\mc S = \{B_1 \union B_2 \union B_3\ldots \union B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \union B_2' \union B_3\ldots \union B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which respects both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
 
@@ -252,7 +252,7 @@ For the sake of contradiction assume that there exists a tree $T$ and prunings $
 
 \begin{theorem}
 \label{thm:nosparsealg}
-Given the number of clusters $k$ and a parameter $t$. For any algorithm which outputs a clustering tree $T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
+Given the number of clusters $k$ and a parameters $\alpha$ and $t$. For any algorithm which outputs a clustering tree $T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
 
 If $\alpha < 2\sqrt 2 + 3$ and $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
 \end{theorem}
@@ -378,7 +378,7 @@ Given clustering instance $(\mc X, d)$, $k$ and parameters $r$ and $t$. Algorith
 \end{theorem}
 
 \begin{proof}
-Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaning steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
+Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaining steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
 \end{proof}
 
 \subsection{Lower Bounds}
@@ -388,7 +388,7 @@ We proposed a polynomial-time algorithm (Alg. \ref{alg:lambdacs}) and proved tha
 
 \begin{enumerate}[nolistsep, noitemsep, label=\textbf{L.\arabic*}]
 \renewcommand\labelitemi{$\diamond$}
-\item \label{lowerBd:lambdacs1} If $\lambda < 4$ and $\eta \ge 1$ (noise is sparse), then no algorithm can output a clustering which captures all $(\lambda, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+\item \label{lowerBd:lambdacs1} If $\lambda < 4$ and $\eta \le 1$ (noise is sparse), then no algorithm can output a clustering which captures all $(\lambda, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
 \item \label{lowerBd:lambdacs2} If $\lambda < 6$ and the number of noisy points $ > 3t/2+5$, then no algorithm can output a clustering which captures all $\lambda$-center $t$-min $r$-max nice subsets of $\mc X$. Note that in this case, we do not assume that the noise is sparse.
 \end{enumerate}
 
@@ -401,13 +401,13 @@ We proposed a polynomial-time algorithm (Alg. \ref{alg:lambdacs}) and proved tha
 \end{figure}
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
+Given the number of clusters $k$ and parameters $\lambda$, $\eta$, $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
 
-If $\lambda < 4$ and $\eta \ge 1$, then $\mc C_{\mc X}|_{\mc S} \neq \mc C_{\mc S}$, i.e., $\mc C_{\mc X}$ restricted to the set $\mc S$ doesn't equal $\mc C_{\mc S}$.
+If $\lambda < 4$ and $\eta \le 1$, then $\mc C_{\mc X}|_{\mc S} \neq \mc C_{\mc S}$, i.e., $\mc C_{\mc X}$ restricted to the set $\mc S$ doesn't equal $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = \union_{i=0}^2 P_{t_2}(4ir)$ and $O_2 = \union_{i=0}^1 P_{t_1}(2r+4ir)$ and $O_3 = \union_{i=0}^3 P_{t_1}(r+2ir)$. For $3\le i\le k$, define $B_i = B(18r+ir, 0)$. Now, let $\mc X = O_1 \union O_2 \union O_3 \union B_3 \union \ldots \union B_k$. The set is also shown in Fig. \ref{fig:noalglambdacs}.
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = \union_{i=0}^2 P_{t_2}(4ir)$ and $O_2 = \union_{i=0}^1 P_{t_1}(2r+4ir)$ and $O_3 = \union_{i=0}^3 P_{t_1}(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(18r+ir)$. Now, let $\mc X = O_1 \union O_2 \union O_3 \union B_3 \union \ldots \union B_k$. The set is also shown in Fig. \ref{fig:noalglambdacs}.
 
 Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(r) \thinspace\cup\thinspace P_{t_1}(2r) \}$ and $B_2 = \{\ P_{t_2}(4r) \thinspace\cup\thinspace P_{1}(5r)\thinspace\cup\thinspace P_{t_1}(6r)\}$. Also, let $B_1' = \{P_{t_1}(2r) \thinspace\cup\thinspace  P_{1}(3r) \thinspace\cup\thinspace P_{t_2}(4r) \}$ and $B_2' = \{\ P_{t_1}(6r) \thinspace\cup\thinspace P_{1}(7r)\thinspace\cup\thinspace P_{t_2}(8r)\}$.
 
@@ -423,13 +423,13 @@ We will show that no algorithm can output a clustering $\mc C_{\mc X}$ such that
 \end{figure}
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\lambda$-center separation and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
+Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\lambda$-center separation and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
 
 If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc C_{\mc X}|_{\mc S} \neq \mc C_{\mc S}$, i.e., $\mc C_{\mc X}$ restricted to the set $\mc S$ doesn't equal $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \union_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \union_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = B(22r+ir, 0)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \union_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \union_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(22r+ir)$. Now, let $\mc X = \{O_1 \union O_2 \union B_3 \union \ldots \union B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
 
 Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\thinspace P_{t'}(2r) \}$ and $B_2 = \{\ P_{t'}(6r) \thinspace\cup\thinspace P_{2}(7r)\thinspace\cup\thinspace P_{t'}(8r)\}$. Also, let $B_1' = \{P_{t'}(2r) \thinspace\cup\thinspace  P_{2}(3r) \thinspace\cup\thinspace P_{t'}(4r) \}$ and $B_2' = \{\ P_{t'}(8r) \thinspace\cup\thinspace P_{2}(9r)\thinspace\cup\thinspace P_{t'}(10r)\}$. Also, let $B_1'' = \{P_{t'}(4r) \thinspace\cup\thinspace  P_{2}(5r) \thinspace\cup\thinspace P_{t'}(6r) \}$ and $B_2'' = \{\ P_{t'}(10r) \thinspace\cup\thinspace P_{2}(11r)\thinspace\cup\thinspace P_{t'}(12r)\}$. 
 
