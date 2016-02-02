@@ -1,53 +1,137 @@
 \documentclass[anon,12pt]{colt2016} % Anonymized submission
-%\documentclass{colt2016} % Include author names
 
+
+%\documentclass{colt2016} % Include author names
 % The following packages will be automatically loaded:
 % amsmath, amssymb, natbib, graphicx, url, algorithm2e
 \def\COMPLETE{}
-\title[Short Title]{Clustering with structural noise}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage{nickstyle_ICML}
+
+\usepackage{hyperref}
+\usepackage[toc,page]{appendix}
+
+\usepackage{color}
+\usepackage[toc,page]{appendix}
+\usepackage{xspace}
+\usepackage{enumitem}
 \usepackage{times}
-\DeclareMathOperator{\argmin}{argmin}
 
- % Use \Name{Author Name} to specify the name.
- % If the surname contains spaces, enclose the surname
- % in braces, e.g. \Name{John {Smith Jones}} similarly
- % if the name has a "von" part, e.g \Name{Jane {de Winter}}.
- % If the first letter in the forenames is a diacritic
- % enclose the diacritic in braces, e.g. \Name{{\'E}louise Smith}
+\usepackage{float}
+\usepackage{caption2}
 
- % Two authors with the same address
-  % \coltauthor{\Name{Author Name1} \Email{abc@sample.com}\and
-  %  \Name{Author Name2} \Email{xyz@sample.com}\\
-  %  \addr Address}
+\usepackage{tikz}
+\usetikzlibrary{shapes, calc, arrows, through, intersections, decorations.pathreplacing, patterns}
 
- % Three or more authors with the same address:
- % \coltauthor{\Name{Author Name1} \Email{an1@sample.com}\\
- %  \Name{Author Name2} \Email{an2@sample.com}\\
- %  \Name{Author Name3} \Email{an3@sample.com}\\
- %  \addr Address}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{conj}[theorem]{Conjecture}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{claim}[theorem]{Claim}
+
+% Simple environments for algorithms
+\newenvironment{alg}{
+    \begin{list}{}{
+        \setlength{\itemsep}{2pt}
+        \setlength{\parsep}{0pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\topsep}{1pt}
+    }
+}
+{
+    \end{list}
+}
+
+%\floatstyle{ruled}
+ %\newfloat{algorithm}{ht}{lop}
+\floatname{algorithm}{Algorithm}
+\makeatletter
+\renewcommand{\floatc@ruled}[2]{\vspace{3pt}{\@fs@cfont #1:\:} #2 \par \vspace{2pt}}
+\makeatother
 
 
- % Authors with different addresses:
- \coltauthor{\Name{Author Name1} \Email{abc@sample.com}\\
- \addr Address 1
+\newcommand{\mc}{\mathcal}
+\newcommand{\todo}{\textcolor{blue}{[TODO]}\xspace}
+\newcommand{\fix}{\textcolor{blue}{[FIX]}\xspace}
+%\DeclareMathOperator{\argmin}{argmin}
+
+
+ \coltauthor{\Name{Shai Ben-David} \Email{shai@cs.uwaterloo.ca }\\
+ \addr University of Waterloo
  \AND
- \Name{Author Name2} \Email{xyz@sample.com}\\
- \addr Address 2
+ \Name{Shrinu Kushagra} \Email{skushagr@uwaterloo.ca }\\
+ \addr University of Waterloo
+ \AND
+ \Name{Samira Samadi} \Email{ssamadi6@gatech.edu}\\
+ \addr Georgia Institute of Technology
  }
 
-\input{utils}
 
+\title[Short Title]{Clustering with non-structural noise}
 \begin{document}
-
 \maketitle
 
 \begin{abstract}
-This is a great paper and it has a concise abstract.
+\todo
 \end{abstract}
 
 \begin{keywords}
-List of keywords
+Clustering, $\alpha$-center proximity, $\lambda$-center separation
 \end{keywords}
+
+\section{Introduction}
+\subsection{Motivation}
+\todo Talk about CDNM Thesis. Clustering is difficult only when it doesn't matter. Niceness assumptions on data. If data has these properties clustering is easy.
+
+\subsection{Related Work}
+\todo 2 such assumptions. $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). If the optimal solution to the center-based objective satisfies these nice properties then they have poly. time algorithms to find that optimal solution. They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
+
+\subsection{Our approach}
+\todo Our approach is different in two regards.
+\begin{itemize}[nolistsep]
+\item We dont work with a particular cost function. Give poly. time alg.  that work for any clustering that has the nice property.
+\item No size restriction on the noise. Assume that it doesn't have a structure. 
+\end{itemize}
+We give poly. alg. which capture all nice clustering of a dataset as long as the noise is unstructured (or sparse).
+
+\subsection{Comparison with previous work}
+\todo For $(\alpha, \epsilon)$-center proximity. \cite{balcan2012clustering} obtain an $1+\epsilon$ to the cost of the optimal $k$-median solution if $\alpha \ge 2+\sqrt{7}$ and atmost $\epsilon$-fraction of the dataset is noise. Their algorithm is also able to capture all $(\alpha, \epsilon)$-nice clusterings. We show that if $\alpha \le 2\sqrt{2} + 3$ and the number of noisy points is large, then no algorithm can output a tree which captures all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give an alg. which captures all $(\alpha, \eta)$-clusterings if the noise is $\eta$-sparse and $\alpha \ge 2+\sqrt{7}$.
+
+For $\lambda$-center separation. Prove that problem is NP-Hard for $\lambda \le 2$. For $\lambda \ge 3$, give an algorithm which outputs the (unique) clustering.
+
+For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a generic algorithm for any center-based objective function. The separation parameter $\lambda$ required is very large. For $k$-median, the required separation can be as big as $16$. We show that if $\lambda \le 6$ and the number of noisy points is large, then no algorithm can capture all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give poly. alg for $\lambda \ge 4$ for sparse noise.
+
+
+\subsection{Structure of paper}
+\todo Following is the proposed structure of the paper.
+\vspace{-0.1in}\begin{enumerate}
+\setlength\itemsep{0em}
+\item Introduction
+\item Notations and definition
+\item $\alpha$-center proximity	\vspace{-0.1in}
+	\begin{enumerate}[leftmargin=32pt]
+	\renewcommand{\labelenumii}{\theenumii}
+	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+	\setlength\itemsep{0em}
+	\item Lower Bound ($\alpha \le 2\sqrt{2} + 3$) under arbitrary noise.
+	\item Positive result for $\alpha \ge 2+\sqrt{7}$.
+	\item Lower bound ($\alpha \le 2+\sqrt{3}$) under sparse noise.
+	\end{enumerate}
+\item $\lambda$-center separation \vspace{-0.1in}
+	\begin{enumerate}[leftmargin=32pt]
+	\renewcommand{\labelenumii}{\theenumii}
+	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+	\setlength\itemsep{0em}
+	\item Positive result for $\lambda \ge 3$ with no noise.
+	\item NP-Hard for $\lambda \le 2$ with no noise.
+	\item Lower Bound ($\lambda \le 6$) under arbitrary noise.
+	\item Positive result for $\lambda \ge 4$ under sparse noise.
+	\item Lower bound ($\lambda < 4$) under sparse noise.
+	\end{enumerate}
+\item Conclusion
+\end{enumerate}
 
 
 \section{Notation and definition}
@@ -114,12 +198,16 @@ We say that the ball $B$ satisfies the sparse distance condition w.r.t clusterin
 
 Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $\mc C_{\mc X}$, which is initialized so that  each point is in its own cluster. It then iterates over all pairs of points $p, q$ in increasing order of their distance $d(p, q)$. If $B(p, d(p,q))$ satisfies the sparse distance condition w.r.t $\mc C_{\mc X}$, then it merges all the clusters which intersect with this ball into a single cluster and updates $\mc C_{\mc X}$. Furthermore, the algrorithm builds a tree with the nodes corresponding to the merges performed so far. We will show that for all $\mc S \subseteq \mc X$ and for all clusterings $\mc C_S$ which have $(\alpha, \eta)$-center proximity and $\min\limits_{C_i \in {\mc C}_{\mc S}} |C_i| = t$, Alg. \ref{alg:alphacp} outputs a tree such that there exists a pruning $\mc P$ such that the clustering $\mc C_X$ corresponding to the pruning respects $\mc C_S$. %which {\color{red}[}respects the clustering $\mc C$ {\color{red}] What does "respect" mean here?}.
 
-\begin{algorithm}[!ht]
-\begin{alg}
-	\item \textbf{Input: } $(\mc X, d), k$ and $t$
-	\item \textbf{Output: } A hierarchical clustering tree $T$ of $\mc X$.
-	\item[1] Let $\mc C^{(l)}$ denote the clustering $\mc X$ after $l$ merge steps have been performed. Initialize $\mc C^{(0)}$ so that all points are in their own cluster. That is, $\mc C^{(0)} = \{ \{x\}: x \in \mc X\}$.
-	\item[2] Iterate over all pairs of points $p, q$ in increasing order of the distance $d(p, q)$. If $B = B(p, d(p, q))$ satisfies the sparse distance condition then
+	
+\begin{algorithm}
+%\begin{alg}
+	\SetAlgoLined
+	\KwIn{$(\mc X, d), k$ and $t$}
+	\KwOut{A hierarchical clustering tree $T$ of $\mc X$.}
+	
+	Let $\mc C^{(l)}$ denote the clustering $\mc X$ after $l$ merge steps have been performed. Initialize $\mc C^{(0)}$ so that all points are in their own cluster. That is, $\mc C^{(0)} = \{ \{x\}: x \in \mc X\}$.
+	
+	Iterate over all pairs of points $p, q$ in increasing order of the distance $d(p, q)$. If $B = B(p, d(p, q))$ satisfies the sparse distance condition then
 	\begin{itemize}
 	\renewcommand\labelitemi{}
 		\item $C_{temp} = \phi$ and $\mc C^{(i)} = \mc C^{(i-1)}$
@@ -131,9 +219,11 @@ Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $
 		\item $\mc C^{(i)} = \mc C^{(i)} \cup C_{temp}$.
 		\item This step basically merges all the clusters in $Y_B^{C^{(i-1)}}$ into a single cluster.
 	\end{itemize}
-	\item[3] Output clustering tree $T$. The leaves of $T$ are the points in dataset $\mc X$. The internal nodes corresppond to the merging performed in the previous step.
+	
+	
+	Output clustering tree $T$. The leaves of $T$ are the points in dataset $\mc X$. The internal nodes corresppond to the merging performed in the previous step.
 	%\item[4] Construct $T$ from $T'$ by deleting the all nodes which do not have any children.
-\end{alg}
+%\end{alg}
 \caption{Alg. for $(\alpha, \eta)$-center proximity with parameter $t$}
 \label{alg:alphacp}
 \end{algorithm}
@@ -347,20 +437,23 @@ Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it con
 
 
 \begin{algorithm}[!ht]
-\begin{alg}
-	\item \textbf{Input: } $(\mc X, d), k, t$ and $r$
-	\item \textbf{Output: } A $k$-clustering $C$ of the set $\mc X$.\\
-	\item \textbf{Phase 1}
-	\item[1] Let $\mc L$ denote the list of balls found so far. Initialize $\mc L$ to be the empty set. $\mc L = \phi$.
-	\item[2] Iterate over all pairs of points $p, q \in \mc X$ in increasing order of the distance $d(p, q)$. Let $B := B(p, d(p, q))$. If $|B| \ge t$ and $r(B) \le r$ then
+	\KwIn{$(\mc X, d), k, t$ and $r$}
+	\KwOut{A $k$-clustering $C$ of the set $\mc X$.}
+	\textbf{Phase 1}
+	Let $\mc L$ denote the list of balls found so far. Initialize $\mc L$ to be the empty set. $\mc L = \phi$.
+	
+	Iterate over all pairs of points $p, q \in \mc X$ in increasing order of the distance $d(p, q)$. Let $B := B(p, d(p, q))$. If $|B| \ge t$ and $r(B) \le r$ then
 	\begin{itemize}
 	\renewcommand\labelitemi{}
 		\item $\mc L = \mc L \thinspace\cup B$
 	\end{itemize}
-	\item[3] Output the list of balls $\mc L = \{B_1, \ldots, B_l\}$ to the second phase of the algorithm.\\
-	\item \textbf{Phase 2}
-	\item[1] Construct a graph $G = (V, E)$ as follows. $V = \{v_1, v_2, \ldots, v_l\}$. If $|B_i \cap B_j| \ge t/2$ then construct an edge between $v_i$ and $v_j$.
-	\item[2] Find $k$ connected components ($G_1, \ldots, G_{k}$) in the graph $G$. Construct a clustering $\mc C = \{C_1, \ldots, C_k\}$ of the set $\mc X$ as follows.
+	
+	Output the list of balls $\mc L = \{B_1, \ldots, B_l\}$ to the second phase of the algorithm.\\
+	
+	\textbf{Phase 2}
+	Construct a graph $G = (V, E)$ as follows. $V = \{v_1, v_2, \ldots, v_l\}$. If $|B_i \cap B_j| \ge t/2$ then construct an edge between $v_i$ and $v_j$.
+	
+	Find $k$ connected components ($G_1, \ldots, G_{k}$) in the graph $G$. Construct a clustering $\mc C = \{C_1, \ldots, C_k\}$ of the set $\mc X$ as follows.
 	\begin{itemize}
 	\renewcommand\labelitemi{}
 		\item for $m \in 1$ to $k$
@@ -374,9 +467,10 @@ Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it con
 			\end{itemize}
 		\end{itemize}
 	\end{itemize}
+	
 	This step basically merges all the points in the same connected component together. After this step all the points in $\mc B = \cup_i B_i$ have been clustered.
-	\item[3] Assign $x \in \mc X \setminus \mc B$ to the cluster $C_i$ where $i := \argmin\limits_{j\in [k]} \min\limits_{y \in C_j}d(x, y)$. That is, assign $x$ to the closest cluster $C_i$. Output the clustering $\mc C = \{C_1, \ldots, C_k\}$. 
-\end{alg}
+	
+	Assign $x \in \mc X \setminus \mc B$ to the cluster $C_i$ where $i := \argmin\limits_{j\in [k]} \min\limits_{y \in C_j}d(x, y)$. That is, assign $x$ to the closest cluster $C_i$. Output the clustering $\mc C = \{C_1, \ldots, C_k\}$. 
 \caption{Alg. for $(\lambda, \eta)$-center separation with parameters $t$ and $r$}
 \label{alg:lambdacs}
 \end{algorithm}
@@ -479,4 +573,7 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, 
 $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$ and $\mc C_{\mc X}|_{\mc S''} = \mc C_{\mc S''}$. For the sake of contradiction assume that this is the case. There exists cluster $C_1 \in \mc C_{\mc X}$ such that such that $B_1 \subseteq C_1$ and $C_1 \cap B_2 = \phi$. Similarly, there exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$ and there exists cluster $C_1'' \in \mc C_{\mc X}$ such that such that $B_1'' \subseteq C_1''$ and $C_1'' \cap B_2'' = \phi$. Now, $C_1, C_1', C_1'' \in \mc X$ and $C_1 \cap C_1' \neq \phi$ and $C_1'' \cap C_1' \neq \phi$. Hence, $C_1 = C_1' = C_1''$. Hence, $B_1 \cup B_1' \cup B_1'' \subseteq C_1$. Observe, that $B_1'' \cap B_2 \neq \phi$. Hence, $C_1\cap B_2 \neq \phi$. This is a contradiction.
 \end{proof}
 
+
+\bibliographystyle{alpha}
+\bibliography{colt2016ClusteringNoise} 
 \end{document}
