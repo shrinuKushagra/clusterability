@@ -87,9 +87,14 @@ Clustering, $\alpha$-center proximity, $\lambda$-center separation
 \todo Talk about CDNM Thesis. Clustering is difficult only when it doesn't matter. Niceness assumptions on data. If data has these properties clustering is easy.
 
 \subsection{Related Work}
-\todo In the past few years, different notions of clusterability has been introduced. The main goal of all these works has been to show that clustering can be handled much easier in the scenarios that we assume there is some structure on the data. Briefly mention literature review.
+\todo In the past few years, there has been a line of work on defining notions of {\em clusterability} -- what  has been introduced. The goal of all these works has been to show that clustering can be handled much easier in the scenarios that we assume there is some structure on the data. Briefly mention literature review.
 
-In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). If the optimal solution to the center-based objective satisfies these nice properties then they have poly. time algorithms to find that optimal solution. They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
+In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). Previous work on the CDNM thesis has been focusing on two directions. First, proving that optimizing a center-based clustering objective can be done effectively by assuming nice structure on the data. Second, showing that retrieving a {\em nice} underlying clustering of the data is easy if the input data is {\em clusterable}.
+
+ They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
+
+The purpose of our work is two-folded: First, to introduce a new notion of noise that fit's better to the real world data sets and second, to propose efficient clustering algorithms that are robust to such noise. to show that under this assumption, many clustering task   We will prove that  The traditional approach to count for noisy points in the input is to 
+
 
 There has been two major quantitative measures of noise robustness clustering so far: The first notion is closely related to approximation algorithms: It says that if $\epsilon$ fraction of the data is noise, then one can retrieve the optimal solution up to a $(1+\epsilon)$ approximation factor.  
 
