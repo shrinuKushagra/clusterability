@@ -179,6 +179,8 @@ Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$, t
 
 %\noindent A clustering instance $(\mc X, d)$ satisfies $(\alpha, \eta)$-center proximity if there exist $\mc S \subseteq \mc X$ such that there exists a clustering $\mc C$ of $\mc S$ which has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$.
 
+The problem of clustering under the presence of noise was first considered by \cite{balcan2012clustering}. They assumed that the  
+
 \subsection{Goal}
 We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) respects $\mc C_{\mc S}$. 
 
