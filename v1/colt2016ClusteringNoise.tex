@@ -70,7 +70,7 @@
  }
 
 
-\title[Short Title]{Clustering with non-structural noise}
+\title[Short Title]{Clustering under structural noise}
 \begin{document}
 \maketitle
 
@@ -136,28 +136,31 @@ For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a gene
 
 
 \section{Notation and definition}
-We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$. Given points $c_1, \ldots, c_k \in \mb M$, we can define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center.
+We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$. Given points $c_1, \ldots, c_k \in \mb M$, we can define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. Given $\mc S \subseteq \mc X$, we define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$.
 
 We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We denote a ball of radius $r$ at centre $x$ by $B(x, r)$.
 
-\begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{ C_1, \ldots, C_{k'} \}$ be a clustering of $\mc X$ and $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$.
-\label{defn:cxrespectscs}
-\end{definition}
+Given $\mc S \subseteq \mc X$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$.
 
-\begin{definition}[$\mc C_{\mc X}$ restricted to $\mc S$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be a clustering of $\mc X$. We define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Note that $\mc C_{\mc X}|_{\mc S}$ is a clustering of the set $\mc S$. 
-\end{definition}
+%\begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{ C_1, \ldots, C_{k'} \}$ be a clustering of $\mc X$ and $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$.
+%\label{defn:cxrespectscs}
+%\end{definition}
 
-\section{Center Proximity}
+%\begin{definition}[$\mc C_{\mc X}$ restricted to $\mc S$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be a clustering of $\mc X$. We define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Note that $\mc C_{\mc X}|_{\mc S}$ is a clustering of the set $\mc S$. 
+%\end{definition}
+
 \begin{definition}[$\alpha$-center proximity]
 \label{defn:alphacp}
-Given a clustering instance $(\mc X, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if the following holds. For all $x \in C_i$ and $i\neq j$, 
+Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k \in \mb M$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if the following holds. For all $x \in C_i$ and $i\neq j$, 
 $$\alpha d(x, c_i) < d(x, c_j)$$
 \end{definition}
 
-\noindent The set $\mc X$ is {\it $\alpha$-center} {\it $t$-min nice} if there exist a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ which satisfies $\alpha$-center proximity and $\min\limits_{i} \lvert C_i\rvert = t$.
+\noindent The set $\mc X$ is {\it $\alpha$-center} {\it $t$-min proximal} if there exist a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ which satisfies $\alpha$-center proximity and $\min\limits_{i} \lvert C_i\rvert = t$. 
+
+\todo Motivate $\eta$-sparse definition.
 
 \begin{definition}[$(\alpha, \eta)$-center proximity]
-Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k$ has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ if the following holds.
+Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mb M$ has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ if the following holds.
 
 \begin{itemize}[nolistsep, noitemsep]
 \label{defn:alphacpnoise}	
@@ -167,7 +170,12 @@ Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S 
 \end{itemize}
 \end{definition}
 
-\noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-center} {\it $t$-min nice} if there exist a clustering $\mc C_{\mc S}=\{S_1,\ldots,S_k\}$ which satisfies $(\alpha, \eta)$-center proximity and $\min\limits_{i} \lvert S_i\rvert = t$. Note that given $(\mc X, d), k$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
+\noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-center} {\it $t$-min $r$-max proximal} if there exist a clustering $\mc C_{\mc S}=\{S_1,\ldots,S_k\}$ which satisfies $(\alpha, \eta)$-center proximity and $\min\limits_{i} \lvert S_i\rvert = t$ and $\max\limits_{i} r(S_i) = r$. Note that given $(\mc X, d), k$, $t$ and $r$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
+
+\todo Add example.
+
+
+\section{Center Proximity}
 
 %\noindent A clustering instance $(\mc X, d)$ satisfies $(\alpha, \eta)$-center proximity if there exist $\mc S \subseteq \mc X$ such that there exists a clustering $\mc C$ of $\mc S$ which has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$.
 
@@ -178,16 +186,13 @@ In the next section, we introduce a hierarchical clustering algorithm (Alg.\ref{
 It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$.
 % which is based on a novel distance function.
 The output of our algorithm is a clustering tree that is able to capture all $(\alpha, \eta)$-center $t$-min nice subsets $\mc S$. More precisely, this tree has a pruning $\mc P$ such that the corresponding clustering $\mc C_{\mc X}^{\mc P}$ respects the clustering $\mc C_{\mc S}$. 
-%{\color{blue} After describing the goal, we should say that, in the next section, we propose an algorithm that ... [explaining how our algorithm achieves our goal]. And like saying that we prove this result in theorem 3}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Algorithm}
-Balcan and Liang studied the problem of clustering in the presence of noise under similar assumptions. They consider a data set $\mc X$ such that the optimal clustering of $\mc X$ w.r.t some objective function has $\alpha$-center proximity (Defn.\ref{defn:alphacp}) except for an $\epsilon$ fraction of the points. They presented a polynomial-time algorithm that gives a $(1+O(\epsilon))$-approximation to the cost of optimal clustering. %{\color{blue} data set that is blah blah and has $epsilon fraction noise$ and  presented a polynomial-time algorithm that gives am approximation of the optimal cluster with respect to some objective function}. 
-In this work, we consider a similar problem. However, our approach is different in two aspects. Firstly, we do not place any restriction on the size of the noise but assume that it is {\it sparse} and doesn't have any {\it structure}. Secondly, we don't work with any particular objective function. Our goal is to ``capture" all clusterings which have $(\alpha, \eta)$-center proximity.
-%{\color{red} Blacan and Liang want to find an approximation of the optimal clustering. And they have an objective function that they want to maximize. In this sense, their goal and our goal is different. It's just that both of us are studying the problem of clustering in presence of background noise. I think it will be good to make this clear} 
+Balcan and Liang studied the problem of clustering in the presence of noise under similar assumptions. They consider a data set $\mc X$ such that the optimal clustering of $\mc X$ w.r.t some objective function has $\alpha$-center proximity (Defn.\ref{defn:alphacp}) except for an $\epsilon$ fraction of the points. They presented a polynomial-time algorithm that gives a $(1+O(\epsilon))$-approximation to the cost of optimal clustering.
 
-%Similar to Blacan and Liang setting, our algorithm takes as input the data set $\mc X$, the number of clusters $k$ and parameter $t$ defined as the number of points in the cluster with minumum size.
-%{\color{blue} Did Balcan Liang had similar thing? Make connection with defining sparse distance condition. Something like saying: Before explaining our algorithm, we need to define Sparse Distance condition which blah blah.}
+In this work, we consider a similar problem. However, our approach is different in two aspects. Firstly, we do not place any restriction on the size of the noise but assume that it is {\it sparse} and doesn't have any {\it structure}. Secondly, we don't work with any particular objective function. Our goal is to ``capture" all clusterings which have $(\alpha, \eta)$-center proximity.
+
 Our algorithm uses a linkage-based procedure based on a novel distance condition. Before describing our algorithm, we need to define our {\it Sparse distance condition}.
 
 \begin{definition}[Sparse distance condition]
@@ -243,7 +248,7 @@ If $\alpha \ge 2 + \sqrt 7$ and $\eta \ge 1$, then for every $1\le i \le k$, the
 \begin{proof}
 Fix any $\mc S \subseteq \mc X$. Let $\mc C^*_S = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $\min |S_i^*| = t$ and $\mc C^*_S$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(S_i^*)$ and define $r := \max r_i$. Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the clustering of $\mc X$ after $l$ merge steps have been performed (as defined in Alg.\ref{alg:alphacp}). Let $p, q \in \mc X$ be the pair of points being considered at the $(l+1)^{th}$ step. Let's denote $B = B(p, d(p, q))$. Note that whenever $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated. Throughout the proof, we will denote by $S_i^* \in \mc C^*_S$ the clusters of the set $\mc S$ (also called ``good" clusters) and by $C_i \in \mc C^{(l)}$ the clusters of the set $\mc X$ obtained after $l$ merge operations.
 
-\noindent We will prove the theorem by proving two key facts. %{\color{blue} Write the facts separate and clear like following. It will be easier to follow this way. Make them more formal.}
+\noindent We will prove the theorem by proving two key facts.
 
 \begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
 \renewcommand\labelitemi{$\diamond$}
@@ -279,7 +284,7 @@ d(c_i, q_i) &< \frac{1}{\alpha} d(q_i, c_j) \le \frac{1}{\alpha} \bigg[ d(p_j, c
 \end{align*}
 This implies that $(\alpha^2 - 2\alpha - 1)d(q_i, c_i) < (\alpha + 1) d(p_i, p_j)$. For $\alpha \ge 2 + \sqrt 7$, this implies that $d(c_i, q_i) < d(p_i, p_j)/2$. Now, using triangle inequality, we get that $d(c_i, q_i) < d(p_i, p_j)/2 \le \frac{1}{2}[d(p, p_i) + d(p, p_j)] < d(p, q)$.\\
 
-\noindent\textit{\underline{Proof of Fact \ref{fact:2}%{\color{blue} [make reference to the corresponding fact]}
+\noindent\textit{\underline{Proof of Fact \ref{fact:2}
 }}\\
 Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the merge step when $p = s_i$ and $q = q_i$ such that $d(s_i, q_i) = r_i$. We will prove that the ball $B = B(s_i, q_i)$ satisfies the sparse-distance condition. Hence, all the points from the good cluster $S_i^*$ will be merged together. Note that this step merges all the clusters in $Y = Y_B^{C^{(l)}}$. Hence to complete the proof, we also show that all the clusters in $Y$ don't intersect with any other good cluster $S_j^*$. We state this formally below and then prove it.
 
@@ -302,7 +307,6 @@ Let $s_i$, $q_i$, $r_i$, $B$ and $Y$ be as defined above. Then, $B$ satisfies th
 \item Case 2.2. $h(C) > 1$. Then there exists some $C'$ such that $h(C') = 1$ and $C' \subset C$. Now, using set inclusion and the result from the first case, we get that $|B\cap C| \ge |B\cap C'| \ge t/2$. Hence, $C \in Y$. Using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $C \cap S_j^* = \phi$.
 \end{itemize} 
 \end{itemize}
-%Let $x \in D_{c_i, q_i}$. We claim that $x \not\in \mc S$. For the sake of contradiction, let us assume that $x \in C_j$ for some $j \neq i$. Now, $C_i$ and $C_j$ satisfy $\alpha$-center proximity. Using, Fact \ref{fact:alphacpDist}, we have that $\forall p' \in B$, $(\alpha - 1)d(p', c_i) < d(p', x)$. This contradicts the fact that $x \in D_{c_i, q_i}$. Hence, we get that $x \not\in \mc S$ which implies that $x \in \mc T$ (Defn. \ref{defn:alphacpnoise}). Thus, $D_{c_i, q_i} \subseteq \mc T$ and $|D_{c_i, q_i}| \le |\mc T| \le \epsilon |\mc X|$.  
 \end{proof}
 
 \begin{theorem}
@@ -333,7 +337,7 @@ The proof of the lower bounds will follow the follwing general structure. Firstl
 Given the number of clusters $k$ and parameter $t$. Denote by $P_{i}(c) := B(c, 0)$ a ball of radius $0$ centered at $c$ such that $|B(c, 0)| = i$. We will sometimes omit $c$ and use the notation $P_i$ when the center is clear from the context. Recall that we defined what it means for a clustering $\mc C_{\mc X}$ to respect $\mc C_{\mc S}$ (Defn. \ref{defn:cxrespectscs}). With a slight abuse of notation, we will say that a pruning $P$ of a hierarchical clustering tree $T$ of $\mc X$ respects $\mc C_{\mc S}$, if the clustering corresponding to the pruning $\mc C_{\mc X}^P$ respects $\mc C_{\mc S}$. Also, if such a pruning $P$ exists, we will say that the tree $T$ respects $\mc C_{\mc S}$.
 
 \begin{figure}[!ht]
-%\input{../figures/lbdFig1}
+\input{../figures/lbdFig1}
 \caption{$\mc X \subseteq \mathbb{R}$ such that Alg. \ref{alg:alphacp} doesn't capture all the $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$}
 \label{fig:algAlphacp}
 \end{figure}
