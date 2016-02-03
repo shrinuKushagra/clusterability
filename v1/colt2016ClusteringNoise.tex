@@ -70,7 +70,7 @@
  }
 
 
-\title[Short Title]{Clustering under structural noise}
+\title[Sparse Noise]{Clustering under unstructured noise}
 \begin{document}
 \maketitle
 
@@ -142,9 +142,10 @@ For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a gene
 \section{Notation and definition}
 We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$. Given points $c_1, \ldots, c_k \in \mb M$, we can define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. Given $\mc S \subseteq \mc X$, we define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$.
 
-We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We denote a ball of radius $r$ at centre $x$ by $B(x, r)$.
+Given $\mc S \subseteq \mc X$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures the clustering $\mc C_{\mc S}$ if there exists a $k$-pruning $\mc P$ which respects $\mc C_{\mc S}$.
 
-Given $\mc S \subseteq \mc X$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$.
+We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. Given a clustering $\mc C = \{C_1, \ldots, C_k\}$ we will denote by $t = \min |C_i|$ and by $r = \max r(C_i)$. We denote a ball of radius $x$ at centre $c$ by $B(c, x)$.
+
 
 %\begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{ C_1, \ldots, C_{k'} \}$ be a clustering of $\mc X$ and $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$.
 %\label{defn:cxrespectscs}
@@ -183,23 +184,47 @@ Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$, t
 
 %\noindent A clustering instance $(\mc X, d)$ satisfies $(\alpha, \eta)$-center proximity if there exist $\mc S \subseteq \mc X$ such that there exists a clustering $\mc C$ of $\mc S$ which has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$.
 
-The problem of clustering under the presence of noise was first considered by \cite{balcan2012clustering}. They assumed that the  
+The problem of clustering under the presence of noise was first studied by \cite{balcan2012clustering}. They consider a data set $\mc X$ such that the optimal clustering of $\mc X$ w.r.t $k$-median objective function has $\alpha$-center proximity (Defn.\ref{defn:alphacp}) except for an $\epsilon$ fraction of the points. They then construct a hierarchical clustering tree $\mc T$ of $\mc X$ and show that it can capture the optimal clustering on the good points. Furthermore, the min-cost pruning of $\mc T$ provides a good approximation to the cost of the optimal solution. However, they require that the number of noisy points $ \epsilon|\mc X|< \frac{t}{8}$ where $t$ is the size of the smallest cluster.
 
-\subsection{Goal}
-We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) respects $\mc C_{\mc S}$. 
+Our framework and goal is very similar to that considered by \cite{balcan2012clustering}. We wish to output a hierarchical clustering tree $\mc T$ of $\mc X$. However, there is one important distinction. We do not work with any particular objective function. Rather, we require that $\mc T$ can capture all ``good'' clusterings of the set $\mc X$.
 
-In the next section, we introduce a hierarchical clustering algorithm (Alg.\ref{alg:alphacp}) and prove (Thm.\ref{thm:alphacpnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\alpha$ and $\eta$).
-It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$.
-% which is based on a novel distance function.
-The output of our algorithm is a clustering tree that is able to capture all $(\alpha, \eta)$-center $t$-min nice subsets $\mc S$. More precisely, this tree has a pruning $\mc P$ such that the corresponding clustering $\mc C_{\mc X}^{\mc P}$ respects the clustering $\mc C_{\mc S}$. 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\alpha$-center proximity, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answer to this question.
 
-\subsection{Algorithm}
-Balcan and Liang studied the problem of clustering in the presence of noise under similar assumptions. They consider a data set $\mc X$ such that the optimal clustering of $\mc X$ w.r.t some objective function has $\alpha$-center proximity (Defn.\ref{defn:alphacp}) except for an $\epsilon$ fraction of the points. They presented a polynomial-time algorithm that gives a $(1+O(\epsilon))$-approximation to the cost of optimal clustering.
+\begin{itemize}
+\item {\it Lower bound with arbitrary noise} - In Section \ref{section:lowerBoundNoise}, we show that if the number of noisy points $> \frac{3t}{2}$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$ then no algorithm can output a tree which captures all $\alpha$-center $t$-min proximal subsets of $\mc X$.
+\item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, then Alg.\ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+\item  {\it Lower bound under sparse noise} - In Section \ref{section:lowerBoundSparseNoise}, we show that if $\alpha \le 2 + \sqrt{3}$ and $\eta \le 1$, then no algorithm can output a tree which captures all $(\alpha, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+\end{itemize} 
 
-In this work, we consider a similar problem. However, our approach is different in two aspects. Firstly, we do not place any restriction on the size of the noise but assume that it is {\it sparse} and doesn't have any {\it structure}. Secondly, we don't work with any particular objective function. Our goal is to ``capture" all clusterings which have $(\alpha, \eta)$-center proximity.
+\subsection{Lower bound under arbitrary noise}
+\begin{figure}[!ht]
+\input{../figures/lbdFig3}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-center $t$-min nice subsets of $\mc X$}
+\label{fig:nosparsealg}
+\end{figure}
 
-Our algorithm uses a linkage-based procedure based on a novel distance condition. Before describing our algorithm, we need to define our {\it Sparse distance condition}.
+\begin{theorem}
+\label{thm:nosparsealg}
+Given the number of clusters $k$ and a parameters $\alpha$ and $t$. For any algorithm which outputs a clustering tree $T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
+
+If $\alpha < 2\sqrt 2 + 3$ and $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
+\end{theorem}
+
+\begin{proof}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(i\alpha-i)$ and $O_2 = \cup_{i=1}^3 P_2(i\alpha-i-2) \cup_{i=3}^5 P_2(i\alpha-i+2)$. For $3\le i\le k$, define $B_i = B(16\alpha-6+i\alpha, 0)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
+
+Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-3) \thinspace\cup\thinspace P_{t'}(\alpha-1) \}$ and $B_2 = \{\ P_{t'}(3\alpha-3) \thinspace\cup\thinspace P_{2}(3\alpha-1)\thinspace\cup\thinspace P_{t'}(4\alpha-4)\}$. Also, let $B_1' = \{P_{t'}(\alpha-1) \thinspace\cup\thinspace  P_{2}(2\alpha-4) \thinspace\cup\thinspace P_{t'}(2\alpha-2) \}$ and $B_2' = \{\ P_{t'}(4\alpha-4) \thinspace\cup\thinspace P_{2}(4\alpha-2)\thinspace\cup\thinspace P_{t'}(5\alpha-5)\}$. Also, let $B_1'' = \{P_{t'}(2\alpha-2) \thinspace\cup\thinspace  P_{2}(3\alpha-5) \thinspace\cup\thinspace P_{t'}(3\alpha-3) \}$ and $B_2'' = \{\ P_{t'}(5\alpha-5) \thinspace\cup\thinspace P_{2}(5\alpha-3)\thinspace\cup\thinspace P_{t'}(6\alpha-6)\}$. 
+
+Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2\sqrt{2} + 3$, all of $\mc S$, $\mc S'$ and $\mc S''$ are $\alpha$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\alpha$-center proximity. However, we will show that no algorithm can output a tree which respects $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
+
+For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
+\end{proof}
+
+\subsection{Positive result under sparse noise}
+\label{section:positiveResultSparseNoise}
+We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameter $r$ and $t$. Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min $r$-max proximal, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) respects $\mc C_{\mc S}$. 
+
+We introduce a hierarchical clustering algorithm (Alg.\ref{alg:alphacp}) and prove (Thm.\ref{thm:alphacpnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\alpha$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. The main idea of our algorithm is similar to \cite{balcan2012clustering}. However, our algorithm uses a linkage algorithm based on a novel {\it sparse distance condition}.
 
 \begin{definition}[Sparse distance condition]
 	 Given a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ and $p, q \in \mc X$. Let $B = B(p, d(p, q))$. Define $Y_B^{\mc C_{\mc X}} := \{C_i \in \mc C_{\mc X} : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. 
@@ -210,18 +235,18 @@ We say that the ball $B$ satisfies the sparse distance condition w.r.t clusterin
 \end{itemize}
 \end{definition}
 
-Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $\mc C_{\mc X}$, which is initialized so that  each point is in its own cluster. It then iterates over all pairs of points $p, q$ in increasing order of their distance $d(p, q)$. If $B(p, d(p,q))$ satisfies the sparse distance condition w.r.t $\mc C_{\mc X}$, then it merges all the clusters which intersect with this ball into a single cluster and updates $\mc C_{\mc X}$. Furthermore, the algrorithm builds a tree with the nodes corresponding to the merges performed so far. We will show that for all $\mc S \subseteq \mc X$ and for all clusterings $\mc C_S$ which have $(\alpha, \eta)$-center proximity and $\min\limits_{C_i \in {\mc C}_{\mc S}} |C_i| = t$, Alg. \ref{alg:alphacp} outputs a tree such that there exists a pruning $\mc P$ such that the clustering $\mc C_X$ corresponding to the pruning respects $\mc C_S$. %which {\color{red}[}respects the clustering $\mc C$ {\color{red}] What does "respect" mean here?}.
+Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $\mc C_{\mc X}$, which is initialized so that  each point is in its own cluster. It then iterates over all pairs of points $p, q$ in increasing order of their distance $d(p, q)$. If $B(p, d(p,q))$ satisfies the sparse distance condition w.r.t $\mc C_{\mc X}$, then it merges all the clusters which intersect with this ball into a single cluster and updates $\mc C_{\mc X}$. Furthermore, the algrorithm builds a tree with the nodes corresponding to the merges performed so far. We will show that for all $\mc S \subseteq \mc X$ and for all clusterings $\mc C_S$ which have $(\alpha, \eta)$-center proximity and $\min\limits_{C_i \in {\mc C}_{\mc S}} |C_i| = t$ and $\min\limits_{C_i \in {\mc C}_{\mc S}} r(C_i) = r$, Alg. \ref{alg:alphacp} outputs a tree such that there exists a $k$-pruning $\mc P$ which respects $\mc C_S$. %which {\color{red}[}respects the clustering $\mc C$ {\color{red}] What does "respect" mean here?}.
 
 	
 \begin{algorithm}
 %\begin{alg}
 	\SetAlgoLined
-	\KwIn{$(\mc X, d), k$ and $t$}
+	\KwIn{$(\mc X, d), k$, $t$ and $r$}
 	\KwOut{A hierarchical clustering tree $T$ of $\mc X$.}
 	
 	Let $\mc C^{(l)}$ denote the clustering $\mc X$ after $l$ merge steps have been performed. Initialize $\mc C^{(0)}$ so that all points are in their own cluster. That is, $\mc C^{(0)} = \{ \{x\}: x \in \mc X\}$.
 	
-	Iterate over all pairs of points $p, q$ in increasing order of the distance $d(p, q)$. If $B = B(p, d(p, q))$ satisfies the sparse distance condition then
+	Iterate over all pairs of points $p, q$ in increasing order of the distance $d(p, q)$ such that $d(p, q) \le r$. If $B = B(p, d(p, q))$ satisfies the sparse distance condition then
 	\begin{itemize}
 	\renewcommand\labelitemi{}
 		\item $C_{temp} = \phi$ and $\mc C^{(i)} = \mc C^{(i-1)}$
@@ -234,18 +259,19 @@ Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $
 		\item This step basically merges all the clusters in $Y_B^{C^{(i-1)}}$ into a single cluster.
 	\end{itemize}
 	
+	Merge all the clusters in $\mc C^{(i)}$ into a single cluster.
 	
 	Output clustering tree $T$. The leaves of $T$ are the points in dataset $\mc X$. The internal nodes corresppond to the merging performed in the previous step.
 	%\item[4] Construct $T$ from $T'$ by deleting the all nodes which do not have any children.
 %\end{alg}
-\caption{Alg. for $(\alpha, \eta)$-center proximity with parameter $t$}
+\caption{Alg. for $(\alpha, \eta)$-center proximity with parameters $t$ and $r$}
 \label{alg:alphacp}
 \end{algorithm}
 
 
 \begin{theorem}
 \label{thm:alphacpnoise}
-Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i^*| = t \ge 2$, the following holds. 
+Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $t$ and $r$. Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $\min_i|S_i^*| = t \ge 2$ and $\max_i r(S_i^*) = r$, the following holds. 
 
 If $\alpha \ge 2 + \sqrt 7$ and $\eta \ge 1$, then for every $1\le i \le k$, there exists a node $N_i$ in the tree $T$ such that $S_i^* \subseteq N_i$ and for $j \neq i$, $S_j^* \cap N_i = \phi$ . That is, $N_i$ contains points from only one of the good clusters $S_i^*$.
 %{\color{red} Is it obvious that the nodes in the pruning are disjoint and they form a clustering of set X?} 
@@ -316,7 +342,7 @@ Let $s_i$, $q_i$, $r_i$, $B$ and $Y$ be as defined above. Then, $B$ satisfies th
 \end{proof}
 
 \begin{theorem}
-Given clustering instance $(\mc X, d)$, $k$ and $t$. Algorithm \ref{alg:alphacp} runs in time which is polynomial in $|\mc X|$.
+Given clustering instance $(\mc X, d)$, $k$, $t$ and $r$. Algorithm \ref{alg:alphacp} runs in time which is polynomial in $|\mc X|$.
 \end{theorem}
 
 \begin{proof}
@@ -388,28 +414,7 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ a
 For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
 \end{proof}
 
-\begin{figure}[!ht]
-\input{../figures/lbdFig3}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-center $t$-min nice subsets of $\mc X$}
-\label{fig:nosparsealg}
-\end{figure}
 
-\begin{theorem}
-\label{thm:nosparsealg}
-Given the number of clusters $k$ and a parameters $\alpha$ and $t$. For any algorithm which outputs a clustering tree $T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$, such that the following holds. 
-
-If $\alpha < 2\sqrt 2 + 3$ and $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
-\end{theorem}
-
-\begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(i\alpha-i)$ and $O_2 = \cup_{i=1}^3 P_2(i\alpha-i-2) \cup_{i=3}^5 P_2(i\alpha-i+2)$. For $3\le i\le k$, define $B_i = B(16\alpha-6+i\alpha, 0)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
-
-Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-3) \thinspace\cup\thinspace P_{t'}(\alpha-1) \}$ and $B_2 = \{\ P_{t'}(3\alpha-3) \thinspace\cup\thinspace P_{2}(3\alpha-1)\thinspace\cup\thinspace P_{t'}(4\alpha-4)\}$. Also, let $B_1' = \{P_{t'}(\alpha-1) \thinspace\cup\thinspace  P_{2}(2\alpha-4) \thinspace\cup\thinspace P_{t'}(2\alpha-2) \}$ and $B_2' = \{\ P_{t'}(4\alpha-4) \thinspace\cup\thinspace P_{2}(4\alpha-2)\thinspace\cup\thinspace P_{t'}(5\alpha-5)\}$. Also, let $B_1'' = \{P_{t'}(2\alpha-2) \thinspace\cup\thinspace  P_{2}(3\alpha-5) \thinspace\cup\thinspace P_{t'}(3\alpha-3) \}$ and $B_2'' = \{\ P_{t'}(5\alpha-5) \thinspace\cup\thinspace P_{2}(5\alpha-3)\thinspace\cup\thinspace P_{t'}(6\alpha-6)\}$. 
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2\sqrt{2} + 3$, all of $\mc S$, $\mc S'$ and $\mc S''$ are $\alpha$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\alpha$-center proximity. However, we will show that no algorithm can output a tree which respects $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
-
-For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
-\end{proof}
 
 \section{Center Separation}
 
