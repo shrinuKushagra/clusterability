@@ -191,17 +191,21 @@ Our framework and goal is very similar to that considered by \cite{balcan2012clu
 In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\alpha$-center proximity, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answer to this question.
 
 \begin{itemize}
-\item {\it Lower bound with arbitrary noise} - In Section \ref{section:lowerBoundNoise}, we show that if the number of noisy points $> \frac{3t}{2}$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$ then no algorithm can output a tree which captures all $\alpha$-center $t$-min proximal subsets of $\mc X$.
+\item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that if the number of noisy points $> \frac{3t}{2}$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$ then no algorithm can output a tree which captures all $\alpha$-center $t$-min proximal subsets of $\mc X$.
 \item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, then Alg.\ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
-\item  {\it Lower bound under sparse noise} - In Section \ref{section:lowerBoundSparseNoise}, we show that if $\alpha \le 2 + \sqrt{3}$ and $\eta \le 1$, then no algorithm can output a tree which captures all $(\alpha, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+\item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that if $\alpha \le 2 + \sqrt{3}$ and $\eta \le 1$, then no algorithm can output a tree which captures all $(\alpha, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
 \end{itemize} 
 
 \subsection{Lower bound under arbitrary noise}
-\begin{figure}[!ht]
+\label{section:alphaLowerBoundArbitrary}
+
+\begin{figure}
 \input{../figures/lbdFig3}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-center $t$-min nice subsets of $\mc X$}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-center $t$-min $r$-max proximal subsets of $\mc X$. For this example, we fix $r = 1$ for simplicity.}
 \label{fig:nosparsealg}
 \end{figure}
+
+The proof of the lower bounds will follow the follwing general structure. Firstly, we will construct the set $\mc X$, then we will construct sets $\mc S \subset \mc X$ which are $(\alpha, \eta)$-center $t$-min nice (for \ref{lowerBd:alphacp1} and \ref{lowerBd:alphacp2}) or $\alpha$-center $t$-min nice (for \ref{lowerBd:alphacp3}). Then we show that all the clusterings can not be captured by the output tree. Before, we begin the proof of the lower bounds, we need to introduce some notation. 
 
 \begin{theorem}
 \label{thm:nosparsealg}
@@ -342,6 +346,7 @@ Let $s_i$, $q_i$, $r_i$, $B$ and $Y$ be as defined above. Then, $B$ satisfies th
 \end{proof}
 
 \begin{theorem}
+\label{thm:algcptime}
 Given clustering instance $(\mc X, d)$, $k$, $t$ and $r$. Algorithm \ref{alg:alphacp} runs in time which is polynomial in $|\mc X|$.
 \end{theorem}
 
@@ -349,24 +354,7 @@ Given clustering instance $(\mc X, d)$, $k$, $t$ and $r$. Algorithm \ref{alg:alp
 Let $n = |\mc X|$. Let $\mc C^{(l)} =\{C_1, \ldots, C_{k'}\}$ denote the current clustering of $\mc X$ as defined in Alg. \ref{alg:alphacp}. Observe that given the ball $B = B(p, d(p, q))$, for any cluster $C_i \in \mc C^{(l)}$, checking if $C_i \in Y_B^{C^{(l)}}$ takes time O($|C_i|$). Doing this for all clusters takes $O(n)$ time. The algorithm examines all the pairs of points and hence runs in $O(n^3)$ time.
 \end{proof}
 
-\subsection{Lower Bounds}
-\label{sec:alphaLBd}
-Recall the framework in the previous sections. We were given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Our goal was to output a hierarchical clustering tree of $\mc X$ which has the following property. ``{\it For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, there exists a pruning $\mc P$ of the tree such that the clustering corresponding to the pruning $\mc C_{\mc X}^{\mc P}$ respects $\mc C_{\mc S}$.}'' Whenever, a tree has this property, we will say that the tree {\it captures} all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$.
-
-We proposed a polynomial-time algorithm (Alg. \ref{alg:alphacp}) and proved that for $\alpha \ge 2+\sqrt 7$ and $\eta \ge 1$, our algorithm achieves the desired objective. Another natural question to ask is that ``under what conditions or values of $\alpha$ and $\eta$ is it not possible to achieve our goal?'' The general flavour of results would be the following. We will show that if the value of $\alpha$ is below a certain threshold say $\alpha_0$ then no algorithm can succeed in achieving the desired goal. We first describe our lower bound results informally.
-
-\begin{enumerate}[nolistsep, noitemsep, label=\textbf{L.\arabic*}]
-\renewcommand\labelitemi{$\diamond$}
-\item \label{lowerBd:alphacp1} If $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ (noise is sparse), then the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$. 
-\item \label{lowerBd:alphacp2} If $\alpha < 2 + \sqrt{3}$ and $\eta \le 1$ (noise is sparse), then no algorithm can output a tree such that the tree captures all $(\alpha, \eta)$-center $t$-min nice subsets of $\mc X$.
-\item \label{lowerBd:alphacp3} If $\alpha \le 2\sqrt{2}+3$ and the number of noisy points $ > 3t/2+5$, then no algorithm can output a tree such that the tree captures all $\alpha$-center $t$-min nice subsets of $\mc X$. Note that in this case, we do not assume that the noise is sparse.
-\end{enumerate}
-
-\noindent Its important to note that \ref{lowerBd:alphacp1} and \ref{lowerBd:alphacp2} are lower bounds for the case when we assume that the noise is sparse. However, \ref{lowerBd:alphacp3} shows that if we do not have assume that the noise is sparse then even for a large value of $\alpha$ no algorithm can `tolerate' $3t/2+5$ noisy points where $t$ is the size of the minimum cluster. Note that Alg. \ref{alg:alphacp} can `tolerate' much more than $3t/2+5$ noisy points as long the noise is {\it unstructured} or sparse. We will now prove each of the lower bound results.
-
-The proof of the lower bounds will follow the follwing general structure. Firstly, we will construct the set $\mc X$, then we will construct sets $\mc S \subset \mc X$ which are $(\alpha, \eta)$-center $t$-min nice (for \ref{lowerBd:alphacp1} and \ref{lowerBd:alphacp2}) or $\alpha$-center $t$-min nice (for \ref{lowerBd:alphacp3}). Then we show that all the clusterings can not be captured by the output tree. Before, we begin the proof of the lower bounds, we need to introduce some notation. 
-
-Given the number of clusters $k$ and parameter $t$. Denote by $P_{i}(c) := B(c, 0)$ a ball of radius $0$ centered at $c$ such that $|B(c, 0)| = i$. We will sometimes omit $c$ and use the notation $P_i$ when the center is clear from the context. Recall that we defined what it means for a clustering $\mc C_{\mc X}$ to respect $\mc C_{\mc S}$ (Defn. \ref{defn:cxrespectscs}). With a slight abuse of notation, we will say that a pruning $P$ of a hierarchical clustering tree $T$ of $\mc X$ respects $\mc C_{\mc S}$, if the clustering corresponding to the pruning $\mc C_{\mc X}^P$ respects $\mc C_{\mc S}$. Also, if such a pruning $P$ exists, we will say that the tree $T$ respects $\mc C_{\mc S}$.
+We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-center $t$-min $r$-max proximal subsets of $\mc X$ (Thm. \ref{thm:alphacpnoise}). We then showed that our algorithm runs in polynomial time (Thm. \ref{thm:algcptime}). Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-center $t$-min $r$-max proximal subsets of $\mc X$. 
 
 \begin{figure}[!ht]
 \input{../figures/lbdFig1}
@@ -390,6 +378,13 @@ Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha+1) \thinspace
 
 Denote by $B_{12} = \{P_{t'}(2\alpha) \cup P_{2}(3\alpha+1) \cup P_{t'}(4\alpha+2) \}$. Alg. \ref{alg:alphacp}, iterates through pairs of points in increasing order of their distance. Hence, it first merges points in $B_3$ to $B_k$ into $k-2$ clusters. Now, observe that $B_1, B_{12}$ and $B_{2}$ have the radius $\alpha + 1$ (as our centers must be part of the dataset $\mc X$). Hence, the algorithm can choose to merge points in $B_{12}$ into the same cluster before merging points from $B_1$ and $B_2$ together. In this case, there exists no pruning of the tree which respects the clustering $\mc C_{\mc S}$.
 \end{proof}
+
+\subsection{Lower bound under sparse noise}
+\label{section:alphaLowerBoundSparse}
+
+Given the number of clusters $k$ and parameter $t$. Denote by $P_{i}(c) := B(c, 0)$ a ball of radius $0$ centered at $c$ such that $|B(c, 0)| = i$. We will sometimes omit $c$ and use the notation $P_i$ when the center is clear from the context. Recall that we defined what it means for a clustering $\mc C_{\mc X}$ to respect $\mc C_{\mc S}$ (Defn. \ref{defn:cxrespectscs}). With a slight abuse of notation, we will say that a pruning $P$ of a hierarchical clustering tree $T$ of $\mc X$ respects $\mc C_{\mc S}$, if the clustering corresponding to the pruning $\mc C_{\mc X}^P$ respects $\mc C_{\mc S}$. Also, if such a pruning $P$ exists, we will say that the tree $T$ respects $\mc C_{\mc S}$.
+
+
 
 \begin{figure}[!ht]
 \input{../figures/lbdFig2}
