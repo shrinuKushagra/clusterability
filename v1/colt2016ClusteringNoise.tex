@@ -84,29 +84,29 @@ Clustering, $\alpha$-center proximity, $\lambda$-center separation
 
 \section{Introduction}
 \subsection{Motivation}
-\todo Talk about CDNM Thesis. Clustering is difficult only when it doesn't matter. Niceness assumptions on data. If data has these properties clustering is easy.
+\todo %Talk about CDNM Thesis. Clustering is difficult only when it doesn't matter. Niceness assumptions on data. If data has these properties clustering is easy.
 
 \subsection{Related Work}
-\todo In the past few years, different notions of clusterability has been introduced. The main goal of all these works has been to show that clustering can be handled much easier in the scenarios that we assume there is some structure on the data. Briefly mention literature review.
+\todo %In the past few years, different notions of clusterability has been introduced. The main goal of all these works has been to show that clustering can be handled much easier in the scenarios that we assume there is some structure on the data. Briefly mention literature review.
 
-In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). If the optimal solution to the center-based objective satisfies these nice properties then they have poly. time algorithms to find that optimal solution. They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
+%In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). If the optimal solution to the center-based objective satisfies these nice properties then they have poly. time algorithms to find that optimal solution. They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
 
-There has been two major quantitative measures of noise robustness clustering so far: The first notion is closely related to approximation algorithms: It says that if $\epsilon$ fraction of the data is noise, then one can retrieve the optimal solution up to a $(1+\epsilon)$ approximation factor.  
+%There has been two major quantitative measures of noise robustness clustering so far: The first notion is closely related to approximation algorithms: It says that if $\epsilon$ fraction of the data is noise, then one can retrieve the optimal solution up to a $(1+\epsilon)$ approximation factor.  
 
 \subsection{Our approach}
-\todo Our approach is different in two regards.
-\begin{itemize}[nolistsep]
-\item We dont work with a particular cost function. Give poly. time alg.  that work for any clustering that has the nice property.
-\item No size restriction on the noise. Assume that it doesn't have a structure. 
-\end{itemize}
-We give poly. alg. which capture all nice clustering of a dataset as long as the noise is unstructured (or sparse).
+\todo %Our approach is different in two regards.
+%\begin{itemize}[nolistsep]
+%\item We dont work with a particular cost function. Give poly. time alg.  that work for any clustering that has the nice property.
+%\item No size restriction on the noise. Assume that it doesn't have a structure. 
+%\end{itemize}
+%We give poly. alg. which capture all nice clustering of a dataset as long as the noise is unstructured (or sparse).
 
 \subsection{Comparison with previous work}
-\todo For $(\alpha, \epsilon)$-center proximity. \cite{balcan2012clustering} obtain an $1+\epsilon$ to the cost of the optimal $k$-median solution if $\alpha \ge 2+\sqrt{7}$ and atmost $\epsilon$-fraction of the dataset is noise. Their algorithm is also able to capture all $(\alpha, \epsilon)$-nice clusterings. We show that if $\alpha \le 2\sqrt{2} + 3$ and the number of noisy points is large, then no algorithm can output a tree which captures all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give an alg. which captures all $(\alpha, \eta)$-clusterings if the noise is $\eta$-sparse and $\alpha \ge 2+\sqrt{7}$.
+\todo %For $(\alpha, \epsilon)$-center proximity. \cite{balcan2012clustering} obtain an $1+\epsilon$ to the cost of the optimal $k$-median solution if $\alpha \ge 2+\sqrt{7}$ and atmost $\epsilon$-fraction of the dataset is noise. Their algorithm is also able to capture all $(\alpha, \epsilon)$-nice clusterings. We show that if $\alpha \le 2\sqrt{2} + 3$ and the number of noisy points is large, then no algorithm can output a tree which captures all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give an alg. which captures all $(\alpha, \eta)$-clusterings if the noise is $\eta$-sparse and $\alpha \ge 2+\sqrt{7}$.
 
-For $\lambda$-center separation. Prove that problem is NP-Hard for $\lambda \le 2$. For $\lambda \ge 3$, give an algorithm which outputs the (unique) clustering.
+%For $\lambda$-center separation. Prove that problem is NP-Hard for $\lambda \le 2$. For $\lambda \ge 3$, give an algorithm which outputs the (unique) clustering.
 
-For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a generic algorithm for any center-based objective function. The separation parameter $\lambda$ required is very large. For $k$-median, the required separation can be as big as $16$. We show that if $\lambda \le 6$ and the number of noisy points is large, then no algorithm can capture all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give poly. alg for $\lambda \ge 4$ for sparse noise.
+%For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a generic algorithm for any center-based objective function. The separation parameter $\lambda$ required is very large. For $k$-median, the required separation can be as big as $16$. We show that if $\lambda \le 6$ and the number of noisy points is large, then no algorithm can capture all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give poly. alg for $\lambda \ge 4$ for sparse noise.
 
 
 \subsection{Structure of paper}
@@ -129,31 +129,31 @@ For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a gene
 	\renewcommand{\labelenumii}{\theenumii}
 	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
 	\setlength\itemsep{0em}
+	\item Center Separation without noise
+	\begin{itemize}
 	\item Positive result for $\lambda \ge 3$ with no noise.
 	\item NP-Hard for $\lambda \le 2$ with no noise.
+	\end{itemize}
+	\item Center Separation in the presence of noise \begin{itemize}
 	\item Lower Bound ($\lambda \le 6$) under arbitrary noise.
 	\item Positive result for $\lambda \ge 4$ under sparse noise.
 	\item Lower bound ($\lambda < 4$) under sparse noise.
+	\end{itemize}
 	\end{enumerate}
 \item Conclusion
 \end{enumerate}
 
 
 \section{Notation and definition}
-We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$. Given points $c_1, \ldots, c_k \in \mb M$, we can define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. Given $\mc S \subseteq \mc X$, we define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$.
+We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$. Given points $c_1, \ldots, c_k \in \mb M$, we can define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the \textbf{Proper} setting, we restrict our centers to be a part of the data set $\mc X$. In the \textbf{Steiner} setting, we do not make any such assumption and the centers are allowed to be a part of the metric space $\mb M$. In this paper, we will be working in the proper setting.
 
-Given $\mc S \subseteq \mc X$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures the clustering $\mc C_{\mc S}$ if there exists a $k$-pruning $\mc P$ which respects $\mc C_{\mc S}$.
+Given $\mc S \subseteq \mc X$, we define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures the clustering $\mc C_{\mc S}$ if there exists a $k$-pruning $\mc P$ which respects $\mc C_{\mc S}$.
 
 We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. Given a clustering $\mc C = \{C_1, \ldots, C_k\}$ we will denote by $t = \min |C_i|$ and by $r = \max r(C_i)$. 
 
 We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We will denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. We will sometimes omit $c$ and use the notation $P_i$ when the location is clear from the context.
 
-%\begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{ C_1, \ldots, C_{k'} \}$ be a clustering of $\mc X$ and $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$.
-%\label{defn:cxrespectscs}
-%\end{definition}
-
-%\begin{definition}[$\mc C_{\mc X}$ restricted to $\mc S$] Given a clustering instance $(\mc X, d)$ and $\mc S \subseteq \mc X$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be a clustering of $\mc X$. We define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Note that $\mc C_{\mc X}|_{\mc S}$ is a clustering of the set $\mc S$. 
-%\end{definition}
+Let us assum
 
 \begin{definition}[$\alpha$-center proximity]
 \label{defn:alphacp}
@@ -180,14 +180,35 @@ Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$, t
 
 \todo Add example.
 
+\begin{definition}[$\lambda$-center separation]
+\label{defn:lambdacs}
+Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k \in \mb M$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if the following holds. For all $i\neq j$, 
+$$d(c_i, c_j) > \lambda \enspace\max_{p \in [k]} \thinspace r(C_p)$$
+\end{definition}
+
+\noindent The set $\mc X$ is {\it $\lambda$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ which satisfies $\lambda$-center separation and $\min\limits_{i} \lvert C_i\rvert = t$ and $\max\limits_{i} r(C_i) = r$.
+
+\begin{definition}[$(\lambda, \eta)$-center separation]
+Given a clustering instance $\mc X$ drawn from a metric space $(\mb M, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mb M$ has $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ if the following holds.
+
+
+\begin{itemize}[nolistsep, noitemsep]
+\label{defn:lambdacsnoise}	
+
+\item[$\diamond$] {\bf $\lambda$-centre separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda \max_{p} r(S_p)$
+\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \eta\max\limits_{i} \thinspace r(S_i)$, then $|B\cap (\mc X\setminus \mc S)| < \min\limits_{i} |S_i|/2$
+\end{itemize}
+\end{definition}
+
+\noindent A set $\mc S \subseteq \mc X$ is {\it $(\lambda, \eta)$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc S}=\{S_1,\ldots,S_k\}$ which satisfies $(\lambda, \eta)$-center separation,  $\min\limits_{i} \lvert S_i\rvert = t$ and $\max\limits_{i} r(S_i) = r$. Note that given $(\mc X, d), k, r$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
 
 \section{Center Proximity}
-
+\label{section:cp}
 %\noindent A clustering instance $(\mc X, d)$ satisfies $(\alpha, \eta)$-center proximity if there exist $\mc S \subseteq \mc X$ such that there exists a clustering $\mc C$ of $\mc S$ which has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$.
 
-The problem of clustering under the presence of noise was first studied by \cite{balcan2012clustering}. They consider a data set $\mc X$ such that the optimal clustering of $\mc X$ w.r.t $k$-median objective function has $\alpha$-center proximity (Defn.\ref{defn:alphacp}) except for an $\epsilon$ fraction of the points. They then construct a hierarchical clustering tree $\mc T$ of $\mc X$ and show that it can capture the optimal clustering on the good points. Furthermore, the min-cost pruning of $\mc T$ provides a good approximation to the cost of the optimal solution. However, they require that the number of noisy points $ \epsilon|\mc X|< \frac{t}{8}$ where $t$ is the size of the smallest cluster.
+The problem of clustering with $\alpha$-center proximity under the presence of noise was first studied by \cite{balcan2012clustering}. They consider a data set $\mc X$ such that the optimal clustering of $\mc X$ w.r.t $k$-median objective function has $\alpha$-center proximity (Defn.\ref{defn:alphacp}) except for an $\epsilon$ fraction of the points. They then construct a hierarchical clustering tree $\mc T$ of $\mc X$ and show that it can capture the optimal clustering on the good points. Furthermore, the min-cost pruning of $\mc T$ provides a good approximation to the cost of the optimal solution. However, they require that the number of noisy points $ \epsilon|\mc X|< \frac{t}{8}$ where $t$ is the size of the smallest cluster.
 
-Our framework and goal is very similar to that considered by \cite{balcan2012clustering}. We wish to output a hierarchical clustering tree $\mc T$ of $\mc X$. However, there is one important distinction. We do not work with any particular objective function. Rather, we require that $\mc T$ can capture all ``good'' clusterings of the set $\mc X$.
+Our framework and goal is very similar to that considered by \cite{balcan2012clustering}. We wish to output a hierarchical clustering tree $\mc T$ of $\mc X$. However, there is one important distinction. We do not work with any particular objective function. Rather, we require that $\mc T$ can capture all clusterings of all the ``nice" subsets of $\mc X$. Nice subsets of $\mc X$ are those which satisfy $(\alpha, \eta)$-center $t$-min $r$-max proximity.
 
 In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\alpha$-center proximity, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answer to this question.
 
@@ -416,40 +437,61 @@ For the sake of contradiction assume that there exists a tree $T$ and prunings $
 
 \section{Center Separation}
 
-\begin{definition}[$\lambda$-center separation]
-\label{defn:lambdacs}
-Given a clustering instance $(\mc X, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if the following holds. For all $i\neq j$, 
-$$d(c_i, c_j) > \lambda \enspace\max_{p \in [k]} \thinspace r(C_p)$$
-\end{definition}
+The notion of center separation was first considered by \cite{ben2014clustering}. They consider a data set $\mc X$ such that the optimal solution to any center-based objective function has $\lambda$-center sepration except for a small fraction of the points. Then they propose an algorithm to turn any center-based algorithm into an algorithm which is robust to noise. The main contribution of their work is that their algorithm works for any objective function. Also, their approach works in the {\it Steiner} setting. However, the assumptions on the parameter $\lambda$ is quite strong. For example, when the size of the noise is $5\%$, to obtain a robustified version of $2$-median, their algorithm needs a separation of $\lambda > 10$.
 
-\noindent The set $\mc X$ is {\it $\lambda$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ which satisfies $\lambda$-center separation and $\min\limits_{i} \lvert C_i\rvert = t$ and $\max\limits_{i} r(C_i) = r$.
+Our goal in this section is not to work with any particular objective function. Rather, we want to recover all solutions which satisfy $\lambda$-center separation. With this motivation, we first give lower and upper bounds on $\lambda$ when the dataset doesn't contain any noisy points. We then work introduce noise in our dataset and then show that unstructured sparse noise is easier to handle than arbitrary noise.
+ 
+\subsection{Center Separation without noise}
+\todo
 
-\begin{definition}[$(\lambda, \eta)$-center separation]
-Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k$ has $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ if the following holds.
+\subsection{Center Separation in the presence of noise}
 
-\begin{itemize}[nolistsep, noitemsep]
-\label{defn:lambdacsnoise}	
+Similar to the framework in Section \ref{section:cp}, we do not work with any particular objective function. Given a set $\mc X$, we want to output a clustering $\mc C_{\mc X}$ of the set $\mc X$ which can capture  all clusterings of all the ``nice" subsets of $\mc X$. Nice subsets of $\mc X$ are those which satisfy $(\lambda, \eta)$-center $t$-min $r$-max proximity.
 
-\item[$\diamond$] {\bf $\lambda$-centre separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda \max_{p} r(S_p)$
-\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \eta\max\limits_{i} \thinspace r(S_i)$, then $|B\cap (\mc X\setminus \mc S)| < \min\limits_{i} |S_i|/2$
-\end{itemize}
-\end{definition}
 
-\noindent A set $\mc S \subseteq \mc X$ is {\it $(\lambda, \eta)$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc S}=\{S_1,\ldots,S_k\}$ which satisfies $(\lambda, \eta)$-center separation,  $\min\limits_{i} \lvert S_i\rvert = t$ and $\max\limits_{i} r(S_i) = r$. Note that given $(\mc X, d), k, r$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
+In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\lambda$-center separation, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answers to this question.
 
-%\noindent A clustering instance $(\mc X, d)$ satisfies $(\alpha, \eta)$-center proximity if there exist $\mc S \subseteq \mc X$ such that there exists a clustering $\mc C$ of $\mc S$ which has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$.
+\begin{itemize}
+\item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that if the number of noisy points $> \frac{3t}{2}$ and $\lambda \le 6$ then no algorithm can output a tree which captures all $\lambda$-center $t$-min proximal subsets of $\mc X$.
+\item  {\it Positive result under sparse noise} - In Section \ref{section:lambdaPositiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\lambda \ge 4$ and $\eta \ge 1$, then Alg.\ref{alg:lambdacs} outputs a clustering which captures all $(\alpha, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+\item  {\it Lower bound under sparse noise} - In Section \ref{section:lambdaLowerBoundSparse}, we show that if $\lambda < 4$ and $\eta \le 1$, then no algorithm can output a tree which captures all $(\lambda, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+\end{itemize} 
 
-\subsection{Goal}
+
+\subsubsection{Lower bound with arbitrary noise}
+\label{section:lambdaLowerBoundArbitrary}
+\begin{figure}
+\input{../figures/lambdaLBDFig2}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\lambda$-separated $t$-min $r$-max nice subsets of $\mc X$}
+\label{fig:nosparsealglambdacs}
+\end{figure}
+
+
+To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S', \mc S'' \subset \mc X$ which are $\lambda$-center $t$-min $r$-max proximal. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $\lambda$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:nosparsealglambdacs}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
+
+\begin{theorem}
+Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. For any algorithm which
+outputs a clustering tree $\mc T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\lambda$-center separation and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
+
+If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then there doesn't exist a pruning of the tree such that respects $\mc C_{\mc S}$ .
+\end{theorem}
+
+\begin{proof}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \cup_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(22r+ir)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
+
+Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\thinspace P_{t'}(2r) \}$ and $B_2 = \{\ P_{t'}(6r) \thinspace\cup\thinspace P_{2}(7r)\thinspace\cup\thinspace P_{t'}(8r)\}$. Also, let $B_1' = \{P_{t'}(2r) \thinspace\cup\thinspace  P_{2}(3r) \thinspace\cup\thinspace P_{t'}(4r) \}$ and $B_2' = \{\ P_{t'}(8r) \thinspace\cup\thinspace P_{2}(9r)\thinspace\cup\thinspace P_{t'}(10r)\}$. Also, let $B_1'' = \{P_{t'}(4r) \thinspace\cup\thinspace  P_{2}(5r) \thinspace\cup\thinspace P_{t'}(6r) \}$ and $B_2'' = \{\ P_{t'}(10r) \thinspace\cup\thinspace P_{2}(11r)\thinspace\cup\thinspace P_{t'}(12r)\}$. 
+
+Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 6$, all of $\mc S$, $\mc S'$ and $\mc S''$ are $\lambda$-separated $t$-min $r$-max nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\lambda$-center separation.
+
+$\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$ and $\mc C_{\mc X}|_{\mc S''} = \mc C_{\mc S''}$. For the sake of contradiction assume that this is the case. There exists cluster $C_1 \in \mc C_{\mc X}$ such that such that $B_1 \subseteq C_1$ and $C_1 \cap B_2 = \phi$. Similarly, there exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$ and there exists cluster $C_1'' \in \mc C_{\mc X}$ such that such that $B_1'' \subseteq C_1''$ and $C_1'' \cap B_2'' = \phi$. Now, $C_1, C_1', C_1'' \in \mc X$ and $C_1 \cap C_1' \neq \phi$ and $C_1'' \cap C_1' \neq \phi$. Hence, $C_1 = C_1' = C_1''$. Hence, $B_1 \cup B_1' \cup B_1'' \subseteq C_1$. Observe, that $B_1'' \cap B_2 \neq \phi$. Hence, $C_1\cap B_2 \neq \phi$. This is a contradiction.
+\end{proof}
+
+\subsubsection{Positive result under sparse noise}
 We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. Our goal is to output a clustering $\mc C_{\mc X}$ of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\lambda, \eta)$-separated $t$-min $r$-max nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation, the clustering $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_{\mc S}$. 
 
-In the next section, we propose a clustering algorithm (Alg.\ref{alg:lambdacs}) and prove (Thm.\ref{thm:lambdacsnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\lambda$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. The output of our algorithm is a clustering that is able to capture all $(\lambda, \eta)$-separated $t$-min $r$-max nice subsets $\mc S$. More precisely, the clustering restricted to the set $\mc S$ equals $\mc C_{\mc S}$.
+In the next section, we propose a clustering algorithm (Alg.\ref{alg:lambdacs}) and prove (Thm.\ref{thm:lambdacsnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\lambda$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. 
 
-\subsection{Algorithm}
-%Ben-David and Haghtalab studied the problem of clustering in the presence of noise under similar assumptions. They consider a data set $\mc X$ such that the optimal clustering of $\mc X$ w.r.t some center-based objective function has $\lambda$-center separation (Defn.\ref{defn:lambdacs}) except for an $\epsilon$ fraction of the points. They presented a polynomial-time algorithm that gives a $(1+O(\epsilon))$-approximation to the cost of optimal clustering. In this work, we consider a similar problem. However, our approach is different in two aspects. Just like in the case of $\alpha$-center proximity, we do not place any restriction on the size of the noise but assume that it is {\it sparse} and doesn't have any {\it structure}. Also, we don't work with any particular objective function. Our goal is to ``capture" all clusterings which have $(\lambda, \eta)$-center separation.
-
-%Our algorithm uses a linkage-based procedure based on a novel distance condition. Before describing our algorithm, we need to define our {\it Sparse distance condition}.
-
-Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it constructs a list of balls which have radius atmost $r$ and contain atleast $t$ points. It then constructs a graph as follows. Each ball found in the first phase is represented by a vertex. If two balls have a `large' intersection then their is an edge between the corresponding vertices in the graph. We then find the connected components in the graph which correspond to the clustering of the origin set $\mc X$. We will show that for all $\mc S \subseteq \mc X$ and for all clusterings $\mc C_S$ which have $(\lambda, \eta)$-center separation and $\min\limits_{C_i \in {\mc C}_{\mc S}} |C_i| = t$ and $\max\limits_{C_i \in {\mc C}_{\mc S}} r(C_i) = r$, Alg. \ref{alg:alphacp} outputs a clustering ${\mc C}_{\mc X}$ such that $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_S$. %which {\color{red}[}respects the clustering $\mc C$ {\color{red}] What does "respect" mean here?}.
+Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it constructs a list of balls which have radius atmost $r$ and contain atleast $t$ points. It then constructs a graph as follows. Each ball found in the first phase is represented by a vertex. If two balls have a `large' intersection then their is an edge between the corresponding vertices in the graph. We then find the connected components in the graph which correspond to the clustering of the original set $\mc X$. 
 
 
 \begin{algorithm}[!ht]
@@ -532,20 +574,11 @@ Given clustering instance $(\mc X, d)$, $k$ and parameters $r$ and $t$. Algorith
 Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaining steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
 \end{proof}
 
-\subsection{Lower Bounds}
-Recall the framework in the previous section. We were given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. Our goal was to output a hierarchical clustering $\mc C_{\mc X}$ which has the following property. ``{\it For every $\mc S \subseteq \mc X$ which is $(\lambda, \eta)$-separated $t$-min $r$-max nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation, $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_{\mc S}$.}'' Whenever the clustering has this property, we will say that it {\it captures} all $(\lambda, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
+\subsubsection{Lower bound under sparse noise}
 
-We proposed a polynomial-time algorithm (Alg. \ref{alg:lambdacs}) and proved that for $\lambda \ge 4$ and $\eta \ge 1$, our algorithm achieves the desired objective. Another natural question to ask is that ``under what conditions or values of $\lambda$ and $\eta$ is it not possible to achieve our goal?'' We first describe our lower bound results informally.
+To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S' \subset \mc X$ which are $(\lambda, \eta)$-center $t$-min $r$-max proximal. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $\lambda$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:noalglambdacs}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
 
-\begin{enumerate}[nolistsep, noitemsep, label=\textbf{L.\arabic*}]
-\renewcommand\labelitemi{$\diamond$}
-\item \label{lowerBd:lambdacs1} If $\lambda < 4$ and $\eta \le 1$ (noise is sparse), then no algorithm can output a clustering which captures all $(\lambda, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
-\item \label{lowerBd:lambdacs2} If $\lambda < 6$ and the number of noisy points $ > 3t/2+5$, then no algorithm can output a clustering which captures all $\lambda$-center $t$-min $r$-max nice subsets of $\mc X$. Note that in this case, we do not assume that the noise is sparse.
-\end{enumerate}
-
-\noindent The proof of the lower bounds is similar to the lower bound results for center proximity. The notation used is similar to the notation of Sec. \ref{sec:alphaLBd}. We describe it here again for completeness. Given the number of clusters $k$ and parameter $t$. Denote by $P_{i}(c) := B(c, 0)$ a ball of radius $0$ centered at $c$ such that $|B(c, 0)| = i$. We will sometimes omit $c$ and use the notation $P_i$ when the center is clear from the context. 
-
-\begin{figure}[!ht]
+\begin{figure}
 \input{../figures/lambdaLBDFig1}
 \caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\lambda, \eta)$-separated $t$-min $r$-max nice subsets of $\mc X$}
 \label{fig:noalglambdacs}
@@ -567,27 +600,7 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ a
 We will show that no algorithm can output a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$. For the sake of contradiction assume that this is indeed the case. There exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, there exists a cluster $C' \in \mc C_{\mc X}$ such that $C' \cap B_1 \neq \phi$ and $C' \cap B_2 \neq \phi$. This is a contradiction.
 \end{proof}
 
-\begin{figure}[!ht]
-\input{../figures/lambdaLBDFig2}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\lambda$-separated $t$-min $r$-max nice subsets of $\mc X$}
-\label{fig:nosparsealglambdacs}
-\end{figure}
 
-\begin{theorem}
-Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\lambda$-center separation and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
-
-If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc C_{\mc X}|_{\mc S} \neq \mc C_{\mc S}$, i.e., $\mc C_{\mc X}$ restricted to the set $\mc S$ doesn't equal $\mc C_{\mc S}$.
-\end{theorem}
-
-\begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \cup_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(22r+ir)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
-
-Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\thinspace P_{t'}(2r) \}$ and $B_2 = \{\ P_{t'}(6r) \thinspace\cup\thinspace P_{2}(7r)\thinspace\cup\thinspace P_{t'}(8r)\}$. Also, let $B_1' = \{P_{t'}(2r) \thinspace\cup\thinspace  P_{2}(3r) \thinspace\cup\thinspace P_{t'}(4r) \}$ and $B_2' = \{\ P_{t'}(8r) \thinspace\cup\thinspace P_{2}(9r)\thinspace\cup\thinspace P_{t'}(10r)\}$. Also, let $B_1'' = \{P_{t'}(4r) \thinspace\cup\thinspace  P_{2}(5r) \thinspace\cup\thinspace P_{t'}(6r) \}$ and $B_2'' = \{\ P_{t'}(10r) \thinspace\cup\thinspace P_{2}(11r)\thinspace\cup\thinspace P_{t'}(12r)\}$. 
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 6$, all of $\mc S$, $\mc S'$ and $\mc S''$ are $\lambda$-separated $t$-min $r$-max nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\lambda$-center separation.
-
-$\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$ and $\mc C_{\mc X}|_{\mc S''} = \mc C_{\mc S''}$. For the sake of contradiction assume that this is the case. There exists cluster $C_1 \in \mc C_{\mc X}$ such that such that $B_1 \subseteq C_1$ and $C_1 \cap B_2 = \phi$. Similarly, there exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$ and there exists cluster $C_1'' \in \mc C_{\mc X}$ such that such that $B_1'' \subseteq C_1''$ and $C_1'' \cap B_2'' = \phi$. Now, $C_1, C_1', C_1'' \in \mc X$ and $C_1 \cap C_1' \neq \phi$ and $C_1'' \cap C_1' \neq \phi$. Hence, $C_1 = C_1' = C_1''$. Hence, $B_1 \cup B_1' \cup B_1'' \subseteq C_1$. Observe, that $B_1'' \cap B_2 \neq \phi$. Hence, $C_1\cap B_2 \neq \phi$. This is a contradiction.
-\end{proof}
 
 
 \bibliographystyle{alpha}
