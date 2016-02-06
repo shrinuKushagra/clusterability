@@ -485,7 +485,7 @@ If $\lambda \ge 3$ then for every $1 \le i \le k$, there exists a node $N_i$ in 
 \end{theorem}
 
 \begin{proof}
-\todo
+\todo The idea of the proof of this theorem is identical to the proof of Thm. 1 in \cite{balcan2012clustering}. For completeness, we
 \end{proof}
 
 \subsubsection{Lower bound with no noise}
@@ -535,8 +535,7 @@ In this section, informally we try to address the following question. {\it Give 
 To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S', \mc S'' \subset \mc X$ which are $\lambda$-center $t$-min $r$-max proximal. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $\lambda$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:nosparsealglambdacs}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. For any algorithm which
-outputs a clustering tree $\mc T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\lambda$-center separation and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
+Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. For any algorithm which outputs a clustering tree $\mc T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $\lambda$-center separation and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
 
 If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then there doesn't exist a pruning of the tree such that respects $\mc C_{\mc S}$ .
 \end{theorem}
