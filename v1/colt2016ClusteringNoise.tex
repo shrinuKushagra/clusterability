@@ -84,32 +84,32 @@ Clustering, $\alpha$-center proximity, $\lambda$-center separation
 
 \section{Introduction}
 \subsection{Motivation}
-\todo %Talk about CDNM Thesis. Clustering is difficult only when it doesn't matter. Niceness assumptions on data. If data has these properties clustering is easy.
+\todo Talk about CDNM Thesis. Clustering is difficult only when it doesn't matter. Niceness assumptions on data. If data has these properties clustering is easy.
 
 \subsection{Related Work}
 
-\todo %In the past few years, there has been a line of work on defining notions of {\em clusterability} -- what  has been introduced. The goal of all these works has been to show that clustering can be handled much easier in the scenarios that we assume there is some structure on the data. Briefly mention literature review.
+\todo In the past few years, there has been a line of work on defining notions of {\em clusterability} -- what  has been introduced. The goal of all these works has been to show that clustering can be handled much easier in the scenarios that we assume there is some structure on the data. Briefly mention literature review.
 
-%In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). Previous work on the CDNM thesis has been focusing on two directions. First, proving that optimizing a center-based clustering objective can be done effectively by assuming nice structure on the data. Second, showing that retrieving a {\em nice} underlying clustering of the data is easy if the input data is {\em clusterable}.
+In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). Previous work on the CDNM thesis has been focusing on two directions. First, proving that optimizing a center-based clustering objective can be done effectively by assuming nice structure on the data. Second, showing that retrieving a {\em nice} underlying clustering of the data is easy if the input data is {\em clusterable}.
 
-%They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
+They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
 
-%The purpose of our work is two-folded: First, to introduce a new notion of noise that fit's better to the real world data sets and second, to propose efficient clustering algorithms that are robust to such noise. to show that under this assumption, many clustering task   We will prove that  The traditional approach to count for noisy points in the input is to 
+The purpose of our work is two-folded: First, to introduce a new notion of noise that fit's better to the real world data sets and second, to propose efficient clustering algorithms that are robust to such noise. to show that under this assumption, many clustering task   We will prove that  The traditional approach to count for noisy points in the input is to 
 
 \subsection{Our approach}
-\todo %Our approach is different in two regards.
-%\begin{itemize}[nolistsep]
-%\item We dont work with a particular cost function. Give poly. time alg.  that work for any clustering that has the nice property.
-%\item No size restriction on the noise. Assume that it doesn't have a structure. 
-%\end{itemize}
-%We give poly. alg. which capture all nice clustering of a dataset as long as the noise is unstructured (or sparse).
+\todo Our approach is different in two regards.
+\begin{itemize}[nolistsep]
+\item We dont work with a particular cost function. Give poly. time alg.  that work for any clustering that has the nice property.
+\item No size restriction on the noise. Assume that it doesn't have a structure. 
+\end{itemize}
+We give poly. alg. which capture all nice clustering of a dataset as long as the noise is unstructured (or sparse).
 
 \subsection{Comparison with previous work}
-\todo %For $(\alpha, \epsilon)$-center proximity. \cite{balcan2012clustering} obtain an $1+\epsilon$ to the cost of the optimal $k$-median solution if $\alpha \ge 2+\sqrt{7}$ and atmost $\epsilon$-fraction of the dataset is noise. Their algorithm is also able to capture all $(\alpha, \epsilon)$-nice clusterings. We show that if $\alpha \le 2\sqrt{2} + 3$ and the number of noisy points is large, then no algorithm can output a tree which captures all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give an alg. which captures all $(\alpha, \eta)$-clusterings if the noise is $\eta$-sparse and $\alpha \ge 2+\sqrt{7}$.
+\todo For $(\alpha, \epsilon)$-center proximity. \cite{balcan2012clustering} obtain an $1+\epsilon$ to the cost of the optimal $k$-median solution if $\alpha \ge 2+\sqrt{7}$ and atmost $\epsilon$-fraction of the dataset is noise. Their algorithm is also able to capture all $(\alpha, \epsilon)$-nice clusterings. We show that if $\alpha \le 2\sqrt{2} + 3$ and the number of noisy points is large, then no algorithm can output a tree which captures all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give an alg. which captures all $(\alpha, \eta)$-clusterings if the noise is $\eta$-sparse and $\alpha \ge 2+\sqrt{7}$.
 
-%For $\lambda$-center separation. Prove that problem is NP-Hard for $\lambda \le 2$. For $\lambda \ge 3$, give an algorithm which outputs the (unique) clustering.
+For $\lambda$-center separation. Prove that problem is NP-Hard for $\lambda \le 2$. For $\lambda \ge 3$, give an algorithm which outputs the (unique) clustering.
 
-%For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a generic algorithm for any center-based objective function. The separation parameter $\lambda$ required is very large. For $k$-median, the required separation can be as big as $16$. We show that if $\lambda \le 6$ and the number of noisy points is large, then no algorithm can capture all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give poly. alg for $\lambda \ge 4$ for sparse noise.
+For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a generic algorithm for any center-based objective function. The separation parameter $\lambda$ required is very large. For $k$-median, the required separation can be as big as $16$. We show that if $\lambda \le 6$ and the number of noisy points is large, then no algorithm can capture all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give poly. alg for $\lambda \ge 4$ for sparse noise.
 
 
 \subsection{Structure of paper}
@@ -446,6 +446,68 @@ Our goal in this section is not to work with any particular objective function. 
  
 \subsection{Center Separation without noise}
 \todo
+Note that both our positive and negative results are in the {\it proper} setting.
+
+\subsubsection{Positive result under no noise}
+We are given a clustering instance $(\mc X, d)$, the number of clusters $k$. Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every clustering $\mc C_{\mc X}$ of the set $\mc X$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) equals $\mc C_{\mc X}$. 
+
+We will prove that Alg. 1 in \cite{balcan2012clustering} achieves the above mentioned goal when $\lambda \ge 3$. The algorithm uses a linkage procedure which is based on closure distance (Defn. 6 in \cite{balcan2012clustering}).
+\begin{definition}[Closure distance]
+Given two sets $S$ and $S'$, the closure distance $d_c(S, S')$ between them is defined as the minimum $d$ such that there exists $c \in S \cup S'$ with the following properties.
+\begin{itemize}[noitemsep, leftmargin=*]
+\item $S \cup S' \subseteq B(c, d)$.
+\item For all $p \in B(c, d)$ and for all $q \not\in B(c, d)$, $d(p, c) < d(p, q)$ .
+\end{itemize}
+\end{definition}
+
+Intuitively, the algorithm  works as follows. It maintains a clustering $\mc C_{\mc X}$, which is initialized so that each point is in its own cluster. It then merges clusters which minimize the closure distance. For completeness, we give a short description of the algorithm (Alg. \ref{alg:lambdacsNoNoise}). 
+\begin{algorithm}[t]
+%\begin{alg}
+	\SetAlgoLined
+	\KwIn{$(\mc X, d)$ and $k$}
+	\KwOut{A hierarchical clustering tree $T$ of $\mc X$.}
+	
+	\vspace{2mm}Let $\mc C^{(l)}$ denote the clustering $\mc X$ after $l$ merge steps have been performed. Initialize $\mc C^{(0)}$ so that all points are in their own cluster. That is, $\mc C^{(0)} = \{ \{x\}: x \in \mc X\}$.
+	
+	\vspace{2mm} Let $\mc C^{(l)} = \{C_1, \ldots, C_m\}$. Merge clusters $C$ and $C'$ $$C, C' = \argmin_{C_i, C_j \in C^{(l)}} \thinspace d_c(C_i, C_j).$$
+	
+	Output clustering tree $T$. The leaves of $T$ are the points in dataset $\mc X$. The internal nodes correspond to the merges performed.\\
+
+\caption{Alg. for $\lambda$-center separation}
+\label{alg:lambdacsNoNoise}
+\end{algorithm}
+
+\begin{theorem}
+Given a clustering instance $(X , d)$ and the number of clusters $k$. Alg. \ref{alg:lambdacsNoNoise} outputs a tree $T$ with the following property. For all clusterings $\mc C_{\mc X}^* = \{C_1^*, \ldots, C_k^* \}$ of the set $\mc X$ induced by centers $c_1, \ldots, c_k \in \mc X$ which satisfy $\lambda$-center separation w.r.t
+$\mc X$ and $k$, the following holds.
+
+If $\lambda \ge 3$ then for every $1 \le i \le k$, there exists a node $N_i$ in the tree $T$ such that $C_i^* = N_i$.
+\end{theorem}
+
+\begin{proof}
+\todo
+\end{proof}
+
+\subsubsection{Lower bound with no noise}
+We will prove that for $\lambda \le 2$, finding any solution for $\lambda$-center separation is NP-Hard. \cite{reyzin2012data} proved that finding any solution for $\alpha$-center proximity is NP-Hard for $\alpha < 2$. Our proof is same as their proof. We show that the same reduction can be used to prove NP-Hardness for $\lambda$-center separation as well. We state the proof below for completeness.
+
+\begin{theorem}
+Given a clustering instance $\mc X$ drawn from a metric space $(\mb M, d)$ and the number of clusters $k$. For $\lambda < 2$, finding a clustering which satisfies $\lambda$-center separation is NP-Hard.
+\end{theorem}
+\begin{proof}
+The proof is based on reducing an instance of Perfect dominating set promise problem (PDS-PP) to an instance of finding a clustering instance with $\lambda < 2$.
+
+PDS-PP : Given a graph $G = (V, E)$. Given that all dominating sets of size $\le k$ are perfect. Find a dominating set of size $\le k$. \cite{reyzin2012data} showed that the PDS-PP is NP-Hard. 
+
+For every $v \in V$ construct a point $x \in \mc X$ in the metric space $\mb M$. For any two points $x_1, x_2 \in \mc X$, define $d(x_1, x_2) = 1$ if an edge exists between the corresponding vertices $v_1$ and $v_2$. Else define $d(x_1, x_2) = 2$. Note that the function $d$ satisfies the triangle inequality. We will now show the following.
+
+G has a dominating set of size $\le k \iff$ $\mc X$ has a $k$-clustering which satisfies $\lambda$-center separation for $1 \le \lambda < 2$.
+
+$\Leftarrow$  Let $c_1, \ldots, c_k \in \mc X$ be the centers such that the corresponding clustering $\mc C = \{C_1, \ldots, C_k\}$ satisfies $\lambda$-center separation. Let $d_1, \ldots, d_k$ be the vertices in $V$ corresponding to the centers$c_1, \ldots, c_k$. Let $x \in C_i$ and $v \in V$ be the vertex corresponding to $x$. Now, $\lambda d(x, c_i) < d(c_i, c_j) \implies d(x, c_i) < d(c_i, c_j)$. Hence, $d(x, c_i) = 1$ and $d(c_i, c_j) = 2$. Thus, there exists an edge between $(v, d_i) \in E$. Hence, $d_1, \ldots, d_k$ forms a dominating set in $G$.
+
+$\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l < k$, we can add $k-l$ vertices to $D$ and they still form a dominating set. Hence, WLOG we can assume that $l = k$. Now, let $c_1, \ldots, c_k \in \mc X$ be the points corresponding to the vertices in $D$. Let $\mc C = \{C_1, \ldots, C_k\}$ be the clustering induced by $c_1, \ldots, c_k$. Since $|D| \le k$, we know that $D$ is perfect. Hence, $(d_i, d_j) \not\in E$. Hence, $d(c_i, c_j) = 2$. Now, let $v$ be any vertex which is dominated by $d_i$ and $x$ be the corresponding point in $\mc X$. Then, $d(x, c_i) = 1$. Hence, we get that $d(c_i, c_j) = 2 \max_p r(C_p)$. Hence, clustering $\mc C$ satisfies $\lambda$-center separation for $\lambda < 2$.
+\end{proof}
+
 
 \subsection{Center Separation in the presence of noise}
 
@@ -490,6 +552,7 @@ $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\
 \end{proof}
 
 \subsubsection{Positive result under sparse noise}
+\label{section:lambdaPositiveResultSparseNoise}
 We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. Our goal is to output a clustering $\mc C_{\mc X}$ of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\lambda, \eta)$-separated $t$-min $r$-max nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation, the clustering $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_{\mc S}$. 
 
 In the next section, we propose a clustering algorithm (Alg.\ref{alg:lambdacs}) and prove (Thm.\ref{thm:lambdacsnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\lambda$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. 
@@ -578,6 +641,7 @@ Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Pha
 \end{proof}
 
 \subsubsection{Lower bound under sparse noise}
+\label{section:lambdaLowerBoundSparse}
 
 To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S' \subset \mc X$ which are $(\lambda, \eta)$-center $t$-min $r$-max proximal. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $\lambda$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:noalglambdacs}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
 
