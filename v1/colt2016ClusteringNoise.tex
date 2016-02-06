@@ -75,7 +75,7 @@
 \maketitle
 
 \begin{abstract}
-\todo
+
 \end{abstract}
 
 \begin{keywords}
@@ -84,32 +84,37 @@ Clustering, $\alpha$-center proximity, $\lambda$-center separation
 
 \section{Introduction}
 \subsection{Motivation}
-\todo Talk about CDNM Thesis. Clustering is difficult only when it doesn't matter. Niceness assumptions on data. If data has these properties clustering is easy.
+
+The goal of clustering is to partition a set of objects into {\em dissimilar} subsets of {\em similar} objects. Based on the definition of similarity, the optimal solution to a clustering task is achieved by optimizing an objective function. Although solving this optimization problem is usually NP-hard, the clustering task is routinely and sucessfully employed in practice. This gap between theory and practice recommends characterizing the real world data sets by defining mathematical notions of {\em clusterabe} data. As the result, provably efficient clustering algorithms can be found for these so called {\em nice} data.  
+
 
 \subsection{Related Work}
 
-\todo In the past few years, there has been a line of work on defining notions of {\em clusterability} -- what  has been introduced. The goal of all these works has been to show that clustering can be handled much easier in the scenarios that we assume there is some structure on the data. Briefly mention literature review.
+In the past few years, there has been a line of work on defining notions of clusterability. The goal of all these methods has been to show that clustering will be computationally efficient for inputs that enjoy some nice structures. 
 
-In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). Previous work on the CDNM thesis has been focusing on two directions. First, proving that optimizing a center-based clustering objective can be done effectively by assuming nice structure on the data. Second, showing that retrieving a {\em nice} underlying clustering of the data is easy if the input data is {\em clusterable}.
 
-They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
 
-The purpose of our work is two-folded: First, to introduce a new notion of noise that fit's better to the real world data sets and second, to propose efficient clustering algorithms that are robust to such noise. to show that under this assumption, many clustering task   We will prove that  The traditional approach to count for noisy points in the input is to 
 
-\subsection{Our approach}
-\todo Our approach is different in two regards.
-\begin{itemize}[nolistsep]
-\item We dont work with a particular cost function. Give poly. time alg.  that work for any clustering that has the nice property.
-\item No size restriction on the noise. Assume that it doesn't have a structure. 
-\end{itemize}
-We give poly. alg. which capture all nice clustering of a dataset as long as the noise is unstructured (or sparse).
+%In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). Previous work on the CDNM thesis has been focusing on two directions. First, proving that optimizing a center-based clustering objective can be done effectively by assuming nice structure on the data. Second, showing that retrieving a {\em nice} underlying clustering of the data is easy if the input data is {\em clusterable}.
+%
+%They consider relaxation of this assumption in the presence of noise, i.e., when the data is allowed to have atmost $\epsilon$ fraction of the points which do not satisfy the niceness properties.
+%
+%The purpose of our work is two-folded: First, to introduce a new notion of noise that fit's better to the real world data sets and second, to propose efficient clustering algorithms that are robust to such noise. to show that under this assumption, many clustering task   We will prove that  The traditional approach to count for noisy points in the input is to 
 
-\subsection{Comparison with previous work}
-\todo For $(\alpha, \epsilon)$-center proximity. \cite{balcan2012clustering} obtain an $1+\epsilon$ to the cost of the optimal $k$-median solution if $\alpha \ge 2+\sqrt{7}$ and atmost $\epsilon$-fraction of the dataset is noise. Their algorithm is also able to capture all $(\alpha, \epsilon)$-nice clusterings. We show that if $\alpha \le 2\sqrt{2} + 3$ and the number of noisy points is large, then no algorithm can output a tree which captures all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give an alg. which captures all $(\alpha, \eta)$-clusterings if the noise is $\eta$-sparse and $\alpha \ge 2+\sqrt{7}$.
-
-For $\lambda$-center separation. Prove that problem is NP-Hard for $\lambda \le 2$. For $\lambda \ge 3$, give an algorithm which outputs the (unique) clustering.
-
-For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a generic algorithm for any center-based objective function. The separation parameter $\lambda$ required is very large. For $k$-median, the required separation can be as big as $16$. We show that if $\lambda \le 6$ and the number of noisy points is large, then no algorithm can capture all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give poly. alg for $\lambda \ge 4$ for sparse noise.
+%\subsection{Our approach}
+%\todo Our approach is different in two regards.
+%\begin{itemize}[nolistsep]
+%\item We dont work with a particular cost function. Give poly. time alg.  that work for any clustering that has the nice property.
+%\item No size restriction on the noise. Assume that it doesn't have a structure. 
+%\end{itemize}
+%We give poly. alg. which capture all nice clustering of a dataset as long as the noise is unstructured (or sparse).
+%
+%\subsection{Comparison with previous work}
+%\todo For $(\alpha, \epsilon)$-center proximity. \cite{balcan2012clustering} obtain an $1+\epsilon$ to the cost of the optimal $k$-median solution if $\alpha \ge 2+\sqrt{7}$ and atmost $\epsilon$-fraction of the dataset is noise. Their algorithm is also able to capture all $(\alpha, \epsilon)$-nice clusterings. We show that if $\alpha \le 2\sqrt{2} + 3$ and the number of noisy points is large, then no algorithm can output a tree which captures all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give an alg. which captures all $(\alpha, \eta)$-clusterings if the noise is $\eta$-sparse and $\alpha \ge 2+\sqrt{7}$.
+%
+%For $\lambda$-center separation. Prove that problem is NP-Hard for $\lambda \le 2$. For $\lambda \ge 3$, give an algorithm which outputs the (unique) clustering.
+%
+%For $(\lambda, \epsilon)$-center separation \cite{ben2014clustering} give a generic algorithm for any center-based objective function. The separation parameter $\lambda$ required is very large. For $k$-median, the required separation can be as big as $16$. We show that if $\lambda \le 6$ and the number of noisy points is large, then no algorithm can capture all nice clusterings. We can overcome this lower bound if we assume that the noise is sparse. We give poly. alg for $\lambda \ge 4$ for sparse noise.
 
 
 \subsection{Structure of paper}
