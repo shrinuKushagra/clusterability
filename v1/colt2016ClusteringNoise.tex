@@ -161,7 +161,7 @@ We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For a
 
 We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We will denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. We will sometimes omit $c$ and use the notation $P_i$ when the location is clear from the context.
 
-Let us assum
+
 
 \begin{definition}[$\alpha$-center proximity]
 \label{defn:alphacp}
@@ -456,27 +456,23 @@ Note that both our positive and negative results are in the {\it proper} setting
 \subsubsection{Positive result under no noise}
 We are given a clustering instance $(\mc X, d)$, the number of clusters $k$. Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every clustering $\mc C_{\mc X}$ of the set $\mc X$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) equals $\mc C_{\mc X}$. 
 
-We will prove that Alg. 1 in \cite{balcan2012clustering} achieves the above mentioned goal when $\lambda \ge 3$. The algorithm uses a linkage procedure which is based on closure distance (Defn. 6 in \cite{balcan2012clustering}).
-\begin{definition}[Closure distance]
-Given two sets $S$ and $S'$, the closure distance $d_c(S, S')$ between them is defined as the minimum $d$ such that there exists $c \in S \cup S'$ with the following properties.
-\begin{itemize}[noitemsep, leftmargin=*]
-\item $S \cup S' \subseteq B(c, d)$.
-\item For all $p \in B(c, d)$ and for all $q \not\in B(c, d)$, $d(p, c) < d(p, q)$ .
-\end{itemize}
+Our algorithm (Alg. \ref{alg:lambdacsNoNoise}) uses single-linkage to build a hierarchical clustering tree of $\mc X$. We will show that when $\lambda \ge 3$ our algorithm achieves the above mentioned goal. Before we prove the result, we need to introduce a bit of notation. Given $\mc X$ drawn from some metric space $(M, d)$, for $A, B \subseteq \mc X$ we define $d_{min}(A, B) = \min \{d(a, b): a \in A$ and $b \in B\}$.
+\begin{definition}[Strong stability \cite{balcan2008discriminative}]
+Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of $\mc X$. We say that $d$ has strong stability w.r.t $\mc C_{\mc X}$ when for all $C_i, C_j \in \mc C_{\mc X}$ and for all $A \subset C_i$, $A' \subseteq C_j$, we have that 
+$$d_{min}(A, C_i\setminus A) < d_{min}(A, A')$$
 \end{definition}
 
-Intuitively, the algorithm  works as follows. It maintains a clustering $\mc C_{\mc X}$, which is initialized so that each point is in its own cluster. It then merges clusters which minimize the closure distance. For completeness, we give a short description of the algorithm (Alg. \ref{alg:lambdacsNoNoise}). 
+If a clustering instance satisfies strong stability then single-linkage produces a tree such that the gound-truth clustering is a pruning of the tree (Thm. 8 in \cite{balcan2008discriminative}). We will prove that any clustering instance which satisfies $\lambda$-center separation for $\lambda \ge 3$ also satisfies strong stability. Hence, the claim follows.
+
 \begin{algorithm}[t]
 %\begin{alg}
 	\SetAlgoLined
 	\KwIn{$(\mc X, d)$ and $k$}
 	\KwOut{A hierarchical clustering tree $T$ of $\mc X$.}
 	
-	\vspace{2mm}Let $\mc C^{(l)}$ denote the clustering $\mc X$ after $l$ merge steps have been performed. Initialize $\mc C^{(0)}$ so that all points are in their own cluster. That is, $\mc C^{(0)} = \{ \{x\}: x \in \mc X\}$.
+	\vspace{2mm} Initialize the clustering so that each point is in its own cluster.
 	
-	\vspace{2mm} Let $\mc C^{(l)} = \{C_1, \ldots, C_m\}$. Merge clusters $C$ and $C'$ $$C, C' = \argmin_{C_i, C_j \in C^{(l)}} \thinspace d_c(C_i, C_j).$$
-	
-	Output clustering tree $T$. The leaves of $T$ are the points in dataset $\mc X$. The internal nodes correspond to the merges performed.\\
+	Run single-linkage till only a single cluster remains. Output clustering tree $T$.
 
 \caption{Alg. for $\lambda$-center separation}
 \label{alg:lambdacsNoNoise}
@@ -490,7 +486,11 @@ If $\lambda \ge 3$ then for every $1 \le i \le k$, there exists a node $N_i$ in 
 \end{theorem}
 
 \begin{proof}
-\todo The idea of the proof of this theorem is identical to the proof of Thm. 1 in \cite{balcan2012clustering}. For completeness, we
+We will show that for $\lambda \ge 3$, $d$ satisfies the strong stability property. Hence, the claim will then follow from Thm. 8 in \cite{balcan2008discriminative}. We know that $\mc C_{\mc X}^*$ satisfies $\lambda$-center sepration. Denote by $r := \max r(C_i^*)$. Let $A \subset C_i^*$ and $B \subseteq \mc C_j^*$. We will prove the claim in two steps. We will first show that $d_{min}(A, C_i^*\setminus A) \le r$ and then we will prove that $d_{min}(A, B) > r$.
+
+Let $p \in A$ and $q \in C_i^* \setminus A$ be points which achieve the minimum distance between $A$ and $C_i^*\setminus A$. If $c_i \in A$ then $d(p, q) \le d(c_i, q) \le r$. If $c_i \in C_i^* \setminus A$ then $d(p, q) \le d(p, c_i) \le r$. Hence, $d_{min} (A, C_i^*\setminus A) \le r$.
+
+Let $p \in A$ and $q \in B$ be points which achieve the minimum distance between $A$ and $B$. Using triangle inequality, we get that $d(p, q) \ge d(c_i, c_j) - d(p, c_i) - d(q, c_j) > 3r - r - r = r$.
 \end{proof}
 
 \subsubsection{Lower bound with no noise}
