@@ -119,6 +119,7 @@ In the past few years, there has been a line of work on defining notions of clus
 
 \subsection{Structure of paper}
 \todo Following is the proposed structure of the paper.
+\todo add approximate numebrs
 \vspace{-0.1in}\begin{enumerate}
 \setlength\itemsep{0em}
 \item Introduction
@@ -153,7 +154,7 @@ In the past few years, there has been a line of work on defining notions of clus
 
 
 \section{Notation and definition}
-We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$. Given points $c_1, \ldots, c_k \in \mb M$, we can define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the \textbf{Proper} setting, we restrict our centers to be a part of the data set $\mc X$. In the \textbf{Steiner} setting, we do not make any such assumption and the centers are allowed to be a part of the metric space $\mb M$. In this paper, we will be working in the proper setting.
+We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the \textbf{Proper} setting, we restrict our centers to be a part of the data set $\mc X$. In the \textbf{Steiner} setting, we do not make any such assumption and the centers are allowed to be a part of the metric space $\mb M$. In this paper, we will be working in the proper setting.
 
 Given $\mc S \subseteq \mc X$, we define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures the clustering $\mc C_{\mc S}$ if there exists a $k$-pruning $\mc P$ which respects $\mc C_{\mc S}$.
 
@@ -165,7 +166,7 @@ We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We will denote by $P_
 
 \begin{definition}[$\alpha$-center proximity]
 \label{defn:alphacp}
-Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k \in \mb M$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if the following holds. For all $x \in C_i$ and $i\neq j$, 
+Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\alpha$-center proximity if there exist centers $c_1, \ldots, c_k \in \mb M$ w.r.t $\mc X$ and $k$ if the following holds. For all $x \in C_i$ and $i\neq j$, 
 $$\alpha d(x, c_i) < d(x, c_j)$$
 \end{definition}
 
