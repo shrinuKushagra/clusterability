@@ -1,9 +1,4 @@
 \documentclass[anon,12pt]{colt2016} % Anonymized submission
-
-
-%\documentclass{colt2016} % Include author names
-% The following packages will be automatically loaded:
-% amsmath, amssymb, natbib, graphicx, url, algorithm2e
 \def\COMPLETE{}
 
 \usepackage{algorithm}
@@ -44,8 +39,6 @@
     \end{list}
 }
 
-%\floatstyle{ruled}
- %\newfloat{algorithm}{ht}{lop}
 \floatname{algorithm}{Algorithm}
 \makeatletter
 \renewcommand{\floatc@ruled}[2]{\vspace{3pt}{\@fs@cfont #1:\:} #2 \par \vspace{2pt}}
@@ -56,8 +49,7 @@
 \newcommand{\mb}{\mathbf}
 \newcommand{\todo}{\textcolor{blue}{[TODO]}\xspace}
 \newcommand{\fix}{\textcolor{blue}{[FIX]}\xspace}
-%\DeclareMathOperator{\argmin}{argmin}
-
+\newcommand{\q}{\textcolor{blue}{[?]}\xspace}
 
  \coltauthor{\Name{Shai Ben-David} \Email{shai@cs.uwaterloo.ca }\\
  \addr University of Waterloo
@@ -119,7 +111,6 @@ In the past few years, there has been a line of work on defining notions of clus
 
 \subsection{Structure of paper}
 \todo Following is the proposed structure of the paper.
-\todo add approximate numebrs
 \vspace{-0.1in}\begin{enumerate}
 \setlength\itemsep{0em}
 \item Introduction
@@ -129,9 +120,9 @@ In the past few years, there has been a line of work on defining notions of clus
 	\renewcommand{\labelenumii}{\theenumii}
 	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
 	\setlength\itemsep{0em}
-	\item Lower Bound ($\alpha \le 2\sqrt{2} + 3$) under arbitrary noise.
-	\item Positive result for $\alpha \ge 2+\sqrt{7}$.
-	\item Lower bound ($\alpha \le 2+\sqrt{3}$) under sparse noise.
+	\item[\ref{section:alphaLowerBoundArbitrary}] Assuming arbitrary noise: lower Bound $\alpha \le 2\sqrt{2} + 3$ $(\sim 5.8)$
+	\item[\ref{section:positiveResultSparseNoise}] Positive result for $\alpha \ge 2+\sqrt{7}$ $(\sim 4.6)$ \q
+	\item[\ref{section:alphaLowerBoundSparse}] Assuming sparse noise: lower bound $\alpha \le 2+\sqrt{3}$ $(\sim 3.7)$
 	\end{enumerate}
 \item $\lambda$-center separation \vspace{-0.1in}
 	\begin{enumerate}[leftmargin=32pt]
@@ -154,15 +145,15 @@ In the past few years, there has been a line of work on defining notions of clus
 
 
 \section{Notation and definition}
-We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the \textbf{Proper} setting, we restrict our centers to be a part of the data set $\mc X$. In the \textbf{Steiner} setting, we do not make any such assumption and the centers are allowed to be a part of the metric space $\mb M$. In this paper, we will be working in the proper setting.
+We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In this paper, we restrict our centers to be a part of the data set $\mc X$. 
+%In the \textbf{Proper} setting, we restrict our centers to be a part of the data set $\mc X$. In the \textbf{Steiner} setting, the centers are allowed to be a part of the metric space $\mb M$. In this paper, we will be working in the proper setting.
 
-Given $\mc S \subseteq \mc X$, we define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{\mc X}|_{\mc S} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $C_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures the clustering $\mc C_{\mc S}$ if there exists a $k$-pruning $\mc P$ which respects $\mc C_{\mc S}$.
+Given $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ and any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. Define $t(\mc{C}_{\mc{X}}) = \min |C_i|$ and $r(\mc{C}_{\mc{X}}) = \max r(C_i)$. 
 
-We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. Given a clustering $\mc C = \{C_1, \ldots, C_k\}$ we will denote by $t = \min |C_i|$ and by $r = \max r(C_i)$. 
+Given $\mc S \subseteq \mc X$, define $\mc C_{\mc X}|_{\mc S}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{{\mc X}|_{\mc S}} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $S_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures the clustering $\mc C_{\mc S}$ if there exists a $k$-pruning $\mc P$ which respects $\mc C_{\mc S}$.
+%We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. 
 
-We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We will denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. We will sometimes omit $c$ and use the notation $P_i$ when the location is clear from the context.
-
-
+We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. If the location is clear from the context, We will shortly use the notation $P_i$.
 
 \begin{definition}[$\alpha$-center proximity]
 \label{defn:alphacp}
@@ -181,43 +172,46 @@ Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$, t
 \label{defn:alphacpnoise}	
 
 \item[$\diamond$] {\bf $\alpha$-centre proximity}: For all $x \in S_i$ and $i\neq j$, $\thinspace\alpha d(x, s_i) < d(x, s_j)$
-\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \eta\max\limits_{i} \thinspace r(S_i)$, then $|B\cap (\mc X\setminus \mc S)| < \min\limits_{i} |S_i|/2$
+\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \eta r(\mc{C}_{\mc S})$, then $|B\cap (\mc X\setminus \mc S)| < \min\limits_{i} |S_i|/2$
 \end{itemize}
 \end{definition}
 
-\noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-center} {\it $t$-min $r$-max proximal} if there exist a clustering $\mc C_{\mc S}=\{S_1,\ldots,S_k\}$ which satisfies $(\alpha, \eta)$-center proximity and $\min\limits_{i} \lvert S_i\rvert = t$ and $\max\limits_{i} r(S_i) = r$. Note that given $(\mc X, d), k$, $t$ and $r$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
+\noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-center} {\it $t$-min $r$-max proximal} if there exist a k-clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity and $t(\mc{C}_{\mc{S}}) = t$ and $r(\mc{C}_{\mc{S}}) = r$. Note that given $(\mc X, d), k$, $t$ and $r$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
 
 \todo Add example.
 
 \begin{definition}[$\lambda$-center separation]
 \label{defn:lambdacs}
-Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k \in \mb M$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if the following holds. For all $i\neq j$, 
-$$d(c_i, c_j) > \lambda \enspace\max_{p \in [k]} \thinspace r(C_p)$$
+Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$. We say that a clustering $\mc C_{\mc X}$ induced by centers $c_1, \ldots, c_k \in \mb M$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if the following holds. For all $i\neq j$, 
+$$d(c_i, c_j) > \lambda \enspace r(\mc{C}_{\mc{X}})$$
 \end{definition}
 
-\noindent The set $\mc X$ is {\it $\lambda$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ which satisfies $\lambda$-center separation and $\min\limits_{i} \lvert C_i\rvert = t$ and $\max\limits_{i} r(C_i) = r$.
+\noindent The set $\mc X$ is {\it $\lambda$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc X}$ which satisfies $\lambda$-center separation and $t(\mc{C}_{\mc{X}}) = t$ and $r(\mc{C}_\mc{X}) = r$.
 
 \begin{definition}[$(\lambda, \eta)$-center separation]
-Given a clustering instance $\mc X$ drawn from a metric space $(\mb M, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mb M$ has $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ if the following holds.
-
+Given a clustering instance $\mc X$ drawn from a metric space $(\mb M, d)$, the number of clusters $k$ and $\mc S \subseteq \mc X$. We say that a clustering $\mc C_{\mc S}$ induced by centers $s_1, \ldots, s_k \in \mb M$ has $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ if the following holds.
 
 \begin{itemize}[nolistsep, noitemsep]
 \label{defn:lambdacsnoise}	
 
-\item[$\diamond$] {\bf $\lambda$-centre separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda \max_{p} r(S_p)$
-\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \eta\max\limits_{i} \thinspace r(S_i)$, then $|B\cap (\mc X\setminus \mc S)| < \min\limits_{i} |S_i|/2$
+\item[$\diamond$] {\bf $\lambda$-centre separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda r({\mc C}_{\mc S})$
+\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ such that $c(B)\in \mathcal{X}$, if $r(B)\leq \eta r(\mc{C}_{\mc{S}})$, then $|B\cap (\mc X\setminus \mc S)| < t({\mc C}_{\mc S})/2$
 \end{itemize}
 \end{definition}
 
-\noindent A set $\mc S \subseteq \mc X$ is {\it $(\lambda, \eta)$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc S}=\{S_1,\ldots,S_k\}$ which satisfies $(\lambda, \eta)$-center separation,  $\min\limits_{i} \lvert S_i\rvert = t$ and $\max\limits_{i} r(S_i) = r$. Note that given $(\mc X, d), k, r$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
+\noindent A set $\mc S \subseteq \mc X$ is {\it $(\lambda, \eta)$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation,  $t({\mc C}_{\mc S}) = t$ and $r({\mc C}_{\mc S}) = r$. Note that given $(\mc X, d), k, r$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
 
 \section{Center Proximity}
 \label{section:cp}
 %\noindent A clustering instance $(\mc X, d)$ satisfies $(\alpha, \eta)$-center proximity if there exist $\mc S \subseteq \mc X$ such that there exists a clustering $\mc C$ of $\mc S$ which has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$.
 
-The problem of clustering with $\alpha$-center proximity under the presence of noise was first studied by \cite{balcan2012clustering}. They consider a data set $\mc X$ such that the optimal clustering of $\mc X$ w.r.t $k$-median objective function has $\alpha$-center proximity (Defn.\ref{defn:alphacp}) except for an $\epsilon$ fraction of the points. They then construct a hierarchical clustering tree $\mc T$ of $\mc X$ and show that it can capture the optimal clustering on the good points. Furthermore, the min-cost pruning of $\mc T$ provides a good approximation to the cost of the optimal solution. However, they require that the number of noisy points $ \epsilon|\mc X|< \frac{t}{8}$ where $t$ is the size of the smallest cluster.
+The problem of clustering under $\alpha$-center proximity was first introduced by \cite{awasthi2012center}. A data set $\mathcal{X}$ is defined to have $\alpha$-center proximity w.r.t. an objective function $\Phi$, if the optimal clustering of $\mc{X}$ wr.t. $\Phi$ satisfies $\alpha$-center proximity.
+%for k-median, we consider a weaker, relaxed, and more realistic no- tion of perturbation-resilience where we allow the optimal clustering of the perturbed instance to differ from the optimal of the original in a small ε fraction of the points. This is arguably a more natural though also more difficult condition to deal with.
+Later, \cite{balcan2012clustering} considered the same niceness assumption when $\Phi$ is $k$-median objective function and the clustering instance contains $\epsilon$ fraction of it as noise. In this setting, they construct a hierarchical clustering tree of $\mc{X}$ which captures the optimal clustering $\mc{C}^*$ on the non-noisy points. Their algorithm is restricted to the case that size of noise is bounded by $t(\mc{C}^*)/8$.
+%Furthermore, the min-cost pruning of $\mc T$ provides a good approximation to the cost of the optimal solution. However, they require that the number of noisy points $ \epsilon|\mc X|< \frac{t}{8}$ where $t$ is the size of the smallest cluster.
 
-Our framework and goal is very similar to that considered by \cite{balcan2012clustering}. We wish to output a hierarchical clustering tree $\mc T$ of $\mc X$. However, there is one important distinction. We do not work with any particular objective function. Rather, we require that $\mc T$ can capture all clusterings of all the ``nice" subsets of $\mc X$. Nice subsets of $\mc X$ are those which satisfy $(\alpha, \eta)$-center $t$-min $r$-max proximity.
+In this paper, we consider a natural relaxation of \cite{balcan2012clustering} which aims to capture more realistic clustering instances. Given a data set which satisfies $\alpha$-center proximity, and has arbitrary amount of noise, we analyse the limitations of any efficinet algorithm. Furthermore, we design an
+%  Given a set $\mc{X}$. we wish to output a hierarchical clustering tree $\mc T$ of $\mc X$. However, there is one important distinction. We do not work with any particular objective function. Rather, we require that $\mc T$ can capture all clusterings of all the ``nice" subsets of $\mc X$. Nice subsets of $\mc X$ are those which satisfy $(\alpha, \eta)$-center $t$-min $r$-max proximity.
 
 In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\alpha$-center proximity, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answer to this question.
 
