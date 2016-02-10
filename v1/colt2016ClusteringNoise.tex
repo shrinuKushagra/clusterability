@@ -262,7 +262,7 @@ For the sake of contradiction assume that there exists a tree $T$ and prunings $
 
 \subsection{Positive result under sparse noise}
 \label{section:positiveResultSparseNoise}
-We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. Our goal is to output a hierarchical clustering tree $\mc T$ of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-proximal $t$-min nice and for every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, $\mc T$ captures $\mc C_{\mc S}$. 
+Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$ Our goal is to output a hierarchical clustering tree $\mc T$ of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-proximal $t$-min nice and for every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, $\mc T$ captures $\mc C_{\mc S}$. 
 
 We introduce an efficient (Thm. \ref{thm:algcptime}) hierarchical clustering algorithm (Alg.\ref{alg:alphacp}) and prove (Thm.\ref{thm:alphacpnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\alpha$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. The main idea of our algorithm is similar to \cite{balcan2012clustering}. However, we uses a linkage algorithm based on a novel {\it sparse distance condition}.
 
