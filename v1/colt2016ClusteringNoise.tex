@@ -142,25 +142,36 @@ In the past few years, there has been a line of work on defining notions of clus
 
 
 \section{Notation and definition}
-We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center.
-Given $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ and any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. Define $t(\mc{C}_{\mc{X}}) = \min |C_i|$ and $r(\mc{C}_{\mc{X}}) = \max r(C_i)$. 
+We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the {\it steiner} setting, the centers can be arbitrary points of the metric space $\mb M$. In the {\it proper} setting, we restrict our centers to be a part of the data set $\mc X$.  In this paper, we will be working in the proper setting.
+
+For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We will use the notation $\mc C_{\mc A}$ to denote the clustering of a set $\mc A$. 
+
+\vspace{-0.13in}\begin{definition}[$r(\mc C_{\mc X})$ and $t(\mc C_{\mc X})$] Given a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of the set $\mc X$ induced by centers $c_1, \ldots, c_k \in \mb M$. 
+\begin{itemize}[nolistsep, noitemsep]
+\item $t(\mc{C}_{\mc{X}}) = \min_i |C_i|$
+\item $r(\mc{C}_{\mc{X}}) = \max_i r(C_i)$
+\end{itemize}
+\end{definition}
 
 % In this paper, we restrict our centers to be a part of the data set $\mc X$. 
-%In the \textbf{Steiner} setting, the centers can be arbitrary points of the metric space $\mb M$. In the \textbf{Proper} setting, we restrict our centers to be a part of the data set $\mc X$.  In this paper, we will be working in the proper setting.
 
-Given $\mc S \subseteq \mc X$, define $\mc C_{{\mc X}|_{\mc S}}$ as the clustering $\mc C_{\mc X}$ restricted to the set $\mc S$. Formally, $\mc C_{{\mc X}|_{\mc S}} = \{C_1 \cap S, \ldots, C_k \cap S\}$. Let $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$ be a clustering of $\mc S$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $S_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures the clustering $\mc C_{\mc S}$ if there exists a pruning $\mc P$ which respects $\mc C_{\mc S}$.
+\vspace{-0.2in}
+\begin{definition}[$\mc C_{\mc X}$ restricted to a set] Given $\mc S \subseteq \mc X$ and a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of the set $\mc X$. We define $\mc C_{\mc X}$ restricted to the set $\mc S$ as $\mc C_{{\mc X}|_{\mc S}} = \{C_1 \cap S, \ldots, C_k \cap S\}$. 
+\end{definition}
 
-We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. If the location is clear from the context, we will use the notation $P_i$.
+\vspace{-0.2in}
+\begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given $\mc S \subseteq \mc X$, clusterings $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ and $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $S_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. 
 
-%We will use the notation $c(\mc A)$ to denote the center of a set $\mc A$. 
-%In what follows, we will explain the notions of clusterability that we consider in this paper.
-%\subsection{Notions of Clusterability}
-%Assume that we are given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$.
+Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. Similarly, we say that $\mc T$ respects $\mc C_{\mc S}$ if there exists a pruning $\mc P$ which respects $\mc C_{\mc S}$.
+\end{definition}
 
 \begin{definition}[$\alpha$-center proximity]
 \label{defn:alphacp}
-A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if there exist centers $c_1, \ldots, c_k \in \mb M$  such that the following holds. For all $x \in C_i$ and $i\neq j$, 
-$$\alpha d(x, c_i) < d(x, c_j)$$
+Given a clustering instance $\mc X$ drawn from metric space $(\mb M, d)$ and an integer $k$. A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if there exist centers $c_1, \ldots, c_k \in \mb M$  such that the following holds. For all $x \in C_i$ and $i\neq j$, 
+\vspace{-0.05in}\begin{align*}
+\alpha d(x, c_i) < d(x, c_j)
+\end{align*}
+Note: In this paper (proper setting), we will restrict the centers $c_i \in \mc X$. 
 \end{definition}
 
 \noindent The set $\mc X$ is {\it $\alpha$-center} {\it $t$-min proximal} if there exist a $k$-clustering $\mc C_{\mc X}$  which satisfies $\alpha$-center proximity and $t(\mc C_{\mc X}) = t$. 
@@ -179,6 +190,7 @@ Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\
 r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{t(\mc C_{\mc S})}{2}
 \end{align*}
 \end{itemize}
+Note: In the setting of this paper, we will restrict the centers $s_i \in \mc X$. 
 \end{definition}
 
 \noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-proximal} {\it $t$-min nice} if there exist a k-clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity and $t(\mc{C}_{\mc{S}}) = t$ %and $r(\mc{C}_{\mc{S}}) = r$. 
@@ -191,6 +203,7 @@ Note that given $(\mc X, d), k$ and $t$ there can be several such $\mc S$ and se
 %Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$. We say that
 A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if there exists centers $c_1, \ldots, c_k \in \mb M$ such that $\mc C_{\mc X}$ is the clustering induced by these centers and the following holds. For all $i\neq j$, 
 $$d(c_i, c_j) > \lambda \enspace r(\mc{C}_{\mc{X}})$$
+Note: In the setting of this paper, we will restrict the centers $c_i \in \mc X$. 
 \end{definition}
 
 \noindent The set $\mc X$ is {\it $\lambda$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc X}$ which satisfies $\lambda$-center separation and $t(\mc{C}_{\mc{X}}) = t$ and $r(\mc{C}_\mc{X}) = r$.
@@ -207,11 +220,14 @@ Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S}$ has $(\lambda, \eta)
 r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{t(\mc C_{\mc S})}{2}
 \end{align*}
 \end{itemize}
+Note: In the setting of this paper, we will restrict the centers $s_i \in \mc X$. 
 \end{definition}
 
 \noindent A set $\mc S \subseteq \mc X$ is {\it $(\lambda, \eta)$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation,  $t({\mc C}_{\mc S}) = t$ and $r({\mc C}_{\mc S}) = r$. Note that given $(\mc X, d), k, r$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
 
-\noindent \textbf{Note}: All the clusterability definitions in this section are made for the general case that centers of the nice underlying clustering can be any point in the metric space $\mb M$. In this paper we concentrate on the case that centers belong to the set $\mc X$.
+We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. If the location is clear from the context, we will use the notation $P_i$.
+
+%\noindent \textbf{Note}: All the clusterability definitions in this section are made for the general case that centers of the nice underlying clustering can be any point in the metric space $\mb M$. In this paper we concentrate on the case that centers belong to the set $\mc X$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Center Proximity}
 \label{section:cp}
@@ -262,9 +278,17 @@ For the sake of contradiction assume that there exists a tree $T$ and prunings $
 
 \subsection{Positive result under sparse noise}
 \label{section:positiveResultSparseNoise}
-Given a clustering instance $(\mc X, d)$ and parameter $t$. Our goal is to output a hierarchical clustering tree $\mc T$ of $\mc X$ which has the following property. For every $k$, for every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-proximal $t$-min nice and for every $k$-clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, $\mc T$ captures $\mc C_{\mc S}$. 
 
-We introduce an efficient (Thm. \ref{thm:algcptime}) hierarchical clustering algorithm (Alg.\ref{alg:alphacp}) and prove (Thm.\ref{thm:alphacpnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\alpha$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. The main idea of our algorithm is similar to \cite{balcan2012clustering}. However, we uses a linkage algorithm based on a novel {\it sparse distance condition}.
+Given a clustering instance $(\mc X, d)$ and a parameter $t$, we propose an efficient algorithm which outputs a hierarchical clustering tree $\mc T$ of $\mc X$ with the following property. For every $k$, for every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-proximal $t$-min nice and for every $k$-clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, $\mc T$ captures $\mc C_{\mc S}$. It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$.
+
+
+Our algorithm has a linkage based structure similar to \cite{balcan2012clustering}. However, our method benefits from a novel {\it sparse distance condition}. We introduce the algorithm in Alg.\ref{alg:alphacp} and prove it's efficiency and correctness in Theorem. \ref{thm:algcptime} and Theorem.\ref{thm:alphacpnoise} respectively. 
+
+%We introduce an efficient
+%% (Thm. \ref{thm:algcptime})
+%hierarchical clustering algorithm (Alg.\ref{alg:alphacp}) and prove 
+%%(Thm.\ref{thm:alphacpnoise})
+%that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\alpha$ and $\eta$).  The main idea of our algorithm is similar to \cite{balcan2012clustering}. However, we uses a linkage algorithm based on a novel {\it sparse distance condition}.
 
 %Given parameters $r$ and $t$, (Alg.\ref{alg:alphacp}) generates a hierarchical clustering tree $\mc T$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min $r$-max proximal, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, $\mc T$ captures $\mc C_{\mc S}$. This is proved in Thm.\ref{thm:alphacpnoise}.
 %there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) respects $\mc C_{\mc S}$. 
@@ -396,7 +420,7 @@ Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which 
 \subsection{Lower bound under sparse noise}
 \label{section:alphaLowerBoundSparse}
 
-We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$ (Thm. \ref{thm:alphacpnoise}). Next, we show that if $\alpha \le 2 + 3 \approx 3.7$ and $\eta \le 1$, then there does not exist a tree (and hence no algorithm can output a tree) which can capture all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$.
+We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$ (Theorem.~\ref{thm:alphacpnoise}). In this section, we will show that if $\alpha \le 2 + 3 \approx 3.7$ and $\eta \le 1$, then there does not exist a tree (and hence no algorithm can output a tree) which can capture all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$.
 
 \begin{figure}
 \input{../figures/lbdFig2}
@@ -446,7 +470,7 @@ Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ an
 $$d_{min}(A, C_i\setminus A) < d_{min}(A, A')$$
 \end{definition}
 
-If a clustering instance satisfies strong stability then single-linkage produces a tree such that the gound-truth clustering is a pruning of the tree (Thm. 8 in \cite{balcan2008discriminative}). We will prove that any clustering instance which satisfies $\lambda$-center separation for $\lambda \ge 3$ also satisfies strong stability. Hence, the claim follows.
+If a clustering instance satisfies strong stability then single-linkage produces a tree such that the gound-truth clustering is a pruning of the tree (Theorem. 8 in \cite{balcan2008discriminative}). We will prove that any clustering instance which satisfies $\lambda$-center separation for $\lambda \ge 3$ also satisfies strong stability. Hence, the claim follows.
 
 \begin{algorithm}[t]
 %\begin{alg}
@@ -469,7 +493,7 @@ If $\lambda \ge 3$ then for every $1 \le i \le k$, there exists a node $N_i$ in 
 \end{theorem}
 
 \begin{proof}
-We will show that for $\lambda \ge 3$, $d$ satisfies the strong stability property. Hence, the claim will then follow from Thm. 8 in \cite{balcan2008discriminative}. We know that $\mc C_{\mc X}^*$ satisfies $\lambda$-center sepration. Denote by $r := \max r(C_i^*)$. Let $A \subset C_i^*$ and $B \subseteq \mc C_j^*$. We will prove the claim in two steps. We will first show that $d_{min}(A, C_i^*\setminus A) \le r$ and then we will prove that $d_{min}(A, B) > r$.
+We will show that for $\lambda \ge 3$, $d$ satisfies the strong stability property. Hence, the claim will then follow from Theorem. 8 in \cite{balcan2008discriminative}. We know that $\mc C_{\mc X}^*$ satisfies $\lambda$-center sepration. Denote by $r := \max r(C_i^*)$. Let $A \subset C_i^*$ and $B \subseteq \mc C_j^*$. We will prove the claim in two steps. We will first show that $d_{min}(A, C_i^*\setminus A) \le r$ and then we will prove that $d_{min}(A, B) > r$.
 
 Let $p \in A$ and $q \in C_i^* \setminus A$ be points which achieve the minimum distance between $A$ and $C_i^*\setminus A$. If $c_i \in A$ then $d(p, q) \le d(c_i, q) \le r$. If $c_i \in C_i^* \setminus A$ then $d(p, q) \le d(p, c_i) \le r$. Hence, $d_{min} (A, C_i^*\setminus A) \le r$.
 
@@ -523,7 +547,7 @@ In this section, informally we try to address the following question. {\it Give 
 To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S', \mc S'' \subset \mc X$ which are $\lambda$-center $t$-min $r$-max proximal. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $\lambda$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:nosparsealglambdacs}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. For any algorithm which outputs a clustering tree $\mc T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\lambda$-center separation such that $t(S) = t$, $r(S) = r$ and the following holds.
+Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. For any algorithm which outputs a clustering tree $\mc T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\lambda$-center separation such that $t(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.
 
 If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then there doesn't exist a pruning of the tree such that respects $\mc C_{\mc S}$ .
 \end{theorem}
@@ -540,16 +564,16 @@ $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\
 
 \subsubsection{Positive result under sparse noise}
 \label{section:lambdaPositiveResultSparseNoise}
-We are given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. Our goal is to output a clustering $\mc C_{\mc X}$ of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\lambda, \eta)$-separated $t$-min $r$-max nice, and every clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation, the clustering $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_{\mc S}$. 
+We are given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. Our goal is to output a clustering $\mc C_{\mc X}$ of $\mc X$ which has the following property. For every $k$, for every $\mc S \subseteq \mc X$ which is $(\lambda, \eta)$-separated $t$-min $r$-max nice, and every $k$-clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation, the clustering $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_{\mc S}$. 
 
-In the next section, we propose a clustering algorithm (Alg.\ref{alg:lambdacs}) and prove (Thm.\ref{thm:lambdacsnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\lambda$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. 
+In the next section, we propose a clustering algorithm (Alg.\ref{alg:lambdacs}) and prove (Theorem.\ref{thm:lambdacsnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\lambda$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. 
 
 Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it constructs a list of balls which have radius atmost $r$ and contain atleast $t$ points. It then constructs a graph as follows. Each ball found in the first phase is represented by a vertex. If two balls have a `large' intersection then their is an edge between the corresponding vertices in the graph. We then find the connected components in the graph which correspond to the clustering of the original set $\mc X$. 
 
 
 \begin{algorithm}[!ht]
-	\KwIn{$(\mc X, d), k, t$ and $r$}
-	\KwOut{A $k$-clustering $C$ of the set $\mc X$.}
+	\KwIn{$(\mc X, d), t$ and $r$}
+	\KwOut{A clustering $\mc C$ of the set $\mc X$.}
 	
 	\vspace{0.1in}\textbf{Phase 1}\\
 	Let $\mc L$ denote the list of balls found so far. Initialize $\mc L$ to be the empty set. $\mc L = \phi$.
@@ -579,9 +603,9 @@ Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it con
 
 \begin{theorem}
 \label{thm:lambdacsnoise}
-Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. For all $\mc S \subseteq \mc X$ and for all clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $ \min_i|S_i^*| = t$ and $\max_i r(S_i^*) = r$, the following holds.
+Given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. For every $k$, for every $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(4, 1)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc C_{\mc S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$, the following holds.
 
-If $\lambda \ge 4$ and $\eta \ge 1$, then Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$ that is the clustering retricted to the set $S$ is same as the clustering $\mc C_{\mc S}^*$.
+Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$ that is the clustering retricted to the set $S$ is same as the clustering $\mc C_{\mc S}^*$.
 \end{theorem}
 \begin{proof}
 Fix $\mc S \subseteq \mc X$. Let $\mc C_{\mc S}^* = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $\min |S_i^*| = t$ and $\max_i r(S_i^*) = r$. Also, denote by $r_i := r(S_i^*)$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be the clustering outputed by the algorithm. Throughout the proof, we will sometimes refer to $S_i^*$ as the `good clusters' and the set $\mc S$ as the good set.
@@ -611,7 +635,7 @@ Let the framework be as in Claim \ref{claim:lambda1}. Let $B_{i1} \in \mc L$ be 
 
 
 \begin{theorem}
-Given clustering instance $(\mc X, d)$, $k$ and parameters $r$ and $t$. Algorithm \ref{alg:lambdacs} runs in time which is polynomial in $|\mc X|$.
+Given clustering instance $(\mc X, d)$ and parameters $r$ and $t$. Algorithm \ref{alg:lambdacs} runs in time which is polynomial in $|\mc X|$.
 \end{theorem}
 
 \begin{proof}
@@ -630,9 +654,9 @@ To prove the lower bound we first construct a set $\mc X$ . We then construct se
 \end{figure}
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $\lambda$, $\eta$, $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ and $\min_i |S_i| = t$ and $\max r(S_i) = r$ such that the following holds.
+Given the number of clusters $k$ and parameters $\lambda$, $\eta$, $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ and the following holds.
 
-If $\lambda < 4$ and $\eta \le 1$, then $\mc C_{\mc X}|_{\mc S} \neq \mc C_{\mc S}$, i.e., $\mc C_{\mc X}$ restricted to the set $\mc S$ doesn't equal $\mc C_{\mc S}$.
+If $\lambda < 4$ and $\eta \le 1$, then there doesn't exist a pruning of the tree that respects $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
@@ -657,15 +681,15 @@ We will show that no algorithm can output a clustering $\mc C_{\mc X}$ such that
 \label{appendix:sectiontr}
 \begin{figure}
 \input{../figures/lbdFig1}
-\caption{$\mc X \subseteq \mathbb{R}$ such that Alg. \ref{alg:alphacp} doesn't capture all the $(\alpha, \eta)$-center $t$-min $r$-max proximal subsets of $\mc X$. For this example, the maximum radius of the clusters is $\alpha+1$. Multiplying all the distances by a factor $\frac{r}{\alpha+1}$ works for any general $r$.}
+\caption{$\mc X \subseteq \mathbb{R}$ such that Alg. \ref{alg:alphacp} doesn't capture all the $(\alpha, \eta)$-center $t$-min proximal subsets of $\mc X$.}
 \label{fig:algAlphacp}
 \end{figure}
 
 \begin{theorem}
 \label{thm:algAlphacp}
-Given the number of clusters $k$ and parameters $\alpha$, $\eta$, $t$ and $r$. There exists a clustering instance $(\mc X, d)$ such that Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ \min_i|S_i| = t \ge 2$ and $\max r(S_i) = r$, such that the following holds. 
+Given the number of clusters $k$ and parameters $\alpha$, $\eta$, $t$ and $r$. There exists a clustering instance $(\mc X, d)$ such that Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ and the following holds. 
 
-If $\alpha < 2 + \sqrt 5$ and $\eta \le 1$ and then there doesn't exist a pruning of the tree such that the corresponding clustering $\mc C_{\mc X}$ respects $\mc C_{\mc S}$.
+If $\alpha < 2 + \sqrt 5$ and $\eta \le 1$ and then $T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
