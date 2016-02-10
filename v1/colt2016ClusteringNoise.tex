@@ -243,7 +243,7 @@ In this paper, we consider a natural relaxation of \cite{balcan2012clustering} w
 \label{fig:nosparsealg}
 \end{figure}
 
-Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with $\alpha$-proximal $t$-min nice subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, We will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
+Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with $\alpha$-proximal $t$-min nice subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
 \label{thm:nosparsealg}
@@ -264,9 +264,10 @@ For the sake of contradiction assume that there exists a tree $T$ and prunings $
 
 \subsection{Positive result under sparse noise}
 \label{section:positiveResultSparseNoise}
-Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and parameters $r$ and $t$. Our goal is to output a hierarchical clustering tree of $\mc X$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min $r$-max proximal, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) respects $\mc C_{\mc S}$. 
-
-We introduce a hierarchical clustering algorithm (Alg.\ref{alg:alphacp}) and prove (Thm.\ref{thm:alphacpnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\alpha$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. The main idea of our algorithm is similar to \cite{balcan2012clustering}. However, our algorithm uses a linkage algorithm based on a novel {\it sparse distance condition}.
+Given parameters $r$ and $t$, (Alg.\ref{alg:alphacp}) generates a hierarchical clustering tree $\mc T$ which has the following property. For every $\mc S \subseteq \mc X$ which is $(\alpha, \eta)$-center $t$-min $r$-max proximal, and every clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity, $\mc T$ captures $\mc C_{\mc S}$. This is proved in Thm.\ref{thm:alphacpnoise}.
+%there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) respects $\mc C_{\mc S}$. 
+%We introduce a hierarchical clustering algorithm (Alg.\ref{alg:alphacp}) and prove (Thm.\ref{thm:alphacpnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\alpha$ and $\eta$).
+It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. The main idea of our algorithm is similar to \cite{balcan2012clustering}. However, our algorithm uses a linkage algorithm based on a novel {\it sparse distance condition}.
 
 \begin{definition}[Sparse distance condition]
 	 Given a clustering $\mc C_{\mc X}=\{C_1,\ldots,C_k\}$ and $p, q \in \mc X$. Let $B = B(p, d(p, q))$. Define $Y_B^{\mc C_{\mc X}} := \{C_i \in \mc C_{\mc X} : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. 
