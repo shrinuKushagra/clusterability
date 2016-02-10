@@ -64,6 +64,7 @@
 
 \title[Sparse Noise]{Clustering under unstructured noise}
 \begin{document}
+
 \maketitle
 
 \begin{abstract}
@@ -160,8 +161,9 @@ For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc
 
 \vspace{-0.2in}
 \begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given $\mc S \subseteq \mc X$, clusterings $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ and $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if for all $S_i \in \mc C_{\mc S}$ there exists $C_j \in \mc C_{\mc X}$ such that $S_i \subseteq C_j$ and for all $m \neq i, S_m \cap C_j = \phi$. 
+\end{definition}
 
-Given a hierarchical clustering tree $\mc T$ of $\mc X$, we say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. Similarly, we say that $\mc T$ respects $\mc C_{\mc S}$ if there exists a pruning $\mc P$ which respects $\mc C_{\mc S}$.
+\begin{definition}[$\mc T$ captures $\mc C_{\mc S}$]Given a hierarchical clustering tree $\mc T$ of $\mc X$ and a clustering $\mc C_{\mc S}$ of $\mc S \subseteq \mc X$. We say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures $\mc C_{\mc S}$ if there exists a pruning $\mc P$ which respects $\mc C_{\mc S}$.
 \end{definition}
 
 \begin{definition}[$\alpha$-center proximity]
@@ -189,7 +191,7 @@ Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\
 r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{t(\mc C_{\mc S})}{2}
 \end{align*}
 \end{itemize}
-Note: In the setting of this paper, we will restrict the centers $s_i \in \mc X$. 
+Note: In this paper (proper setting), we will restrict the centers $s_i \in \mc X$. 
 \end{definition}
 
 \noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-proximal} {\it $t$-min nice} if there exist a k-clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity and $t(\mc{C}_{\mc{S}}) = t$ %and $r(\mc{C}_{\mc{S}}) = r$. 
@@ -202,7 +204,7 @@ Note that given $(\mc X, d), k$ and $t$ there can be several such $\mc S$ and se
 %Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and the number of clusters $k$. We say that
 A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if there exists centers $c_1, \ldots, c_k \in \mb M$ such that $\mc C_{\mc X}$ is the clustering induced by these centers and the following holds. For all $i\neq j$, 
 $$d(c_i, c_j) > \lambda \enspace r(\mc{C}_{\mc{X}})$$
-Note: In the setting of this paper, we will restrict the centers $c_i \in \mc X$. 
+Note: In this paper (proper setting), we will restrict the centers $c_i \in \mc X$. 
 \end{definition}
 
 \noindent The set $\mc X$ is {\it $\lambda$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc X}$ which satisfies $\lambda$-center separation and $t(\mc{C}_{\mc{X}}) = t$ and $r(\mc{C}_\mc{X}) = r$.
@@ -260,9 +262,9 @@ Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with $\alpha$-proxi
 
 \begin{theorem}
 \label{thm:nosparsealg}
-Given the number of clusters $k$ and parameters $\alpha$ and $t$. For any algorithm which outputs a clustering tree $T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ and $ t(\mc C_{\mc S}) = t \ge 2$ such that the following holds. 
+Given the number of clusters $k$ and parameters $\alpha$ and $t$. There exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ and $ t(\mc C_{\mc S}) = t \ge 2$ such that the following holds. 
 
-If $\alpha < 2\sqrt 2 + 3$ and $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then $T$ doesn't capture $\mc C_{\mc S}$.
+If $\alpha < 2\sqrt 2 + 3$ and $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
@@ -431,9 +433,9 @@ Fig. \ref{fig:noalgalphacp} shows an instance of a set $\mc X$ with $(\alpha, \e
 
 \begin{theorem}
 \label{thm:noalgalphacp}
-Given the number of clusters $k$ and parameters $\alpha$, $\eta$ and $t$. For any algorithm which outputs a clustering tree $T$ of a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ t(\mc S) = t \ge 2$ such that the following holds. 
+Given the number of clusters $k$ and parameters $\alpha$, $\eta$ and $t$. There exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ t(\mc S) = t \ge 2$ such that the following holds. 
 
-If $\alpha \le 2 + \sqrt 3$ and $\eta \le 1$ then $T$ doesn't capture $\mc C_{\mc S}$.
+If $\alpha \le 2 + \sqrt 3$ and $\eta \le 1$ then $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
@@ -548,9 +550,9 @@ In this section, informally we try to address the following question. {\it Give 
 To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S', \mc S'' \subset \mc X$ which are $\lambda$-center $t$-min $r$-max proximal. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $\lambda$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:nosparsealglambdacs}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. For any algorithm which outputs a clustering tree $\mc T$ of $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\lambda$-center separation such that $t(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.
+Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. There exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\lambda$-center separation such that $t(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.
 
-If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then there doesn't exist a pruning of the tree such that respects $\mc C_{\mc S}$ .
+If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$ .
 \end{theorem}
 
 \begin{proof}
@@ -655,9 +657,9 @@ To prove the lower bound we first construct a set $\mc X$ . We then construct se
 \end{figure}
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $\lambda$, $\eta$, $r$ and $t$. For any algorithm which outputs a clustering a set $\mc X$, there exists a clustering instance $(\mc X, d)$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ and the following holds.
+Given the number of clusters $k$ and parameters $\lambda$, $\eta$, $r$ and $t$. There exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ and the following holds.
 
-If $\lambda < 4$ and $\eta \le 1$, then there doesn't exist a pruning of the tree that respects $\mc C_{\mc S}$.
+If $\lambda < 4$ and $\eta \le 1$, then $\mc T$ doesn't $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
