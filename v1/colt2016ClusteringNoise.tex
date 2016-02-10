@@ -117,9 +117,9 @@ In the past few years, there has been a line of work on defining notions of clus
 	\renewcommand{\labelenumii}{\theenumii}
 	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
 	\setlength\itemsep{0em}
-	\item[\ref{section:alphaLowerBoundArbitrary}] Assuming arbitrary noise: lower Bound $\alpha \le 2\sqrt{2} + 3$ $(\sim 5.8)$
-	\item[\ref{section:positiveResultSparseNoise}] Assuming sparse noise: Positive result for $\alpha \ge 2+\sqrt{7}$ $(\sim 4.6)$
-	\item[\ref{section:alphaLowerBoundSparse}] Assuming sparse noise: lower bound $\alpha \le 2+\sqrt{3}$ $(\sim 3.7)$
+	\item[\ref{section:alphaLowerBoundArbitrary}] Assuming arbitrary noise: lower Bound $\alpha \le 2\sqrt{2} + 3$ $(\approx 5.8)$
+	\item[\ref{section:positiveResultSparseNoise}] Assuming sparse noise: Positive result for $\alpha \ge 2+\sqrt{7}$ $(\approx 4.6)$
+	\item[\ref{section:alphaLowerBoundSparse}] Assuming sparse noise: lower bound $\alpha \le 2+\sqrt{3}$ $(\approx 3.7)$
 	\end{enumerate}
 \item $\lambda$-center separation \vspace{-0.1in}
 	\begin{enumerate}[leftmargin=32pt]
@@ -403,7 +403,7 @@ Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which 
 \subsection{Lower bound under sparse noise}
 \label{section:alphaLowerBoundSparse}
 
-We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$ (Theorem.~\ref{thm:alphacpnoise}). In this section, we will show that if $\alpha \le 2 + 3 \approx 3.7$ and $\eta \le 1$, then there does not exist a tree (and hence no algorithm can output a tree) which can capture all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$.
+We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$ (Theorem.~\ref{thm:alphacpnoise}). In this section, we will show that if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$, then there is no tree (and hence no algorithm can output a tree) which captures all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$.
 
 \begin{figure}
 \input{../figures/lbdFig2}
@@ -411,9 +411,7 @@ We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alp
 \label{fig:noalgalphacp}
 \end{figure}
 
-
-To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S' \subset \mc X$ which are $(\alpha, \eta)$-proximal $t$-min nice. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $(\alpha, \eta)$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:noalgalphacp}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
-
+Fig. \ref{fig:noalgalphacp} shows an instance of a set $\mc X$ with $(\alpha, \eta)$-proximal $t$-min nice subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
 \label{thm:noalgalphacp}
