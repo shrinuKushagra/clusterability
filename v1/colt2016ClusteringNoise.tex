@@ -142,6 +142,7 @@ In the past few years, there has been a line of work on defining notions of clus
 
 
 \section{Notation and definition}
+\label{sec:Notation}
 We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center.
 Given $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ and any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. Define $t(\mc{C}_{\mc{X}}) = \min |C_i|$ and $r(\mc{C}_{\mc{X}}) = \max r(C_i)$. 
 
@@ -434,7 +435,11 @@ For the sake of contradiction assume that there exists a tree $T$ and prunings $
 
 \section{Center Separation}
 
-The notion of center separation was first considered by \cite{ben2014clustering}. They consider a data set $\mc X$ such that the optimal solution to any center-based objective function has $\lambda$-center sepration except for a small fraction of the points. Then they propose an algorithm to turn any center-based algorithm into an algorithm which is robust to noise. The main contribution of their work is that their algorithm works for any objective function. Also, their approach works in the {\it Steiner} setting. However, the assumptions on the parameter $\lambda$ is quite strong. For example, when the size of the noise is $5\%$, to obtain a robustified version of $2$-median, their algorithm needs a separation of $\lambda > 10$.
+%The problem of clustering under $\alpha$-center proximity (\ref{sec:Notation}) was first introduced by \cite{awasthi2012center}. They define a data set $\mathcal{X}$ to have $\alpha$-center proximity w.r.t. an objective function $\Phi$, if the optimal clustering of $\mc{X}$ wr.t. $\Phi$ satisfies $\alpha$-center proximity.
+%%for k-median, we consider a weaker, relaxed, and more realistic no- tion of perturbation-resilience where we allow the optimal clustering of the perturbed instance to differ from the optimal of the original in a small ε fraction of the points. This is arguably a more natural though also more difficult condition to deal with.
+%Later, \cite{balcan2012clustering} considered the same niceness assumption when $\Phi$ is $k$-median objective function and the clustering instance contains $\epsilon$ fraction of it as noise. In this setting, they construct a hierarchical clustering tree of $\mc{X}$ which captures the optimal clustering $\mc{C}^*$ on the non-noisy points. Their result is restricted to the case that size of noise is bounded by $t(\mc{C}^*)/8$.
+
+The problem clusterubg under center separation (\ref{sec:Notation}) was first introduced by \cite{ben2014clustering}. They consider a data set $\mc X$ such that the optimal solution to any center-based objective function has $\lambda$-center sepration except for a small fraction of the points. Then they propose an algorithm to turn any center-based algorithm into an algorithm which is robust to noise. The main contribution of their work is that their algorithm works for any objective function. Also, their approach works in the {\it Steiner} setting. However, the assumptions on the parameter $\lambda$ is quite strong. For example, when the size of the noise is $5\%$, to obtain a robustified version of $2$-median, their algorithm needs a separation of $\lambda > 10$.
 
 Our goal in this section is not to work with any particular objective function. Rather, we want to recover all solutions which satisfy $\lambda$-center separation. With this motivation, we first give lower and upper bounds on $\lambda$ when the dataset doesn't contain any noisy points. We then work introduce noise in our dataset and then show that unstructured sparse noise is easier to handle than arbitrary noise.
  
