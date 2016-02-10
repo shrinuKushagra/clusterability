@@ -142,11 +142,7 @@ In the past few years, there has been a line of work on defining notions of clus
 
 
 \section{Notation and definition}
-<<<<<<< HEAD
 \label{sec:Notation}
-We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center.
-Given $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ and any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. Define $t(\mc{C}_{\mc{X}}) = \min |C_i|$ and $r(\mc{C}_{\mc{X}}) = \max r(C_i)$. 
-=======
 We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the {\it steiner} setting, the centers can be arbitrary points of the metric space $\mb M$. In the {\it proper} setting, we restrict our centers to be a part of the data set $\mc X$.  In this paper, we will be working in the proper setting.
 
 For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We will use the notation $\mc C_{\mc A}$ to denote the clustering of a set $\mc A$. 
@@ -157,9 +153,6 @@ For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc
 \item $r(\mc{C}_{\mc{X}}) = \max_i r(C_i)$
 \end{itemize}
 \end{definition}
->>>>>>> origin/master
-
-% In this paper, we restrict our centers to be a part of the data set $\mc X$. 
 
 \vspace{-0.2in}
 \begin{definition}[$\mc C_{\mc X}$ restricted to a set] Given $\mc S \subseteq \mc X$ and a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of the set $\mc X$. We define $\mc C_{\mc X}$ restricted to the set $\mc S$ as $\mc C_{{\mc X}|_{\mc S}} = \{C_1 \cap S, \ldots, C_k \cap S\}$. 
