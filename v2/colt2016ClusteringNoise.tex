@@ -83,7 +83,8 @@ Clustering, $\alpha$-center proximity, $\lambda$-center separation
 \section{Introduction}
 
 \subsection{Motivation}
-\todo
+The goal of clustering is to partition a set of objects into {\em dissimilar} subsets of {\em similar} objects. Based on the definition of similarity, the optimal solution to a clustering task is achieved by optimizing an objective function. Although solving this optimization problem is usually NP-hard, the clustering task is routinely and successfully employed in practice. This gap between theory and practice recommends characterizing the real world data sets by defining mathematical notions of {\em clusterabe} data. As the result, provably efficient clustering algorithms can be found for these so called {\em nice} data.  
+
 \subsection{Related Work}
 
 In the past few years, there has been a line of work on defining notions of clusterability. The goal of all these methods has been to show that clustering will be computationally efficient for inputs that enjoy some nice structure.
@@ -92,7 +93,7 @@ In the past few years, there has been a line of work on defining notions of clus
 
 In the same direction, \cite{awasthi2012center, balcan2012clustering}, consider a similar condition on the input of center-based clustering tasks. They propose efficient algorithms that output the optimal clustering of the data. \cite{ackerman2009clusterability} consider an imput such that the cost of the optimal clustering does not change under small additive perturbations of the input. They design an efficient algorithm that outputs a clustering with near-optimal cost. 
 
-All the clusterability notions discussed so far assume that the  entire data set enjoys some nice property, i.e., made up of groups of similar objects. A more realistic setting would be to the following. The input dataset has some nice structure. However, this structure is disturbed by the addition of unstructured points (or {\it noise}). The {\it noise} makes it harder to detect the 
+All the clusterability notions discussed so far assume that the  entire data set enjoys some nice property, i.e., made up of groups of similar objects. A more realistic setting would be to the following. The input dataset has some nice structure. However, this structure is disturbed by the addition of unstructured points (or {\it noise}). The {\it noise} makes it harder to detect the structure of the remaining data points.
 
 \shrinu\complete
 
