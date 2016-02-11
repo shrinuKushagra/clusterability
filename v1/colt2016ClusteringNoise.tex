@@ -48,7 +48,7 @@
 \newcommand{\mb}{\mathbf}
 
 \newcommand{\todo}{\textcolor{blue}{[TODO]}\xspace}
-\newcommand{\complete}{\textcolor{red}{[COMPLETE]}\xspace}
+\newcommand{\complete}{\textcolor{red}{[TO BE COMPLETED]}\xspace}
 \newcommand{\fix}{\textcolor{blue}{[FIX]}\xspace}
 \newcommand{\q}{\textcolor{blue}{[?]}\xspace}
 
@@ -91,6 +91,7 @@ In the past few years, there has been a line of work on defining notions of clus
 In the same direction, \cite{awasthi2012center, balcan2012clustering}, consider a similar condition on the input of center-based clustering tasks. They propose efficient algorithms that output the optimal clustering of the data. \cite{ackerman2009clusterability} consider an imput such that the cost of the optimal clustering does not change under small additive perturbations of the input. They design an efficient algorithm that outputs a clustering with near-optimal cost. 
 
 All the clusterability notions discussed so far assume that the entire data set enjoys some nice property. A more realistic setting would be the following. We assume that the dataset has some nice structure. However, this structure is disturbed by the addition of points (or {\it noise}). 
+
 \complete
 
 %This can be unreasonable in the real-life situations. A more realistic scenario would be the one in which most of the input data have a given nice structure but the remaining points violate the structure. The fraction of points that disrigard the niceness property is referred to as noise.
@@ -259,7 +260,7 @@ The problem of clustering under $\alpha$-center proximity was first introduced b
 Later, \cite{balcan2012clustering} considered the same niceness assumption when $\Phi$ is $k$-median objective function and the clustering instance contains $\epsilon$ fraction of it as noise. In this setting, they construct a hierarchical clustering tree of $\mc{X}$ which captures the optimal clustering $\mc{C}^*$ on the non-noisy points. Their result is restricted to the case that size of noise is bounded by $t(\mc{C}^*)/8$.
 %Furthermore, the min-cost pruning of $\mc T$ provides a good approximation to the cost of the optimal solution. However, they require that the number of noisy points $ \epsilon|\mc X|< \frac{t}{8}$ where $t$ is the size of the smallest cluster.
 
-In this paper, we consider a natural relaxation of \cite{balcan2012clustering} which aims to capture more realistic clustering instances. We study the limitations of any efficient clustering algorithm in the presence of arbitrary amount of noise. Furthermore, assuming that noise is {\em sparse}, we propose an efficient algorithm which outputs a hierarchical clustering tree $\mc T$ of $\mc X$ that captures all clusterings of all $(\alpha, \eta)$-center $t$-min $r$-max proximal subsets of $\mc X$. Here are the main observations of this section:
+In this paper, we consider a natural relaxation of \cite{balcan2012clustering} which aims to capture more realistic clustering instances. We study the limitations of any efficient clustering algorithm in the presence of arbitrary amount of noise. Furthermore, assuming that noise is {\em sparse}, we propose an efficient algorithm which outputs a hierarchical clustering tree $\mc T$ of $\mc X$ that captures all clusterings of all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$. Here are the main observations of this section:
 
 %In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\alpha$-center proximity, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answer to this question.
 
@@ -477,13 +478,15 @@ For the sake of contradiction assume that there exists a tree $T$ and prunings $
 %Later, \cite{balcan2012clustering} considered the same niceness assumption when $\Phi$ is $k$-median objective function and the clustering instance contains $\epsilon$ fraction of it as noise. In this setting, they construct a hierarchical clustering tree of $\mc{X}$ which captures the optimal clustering $\mc{C}^*$ on the non-noisy points. Their result is restricted to the case that size of noise is bounded by $t(\mc{C}^*)/8$.
 
 The problem of noise robust clustering under center separation (Def.~\ref{defn:lambdacs}) was first introduced by \cite{ben2014clustering}. They explore the problem of robustifying any objective based clustering algorithm to noise.  They define a data set $\mc X$ to be clusterable, if the optimal solution of any objective based clustering algorithm on $\mc X$ has $\lambda$-center sepration. Given such an input, they propose a paradigm which converts any objective-based clustering algorithm into a clustering algorithm which is robust to small amount of noise. 
+
+\complete
 %The main contribution of their work is that their algorithm works for any objective function. Also, their approach works in the {\it Steiner} setting. However, the assumptions on the parameter $\lambda$ is quite strong. For example, when the size of the noise is $5\%$, to obtain a robustified version of $2$-median, their algorithm needs a separation of $\lambda > 10$.
 
 %Our goal in this section is not to work with any particular objective function. Rather, we want to recover all solutions which satisfy $\lambda$-center separation. With this motivation, we first give lower and upper bounds on $\lambda$ when the dataset doesn't contain any noisy points. We then work introduce noise in our dataset and then show that unstructured sparse noise is easier to handle than arbitrary noise.
  
 \subsection{Center Separation without noise}
 \todo
-Note that both our positive and negative results are in the {\it proper} setting.
+%Note that both our positive and negative results are in the {\it proper} setting.
 
 \subsubsection{Positive result under no noise}
 We are given a clustering instance $(\mc X, d)$. Our goal is to output a hierarchical clustering tree $T$ of $\mc X$ which has the following property. For every $k$ and for every $k$-clustering $\mc C_{\mc X}$ of the set $\mc X$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) equals $\mc C_{\mc X}$. 
