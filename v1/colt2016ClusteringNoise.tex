@@ -1,6 +1,5 @@
 \documentclass[anon,12pt]{colt2016} % Anonymized submission
 \def\COMPLETE{}
-
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
@@ -47,7 +46,9 @@
 
 \newcommand{\mc}{\mathcal}
 \newcommand{\mb}{\mathbf}
+
 \newcommand{\todo}{\textcolor{blue}{[TODO]}\xspace}
+\newcommand{\complete}{\textcolor{red}{[COMPLETE]}\xspace}
 \newcommand{\fix}{\textcolor{blue}{[FIX]}\xspace}
 \newcommand{\q}{\textcolor{blue}{[?]}\xspace}
 
@@ -78,12 +79,31 @@ Clustering, $\alpha$-center proximity, $\lambda$-center separation
 \section{Introduction}
 \subsection{Motivation}
 
-The goal of clustering is to partition a set of objects into {\em dissimilar} subsets of {\em similar} objects. Based on the definition of similarity, the optimal solution to a clustering task is achieved by optimizing an objective function. Although solving this optimization problem is usually NP-hard, the clustering task is routinely and sucessfully employed in practice. This gap between theory and practice recommends characterizing the real world data sets by defining mathematical notions of {\em clusterabe} data. As the result, provably efficient clustering algorithms can be found for these so called {\em nice} data.  
+The goal of clustering is to partition a set of objects into {\em dissimilar} subsets of {\em similar} objects. Based on the definition of similarity, the optimal solution to a clustering task is achieved by optimizing an objective function. Although solving this optimization problem is usually NP-hard, the clustering task is routinely and successfully employed in practice. This gap between theory and practice recommends characterizing the real world data sets by defining mathematical notions of {\em clusterabe} data. As the result, provably efficient clustering algorithms can be found for these so called {\em nice} data.  
 
 
 \subsection{Related Work}
 
-In the past few years, there has been a line of work on defining notions of clusterability. The goal of all these methods has been to show that clustering will be computationally efficient for inputs that enjoy some nice structures. 
+In the past few years, there has been a line of work on defining notions of clusterability. The goal of all these methods has been to show that clustering will be computationally efficient for inputs that enjoy some nice structure.
+
+.\cite{bilu2012stable} consider an input of an optimization problem to be \emph{stable} if small perturbations of the input do not change the optimal solution. Specially, they give an efficient algorithm to find the max-cut of sufficiently stable graphs.
+
+In the same direction, \cite{awasthi2012center, balcan2012clustering}, consider a similar condition on the input of center-based clustering tasks. They propose efficient algorithms that output the optimal clustering of the data. \cite{ackerman2009clusterability} consider an imput such that the cost of the optimal clustering does not change under small additive perturbations of the input. They design an efficient algorithm that outputs a clustering with near-optimal cost. 
+
+All the clusterability notions discussed so far assume that the entire data set enjoys some nice property. A more realistic setting would be the following. We assume that the dataset has some nice structure. However, this structure is disturbed by the addition of points (or {\it noise}). 
+\complete
+
+%This can be unreasonable in the real-life situations. A more realistic scenario would be the one in which most of the input data have a given nice structure but the remaining points violate the structure. The fraction of points that disrigard the niceness property is referred to as noise.
+%(for eg. $\alpha$-pertubation resilience)
+%In this section, we discuss notions of clusterability which take noise into account. 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%. \cite{balcan2012clustering} assume that a big fraction of input data is sufficiently stable and generalize their algorithm to give an approximation of the $k$-means optimal solution. Their approximation guaranty is based on the assumption that the fraction of noisy points is very small.
+%\cite{balcan2008discriminative} consider the problem of finding the ground-truth clustering of the data. They assume that every point of the data set is closer to the points in its true cluster than the points outside. Based on this assumption, they introduce an efficient algorithm which outputs a hierarchical clustering tree. It's claimed that a pruning of this tree is provably close to the true clustering if the size of smallest true cluster is small.
+
+%Our clusterability assumption is similar in nature to the definition proposed by Ben-David et al. In \cite{ben2014clustering}, a subset of data is defined to have \emph{$\nu$-separated balls} condition, if it can be covered by $k$ balls of bounded radius which are separated by distance at least $\nu$. Given an input data set with small fraction of noise, Ben-David et al. introduce a generic algorithm for how to augment any center-based algorithm to output the underlying $k$-clustering of the un-noisy part of the data.
 
 %In this paper, we work with two niceness assumptions:  $\lambda$-center separation (\cite{ben2014clustering}) and $\alpha$-center proximity (\cite{awasthi2012center} and \cite{balcan2012clustering}). Previous work on the CDNM thesis has been focusing on two directions. First, proving that optimizing a center-based clustering objective can be done effectively by assuming nice structure on the data. Second, showing that retrieving a {\em nice} underlying clustering of the data is easy if the input data is {\em clusterable}.
 %
