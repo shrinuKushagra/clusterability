@@ -94,7 +94,7 @@ In the same direction, \cite{awasthi2012center, balcan2012clustering}, consider 
 
 All the clusterability notions discussed so far assume that the  entire data set enjoys some nice property, i.e., made up of groups of similar objects. A more realistic setting would be to the following. The input dataset has some nice structure. However, this structure is disturbed by the addition of unstructured points (or {\it noise}). The {\it noise} makes it harder to detect the 
 
-\shrinu\complete
+\shrinu\wip
 
 \subsection{Structure of paper}
 \shrinu\todo Following is the proposed structure of the paper.
@@ -413,8 +413,9 @@ For the sake of contradiction assume that there exists a tree $T$ and prunings $
 
 
 \section{Center Separation}
+The problem of noise robust clustering under center separation (Def.~\ref{defn:lambdacs}) was first introduced by \cite{ben2014clustering}. Their goal is to robustify any objective based clustering algorithm to noise.  In this direction, they define a data set $\mc X$ to be clusterable, if the optimal solution of any objective based clustering algorithm on $\mc X$ has $\lambda$-center sepration. Given such an input, they propose a paradigm which converts any objective-based clustering algorithm into a clustering algorithm which is robust to small amount of noise.
 
-The problem of noise robust clustering under center separation (Def.~\ref{defn:lambdacs}) was first introduced by \cite{ben2014clustering}. They explore the problem of robustifying any objective based clustering algorithm to noise.  They define a data set $\mc X$ to be clusterable, if the optimal solution of any objective based clustering algorithm on $\mc X$ has $\lambda$-center sepration. Given such an input, they propose a paradigm which converts any objective-based clustering algorithm into a clustering algorithm which is robust to small amount of noise. 
+Although the framework of \cite{ben2014clustering} works for any objective-based clustering algorithm, it compels a strong restriction on noise and separation of the data. For example, when the size of the noise is $\frac{5}{100}|\mc X|$, to obtain a robustified version of $2$-median, their algorithm needs to get an input $\mc X$ which has a clustering ${\mc C}_{\mc X}$ with $(\lambda > 10)$-center separation.
 
 \samira\wip
 
@@ -434,7 +435,6 @@ $$d_{min}(A, C_i\setminus A) < d_{min}(A, A')$$
 If a clustering instance satisfies strong stability then single-linkage produces a tree such that the gound-truth clustering is a pruning of the tree (Theorem. 8 in \cite{balcan2008discriminative}). We will prove that any clustering instance which satisfies $\lambda$-center separation for $\lambda \ge 3$ also satisfies strong stability. Hence, the claim follows.
 
 \begin{algorithm}[t]
-%\begin{alg}
 	\SetAlgoLined
 	\KwIn{$(\mc X, d)$}
 	\KwOut{A hierarchical clustering tree $T$ of $\mc X$.}
