@@ -269,8 +269,8 @@ We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c
 Here are the main results of this section:
 
 \begin{itemize}
-\item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that if the number of noisy points exceeds $1.5$(size of the smallest cluster) and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$, then there is no tree which captures all $\alpha$-center $t$-min proximal subsets of $\mc X$.\samira
-\item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$, then Alg.\ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal nice subsets of $\mc X$. Our algorithm runs in time polynomial in $\mc X$. 
+\item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that, for a given value of $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$, then there is no tree which captures all clusterings of all subsets of with $\alpha$-center proximity subsets of $\mc X$.\samira
+\item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$; for any value of $t$, Alg.\ref{alg:alphacp} outputs a tree which captures all clusterings $\mc C^*$ which satisfies $(\alpha, \eta)$-proximality and $m(C^*)=t$.
 \item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$, then there is no tree that captures all $(\alpha, \eta)$-proximal nice subsets of $\mc X$, even if the value of smallest cluster is known.
 \end{itemize} 
 
