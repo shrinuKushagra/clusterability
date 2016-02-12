@@ -80,32 +80,45 @@
 Clustering, $\alpha$-center proximity, $\lambda$-center separation
 \end{keywords}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-\subsection{Motivation}
+
 The goal of clustering is to partition a set of objects into {\em dissimilar} subsets of {\em similar} objects. Based on the definition of similarity, the optimal solution to a clustering task is achieved by optimizing an objective function. Although solving this optimization problem is usually NP-hard, the clustering task is routinely and successfully employed in practice. This gap between theory and practice recommends characterizing the real world data sets by defining mathematical notions of {\em clusterabe} data. As the result, provably efficient clustering algorithms can be found for these so called {\em nice} data.  
 
-\subsection{Related Work}
-
-In the past few years, there has been a line of work on defining notions of clusterability. The goal of all these methods has been to show that clustering will be computationally efficient for inputs that enjoy some nice structure. \cite{bilu2012stable} consider a clustering instance to be \emph{stable} if the optimal solution to the objective function does not change under small multiplicative perturbations of distances between the points. Specially, they give an efficient algorithm to find the max-cut clustering of graphs which are resilient to $\alpha = O(\sqrt{n})$ perturbations. 
-
-Later on, \cite{awasthi2012center}, considered a similar condition ($\alpha$-center proximity). They propose an efficient algorithm that outputs the optimal solution of a given objective-based clustering task on $(\alpha > 3)$-center proximal inputs when the centers are part of the data set ({\it proper} setting), and on $(\alpha > 2+\sqrt{3})$-center proximal inputs when the centers are arbitrary points of the metric space ({\it steiner} setting). They also prove that finding the optimal solution of any objective-based clustering task is NP-Hard if the input is $(\alpha \leq 3)$-center proximal (in the steiner setting). Following this result, \cite{balcan2012clustering} showed that it is possible to overcome the $(\alpha = 3)$ NP-Hardness lower bound in the proper setting. They gave a polynomial-time algorithm that finds the optimal solution of $k$-median objective function for $(\alpha = \sqrt{2} + 1 \approx 2.4)$-center proximal inputs. 
+In the past few years, there has been a line of work on defining notions of clusterability. The goal of all these methods has been to show that clustering will be computationally efficient if the input $\mc X$ enjoy some nice structure. \cite{bilu2012stable} consider a clustering instance to be \emph{stable} if the optimal solution to a given objective function does not change under small multiplicative perturbations of distances between the points. Using this assumptoion, they give an efficient algorithm to find the max-cut clustering of graphs which are resilient to $O(\sqrt{|\mc X|})$ perturbations. USing a similar assumption, \cite{ackerman2009clusterability} consider additive perturbations of the underlying metric and designed an efficient algorithm that outputs a clustering with near-optimal cost. 
 
 
-\samira {\textcolor{blue}{[Edited the related work up to here}\xspace]}
+%\cite{awasthi2012center}. They define a data set $\mathcal{X}$ to have $\alpha$-center proximity w.r.t. an objective function $\Phi$, if the optimal clustering of $\mc{X}$ wr.t. $\Phi$ satisfies .... .
+Later on, \cite{awasthi2012center} studied {\em $\alpha$-center proximity} condition (look at Def.~\ref{defn:alphacp}), as a special case of \cite{bilu2012stable} condition.
+Assuming that the centers belong to $\mc X$ ({\em proper} setting), they propose an efficient algorithm that outputs the optimal solution of a given center-based objective on $(\alpha > 3)$-center proximal inputs. This result was improved to $(\alpha = \sqrt{2} + 1 \approx 2.4)$ when the objective is $k$-median \cite{balcan2012clustering}.
+In the case that centers are arbitrary point of the metric space ({\it steiner} setting), an efficient algorithm is proposed for $(\alpha > 2+\sqrt{3}\approx 3.7)$-center proximal inputs \cite{bilu2012stable} -- this result is tight in the steiner setting. 
+%They proved that finding the optimal solution of any center-based objective to is NP-Hard if the input is  (in the steiner setting).
+% \cite{balcan2012clustering} showed that it is possible to overcome the $(\alpha = 3)$ NP-Hardness lower bound in the proper setting. They gave a polynomial-time algorithm that finds the optimal solution of $k$-median objective function for $(\alpha = \sqrt{2} + 1 \approx 2.4)$-center proximal inputs. 
+
+The common component of all these studies is that they assume that all the points of the domain enjoy some {\em nice} property. This requirement can be strict in many real-world situations. A more realistic setting would be the one in which the input dataset has some nice structure. However, this structure is ``disturbed" by the addition of unstructured points ({\it noise}). Detecting the structure of underlying clustering can get difficult in the presence of adversarial noise.
+
+Few methods have been suggested for analyzing clusterability in the presence of noise. 
+\cite{balcan2012clustering} consider a dataset which has $\alpha$-center proximity except for an $\epsilon$ fraction of the points. They give an efficient algorithm which provides a $O(1+\epsilon/\rho)$-approximation to the cost of the $k$-median optimal solution when $\alpha > 2+\sqrt{7} \approx 4.6$. The main limitation of such a method is that the approximation guarantee is heavily influenced by the size of noise; which makes it hard to justify using it for a big class of real-world data sets.
+%\cite{balcan2012clustering} presented an extension of their result when $\Phi$ is $k$-median objective function and the clustering instance contains $\epsilon$ fraction of it as noise. In this setting, they construct a hierarchical clustering tree of $\mc{X}$ which captures the optimal clustering $\mc{C}^*$ on the non-noisy points. Their result is restricted to the case that size of noise is bounded by $t(\mc{C}^*)/8$.
+
+In a different line of work, \cite{ben2014clustering} studies the problem of robustifying any center-based clustering objective to noise. To achieve this goal, they introduce the notion of center separation (look at Def. \ref{defn:lambdacs}). Informally, an input has center separation when it can be covered by $k$ well-separated set of balls.
+Given such an input, they propose a paradigm which converts any center-based clustering algorithm into a clustering algorithm which is robust to small amount of noise.
+%They work with a more relaxed definition where the input dataset satisfies center separation except for a small fraction of the points. They then introduce a generic algorithm for how to modify any center-based algorithm to output the underlying $k$-clustering of the {\em un-noisy} part of the data.
+%\cite{ben2014clustering} introduced {\em center separation}. Their goal is to robustify any objective based clustering algorithm to noise.  In this direction, they define a data set $\mc X$ to be clusterable, if the optimal solution of any objective based clustering algorithm on $\mc X$ has $\lambda$-center sepration. Given such an input, they propose a paradigm which converts any objective-based clustering algorithm into a clustering algorithm which is robust to small amount of noise. 
+Although this framework works for any objective-based clustering algorithm, it compels a strong restriction on the noise and clusterability of the data. For example, when the size of the noise is $\frac{5}{100}|\mc X|$, their algorithm is able to obtain a robustified version of $2$-median, only if $\mc X$ has a clustering with $(\lambda > 10)$-center separation. 
 
 
-A different line of enquiry was considered by \cite{ackerman2009clusterability}. Rather than multiplicative perturbations, they consider an input such that the cost of the optimal clustering does not change under small additive perturbations of the underlying metric. They designed an efficient algorithm that outputs a clustering with near-optimal cost. 
+In this work, we consider a natural relaxation of \cite{balcan2012clustering, ben2014clustering}, with the goal to capture more realistic domains containing significant amount of noise.  work is We study the limitations of any efficient clustering algorithm in the presence of arbitrary amount of noise. Furthermore, assuming that noise is {\em sparse}, we propose an efficient algorithm that outputs a hierarchical clustering tree of $\mc X$ that captures all clusterings of all $(\alpha, \eta)$-proximal nice subsets of $\mc X$.
 
-The notions of multiplicative and additive resilience have one thing in common. They assume that all the points in the given input enjoy the {\em nice} property. This requirement can be strict in many situations. A more realistic setting would be the one in which the input dataset has some nice structure. However, this structure is `disturbed' by the addition of unstructured points (or {\it noise}) to the dataset. The {\it noise} makes it harder to detect the structure of the remaining data points. 
+Another important aspect of our work is to design clustering algorithms that counts for variability of underlying {\em nice} clusterings of the data. We do not want to output a single clustering but to produce an efficient representation of all possible {$\lambda$}-separated clusterings. This will allow the user to be able to chose his target clustering according to his objective.
 
-.\cite{balcan2012clustering} consider a dataset which has $\alpha$-center proximity except for an $\epsilon$ fraction of the points. They give an efficient algorithm which provides a $O(1+\epsilon/\rho)$-approximation to the cost of the $k$-median optimal solution when $\alpha > 2+\sqrt{7}$. 
-
-In a different line of work, \cite{ben2014clustering} introduced a notion of $\lambda$-center separation (Defn. \ref{defn:lambdacs}). Informally, an input dataset has center separation when it can be covered by $k$ well-separated set of balls. They work with a more relaxed definition where the input dataset satisfies center separation except for a small fraction of the points. They then introduce a generic algorithm for how to modify any center-based algorithm to output the underlying $k$-clustering of the {\em un-noisy} part of the data.
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Our results}
 \samira\complete
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Structure of paper}
 \shrinu\todo Following is the proposed structure of the paper.
@@ -141,7 +154,7 @@ In a different line of work, \cite{ben2014clustering} introduced a notion of $\l
 \item Conclusion
 \end{enumerate}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Notation and definition}
 \label{sec:Notation}
 We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the {\it steiner} setting, the centers can be arbitrary points of the metric space $\mb M$. In the {\it proper} setting, we restrict our centers to be a part of the data set $\mc X$.  In this paper, we will be working in the proper setting.
@@ -224,19 +237,18 @@ Note: In the setting of this paper, we will restrict the centers $s_i \in \mc X$
 
 We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. If the location is clear from the context, we will use the notation $P_i$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Center Proximity}
 \label{section:cp}
-The problem of clustering under $\alpha$-center proximity was first introduced by \cite{awasthi2012center}. They define a data set $\mathcal{X}$ to have $\alpha$-center proximity w.r.t. an objective function $\Phi$, if the optimal clustering of $\mc{X}$ wr.t. $\Phi$ satisfies $\alpha$-center proximity.
-
-Later, \cite{balcan2012clustering} considered the same niceness assumption when $\Phi$ is $k$-median objective function and the clustering instance contains $\epsilon$ fraction of it as noise. In this setting, they construct a hierarchical clustering tree of $\mc{X}$ which captures the optimal clustering $\mc{C}^*$ on the non-noisy points. Their result is restricted to the case that size of noise is bounded by $t(\mc{C}^*)/8$.
-
-In this paper, we consider a natural relaxation of \cite{balcan2012clustering} which aims to capture more realistic clustering instances. We study the limitations of any efficient clustering algorithm in the presence of arbitrary amount of noise. Furthermore, assuming that noise is {\em sparse}, we propose an efficient algorithm which outputs a hierarchical clustering tree $\mc T$ of $\mc X$ that captures all clusterings of all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$. Here are the main observations of this section:
+ Here are the main observations of this section:
 
 \begin{itemize}
 \item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that if the number of noisy points $> \frac{3t}{2}$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$, then there is no tree which captures all $\alpha$-center $t$-min proximal subsets of $\mc X$.
 \item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$, then Alg.\ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$. Our algorithm runs in time polynomial in $\mc X$. 
 \item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$, then there does not exist a tree which can capture all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$.
 \end{itemize} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Lower bound under arbitrary noise}
 \label{section:alphaLowerBoundArbitrary}
@@ -265,6 +277,8 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, 
 
 For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
 \end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Positive result under sparse noise}
 \label{section:positiveResultSparseNoise}
@@ -392,7 +406,7 @@ Let $n = |\mc X|$. Let $\mc C^{(l)} =\{C_1, \ldots, C_{k'}\}$ denote the current
 
 Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-proximal $t$-min nice subsets of $\mc X$. We construct a set $\mc X$ (Fig. \ref{fig:algAlphacp}) and show that if $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ then Alg. \ref{alg:alphacp} can `split' some of the good cluster. The details and the proof can be found in Appendix \ref{appendix:sectiontr}.
  
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Lower bound under sparse noise}
 \label{section:alphaLowerBoundSparse}
@@ -424,17 +438,17 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ a
 For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
 \end{proof}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Center Separation}
-The problem of noise robust clustering under center separation (Def.~\ref{defn:lambdacs}) was first introduced by \cite{ben2014clustering}. Their goal is to robustify any objective based clustering algorithm to noise.  In this direction, they define a data set $\mc X$ to be clusterable, if the optimal solution of any objective based clustering algorithm on $\mc X$ has $\lambda$-center sepration. Given such an input, they propose a paradigm which converts any objective-based clustering algorithm into a clustering algorithm which is robust to small amount of noise.
-
-Although the framework of \cite{ben2014clustering} works for any objective-based clustering algorithm, it compels a strong restriction on the noise and clusterability of the data. For example, when the size of the noise is $\frac{5}{100}|\mc X|$, their algorithm is able to obtain a robustified version of $2$-median, only if $\mc X$ has a clustering with $(\lambda > 10)$-center separation. 
-
-An important aspect of our work is to design clustering algorithms that counts for variability of underlying {\em nice}clusterings of the data. We do not want to output a single clustering but to produce an efficient representation of all possible {$\lambda$}-separated clusterings. This will allow the user to be able to chose his target clustering according to his objective.
-
- In this section, we study the limitations of any such clustering algorithm. We will also show that clustering in presence of noise is easier if we have unstructured sparse assumption (Def.~\ref{def:alphaeta}) on noise. This has been proved in Theorem.~ .
+ In this section, we study the limitations of any clustering algorithm that aims to output a tree representation of all possible {$\lambda$}-separated clusterings. We will also show that clustering in presence of noise is easier if we have unstructured sparse assumption (Def.~\ref{def:alphaeta}) on noise. This has been proved in Theorem.~ .
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
  \subsection{Center Separation without noise}
 \todo\shrinu
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Positive result under no noise}
 Given a clustering instance $(\mc X, d)$, our goal is to output a hierarchical clustering tree $T$ of $\mc X$ which has the following property. For every $k$ and for every $k$-clustering $\mc C_{\mc X}$ of the set $\mc X$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) equals $\mc C_{\mc X}$. 
@@ -474,6 +488,8 @@ Let $p \in A$ and $q \in C_i^* \setminus A$ be points which achieve the minimum 
 Let $p \in A$ and $q \in B$ be points which achieve the minimum distance between $A$ and $B$. Using triangle inequality, we get that $d(p, q) \ge d(c_i, c_j) - d(p, c_i) - d(q, c_j) > 3r - r - r = r$.
 \end{proof}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsubsection{Lower bound with no noise}
 We will prove that for $\lambda \le 2$, finding any solution for $\lambda$-center separation is NP-Hard. \cite{reyzin2012data} proved that finding any solution for $\alpha$-center proximity is NP-Hard for $\alpha < 2$. Our proof is same as their proof. We show that the same reduction can be used to prove NP-Hardness for $\lambda$-center separation as well. We state the proof below for completeness.
 
@@ -494,6 +510,7 @@ $\Leftarrow$  Let $c_1, \ldots, c_k \in \mc X$ be the centers such that the corr
 $\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l < k$, we can add $k-l$ vertices to $D$ and they still form a dominating set. Hence, WLOG we can assume that $l = k$. Now, let $c_1, \ldots, c_k \in \mc X$ be the points corresponding to the vertices in $D$. Let $\mc C = \{C_1, \ldots, C_k\}$ be the clustering induced by $c_1, \ldots, c_k$. Since $|D| \le k$, we know that $D$ is perfect. Hence, $(d_i, d_j) \not\in E$. Hence, $d(c_i, c_j) = 2$. Now, let $v$ be any vertex which is dominated by $d_i$ and $x$ be the corresponding point in $\mc X$. Then, $d(x, c_i) = 1$. Hence, we get that $d(c_i, c_j) = 2 \max_p r(C_p)$. Hence, clustering $\mc C$ satisfies $\lambda$-center separation for $\lambda < 2$.
 \end{proof}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Center Separation in the presence of noise}
 \samira\wip
@@ -509,6 +526,7 @@ $\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l <
 \item  {\it Lower bound under sparse noise} - In Section \ref{section:lambdaLowerBoundSparse}, we show that if $\lambda < 4$ and $\eta \le 1$, then no algorithm can output a tree which captures all $(\lambda, \eta)$-center $t$-min $r$-max nice subsets of $\mc X$.
 \end{itemize} 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Lower bound with arbitrary noise}
 \label{section:lambdaLowerBoundArbitrary}
@@ -536,6 +554,8 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, 
 
 $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$ and $\mc C_{\mc X}|_{\mc S''} = \mc C_{\mc S''}$. For the sake of contradiction assume that this is the case. There exists cluster $C_1 \in \mc C_{\mc X}$ such that such that $B_1 \subseteq C_1$ and $C_1 \cap B_2 = \phi$. Similarly, there exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$ and there exists cluster $C_1'' \in \mc C_{\mc X}$ such that such that $B_1'' \subseteq C_1''$ and $C_1'' \cap B_2'' = \phi$. Now, $C_1, C_1', C_1'' \in \mc X$ and $C_1 \cap C_1' \neq \phi$ and $C_1'' \cap C_1' \neq \phi$. Hence, $C_1 = C_1' = C_1''$. Hence, $B_1 \cup B_1' \cup B_1'' \subseteq C_1$. Observe, that $B_1'' \cap B_2 \neq \phi$. Hence, $C_1\cap B_2 \neq \phi$. This is a contradiction.
 \end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Positive result under sparse noise}
 \label{section:lambdaPositiveResultSparseNoise}
@@ -617,6 +637,9 @@ Given clustering instance $(\mc X, d)$ and parameters $r$ and $t$. Algorithm \re
 Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaining steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
 \end{proof}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \subsubsection{Lower bound under sparse noise}
 \label{section:lambdaLowerBoundSparse}
 
@@ -644,6 +667,8 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ a
 We will show that no algorithm can output a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$. For the sake of contradiction assume that this is indeed the case. There exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, there exists a cluster $C' \in \mc C_{\mc X}$ such that $C' \cap B_1 \neq \phi$ and $C' \cap B_2 \neq \phi$. This is a contradiction.
 \end{proof}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 \todo
 
