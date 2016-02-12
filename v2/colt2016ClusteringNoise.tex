@@ -247,9 +247,9 @@ Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with $\alpha$-proxi
 
 \begin{theorem}
 \label{thm:nosparsealg}
-Given the number of clusters $k$ and parameters $\alpha$ and $t$. There exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ and $ t(\mc C_{\mc S}) = t \ge 2$ such that the following holds. 
+Given the number of clusters $k$ and parameters and $t$. For all $\alpha < 2\sqrt 2 + 3$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ such that $ t(\mc C_{\mc S}) = t \ge 2$ and the following holds. 
 
-If $\alpha < 2\sqrt 2 + 3$ and $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$.
+If $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
@@ -271,11 +271,11 @@ Given a clustering instance $(\mc X, d)$ and a parameter $t$, we propose an effi
 Our algorithm has a linkage based structure similar to \cite{balcan2012clustering}. However, our method benefits from a novel {\it sparse distance condition}. We introduce the algorithm in Alg.\ref{alg:alphacp} and prove it's efficiency and correctness in Theorem. \ref{thm:algcptime} and Theorem.\ref{thm:alphacpnoise} respectively. 
 
 \begin{definition}[Sparse distance condition]
-	 Given a clustering $\mc C = \{C_1,\ldots,C_k\}$ of the set $\mc X$ and a ball $B \subseteq \mc X$. Define $Y_B^{\mc C} := \{C_i \in \mc C_{\mc X} : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. 
+	 Given a clustering $\mc C = \{C_1,\ldots,C_k\}$ of the set $\mc X$ and a ball $B \subseteq \mc X$. %Define $Y_B^{\mc C} := \{C_i \in \mc C_{\mc X} : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. 
 We say that the ball $B$ satisfies the sparse distance condition w.r.t clustering $\mc C$ when the following holds.
 \begin{itemize}[noitemsep, leftmargin=*]
 \item $|B| \ge t$.
-\item For any $C_i \in \mc C$, if $C_i \cap B \neq \phi$, then $C_i \in Y_B^{\mc C}$.
+\item For any $C_i \in \mc C$, if $C_i \cap B \neq \phi$, then $C_i \subseteq B$ or $|B \cap C_i| \ge t/2$.
 \end{itemize}
 \end{definition}
 
@@ -296,7 +296,8 @@ Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $
 		\begin{itemize}[noitemsep]
 		\renewcommand\labelitemii{}
 		\item $\mc C^{(l+1)} = \mc C^{(l)}$
-		\item Merge all the clusters in $Y_B^{C^{(l)}}$ into a single cluster.
+		%\item Merge all the clusters in $Y_B^{C^{(l)}}$ into a single cluster.
+		\item Merge all the clusters which intersect with $B$ into a single cluster.
 		\item Update $\mc C^{(l+1)}$.
 		\end{itemize}
 	\end{itemize}
@@ -315,7 +316,8 @@ For every $1\le i \le k$, there exists a node $N_i$ in the tree $T$ such that $S
 \end{theorem}
 
 \begin{proof}
-Fix any $\mc S \subseteq \mc X$. Let $\mc C^*_S = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $t(\mc C_{\mc S}^*) = t$ and $\mc C^*_S$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(S_i^*)$. Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the clustering of $\mc X$ after $l$ merge steps have been performed (as defined in Alg.\ref{alg:alphacp}). Let $p, q \in \mc X$ be the pair of points being considered at the $(l+1)^{th}$ step. Let's denote $B = B(p, d(p, q))$. Note that whenever $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated. Throughout the proof, we will denote by $S_i^* \in \mc C^*_S$ the clusters of the set $\mc S$ (also called ``good" clusters) and by $C_i \in \mc C^{(l)}$ the clusters of the set $\mc X$ obtained after $l$ merge operations.
+Fix any $\mc S \subseteq \mc X$. Let $\mc C^*_S = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $t(\mc C_{\mc S}^*) = t$ and $\mc C^*_S$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(S_i^*)$. Throughout the proof, we will refer to $S_i^*$ as the ``good" clusters. Define $Y_B^{\mc C} := \{C_i \in \mc C : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. Note that whenever a ball $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated.
+%Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the clustering of $\mc X$ after $l$ merge steps have been performed (as defined in Alg.\ref{alg:alphacp}). Let $p, q \in \mc X$ be the pair of points being considered at the $(l+1)^{th}$ step. Let's denote $B = B(p, d(p, q))$. Note that whenever $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated. Throughout the proof, we will denote by $S_i^* \in \mc C^*_S$ the clusters of the set $\mc S$ (also called ``good" clusters) and by $C_i \in \mc C^{(l)}$ the clusters of the set $\mc X$ obtained after $l$ merge operations.
 
 \noindent We will prove the theorem by proving two key facts.
 
@@ -403,9 +405,9 @@ Fig. \ref{fig:noalgalphacp} shows an instance of a set $\mc X$ with $(\alpha, \e
 
 \begin{theorem}
 \label{thm:noalgalphacp}
-Given the number of clusters $k$ and parameters $\alpha$, $\eta$ and $t$. There exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ and $ t(\mc S) = t \ge 2$ such that the following holds. 
+Given the number of clusters $k$ and parameter and $t$. For all $\alpha \le 2+\sqrt{3}$ and $\eta \le 1$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc S) = t \ge 2$ but 
 
-If $\alpha \le 2 + \sqrt 3$ and $\eta \le 1$ then $\mc T$ doesn't capture $\mc C_{\mc S}$.
+$\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
@@ -455,9 +457,9 @@ If a clustering instance satisfies strong stability then single-linkage produces
 \end{algorithm}
 
 \begin{theorem}
-Given a clustering instance $(X , d)$ and the number of clusters $k$. Alg. \ref{alg:lambdacsNoNoise} outputs a tree $T$ with the following property. For all $k$ and for all $k$-clusterings $\mc C_{\mc X}^* = \{C_1^*, \ldots, C_k^* \}$ of the set $\mc X$ which satisfy $\lambda$-center separation w.r.t $\mc X$ and $k$, the following holds.
+Given a clustering instance $(X , d)$. For all $\lambda \ge 3$, Alg. \ref{alg:lambdacsNoNoise} outputs a tree $\mc T$ with the following property. For all $k$ and for all $k$-clusterings $\mc C_{\mc X}^* = \{C_1^*, \ldots, C_k^* \}$ of the set $\mc X$ which satisfy $\lambda$-center separation w.r.t $\mc X$ and $k$, the following holds.
 
-If $\lambda \ge 3$ then for every $1 \le i \le k$, there exists a node $N_i$ in the tree $T$ such that $C_i^* = N_i$.
+For every $1 \le i \le k$, there exists a node $N_i$ in the tree $T$ such that $C_i^* = N_i$.
 \end{theorem}
 
 \begin{proof}
@@ -516,9 +518,9 @@ $\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l <
 To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S', \mc S'' \subset \mc X$ which are $\lambda$-center $t$-min $r$-max proximal. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $\lambda$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:nosparsealglambdacs}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $\lambda$, $r$ and $t$. There exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\lambda$-center separation such that $t(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.
+Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 6$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\lambda$-center separation such that $t(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.
 
-If $\lambda < 6$ and $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$ .
+If $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$ .
 \end{theorem}
 
 \begin{proof}
@@ -623,9 +625,9 @@ To prove the lower bound we first construct a set $\mc X$ . We then construct se
 \end{figure}
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $\lambda$, $\eta$, $r$ and $t$. There exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ and the following holds.
+Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 4$ and $\eta \le 1$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ but,
 
-If $\lambda < 4$ and $\eta \le 1$, then $\mc T$ doesn't $\mc C_{\mc S}$.
+$\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
