@@ -419,7 +419,7 @@ Although the framework of \cite{ben2014clustering} works for any objective-based
 
 An important aspect of our work is to design clustering algorithms that counts for variability of underlying {\em nice}clusterings of the data. We do not want to output a single clustering but to produce an efficient representation of all possible {$\lambda$}-separated clusterings. This will allow the user to be able to chose his target clustering according to his objective.
 
- In this section, we first study the limitations of any such clustering algorithm. Afterward, we show that clustering in presence of noise is much easier if we have unstructured sparse assumption (Def. ) on noise. This has been proved in Theorem. .
+ In this section, we study the limitations of any such clustering algorithm. We will also show that clustering in presence of noise is easier if we have unstructured sparse assumption (Def.~\ref{def:alphaeta}) on noise. This has been proved in Theorem.~ .
  
  \subsection{Center Separation without noise}
 \todo\shrinu
@@ -484,11 +484,12 @@ $\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l <
 
 
 \subsection{Center Separation in the presence of noise}
-
-Similar to the framework in Section \ref{section:cp}, we do not work with any particular objective function. Given a set $\mc X$, we want to output a clustering $\mc C_{\mc X}$ of the set $\mc X$ which can capture  all clusterings of all the ``nice" subsets of $\mc X$. Nice subsets of $\mc X$ are those which satisfy $(\lambda, \eta)$-center $t$-min $r$-max proximity.
-
-
-In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\lambda$-center separation, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answers to this question.
+\samira\wip
+%
+%Similar to the framework in Section \ref{section:cp}, we do not work with any particular objective function. Given a set $\mc X$, we want to output a clustering $\mc C_{\mc X}$ of the set $\mc X$ which can capture  all clusterings of all the ``nice" subsets of $\mc X$. Nice subsets of $\mc X$ are those which satisfy $(\lambda, \eta)$-center $t$-min $r$-max proximity.
+%
+%
+%In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\lambda$-center separation, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answers to this question.
 
 \begin{itemize}
 \item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that if the number of noisy points $> \frac{3t}{2}$ and $\lambda \le 6$ then no algorithm can output a tree which captures all $\lambda$-center $t$-min proximal subsets of $\mc X$.
