@@ -162,14 +162,15 @@ Given a clustering instance $\mc X$ drawn from metric space $(\mb M, d)$ and an 
 \vspace{-0.05in}\begin{align*}
 \alpha d(x, c_i) < d(x, c_j)
 \end{align*}
-Note: In this paper (proper setting), we will restrict the centers $c_i \in \mc X$. 
+Note: In this paper, we will restrict the centers $c_i \in \mc X$ (proper setting). 
 \end{definition}
 
 \noindent The set $\mc X$ is {\it $\alpha$-center} {\it $t$-min proximal} if there exist a $k$-clustering $\mc C_{\mc X}$  which satisfies $\alpha$-center proximity and $t(\mc C_{\mc X}) = t$. 
 
-\todo\samira Motivate $\eta$-sparse definition.
+One of the main contributions of this paper is defining a quantitative measure of noise that is close to reality. Informally, noise should be scattered sparsely among the data and should not have similar topology to a cluster. This will not force any restriction on the size of the noise but rather on the structure of it. Def.~\ref{def:alphaeta} gives a precise definition of $\eta$- sparse noise. 
 
 \begin{definition}[$(\alpha, \eta)$-center proximity]
+\label{def:alphaeta}
 Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ has $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ if there exists centers $s_1, \ldots, s_k \in \mb M$  such that the following holds.
 \begin{itemize}[nolistsep, noitemsep]
 \label{defn:alphacpnoise}	
@@ -180,7 +181,7 @@ Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\
 r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{t(\mc C_{\mc S})}{2}
 \end{align*}
 \end{itemize}
-Note: In this paper (proper setting), we will restrict the centers $s_i \in \mc X$. 
+Note: In this paper, we will restrict the centers $s_i \in \mc X$ (proper setting). 
 \end{definition}
 
 \noindent A set $\mc S \subseteq \mc X$ is {\it $(\alpha, \eta)$-proximal} {\it $t$-min nice} if there exist a k-clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity and $t(\mc{C}_{\mc{S}}) = t$. Note that given $(\mc X, d), k$ and $t$ there can be several such $\mc S$ and several clusterings $\mc C_{\mc S}$ which satisfy these conditions.
@@ -189,7 +190,7 @@ Note: In this paper (proper setting), we will restrict the centers $s_i \in \mc 
 \label{defn:lambdacs}
 A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if there exists centers $c_1, \ldots, c_k \in \mb M$ such that $\mc C_{\mc X}$ is the clustering induced by these centers and the following holds. For all $i\neq j$, 
 $$d(c_i, c_j) > \lambda \enspace r(\mc{C}_{\mc{X}})$$
-Note: In this paper (proper setting), we will restrict the centers $c_i \in \mc X$.
+Note: In this paper, we will restrict the centers $c_i \in \mc X$ (proper setting).
 \end{definition}
 
 \noindent The set $\mc X$ is {\it $\lambda$-separated} {\it $t$-min $r$-max nice} if there exist a clustering $\mc C_{\mc X}$ which satisfies $\lambda$-center separation and $t(\mc{C}_{\mc{X}}) = t$ and $r(\mc{C}_\mc{X}) = r$.
@@ -411,20 +412,20 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ a
 For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
 \end{proof}
 
-
-
 \section{Center Separation}
 The problem of noise robust clustering under center separation (Def.~\ref{defn:lambdacs}) was first introduced by \cite{ben2014clustering}. Their goal is to robustify any objective based clustering algorithm to noise.  In this direction, they define a data set $\mc X$ to be clusterable, if the optimal solution of any objective based clustering algorithm on $\mc X$ has $\lambda$-center sepration. Given such an input, they propose a paradigm which converts any objective-based clustering algorithm into a clustering algorithm which is robust to small amount of noise.
 
-Although the framework of \cite{ben2014clustering} works for any objective-based clustering algorithm, it compels a strong restriction on noise and separation of the data. For example, when the size of the noise is $\frac{5}{100}|\mc X|$, to obtain a robustified version of $2$-median, their algorithm needs to get an input $\mc X$ which has a clustering ${\mc C}_{\mc X}$ with $(\lambda > 10)$-center separation.
-\samira\wip
+Although the framework of \cite{ben2014clustering} works for any objective-based clustering algorithm, it compels a strong restriction on the noise and clusterability of the data. For example, when the size of the noise is $\frac{5}{100}|\mc X|$, their algorithm is able to obtain a robustified version of $2$-median, only if $\mc X$ has a clustering with $(\lambda > 10)$-center separation. 
 
+An important aspect of our work is to design clustering algorithms that counts for variability of underlying {\em nice}clusterings of the data. We do not want to output a single clustering but to produce an efficient representation of all possible {$\lambda$}-separated clusterings. This will allow the user to be able to chose his target clustering according to his objective.
+
+ In this section, we first study the limitations of any such clustering algorithm. Afterward, we show that clustering in presence of noise is much easier if we have unstructured sparse assumption (Def. ) on noise. This has been proved in Theorem. .
  
-\subsection{Center Separation without noise}
+ \subsection{Center Separation without noise}
 \todo\shrinu
 
 \subsubsection{Positive result under no noise}
-We are given a clustering instance $(\mc X, d)$. Our goal is to output a hierarchical clustering tree $T$ of $\mc X$ which has the following property. For every $k$ and for every $k$-clustering $\mc C_{\mc X}$ of the set $\mc X$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) equals $\mc C_{\mc X}$. 
+Given a clustering instance $(\mc X, d)$, our goal is to output a hierarchical clustering tree $T$ of $\mc X$ which has the following property. For every $k$ and for every $k$-clustering $\mc C_{\mc X}$ of the set $\mc X$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree such that $\mc C_{\mc X}^{\mc P}$ (the clustering of the set $\mc X$ corresponding to the pruning $\mc P$) equals $\mc C_{\mc X}$. 
 
 Our algorithm (Alg. \ref{alg:lambdacsNoNoise}) uses single-linkage to build a hierarchical clustering tree of $\mc X$. We will show that when $\lambda \ge 3$ our algorithm achieves the above mentioned goal. Before we prove the result, we need to introduce a bit of notation. Given $\mc X$ drawn from some metric space $(M, d)$, for $A, B \subseteq \mc X$ we define $d_{min}(A, B) = \min \{d(a, b): a \in A$ and $b \in B\}$.
 \begin{definition}[Strong stability \cite{balcan2008discriminative}]
