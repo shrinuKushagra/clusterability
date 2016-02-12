@@ -170,7 +170,7 @@ We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an
 
 For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We will use the notation $\mc C_{\mc A}$ to denote the clustering of a set $\mc A$. 
 
-\vspace{-0.13in}\begin{definition}[$r(\mc C_{\mc X})$ and $t(\mc C_{\mc X})$] Given a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of the set $\mc X$ induced by centers $c_1, \ldots, c_k \in \mb M$. 
+\vspace{-0.13in}\begin{definition}[$r(\mc C_{\mc X})$ , $t(\mc C_{\mc X})$] Given a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of the set $\mc X$ induced by centers $c_1, \ldots, c_k \in \mb M$. 
 \begin{itemize}[nolistsep, noitemsep]
 \item $t(\mc{C}_{\mc{X}}) = \min_i |C_i|$
 \item $r(\mc{C}_{\mc{X}}) = \max_i r(C_i)$
@@ -199,7 +199,8 @@ Note: In this paper, we will restrict the centers $c_i \in \mc X$ (proper settin
 
 \noindent The set $\mc X$ is {\it $\alpha$-center} {\it $t$-min proximal} if there exist a $k$-clustering $\mc C_{\mc X}$  which satisfies $\alpha$-center proximity and $t(\mc C_{\mc X}) = t$. 
 
-One of the main contributions of this paper is defining a quantitative measure of noise that is close to reality. Informally, noise should be scattered sparsely among the data and should not have similar topology to a cluster. This will not force any restriction on the size of the noise but rather on the structure of it. Def.~\ref{def:alphaeta} gives a precise definition of $\eta$- sparse noise. 
+\samira
+%One of the main contributions of this paper is defining a quantitative measure of noise that is close to reality. Informally, noise should be scattered sparsely among the data and should not have similar topology to a cluster. This will not force any restriction on the size of the noise but rather on the structure of it. Def.~\ref{def:alphaeta} gives a precise definition of $\eta$- sparse noise. 
 
 \begin{definition}[$(\alpha, \eta)$-center proximity]
 \label{def:alphaeta}
@@ -272,7 +273,7 @@ Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with $\alpha$-proxi
 
 \begin{theorem}
 \label{thm:nosparsealg}
-Given the number of clusters $k$ and parameters and $t$. For all $\alpha < 2\sqrt 2 + 3$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ such that $ t(\mc C_{\mc S}) = t \ge 2$ and the following holds. 
+Given the number of clusters $k$ and parameters $t$. For all $\alpha < 2\sqrt 2 + 3$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $\alpha$-center proximity w.r.t $\mc S$ and $k$ such that $ t(\mc C_{\mc S}) = t \ge 2$ and the following holds. 
 
 If $|\mc X \setminus \mc S| \ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
@@ -337,7 +338,7 @@ Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $
 
 \begin{theorem}
 \label{thm:alphacpnoise}
-Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$. Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. For all $k$, for all $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ which satisfy $(2+\sqrt{7}, 1)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $t(\mc C_{\mc S}^*) = t \ge 2$ the following holds. 
+Given a clustering instance $(\mc X, d)$, the number of clusters $k$ and a parameter $t$, Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. For all $k$ and $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ which satisfy $(2+\sqrt{7}, 1)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $t(\mc C_{\mc S}^*) = t \ge 2$ the following holds. 
 
 For every $1\le i \le k$, there exists a node $N_i$ in the tree $T$ such that $S_i^* \subseteq N_i$ and for $j \neq i$, $S_j^* \cap N_i = \phi$ . That is, $N_i$ contains points from only one of the good clusters $S_i^*$.
 \end{theorem}
@@ -432,7 +433,7 @@ Fig. \ref{fig:noalgalphacp} shows an instance of a set $\mc X$ with $(\alpha, \e
 
 \begin{theorem}
 \label{thm:noalgalphacp}
-Given the number of clusters $k$ and parameter and $t$. For all $\alpha \le 2+\sqrt{3}$ and $\eta \le 1$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc S) = t \ge 2$ but 
+Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{3}$ and $\eta \le 1$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc S) = t \ge 2$ but 
 
 $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
