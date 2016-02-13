@@ -140,7 +140,7 @@ We complement our algorithmic results by proving that under more relaxed conditi
 \subsection{Outline}
 
 The rest of this paper is structured as follows. In Section \ref{sec:Notation}, we present our notation and formal definitions. In Section \ref{section:cp}, we present an efficient algorithm that, for any input set $\mc X$ which contains structureless noise, recovers all the underlying clusterings of non-noise part of $\mc X$ that satisfies $\alpha$-center proximity for $\alpha > 2+\sqrt{7}$. Furthermore, we prove that any relaxating our assumption on noise, or value of $\alpha$ will not be possible.
-In Section \ref{sec:cs} has a similar structure with focus on the input sets with underlying $\lambda$-center separated clusterings.
+Section \ref{sec:cs} has a similar structure with focus on the input sets with underlying $\lambda$-center separated clusterings.
 
 % we present our main positive and negative result for recovering all $\alpha$-center proximal clusterings of a set which contains either arbitrary or structureless noise. 
 % 
@@ -324,7 +324,7 @@ If $t(\mc C_{\mc S}^*) = t$ then $\mc T$ captures $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
-	Proof of this theorem can be found in the appendix.
+	The proof of this theorem can be found in the appendix.
 \end{proof}
 
 \begin{theorem}
@@ -333,7 +333,7 @@ Given clustering instance $(\mc X, d)$ and $t$. Algorithm \ref{alg:alphacp} runs
 \end{theorem}
 
 \begin{proof}
-	Proof of this theorem can be found in the appendix.
+	The proof of this theorem can be found in the appendix.
 \end{proof}
 
 Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-proximal clusterings. We construct a set $\mc X$ (Fig. \ref{fig:algAlphacp}) and show that if $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ then Alg. \ref{alg:alphacp} can `split' some of the good cluster. The details and the proof can be found in Appendix \ref{appendix:sectiontr}.
@@ -387,7 +387,7 @@ The proof of this theorem can be found in the appendix.
  \subsection{Center Separation without noise}
  \label{sec:cswithout}
 
-In this section, we study the problem of recovering $\lambda$-center separated clusterings of a set $\mc X$, in the absence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $\lambda$-center separated nice clusterings. In Section \ref{section:positiveNoNoiseLambda} we give an algorithm that generates a tree of all possible $\lambda$-center separated clusterings of $\mc X$for $\lambda > 3$. In Section \ref{section:lowerBdNoNoiseLambda}, we study the limitations of any efficient clustering algorithm which aims to output all $\lambda$-center separated clusterings of $\mc X$. We prove that it for $\lambda < 2$, it is NP-Hard to find any such clustering.
+In this section, we study the problem of recovering $\lambda$-center separated clusterings of a set $\mc X$, in the absence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $\lambda$-center separated nice clusterings. In Section \ref{section:positiveNoNoiseLambda} we give an algorithm that generates a tree of all possible $\lambda$-center separated clusterings of $\mc X$for $\lambda > 3$. In Section \ref{section:lowerBdNoNoiseLambda}, we study the limitations of any clustering algorithm which aims to output all $\lambda$-center separated clusterings of $\mc X$. We prove that it for $\lambda < 2$, it is NP-Hard to find any such clustering.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
