@@ -74,10 +74,19 @@
 
 \begin{abstract}
 
+We consider efficient clustering algorithm under data clusterability assumptions with added noise. Rather than considering either the adversarial noise setting
+or some noise generative model, we examine a realistically motivated setting is which the only restriction about the noisy part of the data is that it does not
+create significantly large ``clusters". Another aspect in which our model deviates from common approaches is that we stipulate the goals of clustering as discovering some meaningful cluster structure in the data, rather than optimizing some objective (clustering cost).
+
+We propose efficient algorithms that is guaranteed to discover and cluster every subset of the data with meaningful structure, and lack of structure on its complement.
+In particular, the success of our algorithms does not depend on any upper bound on the fraction of noisy data.
+
+We complement our results by showing that when either the nice-subset structure or the noise structure requirements are relaxed, no such results are possible.
+
 \end{abstract}
 
 \begin{keywords}
-Clustering, $\alpha$-center proximity, $\lambda$-center separation
+Noise-robust clustering, efficient clustering
 \end{keywords}
 
 
@@ -243,10 +252,10 @@ We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c
 \section{Center Proximity}
 \label{section:cp}
 
-In this section, we study the problem of recovering $\alpha$-center proximal clusterings of a set $\mc X$, in the presence of noise. We do not want to output a single clustering but to produce an efficient representation of all possible $\alpha$-center proximal nice clusterings.
+In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings. In Section \ref{section:alphaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\alpha$-center proximal clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:positiveResultSparseNoise} introduces an algorithm that generates a tree of all possible $(\alpha,\eta)$-center proximal clusterings of $\mc X$, for introduced values of $\alpha$ and $\eta$. In Section \ref{section:alphaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\alpha,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section: 
 
 \begin{itemize}
-\item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that for a given value of a parameter $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$, then there is no tree which captures all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $\alpha$-center proximity even for $m(\mc C) = t$.
+\item {\it Lower bound with arbitrary noise}[Section \ref{section:alphaLowerBoundArbitrary}] We show that for a given value of a parameter $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$, then there is no tree which captures all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $\alpha$-center proximity even for $m(\mc C) = t$.
 \item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$; for any value of $t$, Alg.\ref{alg:alphacp} outputs a tree which captures all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfies $(\alpha, \eta)$-center proximity and $m(C^*)=t$.
 \item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that, if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$ then there is no tree which can capture all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity even for a fixed value of the size of the smallest cluster $(m(C) = t)$.
 \end{itemize} 
