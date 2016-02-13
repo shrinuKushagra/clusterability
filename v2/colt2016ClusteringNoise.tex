@@ -122,7 +122,6 @@ In this work, we consider a natural relaxation of \cite{balcan2012clustering, be
 
 We define a novel notion of ``gray background" noise. Informally, we call noise {\em structureless} if it does not have similar structure to a {\em nice} cluster at any part of the domain. Under that definition (look at Def.~\ref{def:alphaeta}), our positive, efficient clustering results, do not depend on any restriction on the size of the noise.
 
-
 Given a clusterable input $\mc X$ which contains {\em structureless} noise, we propose an efficient algorithm that outputs a hierarchical clustering tree of $\mc X$ that captures all {\em nice} clusterings of $\mc X$. Our algorithm perfectly recovers the underlying {\em nice} clusterings of the input and its performance is independent of number of noisy points in the domain. 
 
 We complement our algorithmic results by proving that under more relaxed conditions, either on the level of clusterability of the clean part of the data, or on the unstructurness requirements on the noise, such results become impossible. 
@@ -244,7 +243,7 @@ We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c
 \section{Center Proximity}
 \label{section:cp}
 
-In this section, we study the problem of natural relaxation of weHere are the main results of this section:
+In this section, we study the problem of recovering $\alpha$-center proximal clusterings of a set $\mc X$, in the presence of noise. We do not want to output a single clustering but to produce an efficient representation of all possible $\alpha$-center proximal nice clusterings.
 
 \begin{itemize}
 \item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that for a given value of a parameter $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$, then there is no tree which captures all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $\alpha$-center proximity even for $m(\mc C) = t$.
