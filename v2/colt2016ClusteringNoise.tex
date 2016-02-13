@@ -412,7 +412,7 @@ Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t
 
 Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(\alpha-2) \thinspace\cup\thinspace P_{t_1}(\alpha-1) \}$ and $B_2 = \{\ P_{t_2}(2\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-1)\thinspace\cup\thinspace P_{t_1}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t_1}(\alpha-1) \thinspace\cup\thinspace  P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{t_2}(2\alpha-2) \}$ and $B_2' = \{\ P_{t_1}(3\alpha-3) \thinspace\cup\thinspace P_{1}(3\alpha-2)\thinspace\cup\thinspace P_{t_2}(4\alpha-4)\}$. 
 
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which respects both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
+Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which captures both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
 
 For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
 \end{proof}
@@ -534,14 +534,14 @@ Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\th
 
 Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 6$, the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\lambda$-center separation.
 
-$\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$ and $\mc C_{\mc X}|_{\mc S''} = \mc C_{\mc S''}$. For the sake of contradiction assume that this is the case. There exists cluster $C_1 \in \mc C_{\mc X}$ such that such that $B_1 \subseteq C_1$ and $C_1 \cap B_2 = \phi$. Similarly, there exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$ and there exists cluster $C_1'' \in \mc C_{\mc X}$ such that such that $B_1'' \subseteq C_1''$ and $C_1'' \cap B_2'' = \phi$. Now, $C_1, C_1', C_1'' \in \mc X$ and $C_1 \cap C_1' \neq \phi$ and $C_1'' \cap C_1' \neq \phi$. Hence, $C_1 = C_1' = C_1''$. Hence, $B_1 \cup B_1' \cup B_1'' \subseteq C_1$. Observe, that $B_1'' \cap B_2 \neq \phi$. Hence, $C_1\cap B_2 \neq \phi$. This is a contradiction.
+We will show that no algorithm can output a tree which captures $\mc C_{\mc S}, \mc C_{\mc S'}$ and $\mc C_{S''}$. The proof is identical to the proof of Thm. \ref{thm:nosparsealg} and hence we omit it here.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Positive result under sparse noise}
 \label{section:lambdaPositiveResultSparseNoise}
-We are given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. Our goal is to output a clustering $\mc C_{\mc X}$ of $\mc X$ which has the following property. For every $k$, for every $\mc S \subseteq \mc X$ which is $(\lambda, \eta)$-separated $t$-min $r$-max nice, and every $k$-clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation, the clustering $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_{\mc S}$. 
+We are given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. Our goal is to output a clustering $\mc C_{\mc X}$ which has the following property. For every $k$, for every $\mc S \subseteq \mc X$ and for every $k$-clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation, the clustering $\mc C_{\mc X}$ restricted to $\mc S$ equals $\mc C_{\mc S}$. 
 
 In the next section, we propose a clustering algorithm (Alg.\ref{alg:lambdacs}) and prove (Theorem.\ref{thm:lambdacsnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\lambda$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. 
 
@@ -580,12 +580,12 @@ Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it con
 
 \begin{theorem}
 \label{thm:lambdacsnoise}
-Given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. For every $k$, for every $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ induced by centers $s_1, \ldots, s_k \in \mc X$ which satisfy $(4, 1)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc C_{\mc S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$, the following holds.
+Given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. For every $k$, for every $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ which satisfy $(4, 1)$-center separation such that $ m(\mc C_{\mc S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$, the following holds.
 
-Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$ that is the clustering retricted to the set $S$ is same as the clustering $\mc C_{\mc S}^*$.
+Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$.
 \end{theorem}
 \begin{proof}
-Fix $\mc S \subseteq \mc X$. Let $\mc C_{\mc S}^* = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $\min |S_i^*| = t$ and $\max_i r(S_i^*) = r$. Also, denote by $r_i := r(S_i^*)$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be the clustering outputed by the algorithm. Throughout the proof, we will sometimes refer to $S_i^*$ as the `good clusters' and the set $\mc S$ as the good set.
+Fix $\mc S \subseteq \mc X$. Let $\mc C_{\mc S}^* = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $m( \mc C_{S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$. Also, denote by $r_i := r(S_i^*)$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be the clustering outputed by the algorithm. Throughout the proof, we will sometimes refer to $S_i^*$ as the `good clusters' and the set $\mc S$ as the good set.
 
 Let $\mc L = \{B_1, \ldots, B_l\}$ be the list of balls as outputed by Phase 1 of Alg. \ref{alg:lambdacs}. Let $G$ be the graph as constructed in Phase 2 of the algorithm. First observe that $s_i \in \mc X$ and $r_i \le r$. Hence, $B = B(s_i, r_i) \in \mc L$ and $B = S_i^*$. WLOG, denote this ball by $B^{(i)}$ and the corresponding vertex in the graph $G$ by $v^{(i)}$. We will prove the theorem by proving two key facts.  
 
@@ -624,8 +624,9 @@ Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Pha
 
 \subsubsection{Lower bound under sparse noise}
 \label{section:lambdaLowerBoundSparse}
+We showed that for $\lambda \ge 4$ and $\eta \ge 1$, Alg. \ref{alg:lambdacs} outputs a clustering which captures all $(\lambda, \eta)$-separated clusterings of $\mc X$ (Theorem.~\ref{thm:lambdacsnoise}). In this section, we will show that if $\lambda < 4$ and $\eta \le 1$, then there is no tree (and hence no algorithm can output a tree) which captures all $(\lambda, \eta)$-proximal clusterings $\mc C$ (of subsets of $\mc X$) even for fixed values of the size of the smallest cluster $m(\mc C)$ and maximum radius $r(\mc C)$.
 
-To prove the lower bound we first construct a set $\mc X$ . We then construct sets $\mc S, \mc S' \subset \mc X$ which are $(\lambda, \eta)$-center $t$-min $r$-max proximal. We then show that these sets are `incompatible'. That is, there doesn't exist a  hierarchical clustering tree that can capture all the clusterings of these sets that satisfy $\lambda$-center proximity. The set $\mc X$ is described in Fig. \ref{fig:noalglambdacs}. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
+Fig. \ref{fig:noalglambdacs} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S' , \mc S'' \subset \mc X$. We show that these subsets are ``incompatible", i.e., there is no hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $(\lambda, \eta)$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{figure}
 \input{../figures/lambdaLBDFig1}
@@ -634,7 +635,7 @@ To prove the lower bound we first construct a set $\mc X$ . We then construct se
 \end{figure}
 
 \begin{theorem}
-Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 4$ and $\eta \le 1$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation w.r.t $\mc X, \mc S$ and $k$ such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ but,
+Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 4$ and $\eta \le 1$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$, but
 
 $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
@@ -646,7 +647,7 @@ Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(r) \thinspace\cup\t
 
 Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 4$, both $\mc S$ and $\mc S'$ are $(\lambda, 1)$-separated $t$-min $r$-max nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\lambda, 1)$-center proximity. 
 
-We will show that no algorithm can output a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}$ and $\mc C_{\mc X}|_{\mc S'} = \mc C_{\mc S'}$. For the sake of contradiction assume that this is indeed the case. There exists cluster $C_1' \in \mc C_{\mc X}$ such that such that $B_1' \subseteq C_1'$ and $C_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, there exists a cluster $C' \in \mc C_{\mc X}$ such that $C' \cap B_1 \neq \phi$ and $C' \cap B_2 \neq \phi$. This is a contradiction.
+We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ and $\mc C_{S'}$. The proof is identical to the proof of Thm. \ref{thm:noalgalphacp} and hence we omit it here.
 \end{proof}
 
 
