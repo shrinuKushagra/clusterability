@@ -67,7 +67,7 @@
  }
 
 
-\title[Sparse Noise]{Clustering under structureless noise}
+\title[Sparse Noise]{Finding meaningful cluster structure amidst background noise}
 \begin{document}
 
 \maketitle
@@ -265,12 +265,6 @@ In this section, we study the problem of recovering $(\alpha, \eta)$-center prox
 \subsection{Lower bound under arbitrary noise}
 \label{section:alphaLowerBoundArbitrary}
 
-\begin{figure}
-\input{../figures/lbdFig3}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-proximal clusterings. } 
-\label{fig:nosparsealg}
-\end{figure}
-
 Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
@@ -338,76 +332,10 @@ Given a clustering instance $(\mc X, d)$ and a parameter $t$. Alg. \ref{alg:alph
 If $t(\mc C_{\mc S}^*) = t$ then $\mc T$ captures $\mc C_{\mc S}$.
 \end{theorem}
 
-\begin{proof}
-Fix any $\mc S \subseteq \mc X$. Let $\mc C^*_S = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $t(\mc C_{\mc S}^*) = t$ and $\mc C^*_S$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(S_i^*)$. Throughout the proof, we will refer to $S_i^*$ as the ``good" clusters. Define $Y_B^{\mc C} := \{C_i \in \mc C : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. Note that whenever a ball $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated.
-%Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the clustering of $\mc X$ after $l$ merge steps have been performed (as defined in Alg.\ref{alg:alphacp}). Let $p, q \in \mc X$ be the pair of points being considered at the $(l+1)^{th}$ step. Let's denote $B = B(p, d(p, q))$. Note that whenever $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated. Throughout the proof, we will denote by $S_i^* \in \mc C^*_S$ the clusters of the set $\mc S$ (also called ``good" clusters) and by $C_i \in \mc C^{(l)}$ the clusters of the set $\mc X$ obtained after $l$ merge operations.
-
-\noindent We will prove the theorem by proving two key facts.
-
-\begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
-\renewcommand\labelitemi{$\diamond$}
-\item \label{fact:1} If the algorithm merges points from a good cluster $S_i^*$ with points from some other good cluster,  then at this step the distance being considered $d = d(p,q) > r_i$.	
-\item \label{fact:2} When the algorithm considers the distance $d = r_i$, it merges all points from $S_i^*$ (and possibly points from $\mc X\setminus \mc S$) into a single cluster $C_i$. Hence, there exists a node in the tree $N_i$ which contains all the points from $S_i^*$ and no points from any other good cluster $S_j^*$. 	
-\end{enumerate}
-Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.
-
-\noindent\textit{\underline{Proof of Fact \ref{fact:1}}}\\
-Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the first merge step which merges points from the good cluster $S_i^*$ with points from some other good cluster. Let $p, q \in \mc X$ be the pair of points being considered at this step and $B = B(p, d(p, q))$ the ball that satisfies the sparse distance condition at this merge step. Denote by $Y = Y_{B}^{C^{(l)}}$. We need to show that $d(p, q) > r_i$. To prove this, we need Claim \ref{claim:fromBothCluster} below. 
-\begin{claim}
-\label{claim:fromBothCluster}
-Let $p, q \in \mc X$ and $B$, $Y$, $S_i^*$ and $C^{(l)}$ be as defined above. If $d(p, q) \le r,$ then $B \cap S_i^* \neq \phi$ and there exists $n \neq i$ such that $B \cap S_n^* \neq \phi$.
-\end{claim}
-\vspace{-0.1in} Observe that $l+1$ is the first step which merges points from $S_i^*$ with some other good cluster. Hence, there exists a cluster $C_i \in Y$ such that $C_i\cap S_i^*  \neq \phi$ and for all $n \neq i$, $C_i \cap S_n^* = \phi$. Also, there exists cluster $C_j \in Y$ such that $C_j \cap S_j^* \neq \phi$ for some $S_j^*$ and $C_j \cap S_i^* = \phi$.
-
-$C_i \in Y$. Hence, $C_i \subseteq B$ or $|C_i \cap B| \ge t/2$. In the first case, if $C_i \subseteq B$ then $B \cap S_i* \neq \phi$ by set inclusion. In the second case assume that $|C_i \cap B| \ge t/2$. For the sake of contradiction, assume that $B$ contains no points from $S_i^*$. That is, $B \cap C_i \subseteq C_i \setminus S_i^* \subseteq \mc X \setminus \mc S$. This implies that $B \cap C_i \subseteq B \cap \{\mc X \setminus \mc S\}$. Hence, $|B\cap \{\mc X \setminus \mc S\}| \ge |B \cap C_i| \ge t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, $B \cap S_i^* \neq \phi$.
-
-$C_j \in Y$. Hence, $C_j \subseteq B$ or $|C_j \cap B| \ge t/2$. In the first case, if $C_j \subseteq B$ then $B \cap S_j^* \neq \phi$ by set inclusion. In the second case assume that $|C_j \cap B| \ge t/2$. For the sake of contradiction, assume that for all $n \neq i$, $B$ contains no points from $S_n^*$. That is, $B \cap C_j \subseteq C_j \setminus (\cup_{n \neq i} S_n^*) \subseteq \mc X \setminus \mc S$. This implies that $B \cap C_j \subseteq B \cap \{\mc X \setminus \mc S\}$. Hence, $|B\cap \{\mc X \setminus \mc S\}| \ge |B \cap C_j| \ge t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, there exists $S_n^* \neq S_i^*$ such that $B \cap S_n^* \neq \phi$.
-
-\begin{claim}
-\label{claim:maxrirj}
-Let the framework be as given in Claim \ref{claim:fromBothCluster}. Then, $d(p, q) > r_i$.
-\end{claim}
-
-\vspace{-0.1in} If $d(p, q) > r$, then the claim follows trivially. We assume that $d(p, q) \le r$. From claim \ref{claim:fromBothCluster}, $B$ contains $p_i \in S_i^*$ and $p_j \in S_j^*$. Let $r_i = d(c_i, q_i)$ for some $q_i \in S_i^*$.
-\begin{align*}
-d(c_i, q_i) &< \frac{1}{\alpha} d(q_i, c_j) \le \frac{1}{\alpha} \bigg[ d(p_j, c_j) + d(p_i, p_j) + d(p_i, q_i)\bigg] < \frac{1}{\alpha} \bigg[ \frac{1}{\alpha}d(p_j, c_i) + d(p_i, p_j) + 2d(c_i, q_i)\bigg]\\
-& < \frac{1}{\alpha} \bigg[ \frac{1}{\alpha}d(p_i, p_j) + \frac{1}{\alpha}d(c_i, q_i) + d(p_i, p_j) + 2d(c_i, q_i)\bigg]
-\end{align*}
-This implies that $(\alpha^2 - 2\alpha - 1)d(q_i, c_i) < (\alpha + 1) d(p_i, p_j)$. For $\alpha \ge 2 + \sqrt 7$, this implies that $d(c_i, q_i) < d(p_i, p_j)/2$. Now, using triangle inequality, we get that $d(c_i, q_i) < d(p_i, p_j)/2 \le \frac{1}{2}[d(p, p_i) + d(p, p_j)] < d(p, q)$.\\
-
-\noindent\textit{\underline{Proof of Fact \ref{fact:2}
-}}\\
-Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the merge step when $p = s_i$ and $q = q_i$ such that $d(s_i, q_i) = r_i$. We will prove that the ball $B = B(s_i, q_i)$ satisfies the sparse-distance condition. Hence, all the points from the good cluster $S_i^*$ will be merged together. Note that this step merges all the clusters in $Y = Y_B^{C^{(l)}}$. Hence to complete the proof, we also show that all the clusters in $Y$ don't intersect with any other good cluster $S_j^*$. We state this formally below and then prove it.
-
-\begin{claim}
-%\vspace{-0.1in}
-\label{claim:dciqi}
-Let $s_i$, $q_i$, $r_i$, $B$ and $Y$ be as defined above. Then, $B$ satisfies the sparse distance condition and for all $C \in Y$, for all $j \neq i, C \cap S_j^* = \phi$.
-\end{claim}
-
-\vspace{-0.1in} Denote by $B = B(s_i, q_i)$. $|B| = |S_i^*| \ge t$. Observe that, for all $C \in \mc C^{(l)}$, $|C| = 1$ or $|C| \ge t$. We need to prove two statements. If $C \cap B \neq \phi$, then $C \in Y$ and $C \cap S_j^* = \phi$. 
-
-\begin{itemize}[nolistsep]
-\item Case 1. $|C| = 1$. If $C \cap B \neq \phi \implies C \subseteq B = S_i^*$. Hence, $C \in Y$ and for all $j \neq i$, $C \cap S_j^* = \phi$
-
-\item Case 2. $|C|\ge t$. $C \cap B \neq \phi$. Let $h(C)$ denote the height of the cluster in the tree $T$. Now, we consider two subcases.
-\begin{itemize}
-\renewcommand\labelitemii{$\circ$}
-\item Case 2.1. $h(C) = 1$. In this case, there exists a ball $B'$ such that $B' = C$. We know that $r(B') \le r_i \le r$. Hence using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $B' \cap S_j^* = \phi$. Thus, $|B'\setminus S_i^*| \le t/2 \implies |B\cap C| = |C| - |C\setminus B| = |C| - |B'\setminus S_i^*| \ge t/2$. Hence, $C \in Y$.
-
-\item Case 2.2. $h(C) > 1$. Then there exists some $C'$ such that $h(C') = 1$ and $C' \subset C$. Now, using set inclusion and the result from the first case, we get that $|B\cap C| \ge |B\cap C'| \ge t/2$. Hence, $C \in Y$. Using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $C \cap S_j^* = \phi$.
-\end{itemize} 
-\end{itemize}
-\end{proof}
-
 \begin{theorem}
 \label{thm:algcptime}
 Given clustering instance $(\mc X, d)$ and $t$. Algorithm \ref{alg:alphacp} runs in time which is polynomial in $|\mc X|$.
 \end{theorem}
-
-\begin{proof}
-Let $n = |\mc X|$. Let $\mc C^{(l)} =\{C_1, \ldots, C_{k'}\}$ denote the current clustering of $\mc X$ as defined in Alg. \ref{alg:alphacp}. Observe that given the ball $B = B(p, d(p, q))$, for any cluster $C_i \in \mc C^{(l)}$, checking if $C_i \in Y_B^{C^{(l)}}$ takes time O($|C_i|$). Doing this for all clusters takes $O(n)$ time. The algorithm examines all the pairs of points and hence runs in $O(n^3)$ time.
-\end{proof}
 
 Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-proximal clusterings. We construct a set $\mc X$ (Fig. \ref{fig:algAlphacp}) and show that if $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ then Alg. \ref{alg:alphacp} can `split' some of the good cluster. The details and the proof can be found in Appendix \ref{appendix:sectiontr}.
  
@@ -417,12 +345,6 @@ Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which 
 \label{section:alphaLowerBoundSparse}
 
 We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal clusterings of $\mc X$ (Theorem.~\ref{thm:alphacpnoise}). In this section, we will show that if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$, then there is no tree (and hence no algorithm can output a tree) which captures all $(\alpha, \eta)$-proximal clusterings $\mc C$ (of subsets of $\mc X$) even for a fixed value of the size of the smallest cluster $m(\mc C)$.
-
-\begin{figure}
-\input{../figures/lbdFig2}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\alpha, \eta)$-proximal clusterings.}
-\label{fig:noalgalphacp}
-\end{figure}
 
 Fig. \ref{fig:noalgalphacp} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
 
@@ -443,17 +365,19 @@ The proof of this theorem can be found in the appendix.
 
 \section{Center Separation}
 \label{sec:cs}
- In this section, we study the limitations of any clustering algorithm that aims to output a tree representation of all possible {$\lambda$}-separated clusterings. We will also show that clustering in presence of noise is easier if we have unstructured sparse assumption (Def.~\ref{def:alphaeta}) on noise. This has been proved in Theorem.~ .
+ 
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
  \subsection{Center Separation without noise}
  \label{sec:cswithout}
-\todo\shrinu
+In this section, we study the problem of recovering $\lambda$-center separated clusterings of a set $\mc X$, in the absence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $\lambda$-center separated nice clusterings. In Section \ref{section:positiveNoNoiseLambda} we give an algorithm that generates a tree of all possible $\lambda$-center separated clusterings of $\mc X$for $\lambda > 3$. In Section \ref{section:lowerBdNoNoiseLambda}, we study the limitations of any efficient clustering algorithm which aims to output all $\lambda$-center separated clusterings of $\mc X$. We prove that it for $\lambda < 2$, it is NP-Hard to find any such clustering.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Positive result under no noise}
+\label{section:positiveNoNoiseLambda}
 Given a clustering instance $(\mc X, d)$, our goal is to output a hierarchical clustering tree $T$ of $\mc X$ which has the following property. For every $k$ and for every $k$-clustering $\mc C_{\mc X}$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree which equals $\mc C_{\mc X}$. 
 
 Our algorithm (Alg. \ref{alg:lambdacsNoNoise}) uses single-linkage to build a hierarchical clustering tree of $\mc X$. We will show that when $\lambda \ge 3$ our algorithm achieves the above mentioned goal. Before we prove the result, we need to introduce a bit of notation. Given $\mc X$ drawn from some metric space $(\mb M, d)$ and $A, B \subseteq \mc X$ we define $d_{min}(A, B) = \min \{d(a, b): a \in A$ and $b \in B\}$.
@@ -487,6 +411,7 @@ For every $1 \le i \le k$, there exists a node $N_i$ in the tree $T$ such that $
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Lower bound with no noise}
+\label{section:lowerBdNoNoiseLambda}
 We will prove that for $\lambda \le 2$, finding any solution for $\lambda$-center separation is NP-Hard. \cite{reyzin2012data} proved that finding any solution for $\alpha$-center proximity is NP-Hard for $\alpha < 2$. Our reduction is same as the reduction in \cite{reyzin2012data}. We state the proof below for completeness.
 
 \begin{theorem}
@@ -500,12 +425,7 @@ Given a clustering instance $\mc X$ drawn from a metric space $(\mb M, d)$ and t
 
 \subsection{Center Separation in the presence of noise}
 \label{sec:cswith}
-\samira\wip
-%
-%Similar to the framework in Section \ref{section:cp}, we do not work with any particular objective function. Given a set $\mc X$, we want to output a clustering $\mc C_{\mc X}$ of the set $\mc X$ which can capture  all clusterings of all the ``nice" subsets of $\mc X$. Nice subsets of $\mc X$ are those which satisfy $(\lambda, \eta)$-center $t$-min $r$-max proximity.
-%
-%
-%In this section, informally we try to address the following question. {\it Give that the non-noisy part of the data has $\lambda$-center separation, how much and what kind of noise can be tolerated by any hierarchical clustering algorithm?} We provide the following answers to this question.
+In this section, we study the problem of recovering $(\lambda, \eta)$-center separated clusterings of a set $\mc X$, in the presence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $(\lambda, \eta)$-center separated nice clusterings. In Section \ref{section:lambdaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\lambda$-center separated clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:lambdaPositiveResultSparseNoise} introduces an algorithm that generates a tree of all possible $(\lambda,\eta)$-center separated clusterings of $\mc X$, for introduced values of $\lambda$ and $\eta$. In Section \ref{section:lambdaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\lambda,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section:
 
 \begin{itemize}
 \item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that for a given value of parameters $r$ and $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\lambda \le 6$, then there is no tree which captures all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $\lambda$-center proximity even for fixed $m(\mc C) = t$ and $r(\mc C) = r$.
@@ -580,41 +500,14 @@ Given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. For every $
 
 Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$.
 \end{theorem}
-\begin{proof}
-Fix $\mc S \subseteq \mc X$. Let $\mc C_{\mc S}^* = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $m( \mc C_{S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$. Also, denote by $r_i := r(S_i^*)$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be the clustering outputed by the algorithm. Throughout the proof, we will sometimes refer to $S_i^*$ as the `good clusters' and the set $\mc S$ as the good set.
 
-Let $\mc L = \{B_1, \ldots, B_l\}$ be the list of balls as outputed by Phase 1 of Alg. \ref{alg:lambdacs}. Let $G$ be the graph as constructed in Phase 2 of the algorithm. First observe that $s_i \in \mc X$ and $r_i \le r$. Hence, $B = B(s_i, r_i) \in \mc L$ and $B = S_i^*$. WLOG, denote this ball by $B^{(i)}$ and the corresponding vertex in the graph $G$ by $v^{(i)}$. We will prove the theorem by proving two key facts.  
 
-\begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
-\renewcommand\labelitemi{$\diamond$}
-\item \label{fact:lambda1} If two balls $B_{i1}$ and $B_{i2}$ intersect the same good cluster $S_i^*$ then the corresponding vertices $v_{i1}$ and $v_{i2}$ are connected by a path in $G$.
-\item \label{fact:lambda2} If a ball $B_{i1}$ intersects a good cluster $S_i^*$ and another ball $B_{j1}$ intersects some other good cluster $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$.	
-\end{enumerate}
-Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.\\
-
-\noindent\textit{\underline{Proof of Fact \ref{fact:lambda1}}}
-\begin{claim}
-\label{claim:lambda1}
-Let $\mc L, G, B^{(i)}$ and $v^{(i)}$ be as defined above. Let balls $B_{i1}, B_{i2} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{i2} \cap S_i^* \neq \phi$. Then there exists a path between vertices $v_{i1}$ and $v_{i2}$ in the graph $G$.
-\end{claim}
-\vspace{-0.1in} For the sake of contradiction, assume that $v_{i1}$ and $v^{(i)}$ are not connected by an edge in $G$. Hence, $|B_{i1} \cap B^{(i)}| < t/2 \implies |B_{i1} \setminus B^{(i)}| \ge t/2$. Now, observe that since $\lambda > 4$, for all $j \neq i$, $B_{i1} \cap S_j^* = \phi$. Thus, $B_{i1} \setminus B^{(i)} \subseteq \mc X \setminus \mc S$. Hence, we get that $|B_{i1} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, $v_{i1}$ is connected to $v^{(i)}$ by an edge in $G$. By symmetry, there exists an edge between $v_{i2}$ and $v^{(i)}$. Thus, $v_{i1}$ and $v_{i2}$ are connected in $G$.\\
-
-\noindent\textit{\underline{Proof of Fact \ref{fact:lambda2}}}
-\begin{claim}
-Let the framework be as in Claim \ref{claim:lambda1}. Let $B_{i1} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{j1}$ be such that $B_{j1} \cap S_j^* \neq \phi$. Then the vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
-\end{claim}
-\vspace{-0.1in} Now, we will show that if a ball $B_{i1}$ intersects $S_i^*$ and $B_{j1}$ intersects $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$. For the sake of contradiction, assume that $v_{i1}$ and $v_{j1}$ are connected by a path in $G$. Hence, there exists vertices $v_{i}$ and $v_{n}$ such that $v_i$ and $v_n$ are connected by an edge in $G$ and $B_i \cap S_i^* \neq \phi$ and $B_n \cap S_n^* \neq \phi$ for some $n \neq i$. $v_i$ and $v_n$ are connected, hence $|B_i \cap B_n| \ge t/2$. Now, $\lambda \ge 4$, thus $B_i \cap \{\mc S \setminus S_i^*\} = \phi$ and $B_n \cap \{\mc S\setminus S_n^*\} = \phi$. Thus, $B_i \cap B_n \subseteq \mc X \setminus \mc S$. Thus $|B_{i} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, we get that $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
-\end{proof}
 
 
 \begin{theorem}
+\label{thm:alglambdacstime}
 Given clustering instance $(\mc X, d)$ and parameters $r$ and $t$. Algorithm \ref{alg:lambdacs} runs in time which is polynomial in $|\mc X|$.
 \end{theorem}
-
-\begin{proof}
-Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaining steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
-\end{proof}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -663,11 +556,83 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, 
 For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
 \end{proof}
 
+
+
+\begin{proof}\textbf{ of Thm. \ref{thm:alphacpnoise}}
+
+Fix any $\mc S \subseteq \mc X$. Let $\mc C^*_S = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $t(\mc C_{\mc S}^*) = t$ and $\mc C^*_S$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(S_i^*)$. Throughout the proof, we will refer to $S_i^*$ as the ``good" clusters. Define $Y_B^{\mc C} := \{C_i \in \mc C : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. Note that whenever a ball $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated.
+%Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the clustering of $\mc X$ after $l$ merge steps have been performed (as defined in Alg.\ref{alg:alphacp}). Let $p, q \in \mc X$ be the pair of points being considered at the $(l+1)^{th}$ step. Let's denote $B = B(p, d(p, q))$. Note that whenever $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated. Throughout the proof, we will denote by $S_i^* \in \mc C^*_S$ the clusters of the set $\mc S$ (also called ``good" clusters) and by $C_i \in \mc C^{(l)}$ the clusters of the set $\mc X$ obtained after $l$ merge operations.
+
+\noindent We will prove the theorem by proving two key facts.
+
+\begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
+\renewcommand\labelitemi{$\diamond$}
+\item \label{fact:1} If the algorithm merges points from a good cluster $S_i^*$ with points from some other good cluster,  then at this step the distance being considered $d = d(p,q) > r_i$.	
+\item \label{fact:2} When the algorithm considers the distance $d = r_i$, it merges all points from $S_i^*$ (and possibly points from $\mc X\setminus \mc S$) into a single cluster $C_i$. Hence, there exists a node in the tree $N_i$ which contains all the points from $S_i^*$ and no points from any other good cluster $S_j^*$. 	
+\end{enumerate}
+Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.
+
+\noindent\textit{\underline{Proof of Fact \ref{fact:1}}}\\
+Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the first merge step which merges points from the good cluster $S_i^*$ with points from some other good cluster. Let $p, q \in \mc X$ be the pair of points being considered at this step and $B = B(p, d(p, q))$ the ball that satisfies the sparse distance condition at this merge step. Denote by $Y = Y_{B}^{C^{(l)}}$. We need to show that $d(p, q) > r_i$. To prove this, we need Claim \ref{claim:fromBothCluster} below. 
+\begin{claim}
+\label{claim:fromBothCluster}
+Let $p, q \in \mc X$ and $B$, $Y$, $S_i^*$ and $C^{(l)}$ be as defined above. If $d(p, q) \le r,$ then $B \cap S_i^* \neq \phi$ and there exists $n \neq i$ such that $B \cap S_n^* \neq \phi$.
+\end{claim}
+\vspace{-0.1in} Observe that $l+1$ is the first step which merges points from $S_i^*$ with some other good cluster. Hence, there exists a cluster $C_i \in Y$ such that $C_i\cap S_i^*  \neq \phi$ and for all $n \neq i$, $C_i \cap S_n^* = \phi$. Also, there exists cluster $C_j \in Y$ such that $C_j \cap S_j^* \neq \phi$ for some $S_j^*$ and $C_j \cap S_i^* = \phi$.
+
+$C_i \in Y$. Hence, $C_i \subseteq B$ or $|C_i \cap B| \ge t/2$. In the first case, if $C_i \subseteq B$ then $B \cap S_i* \neq \phi$ by set inclusion. In the second case assume that $|C_i \cap B| \ge t/2$. For the sake of contradiction, assume that $B$ contains no points from $S_i^*$. That is, $B \cap C_i \subseteq C_i \setminus S_i^* \subseteq \mc X \setminus \mc S$. This implies that $B \cap C_i \subseteq B \cap \{\mc X \setminus \mc S\}$. Hence, $|B\cap \{\mc X \setminus \mc S\}| \ge |B \cap C_i| \ge t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, $B \cap S_i^* \neq \phi$.
+
+$C_j \in Y$. Hence, $C_j \subseteq B$ or $|C_j \cap B| \ge t/2$. In the first case, if $C_j \subseteq B$ then $B \cap S_j^* \neq \phi$ by set inclusion. In the second case assume that $|C_j \cap B| \ge t/2$. For the sake of contradiction, assume that for all $n \neq i$, $B$ contains no points from $S_n^*$. That is, $B \cap C_j \subseteq C_j \setminus (\cup_{n \neq i} S_n^*) \subseteq \mc X \setminus \mc S$. This implies that $B \cap C_j \subseteq B \cap \{\mc X \setminus \mc S\}$. Hence, $|B\cap \{\mc X \setminus \mc S\}| \ge |B \cap C_j| \ge t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, there exists $S_n^* \neq S_i^*$ such that $B \cap S_n^* \neq \phi$.
+
+\begin{claim}
+\label{claim:maxrirj}
+Let the framework be as given in Claim \ref{claim:fromBothCluster}. Then, $d(p, q) > r_i$.
+\end{claim}
+
+\vspace{-0.1in} If $d(p, q) > r$, then the claim follows trivially. We assume that $d(p, q) \le r$. From claim \ref{claim:fromBothCluster}, $B$ contains $p_i \in S_i^*$ and $p_j \in S_j^*$. Let $r_i = d(c_i, q_i)$ for some $q_i \in S_i^*$.
+\begin{align*}
+d(c_i, q_i) &< \frac{1}{\alpha} d(q_i, c_j) \le \frac{1}{\alpha} \bigg[ d(p_j, c_j) + d(p_i, p_j) + d(p_i, q_i)\bigg] < \frac{1}{\alpha} \bigg[ \frac{1}{\alpha}d(p_j, c_i) + d(p_i, p_j) + 2d(c_i, q_i)\bigg]\\
+& < \frac{1}{\alpha} \bigg[ \frac{1}{\alpha}d(p_i, p_j) + \frac{1}{\alpha}d(c_i, q_i) + d(p_i, p_j) + 2d(c_i, q_i)\bigg]
+\end{align*}
+This implies that $(\alpha^2 - 2\alpha - 1)d(q_i, c_i) < (\alpha + 1) d(p_i, p_j)$. For $\alpha \ge 2 + \sqrt 7$, this implies that $d(c_i, q_i) < d(p_i, p_j)/2$. Now, using triangle inequality, we get that $d(c_i, q_i) < d(p_i, p_j)/2 \le \frac{1}{2}[d(p, p_i) + d(p, p_j)] < d(p, q)$.\\
+
+\noindent\textit{\underline{Proof of Fact \ref{fact:2}
+}}\\
+Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the merge step when $p = s_i$ and $q = q_i$ such that $d(s_i, q_i) = r_i$. We will prove that the ball $B = B(s_i, q_i)$ satisfies the sparse-distance condition. Hence, all the points from the good cluster $S_i^*$ will be merged together. Note that this step merges all the clusters in $Y = Y_B^{C^{(l)}}$. Hence to complete the proof, we also show that all the clusters in $Y$ don't intersect with any other good cluster $S_j^*$. We state this formally below and then prove it.
+
+\begin{claim}
+%\vspace{-0.1in}
+\label{claim:dciqi}
+Let $s_i$, $q_i$, $r_i$, $B$ and $Y$ be as defined above. Then, $B$ satisfies the sparse distance condition and for all $C \in Y$, for all $j \neq i, C \cap S_j^* = \phi$.
+\end{claim}
+
+\vspace{-0.1in} Denote by $B = B(s_i, q_i)$. $|B| = |S_i^*| \ge t$. Observe that, for all $C \in \mc C^{(l)}$, $|C| = 1$ or $|C| \ge t$. We need to prove two statements. If $C \cap B \neq \phi$, then $C \in Y$ and $C \cap S_j^* = \phi$. 
+
+\begin{itemize}[nolistsep]
+\item Case 1. $|C| = 1$. If $C \cap B \neq \phi \implies C \subseteq B = S_i^*$. Hence, $C \in Y$ and for all $j \neq i$, $C \cap S_j^* = \phi$
+
+\item Case 2. $|C|\ge t$. $C \cap B \neq \phi$. Let $h(C)$ denote the height of the cluster in the tree $T$. Now, we consider two subcases.
+\begin{itemize}
+\renewcommand\labelitemii{$\circ$}
+\item Case 2.1. $h(C) = 1$. In this case, there exists a ball $B'$ such that $B' = C$. We know that $r(B') \le r_i \le r$. Hence using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $B' \cap S_j^* = \phi$. Thus, $|B'\setminus S_i^*| \le t/2 \implies |B\cap C| = |C| - |C\setminus B| = |C| - |B'\setminus S_i^*| \ge t/2$. Hence, $C \in Y$.
+
+\item Case 2.2. $h(C) > 1$. Then there exists some $C'$ such that $h(C') = 1$ and $C' \subset C$. Now, using set inclusion and the result from the first case, we get that $|B\cap C| \ge |B\cap C'| \ge t/2$. Hence, $C \in Y$. Using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $C \cap S_j^* = \phi$.
+\end{itemize} 
+\end{itemize}
+\end{proof}
+
 \begin{figure}
-\input{../figures/lbdFig1}
-\caption{$\mc X \subseteq \mathbb{R}$ such that Alg. \ref{alg:alphacp} doesn't capture all the $(\alpha, \eta)$-center $t$-min proximal subsets of $\mc X$.}
-\label{fig:algAlphacp}
+\input{../figures/lbdFig3}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-proximal clusterings. } 
+\label{fig:nosparsealg}
 \end{figure}
+
+
+\begin{proof}\textbf{ of Thm. \ref{thm:algcptime}}
+
+Let $n = |\mc X|$. Let $\mc C^{(l)} =\{C_1, \ldots, C_{k'}\}$ denote the current clustering of $\mc X$ as defined in Alg. \ref{alg:alphacp}. Observe that given the ball $B = B(p, d(p, q))$, for any cluster $C_i \in \mc C^{(l)}$, checking if $C_i \in Y_B^{C^{(l)}}$ takes time O($|C_i|$). Doing this for all clusters takes $O(n)$ time. The algorithm examines all the pairs of points and hence runs in $O(n^3)$ time.
+\end{proof}
+
 
 \begin{theorem}
 \label{thm:algAlphacp}
@@ -686,6 +651,11 @@ Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha+1) \thinspace
 Denote by $B_{12} = \{P_{t'}(2\alpha) \cup P_{2}(3\alpha+1) \cup P_{t'}(4\alpha+2) \}$. Alg. \ref{alg:alphacp}, iterates through pairs of points in increasing order of their distance. Hence, it first merges points in $B_3$ to $B_k$ into $k-2$ clusters. Now, observe that $B_1, B_{12}$ and $B_{2}$ have the radius $\alpha + 1$ (as our centers must be part of the dataset $\mc X$). Hence, the algorithm can choose to merge points in $B_{12}$ into the same cluster before merging points from $B_1$ and $B_2$ together. In this case, there exists no pruning of the tree which respects the clustering $\mc C_{\mc S}$.
 \end{proof}
 
+\begin{figure}
+\input{../figures/lbdFig1}
+\caption{$\mc X \subseteq \mathbb{R}$ such that Alg. \ref{alg:alphacp} doesn't capture all the $(\alpha, \eta)$-center $t$-min proximal subsets of $\mc X$.}
+\label{fig:algAlphacp}
+\end{figure}
 
 \begin{proof}\textbf{ of Thm. \ref{thm:noalgalphacp}}
 
@@ -697,6 +667,12 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ a
 
 For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
 \end{proof}
+
+\begin{figure}
+\input{../figures/lbdFig2}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\alpha, \eta)$-proximal clusterings.}
+\label{fig:noalgalphacp}
+\end{figure}
 
 \begin{proof}\textbf{ of Thm. \ref{thm:lambdaNoNoisePositive}}
 
@@ -721,6 +697,12 @@ $\Leftarrow$  Let $c_1, \ldots, c_k \in \mc X$ be the centers such that the corr
 $\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l < k$, we can add $k-l$ vertices to $D$ and they still form a dominating set. Hence, WLOG we can assume that $l = k$. Now, let $c_1, \ldots, c_k \in \mc X$ be the points corresponding to the vertices in $D$. Let $\mc C = \{C_1, \ldots, C_k\}$ be the clustering induced by $c_1, \ldots, c_k$. Since $|D| \le k$, we know that $D$ is perfect. Hence, $(d_i, d_j) \not\in E$. Hence, $d(c_i, c_j) = 2$. Now, let $v$ be any vertex which is dominated by $d_i$ and $x$ be the corresponding point in $\mc X$. Then, $d(x, c_i) = 1$. Hence, we get that $d(c_i, c_j) = 2 \max_p r(C_p)$. Hence, clustering $\mc C$ satisfies $\lambda$-center separation for $\lambda < 2$.
 \end{proof}
 
+\begin{figure}
+\input{../figures/lambdaLBDFig2}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\lambda$-separated $t$-min $r$-max nice subsets of $\mc X$}
+\label{fig:nosparsealglambdacs}
+\end{figure}
+
 \begin{proof}\textbf{ of Thm. \ref{thm:nosparselambdaalg}}
 
 Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \cup_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(22r+ir)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealglambdacs}.
@@ -731,6 +713,38 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, 
 
 We will show that no algorithm can output a tree which captures $\mc C_{\mc S}, \mc C_{\mc S'}$ and $\mc C_{S''}$. The proof is identical to the proof of Thm. \ref{thm:nosparsealg} and hence we omit it here.
 \end{proof}
+
+\begin{proof}\textbf{ of Thm. \ref{thm:lambdacsnoise}}
+Fix $\mc S \subseteq \mc X$. Let $\mc C_{\mc S}^* = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $m( \mc C_{S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$. Also, denote by $r_i := r(S_i^*)$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be the clustering outputed by the algorithm. Throughout the proof, we will sometimes refer to $S_i^*$ as the `good clusters' and the set $\mc S$ as the good set.
+
+Let $\mc L = \{B_1, \ldots, B_l\}$ be the list of balls as outputed by Phase 1 of Alg. \ref{alg:lambdacs}. Let $G$ be the graph as constructed in Phase 2 of the algorithm. First observe that $s_i \in \mc X$ and $r_i \le r$. Hence, $B = B(s_i, r_i) \in \mc L$ and $B = S_i^*$. WLOG, denote this ball by $B^{(i)}$ and the corresponding vertex in the graph $G$ by $v^{(i)}$. We will prove the theorem by proving two key facts.  
+
+\begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
+\renewcommand\labelitemi{$\diamond$}
+\item \label{fact:lambda1} If two balls $B_{i1}$ and $B_{i2}$ intersect the same good cluster $S_i^*$ then the corresponding vertices $v_{i1}$ and $v_{i2}$ are connected by a path in $G$.
+\item \label{fact:lambda2} If a ball $B_{i1}$ intersects a good cluster $S_i^*$ and another ball $B_{j1}$ intersects some other good cluster $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$.	
+\end{enumerate}
+Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.\\
+
+\noindent\textit{\underline{Proof of Fact \ref{fact:lambda1}}}
+\begin{claim}
+\label{claim:lambda1}
+Let $\mc L, G, B^{(i)}$ and $v^{(i)}$ be as defined above. Let balls $B_{i1}, B_{i2} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{i2} \cap S_i^* \neq \phi$. Then there exists a path between vertices $v_{i1}$ and $v_{i2}$ in the graph $G$.
+\end{claim}
+\vspace{-0.1in} For the sake of contradiction, assume that $v_{i1}$ and $v^{(i)}$ are not connected by an edge in $G$. Hence, $|B_{i1} \cap B^{(i)}| < t/2 \implies |B_{i1} \setminus B^{(i)}| \ge t/2$. Now, observe that since $\lambda > 4$, for all $j \neq i$, $B_{i1} \cap S_j^* = \phi$. Thus, $B_{i1} \setminus B^{(i)} \subseteq \mc X \setminus \mc S$. Hence, we get that $|B_{i1} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, $v_{i1}$ is connected to $v^{(i)}$ by an edge in $G$. By symmetry, there exists an edge between $v_{i2}$ and $v^{(i)}$. Thus, $v_{i1}$ and $v_{i2}$ are connected in $G$.\\
+
+\noindent\textit{\underline{Proof of Fact \ref{fact:lambda2}}}
+\begin{claim}
+Let the framework be as in Claim \ref{claim:lambda1}. Let $B_{i1} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{j1}$ be such that $B_{j1} \cap S_j^* \neq \phi$. Then the vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
+\end{claim}
+\vspace{-0.1in} Now, we will show that if a ball $B_{i1}$ intersects $S_i^*$ and $B_{j1}$ intersects $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$. For the sake of contradiction, assume that $v_{i1}$ and $v_{j1}$ are connected by a path in $G$. Hence, there exists vertices $v_{i}$ and $v_{n}$ such that $v_i$ and $v_n$ are connected by an edge in $G$ and $B_i \cap S_i^* \neq \phi$ and $B_n \cap S_n^* \neq \phi$ for some $n \neq i$. $v_i$ and $v_n$ are connected, hence $|B_i \cap B_n| \ge t/2$. Now, $\lambda \ge 4$, thus $B_i \cap \{\mc S \setminus S_i^*\} = \phi$ and $B_n \cap \{\mc S\setminus S_n^*\} = \phi$. Thus, $B_i \cap B_n \subseteq \mc X \setminus \mc S$. Thus $|B_{i} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, we get that $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
+\end{proof}
+
+
+\begin{proof}\textbf{ of Thm. \ref{thm:alglambdacstime}}
+Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaining steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
+\end{proof}
+
 
 
 \begin{proof}\textbf{ of Thm. \ref{thm:noalglambdacs}}
@@ -749,9 +763,5 @@ We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ 
 \label{fig:noalglambdacs}
 \end{figure}
 
-\begin{figure}
-\input{../figures/lambdaLBDFig2}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\lambda$-separated $t$-min $r$-max nice subsets of $\mc X$}
-\label{fig:nosparsealglambdacs}
-\end{figure}
+
 \end{document}
