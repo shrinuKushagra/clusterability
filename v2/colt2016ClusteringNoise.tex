@@ -126,7 +126,6 @@ In a different line of work, \cite{ben2014clustering} studied the problem of rob
 Given such an input, they propose a paradigm which converts any center-based clustering algorithm into a clustering algorithm which is robust to small amount of noise.
 Although this framework works for any objective-based clustering algorithm, it requires a strong restriction on the noise and clusterability of the data. For example, when the size of the noise is $\frac{5}{100}|\mc X|$, their algorithm is able to obtain a robustified version of $2$-median, only if $\mc X$ is covered by $k$ unit balls which are separated with distance $10$. 
 
-
 In this work, we consider a natural relaxation of \cite{balcan2012clustering, ben2014clustering}, with the goal to capture more realistic domains containing arbitrary amount of noise, assuming that noise is \emph{structureless} (in a precise sense defined below). 
 
 We define a novel notion of ``gray background" noise. Informally, we call noise {\em structureless} if it does not have similar structure to a {\em nice} cluster at any part of the domain. Under that definition (look at Def.~\ref{def:alphaeta}), our positive, efficient clustering results, do not depend on any restriction on the size of the noise.
@@ -304,13 +303,13 @@ Given clustering instance $(\mc X, d)$ and $t$. Algorithm \ref{alg:alphacp} runs
 	The proof of this theorem can be found in the appendix.
 \end{proof}
 
-Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-proximal clusterings. We construct a set $\mc X$ (Fig. \ref{fig:algAlphacp}) and show that if $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ then Alg. \ref{alg:alphacp} can `split' some of the good cluster. The details and the proof can be found in Appendix \ref{appendix:sectiontr}.
+%We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal clusterings. As a small note, we show that if $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ then Alg. \ref{alg:alphacp} can `split' some of the good cluster. The details (Thm. \ref{})and the proof can be found in Appendix \ref{appendix:sectiontr}.
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Lower bound under arbitrary noise}
 \label{section:alphaLowerBoundArbitrary}
 
-Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
+Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity for $\alpha < 2\sqrt{2} + 3$. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
 \label{thm:nosparsealg}
@@ -415,7 +414,7 @@ The proof of this theorem can be found in the appendix.
 
 \subsection{Center Separation in the presence of noise}
 \label{sec:cswith}
-In this section, we study the problem of recovering $(\lambda, \eta)$-center separated clusterings of a set $\mc X$, in the presence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $(\lambda, \eta)$-center separated nice clusterings. In Section \ref{section:lambdaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\lambda$-center separated clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:lambdaPositiveResultSparseNoise} introduces an algorithm that generates a tree of all possible $(\lambda,\eta)$-center separated clusterings of $\mc X$, for introduced values of $\lambda$ and $\eta$. In Section \ref{section:lambdaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\lambda,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section:
+In this section, we study the problem of recovering $(\lambda, \eta)$-center separated clusterings of a set $\mc X$, in the presence of noise. In Section \ref{section:lambdaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\lambda$-center separated clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:lambdaPositiveResultSparseNoise} introduces an algorithm that outputs a clustering which respects all $(\lambda,\eta)$-center separated clusterings of $\mc X$, for introduced values of $\lambda$ and $\eta$. In Section \ref{section:lambdaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\lambda,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section:
 
 \begin{itemize}
 \item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that for a given value of parameters $r$ and $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\lambda \le 6$, then there is no tree which captures all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $\lambda$-center proximity even for fixed $m(\mc C) = t$ and $r(\mc C) = r$.
@@ -627,7 +626,7 @@ Let $n = |\mc X|$. Let $\mc C^{(l)} =\{C_1, \ldots, C_{k'}\}$ denote the current
 
 \begin{theorem}
 \label{thm:algAlphacp}
-Given the number of clusters $k$ and parameters $\alpha$, $\eta$, $t$ and $r$. There exists a clustering instance $(\mc X, d)$ such that Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ and the following holds. 
+Given the number of clusters $k$ and parameters $\alpha$, $\eta$ and $t$. There exists a clustering instance $(\mc X, d)$ such that Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ and the following holds. 
 
 If $\alpha < 2 + \sqrt 5$ and $\eta \le 1$ and then $T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
