@@ -137,39 +137,43 @@ We complement our algorithmic results by proving that under more relaxed conditi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Main Results}
-Here is a brief overview of the structure and main results of this paper.
-\vspace{-0.1in}\begin{enumerate}
-\setlength\itemsep{0em}
-\item[\ref{sec:intro}] Introduction
-\item[\ref{sec:Notation}] Notations and definition
-\item[\ref{section:cp}] $\alpha$-center proximity	\vspace{-0.1in}
-	\begin{enumerate}[leftmargin=32pt]
-	\renewcommand{\labelenumii}{\theenumii}
-	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
-	\setlength\itemsep{0em}
-	\item[\ref{section:alphaLowerBoundArbitrary}] Assuming arbitrary noise: lower Bound $\alpha \le 2\sqrt{2} + 3$ $(\approx 5.8)$
-	\item[\ref{section:positiveResultSparseNoise}] Assuming sparse noise: Positive result for $\alpha \ge 2+\sqrt{7}$ $(\approx 4.6)$
-	\item[\ref{section:alphaLowerBoundSparse}] Assuming sparse noise: lower bound $\alpha \le 2+\sqrt{3}$ $(\approx 3.7)$
-	\end{enumerate}
-\item[\ref{sec:cs}] $\lambda$-center separation \vspace{-0.1in}
-	\begin{enumerate}[leftmargin=32pt]
-	\renewcommand{\labelenumii}{\theenumii}
-	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
-	\setlength\itemsep{0em}
-	\item[\ref{sec:cswithout}] Center Separation without noise
-	\begin{itemize}
-	\item Positive result for $\lambda \ge 3$ with no noise.
-	\item NP-Hard for $\lambda \le 2$ with no noise.
-	\end{itemize}
-	\item[\ref{sec:cswith}] Center Separation in the presence of noise \begin{itemize}
-	\item Lower Bound ($\lambda \le 6$) under arbitrary noise.
-	\item Positive result for $\lambda \ge 4$ under sparse noise.
-	\item Lower bound ($\lambda < 4$) under sparse noise.
-	\end{itemize}
-	\end{enumerate}
-\item[\ref{sec:conc}] Conclusion
-\end{enumerate}
+\subsection{Outline}
+The rest of this paper is structured as follows. In Section \ref{sec:Notation}, we present notation and formal definitions which are necessary to explain our results. in Section \ref{section:cp}, we consider a set $\mc X$ that contains a clustering which satisfies $(\alpha,\eta)$-center proximity and propose an efficient algorithm which recovers all the underlying clusterings of $\mc X$ which satisfies $(\alpha,\eta)$-center proximity; in the presence of structureless noise. Furthermore, we prove that any relaxation of our assumption on noise, or values of $(\alpha,\eta)$ will not be possible.
+Section \ref{sec:cs} has a similar structure with focus on the input sets with underlying $\lambda$-center separated clusterings
+
+% we present our main positive and negative result for recovering all $\alpha$-center proximal clusterings of a set which contains either arbitrary or structureless noise. 
+ 
+%\vspace{-0.1in}\begin{enumerate}
+%\setlength\itemsep{0em}
+%\item[\ref{sec:intro}] Introduction
+%\item[\ref{sec:Notation}] Notations and definition
+%\item[\ref{section:cp}] $\alpha$-center proximity	\vspace{-0.1in}
+%	\begin{enumerate}[leftmargin=32pt]
+%	\renewcommand{\labelenumii}{\theenumii}
+%	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+%	\setlength\itemsep{0em}
+%	\item[\ref{section:alphaLowerBoundArbitrary}] Assuming arbitrary noise: lower Bound $\alpha \le 2\sqrt{2} + 3$ $(\approx 5.8)$
+%	\item[\ref{section:positiveResultSparseNoise}] Assuming sparse noise: Positive result for $\alpha \ge 2+\sqrt{7}$ $(\approx 4.6)$
+%	\item[\ref{section:alphaLowerBoundSparse}] Assuming sparse noise: lower bound $\alpha \le 2+\sqrt{3}$ $(\approx 3.7)$
+%	\end{enumerate}
+%\item[\ref{sec:cs}] $\lambda$-center separation \vspace{-0.1in}
+%	\begin{enumerate}[leftmargin=32pt]
+%	\renewcommand{\labelenumii}{\theenumii}
+%	\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+%	\setlength\itemsep{0em}
+%	\item[\ref{sec:cswithout}] Center Separation without noise
+%	\begin{itemize}
+%	\item Positive result for $\lambda \ge 3$ with no noise.
+%	\item NP-Hard for $\lambda \le 2$ with no noise.
+%	\end{itemize}
+%	\item[\ref{sec:cswith}] Center Separation in the presence of noise \begin{itemize}
+%	\item Lower Bound ($\lambda \le 6$) under arbitrary noise.
+%	\item Positive result for $\lambda \ge 4$ under sparse noise.
+%	\item Lower bound ($\lambda < 4$) under sparse noise.
+%	\end{itemize}
+%	\end{enumerate}
+%\item[\ref{sec:conc}] Conclusion
+%\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Notation and definition}
@@ -256,7 +260,7 @@ We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c
 In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings. In Section \ref{section:alphaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\alpha$-center proximal clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:positiveResultSparseNoise} introduces an algorithm that generates a tree of all possible $(\alpha,\eta)$-center proximal clusterings of $\mc X$, for introduced values of $\alpha$ and $\eta$. In Section \ref{section:alphaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\alpha,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section: 
 
 \begin{itemize}
-\item {\it Lower bound with arbitrary noise}[Section \ref{section:alphaLowerBoundArbitrary}] We show that for a given value of a parameter $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$, then there is no tree which captures all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $\alpha$-center proximity even for $m(\mc C) = t$.
+\item {\it Lower bound with arbitrary noise}In Section \ref{section:alphaLowerBoundArbitrary}, we show that for a given value of a parameter $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$, then there is no tree which captures all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $\alpha$-center proximity even for $m(\mc C) = t$.
 \item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$; for any value of $t$, Alg.\ref{alg:alphacp} outputs a tree which captures all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfies $(\alpha, \eta)$-center proximity and $m(C^*)=t$.
 \item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that, if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$ then there is no tree which can capture all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity even for a fixed value of the size of the smallest cluster $(m(C) = t)$.
 \end{itemize} 
@@ -372,8 +376,8 @@ The proof of this theorem can be found in the appendix.
  
  \subsection{Center Separation without noise}
  \label{sec:cswithout}
-In this section, we study the problem of recovering $\lambda$-center separated clusterings of a set $\mc X$, in the absence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $\lambda$-center separated nice clusterings. In Section \ref{section:positiveNoNoiseLambda} we give an algorithm that generates a tree of all possible $\lambda$-center separated clusterings of $\mc X$for $\lambda > 3$. In Section \ref{section:lowerBdNoNoiseLambda}, we study the limitations of any efficient clustering algorithm which aims to output all $\lambda$-center separated clusterings of $\mc X$. We prove that it for $\lambda < 2$, it is NP-Hard to find any such clustering.
 
+In this section, we study the problem of recovering $\lambda$-center separated clusterings of a set $\mc X$, in the absence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $\lambda$-center separated nice clusterings. In Section \ref{section:positiveNoNoiseLambda} we give an algorithm that generates a tree of all possible $\lambda$-center separated clusterings of $\mc X$for $\lambda > 3$. In Section \ref{section:lowerBdNoNoiseLambda}, we study the limitations of any efficient clustering algorithm which aims to output all $\lambda$-center separated clusterings of $\mc X$. We prove that it for $\lambda < 2$, it is NP-Hard to find any such clustering.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -533,8 +537,8 @@ The proof of this theorem can be found in the appendix.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusion}
-\label{sec:conc}
+%\section{Conclusion}
+%\label{sec:conc}
 
 
 
