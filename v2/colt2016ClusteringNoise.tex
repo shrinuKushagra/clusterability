@@ -174,14 +174,14 @@ Here is a brief overview of the structure and main results of this paper.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Notation and definition}
 \label{sec:Notation}
-We are given a data set $\mc X$ drawn from some metric space $(\mb M, d)$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the {\it steiner} setting, the centers can be arbitrary points of the metric space $\mb M$. In the {\it proper} setting, we restrict our centers to be a part of the data set $\mc X$. In this paper, we will be working in the {\bf proper} setting.
+Let $(\mb M, d)$ be a metric space. Given a data set $\mc X \subseteq \mc M$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) such that each $x \in \mc X$ is assigned to its nearest center. In the {\it steiner} setting, the centers can be arbitrary points of the metric space $\mb M$. In the {\it proper} setting, we restrict our centers to be a part of the data set $\mc X$. In this paper, we will be working in the {\bf proper} setting.
 
-For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc A$ as $r(\mc A) = \max_{x \in \mc A} d(x, c)$. We will use the notation $\mc C_{\mc A}$ to denote the clustering of a set $\mc A$. 
+For any set $\mc A\subseteq \mc X$ with centre $c\in \mb M$, we define the radius of $\mc A$ as $r_c(\mc A) = \max_{x \in \mc A} d(x, c)$. Throughout, we will use the notation $\mc C_{\mc X}$ to denote the clustering of the set $\mc X$ and $\mc C_{\mc S}$ to denote the clustering of some $\mc S\subseteq \mc X$. 
 
 \vspace{-0.13in}\begin{definition}[$r(\mc C_{\mc X})$ , $m(\mc C_{\mc X})$] Given a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of the set $\mc X$ induced by centers $c_1, \ldots, c_k \in \mb M$. 
 \begin{itemize}[nolistsep, noitemsep]
 \item $m(\mc{C}_{\mc{X}}) = \min_i |C_i|$
-\item $r(\mc{C}_{\mc{X}}) = \max_i r(C_i)$
+\item $r(\mc{C}_{\mc{X}}) = \max_i \thinspace r_{c_i}(C_i)$
 \end{itemize}
 \end{definition}
 
@@ -198,13 +198,14 @@ For any set $\mc A\subseteq \mc X$ with centre $c$, we define the radius of $\mc
 
 \begin{definition}[$\alpha$-center proximity]
 \label{defn:alphacp}
-Given a clustering instance $\mc X$ drawn from metric space $(\mb M, d)$ and an integer $k$. A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if there exist centers $c_1, \ldots, c_k \in \mb M$  such that the following holds. For all $x \in C_i$ and $i\neq j$, 
+%Given a clustering instance $\mc X$ drawn from metric space $(\mb M, d)$ and an integer $k$. 
+A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if there exist centers $c_1, \ldots, c_k \in \mb M$  such that the following holds. For all $x \in C_i$ and $i\neq j$, 
 \vspace{-0.05in}\begin{align*}
 \alpha d(x, c_i) < d(x, c_j)
 \end{align*} 
 \end{definition}
 
-In the next definition, we formally define our notion of structureless noise. Roughly stated, Def.~\ref{def:alphaeta} states that noise should be scattered sparsely among the data and should not have similar structure to a cluster, at any part of the domain. This will not force any restriction on the size of the noise but rather on the structure of it.
+In the next definition, we formally define our notion of structureless noise. Roughly stated, Def.~\ref{def:alphaeta} states that noise should be scattered sparsely, namely, there should be no significant amount of noise in any small enough ball. Note that such a restriction does not impose any upper bound on the noise size.
 
 \begin{definition}[$(\alpha, \eta)$-center proximity]
 \label{def:alphaeta}
@@ -213,7 +214,7 @@ Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\
 \label{defn:alphacpnoise}	
 
 \item[$\diamond$] {\bf $\alpha$-centre proximity}: For all $x \in S_i$ and $i\neq j$, $\thinspace\alpha d(x, s_i) < d(x, s_j)$
-\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ with center $c$, 
+\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$, 
 \vspace{-0.1in}\begin{align*}
 r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{m(\mc C_{\mc S})}{2}
 \end{align*}
@@ -234,7 +235,7 @@ Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S}$ has $(\lambda, \eta)
 \label{defn:lambdacsnoise}	
 
 \item[$\diamond$] {\bf $\lambda$-centre separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda r({\mc C}_{\mc S})$
-\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$ with center $c$, 
+\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$, 
 \vspace{-0.1in}\begin{align*}
 r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{m(\mc C_{\mc S})}{2}
 \end{align*}
@@ -244,7 +245,7 @@ r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S
 
 We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. If the location is clear from the context, we will use the notation $P_i$.
 
-\noindent{\textbf{Important Note}}: For the sake of generality, all the definitions of this section has been stated in the steiner setting. It is important to note that, in this paper, we will only use these definitions in the {\bf proper} setting.
+%\noindent{\textbf{Important Note}}: For the sake of generality, all the definitions of this section has been stated in the steiner setting. It is important to note that, in this paper, we will only use these definitions in the {\bf proper} setting.
 
 
 
