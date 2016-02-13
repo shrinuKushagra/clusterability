@@ -67,7 +67,7 @@
  }
 
 
-\title[Sparse Noise]{Clustering under unstructured noise}
+\title[Sparse Noise]{Clustering under structureless noise}
 \begin{document}
 
 \maketitle
@@ -272,13 +272,7 @@ If $|\mc X \setminus \mc S| \ge \frac{3t(\mc C_{\mc S})}{2}+5$, then $\mc T$ doe
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(i\alpha-i)$ and $O_2 = \cup_{i=1}^3 P_2(i\alpha-i-2) \cup_{i=3}^5 P_2(i\alpha-i+2)$. For $3\le i\le k$, define $B_i = B(16\alpha-6+i\alpha, 0)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
-
-Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-3) \thinspace\cup\thinspace P_{t'}(\alpha-1) \}$ and $B_2 = \{\ P_{t'}(3\alpha-3) \thinspace\cup\thinspace P_{2}(3\alpha-1)\thinspace\cup\thinspace P_{t'}(4\alpha-4)\}$. Also, let $B_1' = \{P_{t'}(\alpha-1) \thinspace\cup\thinspace  P_{2}(2\alpha-4) \thinspace\cup\thinspace P_{t'}(2\alpha-2) \}$ and $B_2' = \{\ P_{t'}(4\alpha-4) \thinspace\cup\thinspace P_{2}(4\alpha-2)\thinspace\cup\thinspace P_{t'}(5\alpha-5)\}$. Also, let $B_1'' = \{P_{t'}(2\alpha-2) \thinspace\cup\thinspace  P_{2}(3\alpha-5) \thinspace\cup\thinspace P_{t'}(3\alpha-3) \}$ and $B_2'' = \{\ P_{t'}(5\alpha-5) \thinspace\cup\thinspace P_{2}(5\alpha-3)\thinspace\cup\thinspace P_{t'}(6\alpha-6)\}$. 
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2\sqrt{2} + 3$, all of $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\alpha$-center proximity. However, we will show that no algorithm can output a tree which captures $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
-
-For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
+The proof of this theorem can be found in the appendix.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -431,14 +425,10 @@ $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = P_{t_1}(\alpha-1)\cup P_{t_1}(3\alpha-3)$ and $O_2 = \{P_{1}(\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{1}(2\alpha-1) \thinspace\cup\thinspace P_{1}(3\alpha-2)\}$ and $O_3 = P_{t_2}(0)\cup P_{t_2}(2\alpha-2)\cup P_{t_2}(4\alpha-4)$. For $3\le i\le k$, define $B_i = P_t(14\alpha-4+i\alpha)$. Now, let $\mc X = \{O_1 \cup O_2 \cup O_3\cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:noalgalphacp}.
-
-Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(\alpha-2) \thinspace\cup\thinspace P_{t_1}(\alpha-1) \}$ and $B_2 = \{\ P_{t_2}(2\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-1)\thinspace\cup\thinspace P_{t_1}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t_1}(\alpha-1) \thinspace\cup\thinspace  P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{t_2}(2\alpha-2) \}$ and $B_2' = \{\ P_{t_1}(3\alpha-3) \thinspace\cup\thinspace P_{1}(3\alpha-2)\thinspace\cup\thinspace P_{t_2}(4\alpha-4)\}$. 
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which captures both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
-
-For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
+The proof of this theorem can be found in the appendix.
 \end{proof}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -479,18 +469,11 @@ If a clustering instance satisfies strong stability then single-linkage produces
 \end{algorithm}
 
 \begin{theorem}
+\label{thm:lambdaNoNoisePositive}
 Given a clustering instance $(X , d)$. For all $\lambda \ge 3$, Alg. \ref{alg:lambdacsNoNoise} outputs a tree $\mc T$ with the following property. For all $k$ and for all $k$-clusterings $\mc C_{\mc X}^* = \{C_1^*, \ldots, C_k^* \}$ which satisfy $\lambda$-center separation w.r.t $\mc X$ and $k$, the following holds.
 
 For every $1 \le i \le k$, there exists a node $N_i$ in the tree $T$ such that $C_i^* = N_i$.
 \end{theorem}
-
-\begin{proof}
-We will show that for $\lambda \ge 3$, $d$ satisfies the strong stability property. Hence, the claim will then follow from Theorem. 8 in \cite{balcan2008discriminative}. We know that $\mc C_{\mc X}^*$ satisfies $\lambda$-center sepration. Denote by $r := \max r(C_i^*)$. Let $A \subset C_i^*$ and $B \subseteq \mc C_j^*$. We will prove the claim in two steps. We will first show that $d_{min}(A, C_i^*\setminus A) \le r$ and then we will prove that $d_{min}(A, B) > r$.
-
-Let $p \in A$ and $q \in C_i^* \setminus A$ be points which achieve the minimum distance between $A$ and $C_i^*\setminus A$. If $c_i \in A$ then $d(p, q) \le d(c_i, q) \le r$. If $c_i \in C_i^* \setminus A$ then $d(p, q) \le d(p, c_i) \le r$. Hence, $d_{min} (A, C_i^*\setminus A) \le r$.
-
-Let $p \in A$ and $q \in B$ be points which achieve the minimum distance between $A$ and $B$. Using triangle inequality, we get that $d(p, q) \ge d(c_i, c_j) - d(p, c_i) - d(q, c_j) > 3r - r - r = r$.
-\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -498,21 +481,11 @@ Let $p \in A$ and $q \in B$ be points which achieve the minimum distance between
 We will prove that for $\lambda \le 2$, finding any solution for $\lambda$-center separation is NP-Hard. \cite{reyzin2012data} proved that finding any solution for $\alpha$-center proximity is NP-Hard for $\alpha < 2$. Our reduction is same as the reduction in \cite{reyzin2012data}. We state the proof below for completeness.
 
 \begin{theorem}
+\label{thm:lambdaNoNoiseLowerBd}
 Given a clustering instance $\mc X$ drawn from a metric space $(\mb M, d)$ and the number of clusters $k$. For $\lambda < 2$, finding a clustering which satisfies $\lambda$-center separation is NP-Hard.
 \end{theorem}
-\begin{proof}
-The proof is based on reducing an instance of Perfect dominating set promise problem (PDS-PP) to an instance of finding a clustering instance with $\lambda < 2$.
 
-PDS-PP : Given a graph $G = (V, E)$. Given that all dominating sets of size $\le k$ are perfect. Find a dominating set of size $\le k$. \cite{reyzin2012data} showed that the PDS-PP is NP-Hard. 
 
-For every $v \in V$ construct a point $x \in \mc X$ in the metric space $\mb M$. For any two points $x_1, x_2 \in \mc X$, define $d(x_1, x_2) = 1$ if an edge exists between the corresponding vertices $v_1$ and $v_2$. Else define $d(x_1, x_2) = 2$. Note that the function $d$ satisfies the triangle inequality. We will now show the following.
-
-G has a dominating set of size $\le k \iff$ $\mc X$ has a $k$-clustering which satisfies $\lambda$-center separation for $1 \le \lambda < 2$.
-
-$\Leftarrow$  Let $c_1, \ldots, c_k \in \mc X$ be the centers such that the corresponding clustering $\mc C = \{C_1, \ldots, C_k\}$ satisfies $\lambda$-center separation. Let $d_1, \ldots, d_k$ be the vertices in $V$ corresponding to the centers$c_1, \ldots, c_k$. Let $x \in C_i$ and $v \in V$ be the vertex corresponding to $x$. Now, $\lambda d(x, c_i) < d(c_i, c_j) \implies d(x, c_i) < d(c_i, c_j)$. Hence, $d(x, c_i) = 1$ and $d(c_i, c_j) = 2$. Thus, there exists an edge between $(v, d_i) \in E$. Hence, $d_1, \ldots, d_k$ forms a dominating set in $G$.
-
-$\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l < k$, we can add $k-l$ vertices to $D$ and they still form a dominating set. Hence, WLOG we can assume that $l = k$. Now, let $c_1, \ldots, c_k \in \mc X$ be the points corresponding to the vertices in $D$. Let $\mc C = \{C_1, \ldots, C_k\}$ be the clustering induced by $c_1, \ldots, c_k$. Since $|D| \le k$, we know that $D$ is perfect. Hence, $(d_i, d_j) \not\in E$. Hence, $d(c_i, c_j) = 2$. Now, let $v$ be any vertex which is dominated by $d_i$ and $x$ be the corresponding point in $\mc X$. Then, $d(x, c_i) = 1$. Hence, we get that $d(c_i, c_j) = 2 \max_p r(C_p)$. Hence, clustering $\mc C$ satisfies $\lambda$-center separation for $\lambda < 2$.
-\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -535,29 +508,20 @@ $\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l <
 
 \subsubsection{Lower bound with arbitrary noise}
 \label{section:lambdaLowerBoundArbitrary}
-\begin{figure}
-\input{../figures/lambdaLBDFig2}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\lambda$-separated $t$-min $r$-max nice subsets of $\mc X$}
-\label{fig:nosparsealglambdacs}
-\end{figure}
+
 
 
 Fig. \ref{fig:nosparsealglambdacs} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\lambda$-center separation. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
+\label{thm:nosparselambdaalg}
 Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 6$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S}$ which satisfies $\lambda$-center separation such that $m(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.
 
 If $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$ .
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \cup_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(22r+ir)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealglambdacs}.
-
-Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\thinspace P_{t'}(2r) \}$ and $B_2 = \{\ P_{t'}(6r) \thinspace\cup\thinspace P_{2}(7r)\thinspace\cup\thinspace P_{t'}(8r)\}$. Also, let $B_1' = \{P_{t'}(2r) \thinspace\cup\thinspace  P_{2}(3r) \thinspace\cup\thinspace P_{t'}(4r) \}$ and $B_2' = \{\ P_{t'}(8r) \thinspace\cup\thinspace P_{2}(9r)\thinspace\cup\thinspace P_{t'}(10r)\}$. Also, let $B_1'' = \{P_{t'}(4r) \thinspace\cup\thinspace  P_{2}(5r) \thinspace\cup\thinspace P_{t'}(6r) \}$ and $B_2'' = \{\ P_{t'}(10r) \thinspace\cup\thinspace P_{2}(11r)\thinspace\cup\thinspace P_{t'}(12r)\}$. 
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 6$, the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\lambda$-center separation.
-
-We will show that no algorithm can output a tree which captures $\mc C_{\mc S}, \mc C_{\mc S'}$ and $\mc C_{S''}$. The proof is identical to the proof of Thm. \ref{thm:nosparsealg} and hence we omit it here.
+The proof of this theorem can be found in the appendix. 
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -651,26 +615,17 @@ We showed that for $\lambda \ge 4$ and $\eta \ge 1$, Alg. \ref{alg:lambdacs} out
 
 Fig. \ref{fig:noalglambdacs} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S' , \mc S'' \subset \mc X$. We show that these subsets are ``incompatible", i.e., there is no hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $(\lambda, \eta)$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
 
-\begin{figure}
-\input{../figures/lambdaLBDFig1}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\lambda, \eta)$-separated $t$-min $r$-max nice subsets of $\mc X$}
-\label{fig:noalglambdacs}
-\end{figure}
+
 
 \begin{theorem}
+\label{thm:noalglambdacs}
 Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 4$ and $\eta \le 1$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$, but
 
 $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = \cup_{i=0}^2 P_{t_2}(4ir)$ and $O_2 = \cup_{i=0}^1 P_{t_1}(2r+4ir)$ and $O_3 = \cup_{i=0}^3 P_{t_1}(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(18r+ir)$. Now, let $\mc X = O_1 \cup O_2 \cup O_3 \cup B_3 \cup \ldots \cup B_k$. The set is also shown in Fig. \ref{fig:noalglambdacs}.
-
-Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(r) \thinspace\cup\thinspace P_{t_1}(2r) \}$ and $B_2 = \{\ P_{t_2}(4r) \thinspace\cup\thinspace P_{1}(5r)\thinspace\cup\thinspace P_{t_1}(6r)\}$. Also, let $B_1' = \{P_{t_1}(2r) \thinspace\cup\thinspace  P_{1}(3r) \thinspace\cup\thinspace P_{t_2}(4r) \}$ and $B_2' = \{\ P_{t_1}(6r) \thinspace\cup\thinspace P_{1}(7r)\thinspace\cup\thinspace P_{t_2}(8r)\}$.
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 4$, both $\mc S$ and $\mc S'$ are $(\lambda, 1)$-separated $t$-min $r$-max nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\lambda, 1)$-center proximity. 
-
-We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ and $\mc C_{S'}$. The proof is identical to the proof of Thm. \ref{thm:noalgalphacp} and hence we omit it here.
+The proof of this theorem can be found in the appendix.
 \end{proof}
 
 
@@ -688,6 +643,17 @@ We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ 
 \appendix
 \section{Technical result}
 \label{appendix:sectiontr}
+
+\begin{proof}\textbf{ of Thm. \ref{thm:nosparsealg}}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(i\alpha-i)$ and $O_2 = \cup_{i=1}^3 P_2(i\alpha-i-2) \cup_{i=3}^5 P_2(i\alpha-i+2)$. For $3\le i\le k$, define $B_i = B(16\alpha-6+i\alpha, 0)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
+
+Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-3) \thinspace\cup\thinspace P_{t'}(\alpha-1) \}$ and $B_2 = \{\ P_{t'}(3\alpha-3) \thinspace\cup\thinspace P_{2}(3\alpha-1)\thinspace\cup\thinspace P_{t'}(4\alpha-4)\}$. Also, let $B_1' = \{P_{t'}(\alpha-1) \thinspace\cup\thinspace  P_{2}(2\alpha-4) \thinspace\cup\thinspace P_{t'}(2\alpha-2) \}$ and $B_2' = \{\ P_{t'}(4\alpha-4) \thinspace\cup\thinspace P_{2}(4\alpha-2)\thinspace\cup\thinspace P_{t'}(5\alpha-5)\}$. Also, let $B_1'' = \{P_{t'}(2\alpha-2) \thinspace\cup\thinspace  P_{2}(3\alpha-5) \thinspace\cup\thinspace P_{t'}(3\alpha-3) \}$ and $B_2'' = \{\ P_{t'}(5\alpha-5) \thinspace\cup\thinspace P_{2}(5\alpha-3)\thinspace\cup\thinspace P_{t'}(6\alpha-6)\}$. 
+
+Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2\sqrt{2} + 3$, all of $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\alpha$-center proximity. However, we will show that no algorithm can output a tree which captures $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
+
+For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
+\end{proof}
+
 \begin{figure}
 \input{../figures/lbdFig1}
 \caption{$\mc X \subseteq \mathbb{R}$ such that Alg. \ref{alg:alphacp} doesn't capture all the $(\alpha, \eta)$-center $t$-min proximal subsets of $\mc X$.}
@@ -710,4 +676,73 @@ Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha+1) \thinspace
 
 Denote by $B_{12} = \{P_{t'}(2\alpha) \cup P_{2}(3\alpha+1) \cup P_{t'}(4\alpha+2) \}$. Alg. \ref{alg:alphacp}, iterates through pairs of points in increasing order of their distance. Hence, it first merges points in $B_3$ to $B_k$ into $k-2$ clusters. Now, observe that $B_1, B_{12}$ and $B_{2}$ have the radius $\alpha + 1$ (as our centers must be part of the dataset $\mc X$). Hence, the algorithm can choose to merge points in $B_{12}$ into the same cluster before merging points from $B_1$ and $B_2$ together. In this case, there exists no pruning of the tree which respects the clustering $\mc C_{\mc S}$.
 \end{proof}
+
+
+\begin{proof}\textbf{ of Thm. \ref{thm:noalgalphacp}}
+
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = P_{t_1}(\alpha-1)\cup P_{t_1}(3\alpha-3)$ and $O_2 = \{P_{1}(\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{1}(2\alpha-1) \thinspace\cup\thinspace P_{1}(3\alpha-2)\}$ and $O_3 = P_{t_2}(0)\cup P_{t_2}(2\alpha-2)\cup P_{t_2}(4\alpha-4)$. For $3\le i\le k$, define $B_i = P_t(14\alpha-4+i\alpha)$. Now, let $\mc X = \{O_1 \cup O_2 \cup O_3\cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:noalgalphacp}.
+
+Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(\alpha-2) \thinspace\cup\thinspace P_{t_1}(\alpha-1) \}$ and $B_2 = \{\ P_{t_2}(2\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-1)\thinspace\cup\thinspace P_{t_1}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t_1}(\alpha-1) \thinspace\cup\thinspace  P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{t_2}(2\alpha-2) \}$ and $B_2' = \{\ P_{t_1}(3\alpha-3) \thinspace\cup\thinspace P_{1}(3\alpha-2)\thinspace\cup\thinspace P_{t_2}(4\alpha-4)\}$. 
+
+Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which captures both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
+
+For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
+\end{proof}
+
+\begin{proof}\textbf{ of Thm. \ref{thm:lambdaNoNoisePositive}}
+
+We will show that for $\lambda \ge 3$, $d$ satisfies the strong stability property. Hence, the claim will then follow from Theorem. 8 in \cite{balcan2008discriminative}. We know that $\mc C_{\mc X}^*$ satisfies $\lambda$-center sepration. Denote by $r := \max r(C_i^*)$. Let $A \subset C_i^*$ and $B \subseteq \mc C_j^*$. We will prove the claim in two steps. We will first show that $d_{min}(A, C_i^*\setminus A) \le r$ and then we will prove that $d_{min}(A, B) > r$.
+
+Let $p \in A$ and $q \in C_i^* \setminus A$ be points which achieve the minimum distance between $A$ and $C_i^*\setminus A$. If $c_i \in A$ then $d(p, q) \le d(c_i, q) \le r$. If $c_i \in C_i^* \setminus A$ then $d(p, q) \le d(p, c_i) \le r$. Hence, $d_{min} (A, C_i^*\setminus A) \le r$.
+
+Let $p \in A$ and $q \in B$ be points which achieve the minimum distance between $A$ and $B$. Using triangle inequality, we get that $d(p, q) \ge d(c_i, c_j) - d(p, c_i) - d(q, c_j) > 3r - r - r = r$.
+\end{proof}
+
+\begin{proof}\textbf{ of Thm. \ref{thm:lambdaNoNoiseLowerBd}}
+The proof is based on reducing an instance of Perfect dominating set promise problem (PDS-PP) to an instance of finding a clustering instance with $\lambda < 2$.
+
+PDS-PP : Given a graph $G = (V, E)$. Given that all dominating sets of size $\le k$ are perfect. Find a dominating set of size $\le k$. \cite{reyzin2012data} showed that the PDS-PP is NP-Hard. 
+
+For every $v \in V$ construct a point $x \in \mc X$ in the metric space $\mb M$. For any two points $x_1, x_2 \in \mc X$, define $d(x_1, x_2) = 1$ if an edge exists between the corresponding vertices $v_1$ and $v_2$. Else define $d(x_1, x_2) = 2$. Note that the function $d$ satisfies the triangle inequality. We will now show the following.
+
+G has a dominating set of size $\le k \iff$ $\mc X$ has a $k$-clustering which satisfies $\lambda$-center separation for $1 \le \lambda < 2$.
+
+$\Leftarrow$  Let $c_1, \ldots, c_k \in \mc X$ be the centers such that the corresponding clustering $\mc C = \{C_1, \ldots, C_k\}$ satisfies $\lambda$-center separation. Let $d_1, \ldots, d_k$ be the vertices in $V$ corresponding to the centers$c_1, \ldots, c_k$. Let $x \in C_i$ and $v \in V$ be the vertex corresponding to $x$. Now, $\lambda d(x, c_i) < d(c_i, c_j) \implies d(x, c_i) < d(c_i, c_j)$. Hence, $d(x, c_i) = 1$ and $d(c_i, c_j) = 2$. Thus, there exists an edge between $(v, d_i) \in E$. Hence, $d_1, \ldots, d_k$ forms a dominating set in $G$.
+
+$\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l < k$, we can add $k-l$ vertices to $D$ and they still form a dominating set. Hence, WLOG we can assume that $l = k$. Now, let $c_1, \ldots, c_k \in \mc X$ be the points corresponding to the vertices in $D$. Let $\mc C = \{C_1, \ldots, C_k\}$ be the clustering induced by $c_1, \ldots, c_k$. Since $|D| \le k$, we know that $D$ is perfect. Hence, $(d_i, d_j) \not\in E$. Hence, $d(c_i, c_j) = 2$. Now, let $v$ be any vertex which is dominated by $d_i$ and $x$ be the corresponding point in $\mc X$. Then, $d(x, c_i) = 1$. Hence, we get that $d(c_i, c_j) = 2 \max_p r(C_p)$. Hence, clustering $\mc C$ satisfies $\lambda$-center separation for $\lambda < 2$.
+\end{proof}
+
+\begin{proof}\textbf{ of Thm. \ref{thm:nosparselambdaalg}}
+
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \cup_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(22r+ir)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealglambdacs}.
+
+Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\thinspace P_{t'}(2r) \}$ and $B_2 = \{\ P_{t'}(6r) \thinspace\cup\thinspace P_{2}(7r)\thinspace\cup\thinspace P_{t'}(8r)\}$. Also, let $B_1' = \{P_{t'}(2r) \thinspace\cup\thinspace  P_{2}(3r) \thinspace\cup\thinspace P_{t'}(4r) \}$ and $B_2' = \{\ P_{t'}(8r) \thinspace\cup\thinspace P_{2}(9r)\thinspace\cup\thinspace P_{t'}(10r)\}$. Also, let $B_1'' = \{P_{t'}(4r) \thinspace\cup\thinspace  P_{2}(5r) \thinspace\cup\thinspace P_{t'}(6r) \}$ and $B_2'' = \{\ P_{t'}(10r) \thinspace\cup\thinspace P_{2}(11r)\thinspace\cup\thinspace P_{t'}(12r)\}$. 
+
+Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 6$, the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\lambda$-center separation.
+
+We will show that no algorithm can output a tree which captures $\mc C_{\mc S}, \mc C_{\mc S'}$ and $\mc C_{S''}$. The proof is identical to the proof of Thm. \ref{thm:nosparsealg} and hence we omit it here.
+\end{proof}
+
+
+\begin{proof}\textbf{ of Thm. \ref{thm:noalglambdacs}}
+
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = \cup_{i=0}^2 P_{t_2}(4ir)$ and $O_2 = \cup_{i=0}^1 P_{t_1}(2r+4ir)$ and $O_3 = \cup_{i=0}^3 P_{t_1}(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(18r+ir)$. Now, let $\mc X = O_1 \cup O_2 \cup O_3 \cup B_3 \cup \ldots \cup B_k$. The set is also shown in Fig. \ref{fig:noalglambdacs}.
+
+Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(r) \thinspace\cup\thinspace P_{t_1}(2r) \}$ and $B_2 = \{\ P_{t_2}(4r) \thinspace\cup\thinspace P_{1}(5r)\thinspace\cup\thinspace P_{t_1}(6r)\}$. Also, let $B_1' = \{P_{t_1}(2r) \thinspace\cup\thinspace  P_{1}(3r) \thinspace\cup\thinspace P_{t_2}(4r) \}$ and $B_2' = \{\ P_{t_1}(6r) \thinspace\cup\thinspace P_{1}(7r)\thinspace\cup\thinspace P_{t_2}(8r)\}$.
+
+Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 4$, both $\mc S$ and $\mc S'$ are $(\lambda, 1)$-separated $t$-min $r$-max nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\lambda, 1)$-center proximity. 
+
+We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ and $\mc C_{S'}$. The proof is identical to the proof of Thm. \ref{thm:noalgalphacp} and hence we omit it here.
+\end{proof}
+\begin{figure}
+\input{../figures/lambdaLBDFig1}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\lambda, \eta)$-separated $t$-min $r$-max nice subsets of $\mc X$}
+\label{fig:noalglambdacs}
+\end{figure}
+
+\begin{figure}
+\input{../figures/lambdaLBDFig2}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\lambda$-separated $t$-min $r$-max nice subsets of $\mc X$}
+\label{fig:nosparsealglambdacs}
+\end{figure}
 \end{document}
