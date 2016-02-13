@@ -138,11 +138,12 @@ We complement our algorithmic results by proving that under more relaxed conditi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Outline}
-The rest of this paper is structured as follows. In Section \ref{sec:Notation}, we present notation and formal definitions which are necessary to explain our results. in Section \ref{section:cp}, we consider a set $\mc X$ that contains a clustering which satisfies $(\alpha,\eta)$-center proximity and propose an efficient algorithm which recovers all the underlying clusterings of $\mc X$ which satisfies $(\alpha,\eta)$-center proximity; in the presence of structureless noise. Furthermore, we prove that any relaxation of our assumption on noise, or values of $(\alpha,\eta)$ will not be possible.
-Section \ref{sec:cs} has a similar structure with focus on the input sets with underlying $\lambda$-center separated clusterings
+
+The rest of this paper is structured as follows. In Section \ref{sec:Notation}, we present our notation and formal definitions. In Section \ref{section:cp}, we present an efficient algorithm that, for any input set $\mc X$ which contains structureless noise, recovers all the underlying clusterings of non-noise part of $\mc X$ that satisfies $\alpha$-center proximity for $\alpha > 2+\sqrt{7}$. Furthermore, we prove that any relaxating our assumption on noise, or value of $\alpha$ will not be possible.
+In Section \ref{sec:cs} has a similar structure with focus on the input sets with underlying $\lambda$-center separated clusterings.
 
 % we present our main positive and negative result for recovering all $\alpha$-center proximal clusterings of a set which contains either arbitrary or structureless noise. 
- 
+% 
 %\vspace{-0.1in}\begin{enumerate}
 %\setlength\itemsep{0em}
 %\item[\ref{sec:intro}] Introduction
@@ -173,7 +174,7 @@ Section \ref{sec:cs} has a similar structure with focus on the input sets with u
 %	\end{itemize}
 %	\end{enumerate}
 %\item[\ref{sec:conc}] Conclusion
-%\end{enumerate}
+%%\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Notation and definition}
@@ -185,7 +186,7 @@ For any set $\mc A\subseteq \mc X$ with centre $c\in \mb M$, we define the radiu
 \vspace{-0.13in}\begin{definition}[$r(\mc C_{\mc X})$ , $m(\mc C_{\mc X})$] Given a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of the set $\mc X$ induced by centers $c_1, \ldots, c_k \in \mb M$. 
 \begin{itemize}[nolistsep, noitemsep]
 \item $m(\mc{C}_{\mc{X}}) = \min_i |C_i|$
-\item $r(\mc{C}_{\mc{X}}) = \max_i \thinspace r_{c_i}(C_i)$
+\item $r(\mc{C}_{\mc{X}}) = \max_i \thinspace r(C_i)$
 \end{itemize}
 \end{definition}
 
@@ -257,7 +258,8 @@ We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c
 \section{Center Proximity}
 \label{section:cp}
 
-In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. The goal of our algorithm is to produce an efficient representation (hierarchal clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings rather than to output a single clustering or optimize an objective function.  Section \ref{section:positiveResultSparseNoise} we present our main result. Our algorithm efficiently computes a hierarchical cluster tree that captures all possible $(\alpha,\eta)$-center proximal clusterings of $\mc X$, for introduced values of $\alpha$ and $\eta$. In Section \ref{section:alphaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\alpha$-center proximal clusterings of $\mc X$, in the presence of arbitrary noise. In Section \ref{section:alphaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\alpha,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section: 
+In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. The goal of our algorithm is to produce an efficient representation (hierarchical clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings rather than to output a single clustering or optimize an objective function.  Section \ref{section:positiveResultSparseNoise} we present our main result. Our algorithm efficiently computes a hierarchical cluster tree that captures all possible $(\alpha,\eta)$-center proximal clusterings of $\mc X$, for introduced values of $\alpha$ and $\eta$. In Section \ref{section:alphaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\alpha$-center proximal clusterings of $\mc X$, in the presence of arbitrary noise. In Section \ref{section:alphaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\alpha,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section: 
+
 
 \begin{itemize}
 \item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we give our main result under sparse noise. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$; for any value of $t$, Alg.\ref{alg:alphacp} outputs a tree which captures all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity and $m(C^*)=t$.
@@ -321,10 +323,18 @@ Given a clustering instance $(\mc X, d)$ and a parameter $t$. Alg. \ref{alg:alph
 If $t(\mc C_{\mc S}^*) = t$ then $\mc T$ captures $\mc C_{\mc S}$.
 \end{theorem}
 
+\begin{proof}
+	Proof of this theorem can be found in the appendix.
+\end{proof}
+
 \begin{theorem}
 \label{thm:algcptime}
 Given clustering instance $(\mc X, d)$ and $t$. Algorithm \ref{alg:alphacp} runs in time which is polynomial in $|\mc X|$.
 \end{theorem}
+
+\begin{proof}
+	Proof of this theorem can be found in the appendix.
+\end{proof}
 
 Next, we make a small note on the conditions on $\alpha$ and $\eta$ under which the tree outputted by Alg. \ref{alg:alphacp} doesn't capture all $(\alpha, \eta)$-proximal clusterings. We construct a set $\mc X$ (Fig. \ref{fig:algAlphacp}) and show that if $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ then Alg. \ref{alg:alphacp} can `split' some of the good cluster. The details and the proof can be found in Appendix \ref{appendix:sectiontr}.
  
@@ -413,6 +423,11 @@ Given a clustering instance $(X , d)$. For all $\lambda \ge 3$, Alg. \ref{alg:la
 For every $1 \le i \le k$, there exists a node $N_i$ in the tree $T$ such that $C_i^* = N_i$.
 \end{theorem}
 
+\begin{proof}
+The proof of this theorem can be found in the appendix.
+\end{proof}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Lower bound with no noise}
@@ -424,7 +439,9 @@ We will prove that for $\lambda \le 2$, finding any solution for $\lambda$-cente
 Given a clustering instance $\mc X$ drawn from a metric space $(\mb M, d)$ and the number of clusters $k$. For $\lambda < 2$, finding a clustering which satisfies $\lambda$-center separation is NP-Hard.
 \end{theorem}
 
-
+\begin{proof}
+The proof of this theorem can be found in the appendix.
+\end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -506,8 +523,9 @@ Given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. For every $
 Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$.
 \end{theorem}
 
-
-
+\begin{proof}
+The proof of this theorem can be found in the appendix.
+\end{proof}
 
 \begin{theorem}
 \label{thm:alglambdacstime}
@@ -745,12 +763,15 @@ Let the framework be as in Claim \ref{claim:lambda1}. Let $B_{i1} \in \mc L$ be 
 \vspace{-0.1in} Now, we will show that if a ball $B_{i1}$ intersects $S_i^*$ and $B_{j1}$ intersects $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$. For the sake of contradiction, assume that $v_{i1}$ and $v_{j1}$ are connected by a path in $G$. Hence, there exists vertices $v_{i}$ and $v_{n}$ such that $v_i$ and $v_n$ are connected by an edge in $G$ and $B_i \cap S_i^* \neq \phi$ and $B_n \cap S_n^* \neq \phi$ for some $n \neq i$. $v_i$ and $v_n$ are connected, hence $|B_i \cap B_n| \ge t/2$. Now, $\lambda \ge 4$, thus $B_i \cap \{\mc S \setminus S_i^*\} = \phi$ and $B_n \cap \{\mc S\setminus S_n^*\} = \phi$. Thus, $B_i \cap B_n \subseteq \mc X \setminus \mc S$. Thus $|B_{i} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, we get that $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
 \end{proof}
 
+\begin{figure}
+\input{../figures/lambdaLBDFig1}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\lambda, \eta)$-separated $t$-min $r$-max nice subsets of $\mc X$}
+\label{fig:noalglambdacs}
+\end{figure}
 
 \begin{proof}\textbf{ of Thm. \ref{thm:alglambdacstime}}
 Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaining steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
 \end{proof}
-
-
 
 \begin{proof}\textbf{ of Thm. \ref{thm:noalglambdacs}}
 
@@ -762,11 +783,4 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ a
 
 We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ and $\mc C_{S'}$. The proof is identical to the proof of Thm. \ref{thm:noalgalphacp} and hence we omit it here.
 \end{proof}
-\begin{figure}
-\input{../figures/lambdaLBDFig1}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\lambda, \eta)$-separated $t$-min $r$-max nice subsets of $\mc X$}
-\label{fig:noalglambdacs}
-\end{figure}
-
-
 \end{document}
