@@ -24,11 +24,15 @@
 \newtheorem{fact}[theorem]{Fact}
 \newtheorem{conj}[theorem]{Conjecture}
 
+
 \newcommand{\mc}{\mathcal}
 \newcommand{\mb}{\mathbf}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator{\vcdim}{VC-Dim}
+\DeclareMathOperator{\vol}{vol}
 
+\renewcommand{\qed}{\hfill\ensuremath{\blacksquare}}
 \renewcommand\labelitemi{$\bullet$}
 
 \makeatletter  %% this is crucial
@@ -157,7 +161,7 @@ For any set $\mc A\subseteq \mc X$ with centre $c\in \mb M$, we define the radiu
 \begin{definition}[$\mc T$ captures $\mc C_{\mc S}$]Given a hierarchical clustering tree $\mc T$ of $\mc X$ and a clustering $\mc C_{\mc S}$ of $\mc S \subseteq \mc X$. We say that a pruning $\mc P$ respects $\mc C_{\mc S}$ if the clustering $\mc C_{\mc X}^{\mc P}$ corresponding to the pruning respects $\mc C_{\mc S}$. We say that $\mc T$ captures $\mc C_{\mc S}$ if there exists a pruning $\mc P$ which respects $\mc C_{\mc S}$.
 \end{definition}
 
-\begin{definition}[$\alpha$-center proximity]
+\begin{definition}[$\alpha$-center proximity \cite{awasthi2012center}]
 \label{defn:alphacp}
 %Given a clustering instance $\mc X$ drawn from metric space $(\mb M, d)$ and an integer $k$. 
 A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\alpha$-center proximity w.r.t $\mc X$ and $k$ if there exist centers $c_1, \ldots, c_k \in \mb M$  such that the following holds. For all $x \in C_i$ and $i\neq j$, 
@@ -183,7 +187,7 @@ r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S
 %Note: In this paper, we will restrict the centers $s_i \in \mc X$ (proper setting). 
 \end{definition}
 
-\begin{definition}[$\lambda$-center separation]
+\begin{definition}[$\lambda$-center separation \cite{ben2014clustering}]
 \label{defn:lambdacs}
 A clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ has $\lambda$-center separation w.r.t $\mc X$ and $k$ if there exists centers $c_1, \ldots, c_k \in \mb M$ such that $\mc C_{\mc X}$ is the clustering induced by these centers and the following holds. For all $i\neq j$, 
 $$d(c_i, c_j) > \lambda \enspace r(\mc{C}_{\mc{X}})$$
@@ -207,24 +211,45 @@ r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S
 We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. If the location is clear from the context, we will use the notation $P_i$.
 
 %\noindent{\textbf{Important Note}}: For the sake of generality, all the definitions of this section has been stated in the steiner setting. It is important to note that, in this paper, we will only use these definitions in the {\bf proper} setting.
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\section{Justification of sparse noise}
+Our formalization of structureless noise has the following property. We have a set $\mc S$ which has some nice clustering ($\alpha$-center proximity or $\lambda$-center separation). However, this niceness is disturbed by the addition of a set of points $\mc N$. In Sections \ref{section:cp} and \ref{sec:cs} we give polynomial-time algorithms for $\mc X = \mc S \cup \mc N$ as long as the set satisfies the sparseness condition(Defn. \ref{defn:alphacpnoise} or \ref{defn:lambdacsnoise}). 
+
+In this section, we examine our sparseness condition. We will show that if the set of points $\mc N$ are generated uniformly at random in a ball in $\mb R^d$ then with high probability, as long as $\mc N$ is not too large (so as to mask the original data set clustering $\mc S$), it will satisfy the sparse noise condition. The proof is based on the epsilon approximation theorem for classes of finite VC-dimension, applied to the set of balls in $\mb R^d$. 
+
+\begin{theorem}[Uniform sets are sparse]
+\label{theorem:sparse}
+Let $\mc X$ be a ball of radius $R$ in $\mb R^d$. Let $\mc S \subseteq \mc X$ be the clustering instance and let $\mc C$ be a clustering of $S$ which satisfies $\alpha$-center proximity (or $\lambda$-center separation). Given parameters $\epsilon, \delta \in (0,1)$. Let $\mc N \subseteq \mc X$ be picked i.i.d according to the uniform distribution. If 
+\begin{itemize}
+\item $|\mc N| > \frac{c}{\epsilon^2}\Big((d+1)\log \frac{d+1}{\epsilon}+\log\frac{1}{\delta}\Big)$
+\item $\frac{m(C)}{|\mc N|}> \Big(\frac{r(C)}{R}\eta\Big)^d + \epsilon$ 
+\end{itemize}
+then  with probability $1-\delta$, $C$ satisfies $(\alpha, \eta)$-center proximity (or $(\lambda, \eta)$-center separation).
+\end{theorem}
+\begin{proof}
+Let $H = \{B \text{ is a ball }: B \subseteq X\}$. Observe that $\vcdim(H) = d+1$. Define $\gamma := \frac{r(C)}{R}$. Also, since $U$ is the uniform distribution, $P(B) = \frac{\vol(B)}{\vol(X)} = \gamma^d$. Now, using the classical result for $\epsilon$-approximation (Thm. \ref{theorem:vceapprox}), completes the proof of this theorem.
+\qed
+\end{proof}
+
+\noindent Observe that Thm. \ref{theorem:sparse} shows that the noise $|\mc N|$ can be much bigger than the size of the smallest cluster $m(\mc C)$. Some previous works have also examined clustering under the presence of adversarial noise. However, they were restricted to the case when the size of noise was small. For example, in \cite{balcan2012clustering} $|\mc N| \le \frac{m(C)}{8}$. Our algorithms can handle much larger amount of noise as long as they satisfy the sparseness condition. 
 \section{Center Proximity}
 \label{section:cp}
 
 In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. The goal of our algorithm is to produce an efficient representation (hierarchical clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings rather than to output a single clustering or optimize an objective function.  In Section \ref{section:positiveResultSparseNoise} we present our main result (Alg.\ref{alg:alphacp}). This algorithm efficiently computes a hierarchical clustering tree that captures all possible $(\alpha,\eta)$-center proximal clusterings of $\mc X$, for introduced values of $\alpha$ and $\eta$. In Section \ref{section:alphaLowerBoundArbitrary}, we show that, in the presence of arbitrary noise, there is no tree that captures all $\alpha$-center proximal clusterings of $\mc X$ even with stronger clusterability assumptions (bigger value of $\alpha$). In Section \ref{section:alphaLowerBoundSparse}, we show that, in the presence of sparse noise, there is no tree that outputs all $(\alpha,\eta)$-center proximal nice clusterings of $\mc X$ for introduced values of $(\alpha, \eta)$. Here is a more precise overview of the results of this section: 
-
-
 \begin{itemize}
-\item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we give our main result under sparse noise. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$; for any value of $t$, Alg.\ref{alg:alphacp} outputs a tree which captures all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity and $m(C^*)=t$.\\
-\item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that for a given value of a parameter $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\alpha \le 2\sqrt{2} + 3 \approx 5.8$ then even for fixed $m(\mc C) = t$,
+\item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we give our main result under sparse noise. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$; for any value of $t$, Alg.\ref{alg:alphacp} outputs a tree which captures all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity and $m(C^*)=t$.
+\item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that, if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$ then even for a fixed value of the size of the smallest cluster $(m(C) = t)$
 \begin{enumerate}
-\item No tree can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $\alpha$-center proximity.
-\item There doesn't exist a list of `small' size that can capture all clusterings which satisfy $\alpha$-center proximity.\\ 
+\item No tree can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity.
+\item There doesn't exist a list of `small' size ($<2^{k/2}$) that can capture all clusterings which satisfy $(\alpha, \eta)$-center proximity.
 \end{enumerate}
-\item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that, if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$ then there is no tree (and no list of `small' size) which can capture all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity even for a fixed value of the size of the smallest cluster $(m(C) = t)$.
+\item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that for a given value of a parameter $t$, if $\alpha \le 2\sqrt{2} + 3 \approx 5.8$ then even for fixed $m(\mc C) = t$,
+\begin{enumerate}
+\item If the number of noisy points exceeds $\frac{3}{2}t$ then no tree can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $\alpha$-center proximity.
+\item If the number of noisy points exceeds $\frac{3k}{2}t$ then there doesn't exist a list of `small' size ($<2^{k/2}$) that can capture all clusterings which satisfy $\alpha$-center proximity.\\
+\end{enumerate}
 \end{itemize} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -356,7 +381,55 @@ Given clustering instance $(\mc X, d)$ and $t$. Algorithm \ref{alg:alphacp} runs
 
 %We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal clusterings. As a small note, we show that if $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ then Alg. \ref{alg:alphacp} can `split' some of the good cluster. The details (Thm. \ref{})and the proof can be found in Appendix \ref{appendix:sectiontr}.
  
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lower bound under sparse noise}
+\label{section:alphaLowerBoundSparse}
+
+We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal clusterings of $\mc X$ (Theorem.~\ref{thm:alphacpnoise}). In this section, we will prove that if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$, then there is no tree (and hence no algorithm can output a tree) which captures all $(\alpha, \eta)$-proximal clusterings $\mc C$ (of subsets of $\mc X$) even for a fixed value of the size of the smallest cluster $m(\mc C)$.
+
+Fig. \ref{fig:noalgalphacp} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
+
+\begin{theorem}
+\label{thm:noalgalphacp}
+Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{3}$ and $\eta \le 1$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity and $ m(\mc C_{\mc S}) = t$ but 
+
+$\mc T$ doesn't capture $\mc C_{\mc S}$.
+\end{theorem}
+
+\begin{proof}
+Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = P_{t_1}(\alpha-1)\cup P_{t_1}(3\alpha-3)$ and $O_2 = \{P_{1}(\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{1}(2\alpha-1) \thinspace\cup\thinspace P_{1}(3\alpha-2)\}$ and $O_3 = P_{t_2}(0)\cup P_{t_2}(2\alpha-2)\cup P_{t_2}(4\alpha-4)$. For $3\le i\le k$, define $B_i = P_t(14\alpha-4+i\alpha)$. Now, let $\mc X = \{O_1 \cup O_2 \cup O_3\cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:noalgalphacp}.
+
+Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(\alpha-2) \thinspace\cup\thinspace P_{t_1}(\alpha-1) \}$ and $B_2 = \{\ P_{t_2}(2\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-1)\thinspace\cup\thinspace P_{t_1}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t_1}(\alpha-1) \thinspace\cup\thinspace  P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{t_2}(2\alpha-2) \}$ and $B_2' = \{\ P_{t_1}(3\alpha-3) \thinspace\cup\thinspace P_{1}(3\alpha-2)\thinspace\cup\thinspace P_{t_2}(4\alpha-4)\}$. 
+
+\begin{figure}
+\input{../figures/lbdFig2}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no tree can capture all the $(\alpha, \eta)$-proximal clusterings.}
+\label{fig:noalgalphacp}
+\end{figure}
+
+Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which captures both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
+
+For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
+\qed
+\end{proof}
+
+\begin{figure}
+\input{../figures/lbdListSparse}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no list (of size $< 2^{k/2}$) can capture all the $(\alpha, \eta)$-proximal clusterings.}
+\label{fig:nolistalphacp}
+\end{figure}
+
+\begin{theorem}
+\label{thm:nolistalphacp}
+Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{3}$ and $\eta \le 1$ there exists a clustering instance $(\mc X, d)$ such that any list $\mc L$ (of clusterings of $\mc X$) has  the following property. If $|\mc L| < 2^{\frac{k}{2}}$ then there exists $\mc S \subseteq \mc X$ and clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity and $ m(\mc C_{\mc S}) = t$ but 
+
+$\mc L$ doesn't capture $\mc C_{\mc S}$.
+\end{theorem}
+
+\begin{proof}
+The clustering instance $\mc X$ is shown in Fig. \ref{fig:nolistalphacp}. The instance is a simple extension of our tree example (Fig. \ref{fig:noalgalphacp}). In the tree example $ 4$ balls were placed side-by-side one another. Let  $G_1 = \{B_1, B_1', B_2, B_2'\}$ be the balls as in Fig. \ref{fig:noalgalphacp}. Now, construct $G_2 = \{B_3, B_3', B_4, B_4'\}$ exactly identical to $G_1$ but far. In this way, we cosntruct $k/2$ copies of $G_1$. Now, it easy to see that any list $\mc L$ which wants to capture all the $\alpha, \eta$ nice clusterings should have size atleast $2^{k/2}$.
+\qed
+\end{proof}
+
 \subsection{Lower bound under arbitrary noise}
 \label{section:alphaLowerBoundArbitrary}
 
@@ -383,41 +456,20 @@ Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-3) \thinspace
 Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2\sqrt{2} + 3$, all of $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\alpha$-center proximity. However, we will show that no algorithm can output a tree which captures $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
 
 For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
+\qed
 \end{proof}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Lower bound under sparse noise}
-\label{section:alphaLowerBoundSparse}
-
-We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal clusterings of $\mc X$ (Theorem.~\ref{thm:alphacpnoise}). In this section, we will prove that if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$, then there is no tree (and hence no algorithm can output a tree) which captures all $(\alpha, \eta)$-proximal clusterings $\mc C$ (of subsets of $\mc X$) even for a fixed value of the size of the smallest cluster $m(\mc C)$.
-
-Fig. \ref{fig:noalgalphacp} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
-
 \begin{theorem}
-\label{thm:noalgalphacp}
-Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{3}$ and $\eta \le 1$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity and $ m(\mc C_{\mc S}) = t$ but 
+\label{thm:nosparselistalphacp}
+Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{2}+3$ there exists a clustering instance $(\mc X, d)$ such that any list $\mc L$ (of clusterings of $\mc X$) has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S}$ which satisfies $\alpha$-center proximity such that $m(\mc C_{\mc S}) = t$ and the following holds.  
 
-$\mc T$ doesn't capture $\mc C_{\mc S}$.
+If $|\mc L| < 2^{\frac{k}{2}}$ and $|\mc X \setminus \mc S|\ge \frac{k}{2}(\frac{3t(\mc C_{\mc S})}{2}+5)$, then $\mc L$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
 \begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = P_{t_1}(\alpha-1)\cup P_{t_1}(3\alpha-3)$ and $O_2 = \{P_{1}(\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{1}(2\alpha-1) \thinspace\cup\thinspace P_{1}(3\alpha-2)\}$ and $O_3 = P_{t_2}(0)\cup P_{t_2}(2\alpha-2)\cup P_{t_2}(4\alpha-4)$. For $3\le i\le k$, define $B_i = P_t(14\alpha-4+i\alpha)$. Now, let $\mc X = \{O_1 \cup O_2 \cup O_3\cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:noalgalphacp}.
-
-Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(\alpha-2) \thinspace\cup\thinspace P_{t_1}(\alpha-1) \}$ and $B_2 = \{\ P_{t_2}(2\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-1)\thinspace\cup\thinspace P_{t_1}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t_1}(\alpha-1) \thinspace\cup\thinspace  P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{t_2}(2\alpha-2) \}$ and $B_2' = \{\ P_{t_1}(3\alpha-3) \thinspace\cup\thinspace P_{1}(3\alpha-2)\thinspace\cup\thinspace P_{t_2}(4\alpha-4)\}$. 
-
-\begin{figure}
-\input{../figures/lbdFig2}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\alpha, \eta)$-proximal clusterings.}
-\label{fig:noalgalphacp}
-\end{figure}
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which captures both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
-
-For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
+The proof has the exact same ideas as the proof of Thm. \ref{thm:nolistalphacp}. We construct a clustering instance $\mc X$ which is a simple extension of our tree example (Fig. \ref{fig:nosparsealg}). In the tree example $6$ balls were placed side-by-side one another. Let  $G_1 = \{B_1, B_1', B_1'', B_2, B_2', B_2''\}$ be the balls as in Fig. \ref{fig:nosparsealg}. Now, construct $G_2 = \{B_3, B_3', B_3'', B_4, B_4', B_4''\}$ exactly identical to $G_1$ but far from $G_1$. In this way, we construct $k/2$ copies of $G_1$. Now, it easy to see that any list $\mc L$ which wants to capture all the $\alpha$ nice clusterings should have size atleast $2^{k/2}$.
+\qed
 \end{proof}
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Center Separation}
@@ -504,15 +556,14 @@ $\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l <
 \subsection{Center Separation in the presence of noise}
 \label{sec:cswith}
 In this section, we study the problem of recovering $(\lambda, \eta)$-center separated clusterings of a set $\mc X$, in the presence of noise. In Section \ref{section:lambdaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\lambda$-center separated clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:lambdaPositiveResultSparseNoise} introduces an algorithm that outputs a clustering which respects all $(\lambda,\eta)$-center separated clusterings of $\mc X$, for introduced values of $\lambda$ and $\eta$. In Section \ref{section:lambdaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\lambda,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section:
-
 \begin{itemize}
-\item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that for a given value of parameters $r$ and $t$, if the number of noisy points exceeds $\frac{3}{2}t$ and $\lambda \le 6$, then even for fixed $m(\mc C) = t$ and $r(\mc C) = r$ 
+\item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that for a given value of parameters $r$ and $t$, if $\lambda \le 6$, then even for fixed $m(\mc C) = t$ and $r(\mc C) = r$,
 \begin{enumerate}
-\item No tree can capture all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $\lambda$-center separation.
-\item There doesn’t exist a list of ‘small’ size that can capture all clusterings which satisfy $\lambda$-center separation.\\
+\item If the number of noisy points exceeds $\frac{3}{2}t$ then no tree can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $\lambda$-center separation.
+\item If the number of noisy points exceeds $\frac{3k}{2}t$ then there doesn't exist a list of `small' size ($<2^{k/2}$) that can capture all clusterings which satisfy $\lambda$-center separation.\\
 \end{enumerate}
 \item  {\it Positive result under sparse noise} - In Section \ref{section:lambdaPositiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\lambda \ge 4$ and $\eta \ge 1$; for any value of parameters $r$ and $t$, Alg.\ref{alg:lambdacs} outputs a clustering which respects all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfies $(\lambda, \eta)$-center proximity and $m(C^*)=t$ and $r(C^*) = r$.\\
-\item  {\it Lower bound under sparse noise} - In Section \ref{section:lambdaLowerBoundSparse}, we show that, if $\lambda < 4$ and $\eta \le 1$ then there is no tree (and no list of `small' size) which can capture all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $(\lambda, \eta)$-center proximity even for fixed values of the size of the smallest cluster $(m(C) = t)$ and maximum radius ($r(C) = r$).
+\item  {\it Lower bound under sparse noise} - In Section \ref{section:lambdaLowerBoundSparse}, we show that, if $\lambda < 4$ and $\eta \le 1$ then there is no tree and no list of `small' size ($<2^{k/2}$) which can capture all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $(\lambda, \eta)$-center proximity even for fixed values of the size of the smallest cluster $(m(C) = t)$ and maximum radius ($r(C) = r$).
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -542,8 +593,20 @@ Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\th
 Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 6$, the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\lambda$-center separation.
 
 We will show that no algorithm can output a tree which captures $\mc C_{\mc S}, \mc C_{\mc S'}$ and $\mc C_{S''}$. The proof is identical to the proof of Thm. \ref{thm:nosparsealg} and hence we omit it here.
+\qed
 \end{proof}
 
+\begin{theorem}
+\label{thm:nosparselistlambdacs}
+Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda \le 6$ there exists a clustering instance $(\mc X, d)$ such that any list $\mc L$ (of clusterings of $\mc X$) has the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S}$ which satisfies $\lambda$-center separation such that $m(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.  
+
+If $|\mc L| < 2^{\frac{k}{2}}$ and $|\mc X \setminus \mc S|\ge \frac{k}{2}(\frac{3t(\mc C_{\mc S})}{2}+5)$, then $\mc L$ doesn't capture $\mc C_{\mc S}$.
+\end{theorem}
+
+\begin{proof}
+The proof is identical to the proof of Thms. \ref{thm:nolistalphacp} and \ref{thm:nosparselistalphacp}. 
+\qed
+\end{proof}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Positive result under sparse noise}
@@ -657,7 +720,17 @@ Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ a
 We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ and $\mc C_{S'}$. The proof is identical to the proof of Thm. \ref{thm:noalgalphacp} and hence we omit it here.
 \end{proof}
 
+\begin{theorem}
+\label{thm:nolistlambdacs}
+Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda \le 4$ and $\eta \le 1$ there exists a clustering instance $(\mc X, d)$ such that any list $\mc L$ (of clusterings of $\mc X$) has  the following property. If $|\mc L| < 2^{\frac{k}{2}}$ then there exists $\mc S \subseteq \mc X$ and clustering $\mc C_{\mc S}$ which satisfies $(\lambda, \eta)$-center separation and $ m(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$, but 
 
+$\mc L$ doesn't capture $\mc C_{\mc S}$.
+\end{theorem}
+
+\begin{proof}
+The proof is identical to the proof of Thms. \ref{thm:nolistalphacp} and \ref{thm:nosparselistalphacp}. 
+\qed
+\end{proof}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\section{Conclusion}
 %\label{sec:conc}
@@ -672,6 +745,11 @@ We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ 
 \appendix
 \section{Technical result}
 \label{appendix:sectiontr}
+
+\begin{theorem}[Vapnik and Chervonenkis \cite{vapnik2015uniform}]\label{theorem:vceapprox}
+Let $X$ be a domain set and $D$ a probability distribution over $X$. Let $H$ be a class of subsets of $X$ of finite VC-dimension $d$. Let $\epsilon, \delta \in (0,1)$. Let $S \subseteq X$ be picked i.i.d according to $D$ of size $m$. If $m > \frac{c}{\epsilon^2}(d\log \frac{d}{\epsilon}+\log\frac{1}{\delta})$, then  with probability $1-\delta$ over the choice of $S$, we have that $\forall h \in H$
+$$\bigg|\frac{|h\cap S|}{|S|} - P(h)\bigg| < \epsilon$$
+\end{theorem}
 
 \iffalse
 \begin{theorem}
