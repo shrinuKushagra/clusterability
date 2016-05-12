@@ -114,25 +114,25 @@ Assuming that the centers belong to $\mc X$ ({\em proper} setting),  \cite{awast
 
 However, as mentioned above, these results apply only to the noiseless case.
 Few methods have been suggested for analyzing clusterability in the presence of noise. 
-\cite{balcan2012clustering} consider a dataset which has $\alpha$-center proximity except for an $\epsilon$ fraction of the points. They give an efficient algorithm which provides a $1+O(\epsilon)$-approximation to the cost of the $k$-median optimal solution when $\alpha > 2+\sqrt{7} \approx 4.6$. Note that, while this result applies to adversarial noise as well, it only yields an approximatetion to the desired solution and  the approximation guarantee is heavily influenced by the size of noise.
+\cite{balcan2012clustering} consider a dataset which has $\alpha$-center proximity except for an $\epsilon$ fraction of the points. They give an efficient algorithm which provides a $1+O(\epsilon)$-approximation to the cost of the $k$-median optimal solution when $\alpha > 2+\sqrt{7} \approx 4.6$. Note that, while this result applies to adversarial noise as well, it only yields an approximation to the desired solution and  the approximation guarantee is heavily influenced by the size of noise. 
 
 In a different line of work, \cite{ben2014clustering} studied the problem of robustifying any center-based clustering objective to noise. To achieve this goal, they introduce the notion of {\em center separation} (look at Def. \ref{defn:lambdacs}). Informally, an input has center separation when it can be covered by $k$ well-separated set of balls.
 Given such an input, they propose a paradigm which converts any center-based clustering algorithm into a clustering algorithm which is robust to small amount of noise.
 Although this framework works for any objective-based clustering algorithm, it requires a strong restriction on the noise and clusterability of the data. For example, when the size of the noise is $\frac{5}{100}|\mc X|$, their algorithm is able to obtain a robustified version of $2$-median, only if $\mc X$ is covered by $k$ unit balls which are separated with distance $10$. 
 
-In this work, we consider a natural relaxation of \cite{balcan2012clustering,ben2014clustering}, with the goal to capture more realistic domains containing arbitrary amount of noise, assuming that noise is \emph{structureless} (in a precise sense defined below). 
+In this work, we consider a natural relaxation of \cite{balcan2012clustering,ben2014clustering}, with the goal to capture more realistic domains containing arbitrary amount of noise, assuming that noise is \emph{structureless} (in a precise sense defined below). For example, in \cite{balcan2012clustering}, the size of the noise $|\mc N| \le \frac{m(C)}{8}$ (where $m(C)$ is size of the smallest cluster). Our algorithms can handle much larger amount of noise as long as they satisfy the {\it structureless} condition.
 
-We define a novel notion of ``gray background" noise. Informally, we call noise {\em structureless} if it does not have similar structure to a {\em nice} cluster at any part of the domain. Under that definition (look at Def.~\ref{def:alphaeta}), our positive, efficient clustering results, do not depend on any restriction on the size of the noise.
+We define a novel notion of ``gray background" noise. Informally, we call noise {\em structureless} if it does not have similar structure to a {\em nice} cluster at any part of the domain. Under that definition (look at Def.~\ref{def:alphaeta}), our positive, efficient clustering results, do not depend on any restriction on the size of the noise. 
 
 Given a clusterable input $\mc X$ which contains {\em structureless} noise, we propose an efficient algorithm that outputs a hierarchical clustering tree of $\mc X$ that captures all {\em nice} clusterings of $\mc X$. Our algorithm perfectly recovers the underlying {\em nice} clusterings of the input and its performance is independent of number of noisy points in the domain. 
 
-We complement our algorithmic results by proving that under more relaxed conditions, either on the level of clusterability of the clean part of the data, or on the unstructurness requirements on the noise, such results become impossible. 
+We complement our algorithmic results by proving that under more relaxed conditions, either on the level of clusterability of the clean part of the data, or on the unstructuredness requirements on the noise, such results become impossible. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Outline}
 
-The rest of this paper is structured as follows. In Section \ref{sec:Notation}, we present our notation and formal definitions. In Section \ref{Noise_justify} we show that noise of teh type we address in this paper is likely to arise under some natural assumptions on teh date generating process. In Section \ref{section:cp}, we present an efficient algorithm that, for any input set $\mc X$ which contains structureless noise, recovers all the underlying clusterings of non-noise subset of $\mc X$ that satisfies $\alpha$-center proximity for $\alpha > 2+\sqrt{7}$. We complement these results by proving that for $\alpha \leq 2\sqrt{2}+3$ in the case that we have arbitrary noise and for $\alpha \leq \sqrt{2}+3$ in the case of structureless noise, efficient discovery of all nicely structured subsets is not possible.
+The rest of this paper is structured as follows. In Section \ref{sec:Notation}, we present our notation and formal definitions. In Section \ref{Noise_justify} we show that noise of the type we address in this paper is likely to arise under some natural assumptions on the date generating process. In Section \ref{section:cp}, we present an efficient algorithm that, for any input set $\mc X$ which contains structureless noise, recovers all the underlying clusterings of non-noise subset of $\mc X$ that satisfies $\alpha$-center proximity for $\alpha > 2+\sqrt{7}$. We complement these results by proving that for $\alpha \leq 2\sqrt{2}+3$ in the case that we have arbitrary noise and for $\alpha \leq \sqrt{2}+3$ in the case of structureless noise, efficient discovery of all nicely structured subsets is not possible.
 
 In Section \ref{sec:cswithout}, we describe an efficient algorithm that, for any input $\mc X$, recovers all the underlying clusterings of $\mc X$ that satisfy $\lambda$-center separation for $\lambda \geq 3$. We also prove that it is NP-Hard to improve this to $\lambda \leq 2$. In Section \ref{sec:cswith}, we consider a similar problem in the presence of either arbitrary or structureless noise. We propose an efficient algorithm that, for any input $\mc X$ which contains structureless noise, recovers all the underlying clusterings of non-noise subsets of $\mc X$ that satisfy $\lambda$-center separation for $\lambda \geq 4$. We will also show that this result is tight for the case of structureless noise. We complement our results by showing that, under arbitrary noise assumption, no similar positive result can be achieved for $\lambda \leq 6$.
 
@@ -221,12 +221,12 @@ We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c
 
 In this section, we examine our sparseness condition. We will show that if the set of points $\mc N$ are generated by a non concentrated distribution in a ball in $\mb R^d$ then with high probability, as long as $\mc N$ is not too large (so as to "drown" the original data set), it will satisfy the sparse noise condition. The proof is based on the epsilon approximation theorem for classes of finite VC-dimension, applied to the set of balls in $\mb R^d$. 
 
-The following, rather natural, definition of non concentrated distribution was introduced in \cite{Balcan, Blum, Fine, Mansour}.
+The following, rather natural, definition of non concentrated distribution was introduced in \cite{balcan2012distributed}.
 \begin{definition} 
 A probability distribution over the $d$-dimensional unit ball is \emph{non-concentrated} if, for some constant $c$, the probability density of any point $x$ is at most $c$ times its density under the uniform distribution over that ball.
 \end{definition}
 
-\begin{theorem}[noise geenrated by non concertrated distributions is sparse]
+\begin{theorem}[noise generated by non concentrated distributions is sparse]
 \label{theorem:sparse}
 Let $\mc X$ be a ball of radius $R$ in $\mb R^d$ and $\mc S \subseteq \mc X$. Let $\mc C$ be a clustering of $S$ which satisfies $\alpha$-center proximity (or $\lambda$-center separation). Given parameters $\epsilon, \delta \in (0,1)$. Let $\mc N \subseteq \mc X$ be picked i.i.d according to a non concentrated probability distribution. If 
 %\begin{itemize} \item $|\mc N| > \frac{c}{\epsilon^2}\Big((d+1)\log \frac{d+1}{\epsilon}+\log\frac{1}{\delta}\Big)$\item 
@@ -237,20 +237,19 @@ Let $\mc X$ be a ball of radius $R$ in $\mb R^d$ and $\mc S \subseteq \mc X$. Le
 then with high probability, $S \cup \mc N$  satisfies $(\alpha, \eta)$-center proximity (the $(\lambda, \eta)$-center separation, respectively).
 \end{theorem}
 \begin{proof}
-Let $H = \{B \text{ is a ball }: B \subseteq X\}$. Observe that $\vcdim(H) = d+1$. Let $\gamma := \frac{r(C)}{R}$. Sincethe noise-generating distribution $P$ is $c$-concentrarted, for every ball $B$, $P(B) \leq c \frac{\vol(B)}{\vol(X)} = c\gamma^d$. Now, the fundamental $\epsilon$-approximation theorem (Thm. \ref{theorem:vceapprox}) establishes teh result.
+Let $H = \{B \text{ is a ball }: B \subseteq X\}$. Observe that $\vcdim(H) = d+1$. Let $\gamma := \frac{r(C)}{R}$. Sincethe noise-generating distribution $P$ is $c$-concentrarted, for every ball $B$, $P(B) \leq c \frac{\vol(B)}{\vol(X)} = c\gamma^d$. Now, the fundamental $\epsilon$-approximation theorem (Thm. \ref{theorem:vceapprox}) establishes the result.
 \qed
 \end{proof}
 
 \noindent Note that Thm. \ref{theorem:sparse} shows that the cardinality of the noise set, $|\mc N|$, can be much bigger than the size of the smallest cluster $m(\mc C)$. 
 
-\textbf{MOVE THE FOLLOWING REMARK TO THE PREVIOUS WORK SECTION:} \textit{Some previous works have also examined clustering under the presence of adversarial noise. However, they were restricted to the case when the size of noise was small. For example, in \cite{balcan2012clustering} $|\mc N| \le \frac{m(C)}{8}$. Our algorithms can handle much larger amount of noise as long as they satisfy the sparseness condition. }
+%\textbf{MOVE THE FOLLOWING REMARK TO THE PREVIOUS WORK SECTION:} \textit{Some previous works have also examined clustering under the presence of adversarial noise. However, they were restricted to the case when the size of noise was small. For example, in \cite{balcan2012clustering} $|\mc N| \le \frac{m(C)}{8}$. Our algorithms can handle much larger amount of noise as long as they satisfy the sparseness condition. }
 \section{Center Proximity}
 \label{section:cp}
 
-In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. The goal of our algorithm is to produce an efficient representation (hierarchical clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings rather than to output a single clustering or optimize an objective function.  In Section \ref{section:positiveResultSparseNoise} we present our main result (Alg.\ref{alg:alphacp}). This algorithm efficiently computes a hierarchical clustering tree that captures all possible $(\alpha,\eta)$-center proximal clusterings of $\mc X$, for introduced values of $\alpha$ and $\eta$. In Section \ref{section:alphaLowerBoundArbitrary}, we show that, in the presence of arbitrary noise, there is no tree that captures all $\alpha$-center proximal clusterings of $\mc X$ even with stronger clusterability assumptions (bigger value of $\alpha$). In Section \ref{section:alphaLowerBoundSparse}, we show that, in the presence of sparse noise, there is no tree that outputs all $(\alpha,\eta)$-center proximal nice clusterings of $\mc X$ for introduced values of $(\alpha, \eta)$. 
-
-\textbf{I DO NOT THINK THAT WE NEED TO REPEAT THE OVERVIEW AGAIN. JUST PICK ONE OF THE ABOVE/BELOW AND DELETE TEH OTHER}  
-
+In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. The goal of our algorithm is to produce an efficient representation (hierarchical clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings rather than to output a single clustering or optimize an objective function.  
+%In Section \ref{section:positiveResultSparseNoise} we present our main result (Alg.\ref{alg:alphacp}). This algorithm efficiently computes a hierarchical clustering tree that captures all possible $(\alpha,\eta)$-center proximal clusterings of $\mc X$, for introduced values of $\alpha$ and $\eta$. In Section \ref{section:alphaLowerBoundArbitrary}, we show that, in the presence of arbitrary noise, there is no tree that captures all $\alpha$-center proximal clusterings of $\mc X$ even with stronger clusterability assumptions (bigger value of $\alpha$). In Section \ref{section:alphaLowerBoundSparse}, we show that, in the presence of sparse noise, there is no tree that outputs all $(\alpha,\eta)$-center proximal nice clusterings of $\mc X$ for introduced values of $(\alpha, \eta)$. 
+%\textbf{I DO NOT THINK THAT WE NEED TO REPEAT THE OVERVIEW AGAIN. JUST PICK ONE OF THE ABOVE/BELOW AND DELETE THE OTHER}  
 Here is a more precise overview of the results of this section: 
 \begin{itemize}
 \item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we give our main result under sparse noise. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$; for any value of $t$, Alg.\ref{alg:alphacp} outputs a tree which captures all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity and $m(C^*)=t$.
@@ -569,7 +568,9 @@ $\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l <
 
 \subsection{Center Separation in the presence of noise}
 \label{sec:cswith}
-In this section, we study the problem of recovering $(\lambda, \eta)$-center separated clusterings of a set $\mc X$, in the presence of noise. In Section \ref{section:lambdaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\lambda$-center separated clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:lambdaPositiveResultSparseNoise} introduces an algorithm that outputs a clustering which respects all $(\lambda,\eta)$-center separated clusterings of $\mc X$, for introduced values of $\lambda$ and $\eta$. In Section \ref{section:lambdaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\lambda,\eta)$-center proximal nice clusterings of $\mc X$. Here is a more precise overview of the results of this section:
+In this section, we study the problem of recovering $(\lambda, \eta)$-center separated clusterings of a set $\mc X$, in the presence of noise. 
+%In Section \ref{section:lambdaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\lambda$-center separated clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:lambdaPositiveResultSparseNoise} introduces an algorithm that outputs a clustering which respects all $(\lambda,\eta)$-center separated clusterings of $\mc X$, for introduced values of $\lambda$ and $\eta$. In Section \ref{section:lambdaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\lambda,\eta)$-center proximal nice clusterings of $\mc X$. 
+Here is a more precise overview of the results of this section:
 \begin{itemize}
 \item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that for a given value of parameters $r$ and $t$, if $\lambda \le 6$, then even for fixed $m(\mc C) = t$ and $r(\mc C) = r$,
 \begin{enumerate}
