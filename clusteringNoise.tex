@@ -4,7 +4,7 @@
 \def\COMPLETE{}
 \usepackage[boxruled]{algorithm2e}
 \usepackage{amsmath,amssymb,amstext}
-\usepackage[margin=1in]{geometry}
+%\usepackage[margin=1in]{geometry}
 
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -23,7 +23,7 @@
 
 \newtheorem{fact}[theorem]{Fact}
 \newtheorem{conj}[theorem]{Conjecture}
-
+\newtheorem{smallLemma}{Claim}
 
 \newcommand{\mc}{\mathcal}
 \newcommand{\mb}{\mathbf}
@@ -58,8 +58,9 @@
 \newcommand{\fix}{\textcolor{blue}{[FIX]}\xspace}
 \newcommand{\q}{\textcolor{blue}{[?]}\xspace}
 
-\title{Finding meaningful cluster structure amidst background noise}
+\title{Finding Meaningful Cluster Structure amidst Background Noise}
 \author{Student submission}
+\institute{}
 %\institute{School of Computer Science\\University of Waterloo\\ Waterloo, ON, N2L 3G1 \\CANADA \\ \email{\{skushagr@,shai@cs.\}uwaterloo.ca}}
 
 
@@ -72,34 +73,22 @@ We consider efficient clustering algorithm under data clusterability assumptions
 or some noise generative model, we examine a realistically motivated setting in which the only restriction about the noisy part of the data is that it does not
 create significantly large ``clusters". Another aspect in which our model deviates from common approaches is that we stipulate the goals of clustering as discovering meaningful cluster structure in the data, rather than optimizing some objective (clustering cost).
 
-We introduce efficient algorithms that discover and cluster every subset of the data with meaningful structure and lack of structure on its complement (under some formal definition of such "structure").
-Notably, the success of our algorithms does not depend on any upper bound on the fraction of noisy data.
+We introduce efficient algorithms that discover and cluster every subset of the data with meaningful structure and lack of structure on its complement (under some formal definition of such "structure"). Notably, the success of our algorithms does not depend on any upper bound on the fraction of noisy data.
 
 We complement our results by showing that when either the notions of structure or the noise requirements are relaxed, no such results are possible.
-
 \end{abstract}
 
-\begin{keywords}
-Noise-robust clustering, $\alpha$-center proximity, $\lambda$-center separation
-\end{keywords}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%I
 
 \section{Introduction}
 \label{sec:intro}
-
-Clustering is an umbrella term for a wide variety of unsupervised data processing techniques. Being widely applied in practice, it comes in many variations that are hard to encompass in a precise single definition. A relatively comprehensive description is  that clustering aims to group together data instances that are similar, while separating dissimilar objects. Most of the common clustering tools output a partitioning of the input data into groups, clusters, that share some form of cohesiveness or between-cluster separation requirement\footnote{The assignment to clusters can sometimes be probabilistic, and clusters may be allowed to intersect, but these aspects are orthogonal to the discussion in this paper.}. However, in many cases, real data sets, in particular large ones, have on top of such cohesive separated groups, a significant amount of 
-``background" unstructured data. An obvious example of such a scenario is when the input data set is the set of pixels of an image and the goal of the clustering is to detect groups of pixels that correspond to objects in that image. Clustering in such situations is the focus of this work. Maybe surprisingly, this topic has received relatively little attention in the clustering research community, and even less so when it comes to theoretical work. 
+Clustering is an umbrella term for a wide variety of unsupervised data processing techniques. Being widely applied in practice, it comes in many variations that are hard to encompass in a precise single definition. A relatively comprehensive description is  that clustering aims to group together data instances that are similar, while separating dissimilar objects. Most of the common clustering tools output a partitioning of the input data into groups, clusters, that share some form of cohesiveness or between-cluster separation requirement\footnote{The assignment to clusters can sometimes be probabilistic, and clusters may be allowed to intersect, but these aspects are orthogonal to the discussion in this paper.}. However, in many cases, real data sets, in particular large ones, have on top of such cohesive separated groups, a significant amount of ``background" unstructured data. An obvious example of such a scenario is when the input data set is the set of pixels of an image and the goal of the clustering is to detect groups of pixels that correspond to objects in that image. Clustering in such situations is the focus of this work. Maybe surprisingly, this topic has received relatively little attention in the clustering research community, and even less so when it comes to theoretical work. 
 
 The discussion of finding clustering structure in data sets that also contain subsets that do not conform well to that structure usually falls under the terminology of noise robustness (see e.g., \cite{balcan2012clustering},\cite{ackerman2009clusterability},\cite{dave1993robust}, \cite{cuesta1997trimmed},\\\cite{garcia2008general}). However, noise robustness, at least in that context, addresses the noisy part of the data as either generated by some specific generative model (like uniform random noise, or Gaussian perturbations) or refers to worst-case adversarially generated noisy data. In this paper we take a different approach. What distinguishes the noise that we consider form the ``clean" part of the input data is that it is \emph{structureless}. The exact meaning of such a notion of structurlessness may vary depending on the type of structure the clustering algorithm is aiming to detect in the data. We focus on defining structurelessness as  not having significantly large dense subsets. we believe that such a notion is well suited to address ``gray background" contrasting with cohesive subsets of the data that are the objects that the clustering aims to detect. 
 
-The distinction between structured and unstructured parts of the data requires, of course, a clear notion of relevant structure. For that, we resort to a relatively large body of recent work proposing notions of clusterable data sets. That work was developed mainly to address the gap between the computational hardness of (the optimization problem of) many common clustering 
-objectives and the apparent feasibility of clustering in practical applications. We refer the reader to \cite{ben2015computational} for a survey of that body of work.
-Here, we focus on two such notions, one based on the $\alpha$-center-proximity introduced by \cite{awasthi2012center} and the other, $\lambda$-separation, introduced by \cite{ben2014clustering}.
+The distinction between structured and unstructured parts of the data requires, of course, a clear notion of relevant structure. For that, we resort to a relatively large body of recent work proposing notions of clusterable data sets. That work was developed mainly to address the gap between the computational hardness of (the optimization problem of) many common clustering objectives and the apparent feasibility of clustering in practical applications. We refer the reader to \cite{ben2015computational} for a survey of that body of work. Here, we focus on two such notions, one based on the $\alpha$-center-proximity introduced by \cite{awasthi2012center} and the other, $\lambda$-separation, introduced by \cite{ben2014clustering}.
 
 
-Our approach diverges from previous discussions of clusterable inputs in yet another aspect. Much of the theoretical research of clustering algorithms views clustering as an optimization problem. For some predetermined objective function (or clustering cost), the algorithm's task is to find the data partitioning that minimizes that objective. In particular, this approach is shared by all the works surveyed in \cite{ben2015computational}. We believe the reality of clustering applications is different. Given a large data set to cluster, there is no way a user may know what is the cost of the optimal clustering of that data, or how close to optimal the algorithm's outcome is. Instead, a user might have a notion of meaningful cluster structure, and will be happy with any outcome that meets such a requirement. Consequently, our algorithms aim to provide meaningful clustering solutions (where ``meaningful" is defined in a way inspired by the above mentioned notions of clusterability) without reference to any particular optimization objective function. Our algorithms efficiently compute a hierarchical clustering tree that captures all such meaningful solutions. One should notice that all of those notions of clusterability (those under which it can be show that an objective-minimizing clustering can be found efficiently) assume that there exists an optimal solution that satisfies the meaningfulness condition (such as being perturbation robust, or having significantly smaller distances of points to their own cluster centers than to other centers). Under those assumptions, an algorithm that outputs a tree capturing all meaningful solutions, allows efficient detection of the cost-optimal clustering (in fact, the algorithms of \cite{balcan2012clustering} also yield such trees, for clean, noiseless inputs). Consequently, under the assumptions of those previous works, our algorithms yield an efficient procedure for findingsuch an optimal solution.
+Our approach diverges from previous discussions of clusterable inputs in yet another aspect. Much of the theoretical research of clustering algorithms views clustering as an optimization problem. For some predetermined objective function (or clustering cost), the algorithm's task is to find the data partitioning that minimizes that objective. In particular, this approach is shared by all the works surveyed in \cite{ben2015computational}. We believe the reality of clustering applications is different. Given a large data set to cluster, there is no way a user may know what is the cost of the optimal clustering of that data, or how close to optimal the algorithm's outcome is. Instead, a user might have a notion of meaningful cluster structure, and will be happy with any outcome that meets such a requirement. Consequently, our algorithms aim to provide meaningful clustering solutions (where ``meaningful" is defined in a way inspired by the above mentioned notions of clusterability) without reference to any particular optimization objective function. Our algorithms efficiently compute a hierarchical clustering tree that captures all such meaningful solutions. One should notice that all of those notions of clusterability (those under which it can be show that an objective-minimizing clustering can be found efficiently) assume that there exists an optimal solution that satisfies the meaningfulness condition (such as being perturbation robust, or having significantly smaller distances of points to their own cluster centers than to other centers). Under those assumptions, an algorithm that outputs a tree capturing all meaningful solutions, allows efficient detection of the cost-optimal clustering (in fact, the algorithms of \cite{balcan2012clustering} also yield such trees, for clean, noiseless inputs). Consequently, under the assumptions of those previous works, our algorithms yield an efficient procedure for finding such an optimal solution.
 
 \subsection{Related Work}
 The goal of clustering is to partition a set of objects into {\em dissimilar} subsets of {\em similar} objects. Based on the definition of similarity, the optimal solution to a clustering task is achieved by optimizing an objective function. Although solving this optimization problem is usually NP-hard, the clustering task is routinely and successfully employed in practice. This gap between theory and practice recommends characterizing the real world data sets by defining mathematical notions of {\em clusterabe} data. As the result, provably efficient clustering algorithms can be found for these so called {\em nice} data.  
@@ -132,9 +121,7 @@ We complement our algorithmic results by proving that under more relaxed conditi
 
 The rest of this paper is structured as follows. In Section \ref{sec:Notation}, we present our notation and formal definitions. In Section \ref{Noise_justify} we show that noise of the type we address in this paper is likely to arise under some natural assumptions on the date generating process. In Section \ref{section:cp}, we present an efficient algorithm that, for any input set $\mc X$ which contains structureless noise, recovers all the underlying clusterings of non-noise subset of $\mc X$ that satisfies $\alpha$-center proximity for $\alpha > 2+\sqrt{7}$. We complement these results by proving that for $\alpha \leq 2\sqrt{2}+3$ in the case that we have arbitrary noise and for $\alpha \leq \sqrt{2}+3$ in the case of structureless noise, efficient discovery of all nicely structured subsets is not possible.
 
-In Section \ref{sec:cswithout}, we describe an efficient algorithm that, for any input $\mc X$, recovers all the underlying clusterings of $\mc X$ that satisfy $\lambda$-center separation for $\lambda \geq 3$. We also prove that it is NP-Hard to improve this to $\lambda \leq 2$. In Section \ref{sec:cswith}, we consider a similar problem in the presence of either arbitrary or structureless noise. We propose an efficient algorithm that, for any input $\mc X$ which contains structureless noise, recovers all the underlying clusterings of non-noise subsets of $\mc X$ that satisfy $\lambda$-center separation for $\lambda \geq 4$. We will also show that this result is tight for the case of structureless noise. We complement our results by showing that, under arbitrary noise assumption, no similar positive result can be achieved for $\lambda \leq 6$.
-
-
+In Section \ref{sec:cswithout}, we describe an efficient algorithm that, for any input $\mc X$, recovers all the underlying clusterings of $\mc X$ that satisfy $\lambda$-center separation for $\lambda \geq 3$. We also prove that it is NP-Hard to improve this to $\lambda \leq 2$. In Section \ref{sec:cswith}, we consider a similar problem in the presence of either arbitrary or structureless noise. We propose an efficient algorithm that, for any input $\mc X$ which contains structureless noise, recovers all the underlying clusterings of non-noise subsets of $\mc X$ that satisfy $\lambda$-center separation for $\lambda \geq 4$. We will also show that this result is tight for the case of structureless noise. We complement our results by showing that, under arbitrary noise assumption, no similar positive result can be achieved for $\lambda \leq 6$. Note that all our missing proofs can be found in the appendix.
 
 \section{Notation and definition}
 \label{sec:Notation}
@@ -142,22 +129,22 @@ Let $(\mb M, d)$ be a metric space. Given a data set $\mc X \subseteq \mc M$ and
 
 For any set $\mc A\subseteq \mc X$ with centre $c\in \mb M$, we define the radius of $\mc A$ as $r_c(\mc A) = \max_{x \in \mc A} d(x, c)$. Throughout, we will use the notation $\mc C_{\mc X}$ to denote the clustering of the set $\mc X$ and $\mc C_{\mc S}$ to denote the clustering of some $\mc S\subseteq \mc X$. 
 
-\vspace{-0.13in}\begin{definition}[$r(\mc C_{\mc X})$ , $m(\mc C_{\mc X})$] Given a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k \in \mb M$. 
+\begin{definition}[$r(\mc C_{\mc X})$ , $m(\mc C_{\mc X})$] Given a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k \in \mb M$. 
 \begin{itemize}[nolistsep, noitemsep]
 \item $m(\mc{C}_{\mc{X}}) = \min_i |C_i|$
 \item $r(\mc{C}_{\mc{X}}) = \max_i \thinspace r(C_i)$
 \end{itemize}
 \end{definition}
 
-\vspace{-0.2in}
 \begin{definition}[$\mc C_{\mc X}$ restricted to a set] Given $\mc S \subseteq \mc X$ and a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of the set $\mc X$. We define $\mc C_{\mc X}$ restricted to the set $\mc S$ as $\mc C_{{\mc X}|_{\mc S}} = \{C_1 \cap S, \ldots, C_k \cap S\}$. 
 \end{definition}
 
-\vspace{-0.2in}
 \begin{definition}[$\mc C_{\mc X}$ respects $\mc C_{\mc S}$] Given $\mc S \subseteq \mc X$, clusterings $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ and $\mc C_{\mc S} = \{S_1, \ldots, S_{k'}\}$. We say that $\mc C_{\mc X}$ respects $\mc C_{\mc S}$ if $\mc C_{{\mc X}|_{\mc S}} = \mc C_{\mc S}$.
 \end{definition}
 
-\begin{definition}[$\mc T$ captures $\mc C_{\mc S}$]Given a hierarchical clustering tree $\mc T$ of $\mc X$ and a clustering $\mc C_{\mc S}$ of $\mc S \subseteq \mc X$.  We say that $\mc T$ captures $\mc C_{\mc S}$ if there exists a pruning $\mc P$ which respects $\mc C_{\mc S}$.
+\begin{definition}[$\mc T$ or $\mc L$ captures $\mc C_{\mc S}$]Given a hierarchical clustering tree $\mc T$ of $\mc X$ and a clustering $\mc C_{\mc S}$ of $\mc S \subseteq \mc X$.  We say that $\mc T$ captures $\mc C_{\mc S}$ if there exists a pruning $\mc P$ which respects $\mc C_{\mc S}$. 
+
+Similarly, given a list of clusterings $\mc L$ of $\mc X$ and a clustering $\mc C_{\mc S}$ of $\mc S \subseteq \mc X$. We say that $\mc L$ captures $\mc C_{\mc S}$ if there exists a clustering $\mc C_{\mc X} \in \mc L$ which respects $\mc C_{\mc S}$. 
 \end{definition}
 
 \begin{definition}[$\alpha$-center proximity \cite{awasthi2012center}]
@@ -224,7 +211,7 @@ The following, rather natural, definition of non concentrated distribution was i
 A probability distribution over the $d$-dimensional unit ball is \emph{non-concentrated} if, for some constant $c$, the probability density of any point $x$ is at most $c$ times its density under the uniform distribution over that ball.
 \end{definition}
 
-\begin{theorem}[noise generated by non concentrated distributions is sparse]
+\begin{theorem}[Noise generated by non concentrated distributions is sparse]
 \label{theorem:sparse}
 Let $\mc X$ be a ball of radius $R$ in $\mb R^d$ and $\mc S \subseteq \mc X$. Let $\mc C$ be a clustering of $S$ which satisfies $\alpha$-center proximity (or $\lambda$-center separation). Given parameters $\epsilon, \delta \in (0,1)$. Let $\mc N \subseteq \mc X$ be picked i.i.d according to a non concentrated probability distribution. If 
 %\begin{itemize} \item $|\mc N| > \frac{c}{\epsilon^2}\Big((d+1)\log \frac{d+1}{\epsilon}+\log\frac{1}{\delta}\Big)$\item 
@@ -241,51 +228,36 @@ Let $H = \{B \text{ is a ball }: B \subseteq X\}$. Observe that $\vcdim(H) = d+1
 
 \noindent Note that Thm. \ref{theorem:sparse} shows that the cardinality of the noise set, $|\mc N|$, can be much bigger than the size of the smallest cluster $m(\mc C)$. 
 
-%\textbf{MOVE THE FOLLOWING REMARK TO THE PREVIOUS WORK SECTION:} \textit{Some previous works have also examined clustering under the presence of adversarial noise. However, they were restricted to the case when the size of noise was small. For example, in \cite{balcan2012clustering} $|\mc N| \le \frac{m(C)}{8}$. Our algorithms can handle much larger amount of noise as long as they satisfy the sparseness condition. }
 \section{Center Proximity}
 \label{section:cp}
 
-In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. The goal of our algorithm is to produce an efficient representation (hierarchical clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings rather than to output a single clustering or optimize an objective function.  
-%In Section \ref{section:positiveResultSparseNoise} we present our main result (Alg.\ref{alg:alphacp}). This algorithm efficiently computes a hierarchical clustering tree that captures all possible $(\alpha,\eta)$-center proximal clusterings of $\mc X$, for introduced values of $\alpha$ and $\eta$. In Section \ref{section:alphaLowerBoundArbitrary}, we show that, in the presence of arbitrary noise, there is no tree that captures all $\alpha$-center proximal clusterings of $\mc X$ even with stronger clusterability assumptions (bigger value of $\alpha$). In Section \ref{section:alphaLowerBoundSparse}, we show that, in the presence of sparse noise, there is no tree that outputs all $(\alpha,\eta)$-center proximal nice clusterings of $\mc X$ for introduced values of $(\alpha, \eta)$. 
-%\textbf{I DO NOT THINK THAT WE NEED TO REPEAT THE OVERVIEW AGAIN. JUST PICK ONE OF THE ABOVE/BELOW AND DELETE THE OTHER}  
-Here is a more precise overview of the results of this section: 
-\begin{itemize}
+In this section, we study the problem of recovering $(\alpha, \eta)$-center proximal clusterings of a set $\mc X$, in the presence of noise. The goal of our algorithm is to produce an efficient representation (hierarchical clustering tree) of all possible $(\alpha, \eta)$-center proximal nice clusterings rather than to output a single clustering or optimize an objective function. Here is a more precise overview of the results of this section: 
+\begin{itemize}[nolistsep,noitemsep,leftmargin=*]
 \item  {\it Positive result under sparse noise} - In Section \ref{section:positiveResultSparseNoise}, we give our main result under sparse noise. If $\alpha \ge 2 + \sqrt{7} \approx 4.6$ and $\eta \ge 1$; for any value of $t$, Alg.\ref{alg:alphacp} outputs a tree which captures all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity and $m(C^*)=t$.
-\item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that, if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$ then even for a fixed value of the size of the smallest cluster $(m(C) = t)$
-\begin{enumerate}
-\item No tree can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity.
-\item There doesn't exist a list of `small' size ($<2^{k/2}$) that can capture all clusterings which satisfy $(\alpha, \eta)$-center proximity.
-\end{enumerate}
+\item  {\it Lower bound under sparse noise} - In Section \ref{section:alphaLowerBoundSparse}, we show that if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$ then there is no tree and no list of small size ($< 2^{k/2}$) which can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $(\alpha, \eta)$-center proximity even for a fixed value of the size of the smallest cluster $(m(C) = t)$.
 \item {\it Lower bound with arbitrary noise} - In Section \ref{section:alphaLowerBoundArbitrary}, we show that for a given value of a parameter $t$, if $\alpha \le 2\sqrt{2} + 3 \approx 5.8$ then even for fixed $m(\mc C) = t$,
-\begin{enumerate}
+\begin{enumerate}[nolistsep,noitemsep]
 \item If the number of noisy points exceeds $\frac{3}{2}t$ then no tree can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $\alpha$-center proximity.
-\item If the number of noisy points exceeds $\frac{3k}{2}t$ then there doesn't exist a list of `small' size ($<2^{k/2}$) that can capture all clusterings which satisfy $\alpha$-center proximity.\\
+\item If the number of noisy points exceeds $\frac{3k}{2}t$ then there doesn't exist a list of `small' size ($<2^{k/2}$) that can capture all clusterings which satisfy $\alpha$-center proximity.
 \end{enumerate}
 \end{itemize} 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
 
 \subsection{Positive result under sparse noise}
 \label{section:positiveResultSparseNoise}
 
 Given a clustering instance $(\mc X, d)$ and a parameter $t$, we introduce an efficient algorithm which outputs a hierarchical clustering tree $\mc T$ of $\mc X$ with the following property. For every $k$, for every $\mc S \subseteq \mc X$ and for every $k$-clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity (for $\alpha \ge 2 + \sqrt{7}$ and $ \eta \ge 1)$ and $m(\mc C_{\mc S}) = t$, $\mc T$ captures $\mc C_{\mc S}$. It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$.
 
-
 Our algorithm has a linkage based structure similar to \cite{balcan2012clustering}. However, our method benefits from a novel {\it sparse distance condition}. We introduce the algorithm in Alg.\ref{alg:alphacp} and prove it's efficiency and correctness in Theorem. \ref{thm:algcptime} and Theorem.\ref{thm:alphacpnoise} respectively. 
 
 \begin{definition}[Sparse distance condition]
 	 Given a clustering $\mc C = \{C_1,\ldots,C_k\}$ of the set $\mc X$ and a parameter $t$. We say that the ball $B \subseteq \mc X$ satisfies the sparse distance condition w.r.t clustering $\mc C$ when the following holds.
-\begin{itemize}[noitemsep, leftmargin=*]
+\begin{itemize}[noitemsep,nolistsep,leftmargin=*]
 \item $|B| \ge t$.
 \item For any $C_i \in \mc C$, if $C_i \cap B \neq \phi$, then $C_i \subseteq B$ or $|B \cap C_i| \ge t/2$.
 \end{itemize}
 \end{definition}
 
 Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $\mc C^{(l)}$, which is initialized so that each point is in its own cluster. It then goes over all pairs of points $p, q$ in increasing order of their distance $d(p, q)$. If $B(p, d(p,q))$ satisfies the sparse distance condition w.r.t $\mc C^{(l)}$, then it merges all the clusters which intersect with this ball into a single cluster and updates $\mc C^{^(l)}$. Furthermore, the algorithm builds a tree with the nodes corresponding to the merges performed so far. We will show that for all $\mc S \subseteq \mc X$ which are $(\alpha, \eta)$-proximal $t$-min nice and for all clusterings $\mc C_S$ which have $(\alpha, \eta)$-center proximity, Alg. \ref{alg:alphacp} outputs a tree which captures $\mc C_S$.
-
-	
 \begin{algorithm}
 	\SetAlgoLined
 	\KwIn{$(\mc X, d)$ and $t$}
@@ -300,7 +272,6 @@ Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $
 		\begin{itemize}[noitemsep]
 		\renewcommand\labelitemii{}
 		\item $\mc C^{(l+1)} = \mc C^{(l)}$
-		%\item Merge all the clusters in $Y_B^{C^{(l)}}$ into a single cluster.
 		\item Merge all the clusters which intersect with $B$ into a single cluster.
 		\item Update $\mc C^{(l+1)}$.
 		\end{itemize}
@@ -319,115 +290,23 @@ Given a clustering instance $(\mc X, d)$ and a parameter $t$. Alg. \ref{alg:alph
 If $t(\mc C_{\mc S}^*) = t$ then $\mc T$ captures $\mc C_{\mc S}$.
 \end{theorem}
 
-\begin{proof}
-Fix any $\mc S \subseteq \mc X$. Let $\mc C^*_S = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $t(\mc C_{\mc S}^*) = t$ and $\mc C^*_S$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(S_i^*)$. Throughout the proof, we will refer to $S_i^*$ as the ``good" clusters. Define $Y_B^{\mc C} := \{C_i \in \mc C : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. Note that whenever a ball $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated.
-%Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the clustering of $\mc X$ after $l$ merge steps have been performed (as defined in Alg.\ref{alg:alphacp}). Let $p, q \in \mc X$ be the pair of points being considered at the $(l+1)^{th}$ step. Let's denote $B = B(p, d(p, q))$. Note that whenever $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated. Throughout the proof, we will denote by $S_i^* \in \mc C^*_S$ the clusters of the set $\mc S$ (also called ``good" clusters) and by $C_i \in \mc C^{(l)}$ the clusters of the set $\mc X$ obtained after $l$ merge operations.
-
-\noindent We will prove the theorem by proving two key facts.
-
-\begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
-\renewcommand\labelitemi{$\diamond$}
-\item \label{fact:1} If the algorithm merges points from a good cluster $S_i^*$ with points from some other good cluster,  then at this step the distance being considered $d = d(p,q) > r_i$.	
-\item \label{fact:2} When the algorithm considers the distance $d = r_i$, it merges all points from $S_i^*$ (and possibly points from $\mc X\setminus \mc S$) into a single cluster $C_i$. Hence, there exists a node in the tree $N_i$ which contains all the points from $S_i^*$ and no points from any other good cluster $S_j^*$. 	
-\end{enumerate}
-Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.
-
-\noindent\textit{\underline{Proof of Fact \ref{fact:1}}}\\
-Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the first merge step which merges points from the good cluster $S_i^*$ with points from some other good cluster. Let $p, q \in \mc X$ be the pair of points being considered at this step and $B = B(p, d(p, q))$ the ball that satisfies the sparse distance condition at this merge step. Denote by $Y = Y_{B}^{C^{(l)}}$. We need to show that $d(p, q) > r_i$. To prove this, we need Claim \ref{claim:fromBothCluster} below. 
-\begin{claim}
-\label{claim:fromBothCluster}
-Let $p, q \in \mc X$ and $B$, $Y$, $S_i^*$ and $C^{(l)}$ be as defined above. If $d(p, q) \le r,$ then $B \cap S_i^* \neq \phi$ and there exists $n \neq i$ such that $B \cap S_n^* \neq \phi$.
-\end{claim}
-\vspace{-0.1in} Observe that $l+1$ is the first step which merges points from $S_i^*$ with some other good cluster. Hence, there exists a cluster $C_i \in Y$ such that $C_i\cap S_i^*  \neq \phi$ and for all $n \neq i$, $C_i \cap S_n^* = \phi$. Also, there exists cluster $C_j \in Y$ such that $C_j \cap S_j^* \neq \phi$ for some $S_j^*$ and $C_j \cap S_i^* = \phi$.
-
-$C_i \in Y$. Hence, $C_i \subseteq B$ or $|C_i \cap B| \ge t/2$. In the first case, if $C_i \subseteq B$ then $B \cap S_i* \neq \phi$ by set inclusion. In the second case assume that $|C_i \cap B| \ge t/2$. For the sake of contradiction, assume that $B$ contains no points from $S_i^*$. That is, $B \cap C_i \subseteq C_i \setminus S_i^* \subseteq \mc X \setminus \mc S$. This implies that $B \cap C_i \subseteq B \cap \{\mc X \setminus \mc S\}$. Hence, $|B\cap \{\mc X \setminus \mc S\}| \ge |B \cap C_i| \ge t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, $B \cap S_i^* \neq \phi$.
-
-$C_j \in Y$. Hence, $C_j \subseteq B$ or $|C_j \cap B| \ge t/2$. In the first case, if $C_j \subseteq B$ then $B \cap S_j^* \neq \phi$ by set inclusion. In the second case assume that $|C_j \cap B| \ge t/2$. For the sake of contradiction, assume that for all $n \neq i$, $B$ contains no points from $S_n^*$. That is, $B \cap C_j \subseteq C_j \setminus (\cup_{n \neq i} S_n^*) \subseteq \mc X \setminus \mc S$. This implies that $B \cap C_j \subseteq B \cap \{\mc X \setminus \mc S\}$. Hence, $|B\cap \{\mc X \setminus \mc S\}| \ge |B \cap C_j| \ge t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, there exists $S_n^* \neq S_i^*$ such that $B \cap S_n^* \neq \phi$.
-
-\begin{claim}
-\label{claim:maxrirj}
-Let the framework be as given in Claim \ref{claim:fromBothCluster}. Then, $d(p, q) > r_i$.
-\end{claim}
-
-\vspace{-0.1in} If $d(p, q) > r$, then the claim follows trivially. We assume that $d(p, q) \le r$. From claim \ref{claim:fromBothCluster}, $B$ contains $p_i \in S_i^*$ and $p_j \in S_j^*$. Let $r_i = d(c_i, q_i)$ for some $q_i \in S_i^*$.
-\begin{align*}
-d(c_i, q_i) &< \frac{1}{\alpha} d(q_i, c_j) \le \frac{1}{\alpha} \bigg[ d(p_j, c_j) + d(p_i, p_j) + d(p_i, q_i)\bigg] < \frac{1}{\alpha} \bigg[ \frac{1}{\alpha}d(p_j, c_i) + d(p_i, p_j) + 2d(c_i, q_i)\bigg]\\
-& < \frac{1}{\alpha} \bigg[ \frac{1}{\alpha}d(p_i, p_j) + \frac{1}{\alpha}d(c_i, q_i) + d(p_i, p_j) + 2d(c_i, q_i)\bigg]
-\end{align*}
-This implies that $(\alpha^2 - 2\alpha - 1)d(q_i, c_i) < (\alpha + 1) d(p_i, p_j)$. For $\alpha \ge 2 + \sqrt 7$, this implies that $d(c_i, q_i) < d(p_i, p_j)/2$. Now, using triangle inequality, we get that $d(c_i, q_i) < d(p_i, p_j)/2 \le \frac{1}{2}[d(p, p_i) + d(p, p_j)] < d(p, q)$.\\
-
-\noindent\textit{\underline{Proof of Fact \ref{fact:2}
-}}\\
-Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the merge step when $p = s_i$ and $q = q_i$ such that $d(s_i, q_i) = r_i$. We will prove that the ball $B = B(s_i, q_i)$ satisfies the sparse-distance condition. Hence, all the points from the good cluster $S_i^*$ will be merged together. Note that this step merges all the clusters in $Y = Y_B^{C^{(l)}}$. Hence to complete the proof, we also show that all the clusters in $Y$ don't intersect with any other good cluster $S_j^*$. We state this formally below and then prove it.
-
-\begin{claim}
-%\vspace{-0.1in}
-\label{claim:dciqi}
-Let $s_i$, $q_i$, $r_i$, $B$ and $Y$ be as defined above. Then, $B$ satisfies the sparse distance condition and for all $C \in Y$, for all $j \neq i, C \cap S_j^* = \phi$.
-\end{claim}
-
-\vspace{-0.1in} Denote by $B = B(s_i, q_i)$. $|B| = |S_i^*| \ge t$. Observe that, for all $C \in \mc C^{(l)}$, $|C| = 1$ or $|C| \ge t$. We need to prove two statements. If $C \cap B \neq \phi$, then $C \in Y$ and $C \cap S_j^* = \phi$. 
-
-\begin{itemize}[nolistsep]
-\item Case 1. $|C| = 1$. If $C \cap B \neq \phi \implies C \subseteq B = S_i^*$. Hence, $C \in Y$ and for all $j \neq i$, $C \cap S_j^* = \phi$
-
-\item Case 2. $|C|\ge t$. $C \cap B \neq \phi$. Let $h(C)$ denote the height of the cluster in the tree $T$. Now, we consider two subcases.
-\begin{itemize}
-\renewcommand\labelitemii{$\circ$}
-\item Case 2.1. $h(C) = 1$. In this case, there exists a ball $B'$ such that $B' = C$. We know that $r(B') \le r_i \le r$. Hence using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $B' \cap S_j^* = \phi$. Thus, $|B'\setminus S_i^*| \le t/2 \implies |B\cap C| = |C| - |C\setminus B| = |C| - |B'\setminus S_i^*| \ge t/2$. Hence, $C \in Y$.
-
-\item Case 2.2. $h(C) > 1$. Then there exists some $C'$ such that $h(C') = 1$ and $C' \subset C$. Now, using set inclusion and the result from the first case, we get that $|B\cap C| \ge |B\cap C'| \ge t/2$. Hence, $C \in Y$. Using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $C \cap S_j^* = \phi$.\\
-\end{itemize} 
-\end{itemize}
-\end{proof}
-
 \begin{theorem}
 \label{thm:algcptime}
-Given clustering instance $(\mc X, d)$ and $t$. Algorithm \ref{alg:alphacp} runs in time which is polynomial in $|\mc X|$.
+Given clustering instance $(\mc X, d)$ and $t$. Algorithm \ref{alg:alphacp} runs in  $poly(|\mc X|)$.
 \end{theorem}
 
 \begin{proof}
-	Let $n = |\mc X|$. Let $\mc C^{(l)} =\{C_1, \ldots, C_{k'}\}$ denote the current clustering of $\mc X$ as defined in Alg. \ref{alg:alphacp}. Observe that given the ball $B = B(p, d(p, q))$, for any cluster $C_i \in \mc C^{(l)}$, checking if $C_i \in Y_B^{C^{(l)}}$ takes time O($|C_i|$). Doing this for all clusters takes $O(n)$ time. The algorithm examines all the pairs of points and hence runs in $O(n^3)$ time.
+Let $n = |\mc X|$. Checking if $B$ satisfies the sparse-distance condition takes $O(n)$ time and hence the algorithm runs in $O(n^3)$ time.
 \end{proof}
 
-%We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal clusterings. As a small note, we show that if $\alpha < 2 + \sqrt{5}$ and $\eta \le 1$ then Alg. \ref{alg:alphacp} can `split' some of the good cluster. The details (Thm. \ref{})and the proof can be found in Appendix \ref{appendix:sectiontr}.
- 
 \subsection{Lower bound under sparse noise}
 \label{section:alphaLowerBoundSparse}
-
-We showed that for $\alpha \ge 2 + \sqrt{7}$ and $\eta \ge 1$, Alg. \ref{alg:alphacp} outputs a tree which captures all $(\alpha, \eta)$-proximal clusterings of $\mc X$ (Theorem.~\ref{thm:alphacpnoise}). In this section, we will prove that if $\alpha \le 2 + \sqrt{3} \approx 3.7$ and $\eta \le 1$, then there is no tree (and hence no algorithm can output a tree) which captures all $(\alpha, \eta)$-proximal clusterings $\mc C$ (of subsets of $\mc X$) even for a fixed value of the size of the smallest cluster $m(\mc C)$.
-
-Fig. \ref{fig:noalgalphacp} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
-
 \begin{theorem}
 \label{thm:noalgalphacp}
 Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{3}$ and $\eta \le 1$ there exists a clustering instance $(\mc X, d)$ such that any clustering tree $\mc T$ of $\mc X$ has  the following property. There exists $\mc S \subseteq \mc X$ and clustering $\mc C_{\mc S}$ which satisfies $(\alpha, \eta)$-center proximity and $ m(\mc C_{\mc S}) = t$ but 
 
 $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
-
-\begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = P_{t_1}(\alpha-1)\cup P_{t_1}(3\alpha-3)$ and $O_2 = \{P_{1}(\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{1}(2\alpha-1) \thinspace\cup\thinspace P_{1}(3\alpha-2)\}$ and $O_3 = P_{t_2}(0)\cup P_{t_2}(2\alpha-2)\cup P_{t_2}(4\alpha-4)$. For $3\le i\le k$, define $B_i = P_t(14\alpha-4+i\alpha)$. Now, let $\mc X = \{O_1 \cup O_2 \cup O_3\cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:noalgalphacp}.
-
-Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(\alpha-2) \thinspace\cup\thinspace P_{t_1}(\alpha-1) \}$ and $B_2 = \{\ P_{t_2}(2\alpha-2) \thinspace\cup\thinspace P_{1}(2\alpha-1)\thinspace\cup\thinspace P_{t_1}(3\alpha-3)\}$. Also, let $B_1' = \{P_{t_1}(\alpha-1) \thinspace\cup\thinspace  P_{1}(2\alpha-3) \thinspace\cup\thinspace P_{t_2}(2\alpha-2) \}$ and $B_2' = \{\ P_{t_1}(3\alpha-3) \thinspace\cup\thinspace P_{1}(3\alpha-2)\thinspace\cup\thinspace P_{t_2}(4\alpha-4)\}$. 
-
-\begin{figure}
-\input{figures/lbdFig2}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no tree can capture all the $(\alpha, \eta)$-proximal clusterings.}
-\label{fig:noalgalphacp}
-\end{figure}
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{3}$, both $\mc S$ and $\mc S'$ are $(\alpha, 1)$-center $t$-min nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. However, we will show that no algorithm can output a tree which captures both $\mc C_{\mc S}$ and $\mc C_{\mc S'}$.
-
-For the sake of contradiction assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence, there exists a node $N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and there exists $N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Also, there exists node $N_1'$ such that such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, observe that $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This contradicts the fact that $N_1' \cap B_2' = \phi$. Hence, prunings $P$ and $P'$ can not exist.
-\qed
-\end{proof}
-
-\begin{figure}
-\input{figures/lbdListSparse}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no list (of size $< 2^{k/2}$) can capture all the $(\alpha, \eta)$-proximal clusterings.}
-\label{fig:nolistalphacp}
-\end{figure}
 
 \begin{theorem}
 \label{thm:nolistalphacp}
@@ -436,15 +315,8 @@ Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{
 $\mc L$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
-\begin{proof}
-The clustering instance $\mc X$ is shown in Fig. \ref{fig:nolistalphacp}. The instance is a simple extension of our tree example (Fig. \ref{fig:noalgalphacp}). In the tree example $ 4$ balls were placed side-by-side one another. Let  $G_1 = \{B_1, B_1', B_2, B_2'\}$ be the balls as in Fig. \ref{fig:noalgalphacp}. Now, construct $G_2 = \{B_3, B_3', B_4, B_4'\}$ exactly identical to $G_1$ but far. In this way, we cosntruct $k/2$ copies of $G_1$. Now, it easy to see that any list $\mc L$ which wants to capture all the $\alpha, \eta$ nice clusterings should have size atleast $2^{k/2}$.
-\qed
-\end{proof}
-
 \subsection{Lower bound under arbitrary noise}
 \label{section:alphaLowerBoundArbitrary}
-
-Fig.\ref{fig:nosparsealg} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no  hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\alpha$-center proximity for $\alpha < 2\sqrt{2} + 3$. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
 
 \begin{theorem}
 \label{thm:nosparsealg}
@@ -453,23 +325,6 @@ Given the number of clusters $k$ and a parameter $t$. For all $\alpha < 2\sqrt 2
 If $|\mc X \setminus \mc S| \ge \frac{3t(\mc C_{\mc S})}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
-\begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(i\alpha-i)$ and $O_2 = \cup_{i=1}^3 P_2(i\alpha-i-2) \cup_{i=3}^5 P_2(i\alpha-i+2)$. For $3\le i\le k$, define $B_i = B(16\alpha-6+i\alpha, 0)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealg}.
-
-Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha-3) \thinspace\cup\thinspace P_{t'}(\alpha-1) \}$ and $B_2 = \{\ P_{t'}(3\alpha-3) \thinspace\cup\thinspace P_{2}(3\alpha-1)\thinspace\cup\thinspace P_{t'}(4\alpha-4)\}$. Also, let $B_1' = \{P_{t'}(\alpha-1) \thinspace\cup\thinspace  P_{2}(2\alpha-4) \thinspace\cup\thinspace P_{t'}(2\alpha-2) \}$ and $B_2' = \{\ P_{t'}(4\alpha-4) \thinspace\cup\thinspace P_{2}(4\alpha-2)\thinspace\cup\thinspace P_{t'}(5\alpha-5)\}$. Also, let $B_1'' = \{P_{t'}(2\alpha-2) \thinspace\cup\thinspace  P_{2}(3\alpha-5) \thinspace\cup\thinspace P_{t'}(3\alpha-3) \}$ and $B_2'' = \{\ P_{t'}(5\alpha-5) \thinspace\cup\thinspace P_{2}(5\alpha-3)\thinspace\cup\thinspace P_{t'}(6\alpha-6)\}$. 
-
-\begin{figure}
-\input{figures/lbdFig3}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-proximal clusterings. } 
-\label{fig:nosparsealg}
-\end{figure}
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2\sqrt{2} + 3$, all of $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\alpha$-center proximity. However, we will show that no algorithm can output a tree which captures $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
-
-For the sake of contradiction assume that there exists a tree $T$ and prunings $P$, $P'$ and $P''$ such that $P$ respects $\mc C_{\mc S}$, $P'$ respects $\mc C_{\mc S'}$ and $P''$ respects $\mc C_{\mc S''}$. By reasoning similar to Thm. \ref{thm:noalgalphacp}, we get that there exists a node $N_1$ which contains $B_1$, $B_1'$ and $B_1''$ and doesn't any point from one of $B_2'$ or $B_2''$. By symmetry, there exists node $N_2$ which contains $B_2$, $B_2'$ and $B_2''$ and doesn't contain any point from $B_1$ or $B_1'$. Observe that $N_1 \cap N_2 \neq \phi$ hence either $N_1 \subseteq N_2$ or $N_2 \subseteq N_1$. WLOG, let $N_1 \subseteq N_2$. Then, we get that $N_2$ doesn't contain any point from $B_1$ or $B_1'$ and contains both $B_1$ and $B_1'$. This leads to a contradiction. Hence, there exists no tree which contains prunings which respect all of $\mc C_{\mc S}$, $\mc C_{\mc S'}$ and $\mc C_{\mc S''}$.
-\qed
-\end{proof}
-
 \begin{theorem}
 \label{thm:nosparselistalphacp}
 Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{2}+3$ there exists a clustering instance $(\mc X, d)$ such that any list $\mc L$ (of clusterings of $\mc X$) has  the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S}$ which satisfies $\alpha$-center proximity such that $m(\mc C_{\mc S}) = t$ and the following holds.  
@@ -477,38 +332,21 @@ Given the number of clusters $k$ and parameter $t$. For all $\alpha \le 2+\sqrt{
 If $|\mc L| < 2^{\frac{k}{2}}$ and $|\mc X \setminus \mc S|\ge \frac{k}{2}(\frac{3t(\mc C_{\mc S})}{2}+5)$, then $\mc L$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
-\begin{proof}
-The proof has the exact same ideas as the proof of Thm. \ref{thm:nolistalphacp}. We construct a clustering instance $\mc X$ which is a simple extension of our tree example (Fig. \ref{fig:nosparsealg}). In the tree example $6$ balls were placed side-by-side one another. Let  $G_1 = \{B_1, B_1', B_1'', B_2, B_2', B_2''\}$ be the balls as in Fig. \ref{fig:nosparsealg}. Now, construct $G_2 = \{B_3, B_3', B_3'', B_4, B_4', B_4''\}$ exactly identical to $G_1$ but far from $G_1$. In this way, we construct $k/2$ copies of $G_1$. Now, it easy to see that any list $\mc L$ which wants to capture all the $\alpha$ nice clusterings should have size atleast $2^{k/2}$.
-\qed
-\end{proof}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Center Separation}
 \label{sec:cs}
  
 \subsection{Center Separation without noise}
 \label{sec:cswithout}
 
-In this section, we study the problem of recovering $\lambda$-center separated clusterings of a set $\mc X$, in the absence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $\lambda$-center separated nice clusterings. 
-In Section \ref{section:positiveNoNoiseLambda} we give an algorithm that generates a tree of all possible $\lambda$-center separated clusterings of $\mc X$ for $\lambda > 3$.
- In Section \ref{section:lowerBdNoNoiseLambda}, we prove that for 
- $\lambda < 2$, it is NP-Hard to find any such clustering.
+In this section, we study the problem of recovering $\lambda$-center separated clusterings of a set $\mc X$, in the absence of noise. We do not want to output a single clustering but to produce an efficient representation (hierarchal clustering tree) of all possible $\lambda$-center separated nice clusterings. In Section \ref{section:positiveNoNoiseLambda} we give an algorithm that generates a tree of all possible $\lambda$-center separated clusterings of $\mc X$ for $\lambda > 3$.  In Section \ref{section:lowerBdNoNoiseLambda}, we prove that for  $\lambda < 2$, it is NP-Hard to find any such clustering.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Positive result under no noise}
 \label{section:positiveNoNoiseLambda}
-Given a clustering instance $(\mc X, d)$, our goal is to output a hierarchical clustering tree $T$ of $\mc X$ which has the following property. For every $k$ and for every $k$-clustering $\mc C_{\mc X}$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree which equals $\mc C_{\mc X}$. 
+Given a clustering instance $(\mc X, d)$, our goal is to output a hierarchical clustering tree $T$ of $\mc X$ which has the following property. For every $k$ and for every $k$-clustering $\mc C_{\mc X}$ which satisfies $\lambda$-center separation, there exists a pruning $\mc P$ of the tree which equals $\mc C_{\mc X}$. Our algorithm (Alg. \ref{alg:lambdacsNoNoise}) uses single-linkage to build a hierarchical clustering tree of $\mc X$. We will show that when $\lambda \ge 3$ our algorithm achieves the above mentioned goal. 
 
-Our algorithm (Alg. \ref{alg:lambdacsNoNoise}) uses single-linkage to build a hierarchical clustering tree of $\mc X$. We will show that when $\lambda \ge 3$ our algorithm achieves the above mentioned goal. Before we prove the result, we need to introduce a bit of notation. Given $\mc X$ drawn from some metric space $(\mb M, d)$ and $A, B \subseteq \mc X$ we define $d_{min}(A, B) = \min \{d(a, b): a \in A$ and $b \in B\}$.
-\begin{definition}[Strong stability \cite{balcan2008discriminative}]
-Given a clustering instance $\mc X$ drawn from some metric space $(\mb M, d)$ and a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ of $\mc X$. We say that $d$ has strong stability w.r.t $\mc C_{\mc X}$ when for all $C_i, C_j \in \mc C_{\mc X}$ and for all $A \subset C_i$, $A' \subseteq C_j$, we have that 
-$$d_{min}(A, C_i\setminus A) < d_{min}(A, A')$$
-\end{definition}
-
-If a clustering instance satisfies strong stability then single-linkage produces a tree such that the gound-truth clustering is a pruning of the tree (Theorem. 8 in \cite{balcan2008discriminative}). We will prove that any clustering instance which satisfies $\lambda$-center separation for $\lambda \ge 3$ also satisfies strong stability. Hence, the claim follows.
-
-\begin{algorithm}[!ht]
+\begin{algorithm}[!t]
 	\SetAlgoLined
 	\KwIn{$(\mc X, d)$}
 	\KwOut{A hierarchical clustering tree $T$ of $\mc X$.}
@@ -528,99 +366,32 @@ Given a clustering instance $(X , d)$. For all $\lambda \ge 3$, Alg. \ref{alg:la
 For every $1 \le i \le k$, there exists a node $N_i$ in the tree $T$ such that $C_i^* = N_i$.
 \end{theorem}
 
-\begin{proof}
-We will show that for $\lambda \ge 3$, $d$ satisfies the strong stability property. Hence, the claim will then follow from Theorem. 8 in \cite{balcan2008discriminative}. We know that $\mc C_{\mc X}^*$ satisfies $\lambda$-center sepration. Denote by $r := \max r(C_i^*)$. Let $A \subset C_i^*$ and $B \subseteq \mc C_j^*$. We will prove the claim in two steps. We will first show that $d_{min}(A, C_i^*\setminus A) \le r$ and then we will prove that $d_{min}(A, B) > r$.
-
-Let $p \in A$ and $q \in C_i^* \setminus A$ be points which achieve the minimum distance between $A$ and $C_i^*\setminus A$. If $c_i \in A$ then $d(p, q) \le d(c_i, q) \le r$. If $c_i \in C_i^* \setminus A$ then $d(p, q) \le d(p, c_i) \le r$. Hence, $d_{min} (A, C_i^*\setminus A) \le r$.
-
-Let $p \in A$ and $q \in B$ be points which achieve the minimum distance between $A$ and $B$. Using triangle inequality, we get that $d(p, q) \ge d(c_i, c_j) - d(p, c_i) - d(q, c_j) > 3r - r - r = r$.
-\end{proof}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Lower bound with no noise}
 \label{section:lowerBdNoNoiseLambda}
-We will prove that for $\lambda \le 2$, finding any solution for $\lambda$-center separation is NP-Hard. \cite{reyzin2012data} proved that finding any solution for $\alpha$-center proximity is NP-Hard for $\alpha < 2$. Our reduction is same as the reduction in \cite{reyzin2012data}. We state the proof below for completeness.
+We will prove that for $\lambda \le 2$, finding any solution for $\lambda$-center separation is NP-Hard. \cite{reyzin2012data} proved that finding any solution for $\alpha$-center proximity is NP-Hard for $\alpha < 2$. Our reduction is same as the reduction Thm. 1 in \cite{reyzin2012data} and hence we omit the proof.
 
 \begin{theorem}
 \label{thm:lambdaNoNoiseLowerBd}
-Given a clustering instance $\mc X$ drawn from a metric space $(\mb M, d)$ and the number of clusters $k$. For $\lambda < 2$, finding a clustering which satisfies $\lambda$-center separation is NP-Hard.
+Given a clustering instance $(\mc X, d)$ and the number of clusters $k$. For $\lambda < 2$, finding a clustering which satisfies $\lambda$-center separation is NP-Hard.
 \end{theorem}
 
-\begin{proof}
-The proof is based on reducing an instance of Perfect dominating set promise problem (PDS-PP) to an instance of finding a clustering instance with $\lambda < 2$.
-
-PDS-PP : Given a graph $G = (V, E)$. Given that all dominating sets of size $\le k$ are perfect. Find a dominating set of size $\le k$. \cite{reyzin2012data} showed that the PDS-PP is NP-Hard. 
-
-For every $v \in V$ construct a point $x \in \mc X$ in the metric space $\mb M$. For any two points $x_1, x_2 \in \mc X$, define $d(x_1, x_2) = 1$ if an edge exists between the corresponding vertices $v_1$ and $v_2$. Else define $d(x_1, x_2) = 2$. Note that the function $d$ satisfies the triangle inequality. We will now show the following.
-
-G has a dominating set of size $\le k \iff$ $\mc X$ has a $k$-clustering which satisfies $\lambda$-center separation for $1 \le \lambda < 2$.
-
-$\Leftarrow$  Let $c_1, \ldots, c_k \in \mc X$ be the centers such that the corresponding clustering $\mc C = \{C_1, \ldots, C_k\}$ satisfies $\lambda$-center separation. Let $d_1, \ldots, d_k$ be the vertices in $V$ corresponding to the centers$c_1, \ldots, c_k$. Let $x \in C_i$ and $v \in V$ be the vertex corresponding to $x$. Now, $\lambda d(x, c_i) < d(c_i, c_j) \implies d(x, c_i) < d(c_i, c_j)$. Hence, $d(x, c_i) = 1$ and $d(c_i, c_j) = 2$. Thus, there exists an edge between $(v, d_i) \in E$. Hence, $d_1, \ldots, d_k$ forms a dominating set in $G$.
-
-$\Rightarrow$ Let $D = \{d_1, \ldots, d_l\}$ be a dominating set in $G$. If $l < k$, we can add $k-l$ vertices to $D$ and they still form a dominating set. Hence, WLOG we can assume that $l = k$. Now, let $c_1, \ldots, c_k \in \mc X$ be the points corresponding to the vertices in $D$. Let $\mc C = \{C_1, \ldots, C_k\}$ be the clustering induced by $c_1, \ldots, c_k$. Since $|D| \le k$, we know that $D$ is perfect. Hence, $(d_i, d_j) \not\in E$. Hence, $d(c_i, c_j) = 2$. Now, let $v$ be any vertex which is dominated by $d_i$ and $x$ be the corresponding point in $\mc X$. Then, $d(x, c_i) = 1$. Hence, we get that $d(c_i, c_j) = 2 \max_p r(C_p)$. Hence, clustering $\mc C$ satisfies $\lambda$-center separation for $\lambda < 2$.
-\end{proof}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Center Separation in the presence of noise}
 \label{sec:cswith}
-In this section, we study the problem of recovering $(\lambda, \eta)$-center separated clusterings of a set $\mc X$, in the presence of noise. 
-%In Section \ref{section:lambdaLowerBoundArbitrary}, we study the limitations of any efficient clustering algorithm that aims to output all $\lambda$-center separated clusterings of $\mc X$, in the presence of arbitrary noise. Section \ref{section:lambdaPositiveResultSparseNoise} introduces an algorithm that outputs a clustering which respects all $(\lambda,\eta)$-center separated clusterings of $\mc X$, for introduced values of $\lambda$ and $\eta$. In Section \ref{section:lambdaLowerBoundSparse}, we study the limitations of any efficient clustering algorithm which aims to output all $(\lambda,\eta)$-center proximal nice clusterings of $\mc X$. 
-Here is a more precise overview of the results of this section:
-\begin{itemize}
-\item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that for a given value of parameters $r$ and $t$, if $\lambda \le 6$, then even for fixed $m(\mc C) = t$ and $r(\mc C) = r$,
-\begin{enumerate}
-\item If the number of noisy points exceeds $\frac{3}{2}t$ then no tree can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $\lambda$-center separation.
-\item If the number of noisy points exceeds $\frac{3k}{2}t$ then there doesn't exist a list of `small' size ($<2^{k/2}$) that can capture all clusterings which satisfy $\lambda$-center separation.\\
-\end{enumerate}
-\item  {\it Positive result under sparse noise} - In Section \ref{section:lambdaPositiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\lambda \ge 4$ and $\eta \ge 1$; for any value of parameters $r$ and $t$, Alg.\ref{alg:lambdacs} outputs a clustering which respects all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfies $(\lambda, \eta)$-center proximity and $m(C^*)=t$ and $r(C^*) = r$.\\
+In this section, we study the problem of recovering $(\lambda, \eta)$-center separated clusterings of a set $\mc X$, in the presence of noise. Here is a more precise overview of the results of this section:
+\begin{itemize}[nolistsep,noitemsep,leftmargin=*]
+\item  {\it Positive result under sparse noise} - In Section \ref{section:lambdaPositiveResultSparseNoise}, we show that we can overcome this lower bound if we require that the noise is sparse. If $\lambda \ge 4$ and $\eta \ge 1$; for any value of parameters $r$ and $t$, Alg.\ref{alg:lambdacs} outputs a clustering which respects all clusterings $\mc C^*$ (of a subset of $\mc X$) which satisfies $(\lambda, \eta)$-center proximity and $m(C^*)=t$ and $r(C^*) = r$.
 \item  {\it Lower bound under sparse noise} - In Section \ref{section:lambdaLowerBoundSparse}, we show that, if $\lambda < 4$ and $\eta \le 1$ then there is no tree and no list of `small' size ($<2^{k/2}$) which can capture all clusterings $\mc C$ (of subset of $\mc X$) which satisfy $(\lambda, \eta)$-center proximity even for fixed values of the size of the smallest cluster $(m(C) = t)$ and maximum radius ($r(C) = r$).
+\item {\it Lower bound with arbitrary noise} - In Section \ref{section:lambdaLowerBoundArbitrary}, we show that for a given value of parameters $r$ and $t$, if $\lambda \le 6$, then even for fixed $m(\mc C) = t$ and $r(\mc C) = r$,
+\begin{enumerate}[nolistsep,noitemsep]
+\item If the number of noisy points exceeds $\frac{3}{2}t$ then no tree can capture all clusterings $\mc C$ (of a subset of $\mc X$) which satisfy $\lambda$-center separation.
+\item If the number of noisy points exceeds $\frac{3k}{2}t$ then there doesn't exist a list of `small' size ($<2^{k/2}$) that can capture all clusterings which satisfy $\lambda$-center separation.
+\end{enumerate}
+
+
 \end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsubsection{Lower bound with arbitrary noise}
-\label{section:lambdaLowerBoundArbitrary}
-Fig. \ref{fig:nosparsealglambdacs} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S', \mc S'' \subset \mc X$. We show that these subsets are ``incompatible" i.e., there is no hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $\lambda$-center separation. We will prove that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ are incompatible with one another.
-
-\begin{theorem}
-\label{thm:nosparselambdaalg}
-Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 6$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S}$ which satisfies $\lambda$-center separation such that $m(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.
-
-If $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$ .
-\end{theorem}
-
-\begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t' = \frac{t}{2}-1$. Let $O_1 = \cup_{i=0}^6 P_{t'}(2ir)$ and $O_2 = \cup_{i=0}^5 P_2(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(22r+ir)$. Now, let $\mc X = \{O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k\}$. The set is also shown in Fig. \ref{fig:nosparsealglambdacs}.
-
-Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(r) \thinspace\cup\thinspace P_{t'}(2r) \}$ and $B_2 = \{\ P_{t'}(6r) \thinspace\cup\thinspace P_{2}(7r)\thinspace\cup\thinspace P_{t'}(8r)\}$. Also, let $B_1' = \{P_{t'}(2r) \thinspace\cup\thinspace  P_{2}(3r) \thinspace\cup\thinspace P_{t'}(4r) \}$ and $B_2' = \{\ P_{t'}(8r) \thinspace\cup\thinspace P_{2}(9r)\thinspace\cup\thinspace P_{t'}(10r)\}$. Also, let $B_1'' = \{P_{t'}(4r) \thinspace\cup\thinspace  P_{2}(5r) \thinspace\cup\thinspace P_{t'}(6r) \}$ and $B_2'' = \{\ P_{t'}(10r) \thinspace\cup\thinspace P_{2}(11r)\thinspace\cup\thinspace P_{t'}(12r)\}$. 
-
-\begin{figure}
-\input{figures/lambdaLBDFig2}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\lambda$-separated $t$-min $r$-max nice subsets of $\mc X$}
-\label{fig:nosparsealglambdacs}
-\end{figure}
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$, $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S'' = \{B_1'' \cup B_2'' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 6$, the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S''} = \{B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $\lambda$-center separation.
-
-We will show that no algorithm can output a tree which captures $\mc C_{\mc S}, \mc C_{\mc S'}$ and $\mc C_{S''}$. The proof is identical to the proof of Thm. \ref{thm:nosparsealg} and hence we omit it here.
-\qed
-\end{proof}
-
-\begin{theorem}
-\label{thm:nosparselistlambdacs}
-Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda \le 6$ there exists a clustering instance $(\mc X, d)$ such that any list $\mc L$ (of clusterings of $\mc X$) has the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S}$ which satisfies $\lambda$-center separation such that $m(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.  
-
-If $|\mc L| < 2^{\frac{k}{2}}$ and $|\mc X \setminus \mc S|\ge \frac{k}{2}(\frac{3t(\mc C_{\mc S})}{2}+5)$, then $\mc L$ doesn't capture $\mc C_{\mc S}$.
-\end{theorem}
-
-\begin{proof}
-The proof is identical to the proof of Thms. \ref{thm:nolistalphacp} and \ref{thm:nosparselistalphacp}. 
-\qed
-\end{proof}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection{Positive result under sparse noise}
 \label{section:lambdaPositiveResultSparseNoise}
@@ -668,70 +439,24 @@ Given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. For every $
 Alg. \ref{alg:lambdacs} outputs a clustering $\mc C_{\mc X}$ such that $\mc C_{\mc X}|_{\mc S} = \mc C_{\mc S}^*$.
 \end{theorem}
 
-\begin{proof}
-Fix $\mc S \subseteq \mc X$. Let $\mc C_{\mc S}^* = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $m( \mc C_{S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$. Also, denote by $r_i := r(S_i^*)$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be the clustering outputed by the algorithm. Throughout the proof, we will sometimes refer to $S_i^*$ as the `good clusters' and the set $\mc S$ as the good set.
-
-Let $\mc L = \{B_1, \ldots, B_l\}$ be the list of balls as outputed by Phase 1 of Alg. \ref{alg:lambdacs}. Let $G$ be the graph as constructed in Phase 2 of the algorithm. First observe that $s_i \in \mc X$ and $r_i \le r$. Hence, $B = B(s_i, r_i) \in \mc L$ and $B = S_i^*$. WLOG, denote this ball by $B^{(i)}$ and the corresponding vertex in the graph $G$ by $v^{(i)}$. We will prove the theorem by proving two key facts.  
-
-\begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
-\renewcommand\labelitemi{$\diamond$}
-\item \label{fact:lambda1} If two balls $B_{i1}$ and $B_{i2}$ intersect the same good cluster $S_i^*$ then the corresponding vertices $v_{i1}$ and $v_{i2}$ are connected by a path in $G$.
-\item \label{fact:lambda2} If a ball $B_{i1}$ intersects a good cluster $S_i^*$ and another ball $B_{j1}$ intersects some other good cluster $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$.	
-\end{enumerate}
-Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.\\
-
-\noindent\textit{\underline{Proof of Fact \ref{fact:lambda1}}}
-\begin{claim}
-\label{claim:lambda1}
-Let $\mc L, G, B^{(i)}$ and $v^{(i)}$ be as defined above. Let balls $B_{i1}, B_{i2} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{i2} \cap S_i^* \neq \phi$. Then there exists a path between vertices $v_{i1}$ and $v_{i2}$ in the graph $G$.
-\end{claim}
-\vspace{-0.1in} For the sake of contradiction, assume that $v_{i1}$ and $v^{(i)}$ are not connected by an edge in $G$. Hence, $|B_{i1} \cap B^{(i)}| < t/2 \implies |B_{i1} \setminus B^{(i)}| \ge t/2$. Now, observe that since $\lambda > 4$, for all $j \neq i$, $B_{i1} \cap S_j^* = \phi$. Thus, $B_{i1} \setminus B^{(i)} \subseteq \mc X \setminus \mc S$. Hence, we get that $|B_{i1} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, $v_{i1}$ is connected to $v^{(i)}$ by an edge in $G$. By symmetry, there exists an edge between $v_{i2}$ and $v^{(i)}$. Thus, $v_{i1}$ and $v_{i2}$ are connected in $G$.\\
-
-\noindent\textit{\underline{Proof of Fact \ref{fact:lambda2}}}
-\begin{claim}
-Let the framework be as in Claim \ref{claim:lambda1}. Let $B_{i1} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{j1}$ be such that $B_{j1} \cap S_j^* \neq \phi$. Then the vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
-\end{claim}
-\vspace{-0.1in} Now, we will show that if a ball $B_{i1}$ intersects $S_i^*$ and $B_{j1}$ intersects $S_j^*$ then the corresponding vertices $v_{i1}$ and $v_{j1}$ are disconnected in $G$. For the sake of contradiction, assume that $v_{i1}$ and $v_{j1}$ are connected by a path in $G$. Hence, there exists vertices $v_{i}$ and $v_{n}$ such that $v_i$ and $v_n$ are connected by an edge in $G$ and $B_i \cap S_i^* \neq \phi$ and $B_n \cap S_n^* \neq \phi$ for some $n \neq i$. $v_i$ and $v_n$ are connected, hence $|B_i \cap B_n| \ge t/2$. Now, $\lambda \ge 4$, thus $B_i \cap \{\mc S \setminus S_i^*\} = \phi$ and $B_n \cap \{\mc S\setminus S_n^*\} = \phi$. Thus, $B_i \cap B_n \subseteq \mc X \setminus \mc S$. Thus $|B_{i} \cap \{\mc X \setminus \mc S\}| \ge t/2$. This contradicts the sparseness assumption. Hence, we get that $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
-\end{proof}
-
 \begin{theorem}
 \label{thm:alglambdacstime}
-Given clustering instance $(\mc X, d)$ and parameters $r$ and $t$. Algorithm \ref{alg:lambdacs} runs in time which is polynomial in $|\mc X|$.
+Given $(\mc X, d)$ and parameters $r$ and $t$. Algorithm \ref{alg:lambdacs} runs in $poly(|\mc X|)$.
 \end{theorem}
 
 \begin{proof}
-Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets as input a list of size $l$. Constructing the graph takes $O(l^2)$ time. Finding $k$ connected components also takes $O(l^2)$ time. The remaining steps take $O(n)$ time. Hence, the algorithm runs in $O(n^2 + l^2)$ time where $l = n/t$. Hence, the total running time is $O(n^2)$.
+Let $n = |\mc X|$. Phase 1 of Alg. \ref{alg:lambdacs} runs in $O(n^2)$ time. Phase 2 gets a list of size $l$. Constructing $G$ and finding connected components takes $O(l^2)$ time. Hence, the algorithm runs in $O(n^2)$ time.
 \end{proof}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 \subsubsection{Lower bound under sparse noise}
 \label{section:lambdaLowerBoundSparse}
-We showed that for $\lambda \ge 4$ and $\eta \ge 1$, Alg. \ref{alg:lambdacs} outputs a clustering which captures all $(\lambda, \eta)$-separated clusterings of $\mc X$ (Theorem.~\ref{thm:lambdacsnoise}). In this section, we will show that if $\lambda < 4$ and $\eta \le 1$, then there is no tree (and hence no algorithm can output a tree) which captures all $(\lambda, \eta)$-proximal clusterings $\mc C$ (of subsets of $\mc X$) even for fixed values of the size of the smallest cluster $m(\mc C)$ and maximum radius $r(\mc C)$.
-
-Fig. \ref{fig:noalglambdacs} shows an instance of a set $\mc X$ with subsets $\mc S, \mc S' , \mc S'' \subset \mc X$. We show that these subsets are ``incompatible", i.e., there is no hierarchical clustering tree that can capture all the clusterings of these subsets that satisfy $(\lambda, \eta)$-center proximity. To prove this, we will show that the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{B_1', B_2', B_3, \ldots, B_k\}$ are incompatible with one another.
-
 \begin{theorem}
 \label{thm:noalglambdacs}
 Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 4$ and $\eta \le 1$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and a $k$-clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\lambda, \eta)$-center separation such that $t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$, but
 
 $\mc T$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
-
-\begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. Let $O_1 = \cup_{i=0}^2 P_{t_2}(4ir)$ and $O_2 = \cup_{i=0}^1 P_{t_1}(2r+4ir)$ and $O_3 = \cup_{i=0}^3 P_{t_1}(r+2ir)$. For $3\le i\le k$, define $B_i = P_t(18r+ir)$. Now, let $\mc X = O_1 \cup O_2 \cup O_3 \cup B_3 \cup \ldots \cup B_k$. The set is also shown in Fig. \ref{fig:noalglambdacs}.
-
-Now, let $B_1 = \{P_{t_2}(0) \thinspace\cup\thinspace  P_{1}(r) \thinspace\cup\thinspace P_{t_1}(2r) \}$ and $B_2 = \{\ P_{t_2}(4r) \thinspace\cup\thinspace P_{1}(5r)\thinspace\cup\thinspace P_{t_1}(6r)\}$. Also, let $B_1' = \{P_{t_1}(2r) \thinspace\cup\thinspace  P_{1}(3r) \thinspace\cup\thinspace P_{t_2}(4r) \}$ and $B_2' = \{\ P_{t_1}(6r) \thinspace\cup\thinspace P_{1}(7r)\thinspace\cup\thinspace P_{t_2}(8r)\}$.
-
-\begin{figure}
-\input{figures/lambdaLBDFig1}
-\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $(\lambda, \eta)$-separated $t$-min $r$-max nice subsets of $\mc X$}
-\label{fig:noalglambdacs}
-\end{figure}
-
-Now, define $\mc S = \{B_1 \cup B_2 \cup B_3\ldots \cup B_k\} \subseteq \mc X$ and $\mc S' = \{B_1' \cup B_2' \cup B_3\ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\lambda < 4$, both $\mc S$ and $\mc S'$ are $(\lambda, 1)$-separated $t$-min $r$-max nice and the clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\lambda, 1)$-center proximity. 
-
-We will show that no algorithm can output a tree which captures $\mc C_{\mc S}$ and $\mc C_{S'}$. The proof is identical to the proof of Thm. \ref{thm:noalgalphacp} and hence we omit it here.
-\end{proof}
 
 \begin{theorem}
 \label{thm:nolistlambdacs}
@@ -740,52 +465,154 @@ Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda \l
 $\mc L$ doesn't capture $\mc C_{\mc S}$.
 \end{theorem}
 
-\begin{proof}
-The proof is identical to the proof of Thms. \ref{thm:nolistalphacp} and \ref{thm:nosparselistalphacp}. 
-\qed
-\end{proof}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\section{Conclusion}
-%\label{sec:conc}
+
+\subsubsection{Lower bound with arbitrary noise}
+\label{section:lambdaLowerBoundArbitrary}
+
+\begin{theorem}
+\label{thm:nosparselambdaalg}
+Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda < 6$, there exists a clustering instance $(\mc X , d)$ such that any clustering tree $\mc T$ of $\mc X$ has the following property. There exists $\mc S \subseteq \mc X$ and there exists $k$-clustering $\mc C_{\mc S}$ which satisfies $\lambda$-center separation such that $m(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.
+
+If $|\mc X\setminus \mc S|\ge \frac{3t}{2}+5$, then $\mc T$ doesn't capture $\mc C_{\mc S}$ .
+\end{theorem}
+
+\begin{theorem}
+\label{thm:nosparselistlambdacs}
+Given the number of clusters $k$ and parameters $r$ and $t$. For all $\lambda \le 6$ there exists a clustering instance $(\mc X, d)$ such that any list $\mc L$ (of clusterings of $\mc X$) has the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S}$ which satisfies $\lambda$-center separation such that $m(\mc C_{\mc S}) = t$, $r(\mc C_{\mc S}) = r$ and the following holds.  
+
+If $|\mc L| < 2^{\frac{k}{2}}$ and $|\mc X \setminus \mc S|\ge \frac{k}{2}(\frac{3t(\mc C_{\mc S})}{2}+5)$, then $\mc L$ doesn't capture $\mc C_{\mc S}$.
+\end{theorem}
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{alpha}
 \bibliography{clusteringNoise} 
 
 
 \appendix
-\section{Technical result}
-\label{appendix:sectiontr}
 
+\section{Proofs of missing lemmas and theorems}
+
+\textbf{Proof of Thm. \ref{thm:alphacpnoise}}
+Fix any $\mc S \subseteq \mc X$. Let $\mc C^*_S = \{S_1^*, \ldots, S_k^*\}$ be a clustering of $\mc S$ such that $t(\mc C_{\mc S}^*) = t$ and $\mc C^*_S$ has $(\alpha, \eta)$-center proximity. Denote by $r_i := r(S_i^*)$. Define $Y_B^{\mc C} := \{C_i \in \mc C : C_i \subseteq B \text{ or } |B \cap C_i| \ge t/2\}$. Note that whenever a ball $B$ satisfies the sparse-distance condition, all the clusters in $Y_{B}^{{\mc C}^{(l)}}$ are merged together and the clustering $\mc C^{(l+1)}$ is updated. We will prove the theorem by proving two key facts.
+
+\begin{enumerate}[nolistsep, noitemsep, label=\textbf{F.\arabic*}]
+\renewcommand\labelitemi{$\diamond$}
+\item \label{fact:1} If the algorithm merges points from a good cluster $S_i^*$ with points from some other good cluster,  then at this step the distance being considered $d = d(p,q) > r_i$.	
+\item \label{fact:2} When the algorithm considers the distance $d = r_i$, it merges all points from $S_i^*$ (and possibly points from $\mc X\setminus \mc S$) into a single cluster $C_i$. Hence, there exists a node in the tree $N_i$ which contains all the points from $S_i^*$ and no points from any other good cluster $S_j^*$. 	
+\end{enumerate}
+Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.
+
+\noindent\textit{\underline{Proof of Fact \ref{fact:1}}}\\
+Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the first merge step which merges points from the good cluster $S_i^*$ with points from some other good cluster. Let $p, q \in \mc X$ be the pair of points being considered at this step and $B = B(p, d(p, q))$ the ball that satisfies the sparse distance condition at this merge step. Denote by $Y = Y_{B}^{C^{(l)}}$. We need to show that $d(p, q) > r_i$. To prove this, we need Claim \ref{claim:fromBothCluster} below. 
+
+\begin{smallLemma}
+\label{claim:fromBothCluster}
+Let $p, q \in \mc X$ and $B$, $Y$, $S_i^*$ and $C^{(l)}$ be as defined above. If $d(p, q) \le r,$ then $B \cap S_i^* \neq \phi$ and there exists $n \neq i$ such that $B \cap S_n^* \neq \phi$.
+\end{smallLemma}
+\vspace{-0.1in} $l+1$ is the first step which merges points from $S_i^*$ with some other good cluster. Hence, $\exists C_i \in Y$ such that $C_i\cap S_i^*  \neq \phi$ and $\forall n \neq i$, $C_i \cap S_n^* = \phi$. Also, $\exists C_j \in Y$ such that $C_j \cap S_j^* \neq \phi$ for some $S_j^*$ and $C_j \cap S_i^* = \phi$.
+
+$C_i \in Y$. Hence, $C_i \subseteq B$ or $|C_i \cap B| \ge t/2$. In the first case, if $C_i \subseteq B$ then $B \cap S_i* \neq \phi$ by set inclusion. In the second case assume that $|C_i \cap B| \ge t/2$. For the sake of contradiction, assume that $B$ contains no points from $S_i^*$. That is, $B \cap C_i \subseteq C_i \setminus S_i^* \subseteq \mc X \setminus \mc S$. This implies that $B \cap C_i \subseteq B \cap \{\mc X \setminus \mc S\}$. Hence, $|B\cap \{\mc X \setminus \mc S\}| \ge |B \cap C_i| \ge t/2$. This contradicts the sparse noise assumption in Defn. \ref{defn:alphacpnoise}. Hence, $B \cap S_i^* \neq \phi$. Note that $C_j \in Y$. Hence, by symmetry there exists $S_n^* \neq S_i^*$ such that $B \cap S_n^* \neq \phi$.\qed
+
+\begin{smallLemma}
+\label{claim:maxrirj}
+Let the framework be as given in Claim \ref{claim:fromBothCluster}. Then, $d(p, q) > r_i$.
+\end{smallLemma}
+
+\vspace{-0.1in} \noindent If $d(p, q) > r$, then the claim follows trivially. We assume that $d(p, q) \le r$. From claim \ref{claim:fromBothCluster}, $B$ contains $p_i \in S_i^*$ and $p_j \in S_j^*$. Let $r_i = d(c_i, q_i)$ for some $q_i \in S_i^*$.
+
+$d(c_i, q_i) < \frac{1}{\alpha} d(q_i, c_j) < \frac{1}{\alpha} [ \frac{1}{\alpha}d(p_i, p_j) + \frac{1}{\alpha}d(c_i, q_i) + d(p_i, p_j) + 2d(c_i, q_i)]$
+This implies that $(\alpha^2 - 2\alpha - 1)d(q_i, c_i) < (\alpha + 1) d(p_i, p_j)$. For $\alpha \ge 2 + \sqrt 7$, this implies that $d(c_i, q_i) < d(p_i, p_j)/2$. Now, using triangle inequality, we get that $d(c_i, q_i) < d(p_i, p_j)/2 \le \frac{1}{2}[d(p, p_i) + d(p, p_j)] < d(p, q)$.\qed\\
+
+\noindent\textit{\underline{Proof of Fact \ref{fact:2}
+}}\\
+Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the merge step when $p = s_i$ and $q = q_i$ such that $d(s_i, q_i) = r_i$. We will prove that the ball $B = B(s_i, q_i)$ satisfies the sparse-distance condition.
+
+\begin{smallLemma}
+%\vspace{-0.1in}
+\label{claim:dciqi}
+Let $s_i$, $q_i$, $r_i$, $B$ and $Y$ be as defined above. Then, $B$ satisfies the sparse distance condition and for all $C \in Y$, for all $j \neq i, C \cap S_j^* = \phi$.
+\end{smallLemma}
+\vspace{-0.1in} $|B| = |S_i^*| \ge t$. Observe that, for all $C \in \mc C^{(l)}$, $|C| = 1$ or $|C| \ge t$. 
+
+\begin{itemize}[nolistsep,leftmargin=*]
+\item Case 1. $|C| = 1$. If $C \cap B \neq \phi \implies C \subseteq B = S_i^*$.
+\item Case 2. $|C|\ge t$. $C \cap B \neq \phi$. Let $h(C)$ denote the height of the cluster in the tree $T$. 
+\begin{itemize}[leftmargin=*]
+\renewcommand\labelitemii{$\circ$}
+\item Case 2.1. $h(C) = 1$. In this case, there exists a ball $B'$ such that $B' = C$. We know that $r(B') \le r_i \le r$. Hence using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $B' \cap S_j^* = \phi$. Thus, $|B'\setminus S_i^*| \le t/2 \implies |B\cap C| = |C| - |C\setminus B| = |C| - |B'\setminus S_i^*| \ge t/2$. Hence, $C \in Y$.
+
+\item Case 2.2. $h(C) > 1$. Then there exists some $C'$ such that $h(C') = 1$ and $C' \subset C$. Now, using set inclusion and the result from the first case, we get that $|B\cap C| \ge |B\cap C'| \ge t/2$. Hence, $C \in Y$. Using Claim \ref{claim:maxrirj}, we get that for all $j \neq i$, $C \cap S_j^* = \phi$.\qed\\
+\end{itemize} 
+\end{itemize}
+
+
+\noindent\textbf{Proof of Thm. \ref{thm:noalgalphacp}}
+Let $\mc X, B_1, B_2, B_1', B_2'$ be as shown in Fig. \ref{fig:noalgalphacp}. Let $t_1 = \frac{t}{2}+1$ and $t_2 = \frac{t}{2}-2$. For $\alpha \le 2+\sqrt{3}$, clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$ and $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity and $m(\mc C_{\mc S}) = m(\mc C_{\mc S}') = t$.
+
+\begin{figure}[!t]
+\begin{center}
+\includegraphics[trim={35mm 235mm 20mm 20mm},clip,width=\textwidth]{figures/lbdFig2}
+\end{center}
+\vspace{-1cm}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no tree can capture all the $(\alpha, \eta)$-proximal clusterings.}
+\label{fig:noalgalphacp}
+\end{figure}
+
+Assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ respects $\mc C_{\mc S}$ and $P'$ respects $\mc C_{\mc S'}$. Hence,  $\exists N_1$ such that $B_1 \subseteq N_1$ and $N_1 \cap B_2 = \phi$ and $\exists N_2$ such that $B_2 \subseteq N_2$ and $N_2 \cap B_1 = \phi$. Similarly, $\exists N_1'$ such that $B_1' \subseteq N_1'$ and $N_1' \cap B_2' = \phi$. Now, $B_1'$ contains points from both $B_1$ and $B_2$. Hence, both $N_1 \subseteq N_1'$ and $N_2 \subseteq N_1'$. Thus, $P_{t'}(3\alpha-3)\in B_2'\cap B_2 \subseteq B_2' \cap N_2 \subseteq B_2' \cap N_1'$. This is a contradiction.
+\qed\\
+
+\noindent\textbf{Proof of Thm. \ref{thm:nolistalphacp}}
+The clustering instance $\mc X$ is a simple extension of our tree example (Fig. \ref{fig:noalgalphacp}). In the tree example $ 4$ balls were placed side-by-side one another. Let  $G_1 = \{B_1, B_1', B_2, B_2'\}$ be the balls as in Fig. \ref{fig:noalgalphacp}. Now, construct $G_2 = \{B_3, B_3', B_4, B_4'\}$ exactly identical to $G_1$ but far. In this way, we cosntruct $k/2$ copies of $G_1$. Now, it easy to see that any list $\mc L$ should have size atleast $2^{k/2}$.\qed\\
+
+
+\noindent\textbf{Proof of Thm. \ref{thm:nosparsealg}}
+Let $\mc X \subseteq \mathbb{R}$ be as shown in Fig. \ref{fig:nosparsealg}. Let $t' = \frac{t}{2}-1$ and let $B_1, B_2, B_3, B_1'$, $B_2', B_3', B_1'', B_2''$ and $B_3''$ be as shown in Fig. \ref{fig:nosparsealg}. For $\alpha \le 2\sqrt{2}+3$, clusterings $\mc C_{\mc S} = \{B_1, B_2, B_3, \ldots, B_k\}$, $\mc C_{\mc S'} = \{\ B_1', B_2', B_3, \ldots, B_k\}$ and $\mc C_{\mc S}'' = \{\ B_1'', B_2'', B_3, \ldots, B_k\}$ satisfy $(\alpha, 1)$-center proximity. Also, $m(\mc C_{\mc S}) = m(\mc C_{\mc S}') =$ $m(\mc C_{\mc S}'') = t$. Arguing similarly as in Thm. \ref{thm:noalgalphacp} completes the proof. \qed\\
+\begin{figure}[!t]
+\vspace{-5mm}
+\begin{center}
+\includegraphics[trim={40mm 210mm 20mm 40mm},clip,width=\textwidth]{figures/lbdFig3}
+\end{center}
+\vspace{-4mm}
+\caption{$\mc X \subseteq \mathbb{R}$ such that no algorithm can capture all the $\alpha$-proximal clusterings. } 
+\label{fig:nosparsealg}
+\end{figure}
+
+\noindent\textbf{Proofs of Thms. \ref{thm:nosparselistalphacp}, \ref{thm:nosparselistlambdacs} and \ref{thm:nolistlambdacs}} have the exact same ideas as the proof of Thm. \ref{thm:nolistalphacp}. To prove the lower bound in the list model, instance constructed in Thm. \ref{thm:nolistalphacp} is a `simple' extension of the instance constructed in the proof of tree lower bound (Thm. \ref{thm:noalgalphacp}). The instances for the proof of Thms. \ref{thm:nosparselistalphacp}, \ref{thm:nosparselistlambdacs} and \ref{thm:nolistlambdacs} are similarly constructed as extensions of their respective tree lower bound instances (Thms. \ref{thm:nosparsealg}, \ref{thm:nosparselambdaalg} and \ref{thm:noalglambdacs} respectively).\\
+
+\noindent\textbf{Proof of Thm. \ref{thm:lambdaNoNoisePositive}}
+We say that a clustering $\mc C_{\mc X}$ has strong stability \cite{balcan2008discriminative} when for all $C_i, C_j \in \mc C_{\mc X}$ and for all $A \subset C_i$, $A' \subseteq C_j$, we have that $d_{min}(A, C_i\setminus A) < d_{min}(A, A')$ where $d_{min}(A, B) = \min \{d(a, b): a \in A$ and $b \in B\}$.  .  We will now show that $\mc C_{\mc X}^*$ has strong stability which will complete the proof (Theorem. 8 in \cite{balcan2008discriminative}). Let $A \subset C_i^*$ and $B \subseteq \mc C_j^*$. 
+
+Let $p \in A$ and $q \in C_i^* \setminus A$ be points which achieve the minimum distance between $A$ and $C_i^*\setminus A$. If $c_i \in A$ then $d(p, q) \le d(c_i, q) \le r$. If $c_i \in C_i^* \setminus A$ then $d(p, q) \le d(p, c_i) \le r$. Hence, $d_{min} (A, C_i^*\setminus A) \le r$. Let $p \in A$ and $s \in B$ be points which achieve the minimum distance between $A$ and $B$. Using triangle inequality, we get that $d_{min}(A, B) = d(p, s) \ge d(c_i, c_j) - d(p, c_i) - d(s, c_j) > 3r - r - r = r$.\qed\\
+
+\noindent\textbf{Proof of Thms. \ref{thm:nosparselambdaalg} and \ref{thm:noalglambdacs}}
+The clustering instance $\mc X$ is the same as the corresponding $\alpha$-center proximity instances. The only difference is that the distances between the adjacent points are the same (equal to the given parameter $r$ instead of $\alpha-2$ or $1$ or $\alpha-1$). The proofs are also identical to the proofs of Thm. \ref{thm:nosparsealg} and \ref{thm:noalgalphacp} respectively. \qed\\
+
+\noindent\textbf{Proof of Thm. \ref{thm:lambdacsnoise}}
+Fix $\mc S \subseteq \mc X$. Denote by $r_i := r(S_i^*)$. Let $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ be the clustering outputed by the algorithm. Let $\mc L = \{B_1, \ldots, B_l\}$ be the list of balls as outputed by Phase 1 of Alg. \ref{alg:lambdacs}. Let $G$ be the graph as constructed in Phase 2 of the algorithm. Observe that $B = B(s_i, r_i) = S_i^* \in \mc L$. WLOG, denote this ball by $B^{(i)}$ and the corresponding vertex in the graph $G$ by $v^{(i)}$. We will prove the theorem by proving two key facts.  
+
+\begin{enumerate}[nolistsep,noitemsep,label=\textbf{F.\arabic*}]
+\renewcommand\labelitemi{$\diamond$}
+\item \label{fact:lambda1} If $B_{i1}$ and $B_{i2}$ intersect $S_i^*$ then the vertices $v_{i1}$ and $v_{i2}$ are connected.
+\item \label{fact:lambda2} If $B_{i1}$ intersects $S_i^*$ and $B_{j1}$ intersects $S_j^*$ then $v_{i1}$ and $v_{j1}$ are disconnected in $G$.	
+\end{enumerate}
+
+\begin{smallLemma}
+\label{claim:lambda1}
+Let $\mc L, G, B^{(i)}$ and $v^{(i)}$ be as defined above. Let balls $B_{i1}, B_{i2} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{i2} \cap S_i^* \neq \phi$. Then there exists a path between $v_{i1}$ and $v_{i2}$.
+\end{smallLemma}
+\vspace{-0.1in} Assume that $v_{i1}$ and $v^{(i)}$ are not connected by an edge. Hence, $|B_{i1} \setminus B^{(i)}| \ge t/2$. Since $\lambda > 4$, for all $j \neq i$, $B_{i1} \cap S_j^* = \phi$. Thus, $B_{i1} \setminus B^{(i)} \subseteq \mc X \setminus \mc S$. which contradicts $|B_{i1} \cap \{\mc X \setminus \mc S\}| < t/2$.\qed
+
+\begin{smallLemma}
+Let the framework be as in Claim \ref{claim:lambda1}. Let $B_{i1} \in \mc L$ be such that $B_{i1} \cap S_i^* \neq \phi$ and $B_{j1}$ be such that $B_{j1} \cap S_j^* \neq \phi$. Then $v_{i1}$ and $v_{j1}$ are disconnected in $G$.
+\end{smallLemma}
+\vspace{-0.1in} Assume that $v_{i1}$ and $v_{j1}$ are connected. Hence, there exists vertices $v_{i}$ and $v_{n}$ such that $v_i$ and $v_n$ are connected by an edge in $G$ and $B_i \cap S_i^* \neq \phi$ and $B_n \cap S_n^* \neq \phi$ for some $n \neq i$. $|B_i \cap B_n| \ge t/2$. Now, $\lambda \ge 4$, thus $B_i \cap \{\mc S \setminus S_i^*\} = \phi$ and $B_n \cap \{\mc S\setminus S_n^*\} = \phi$. Thus, $B_i \cap B_n \subseteq \mc X \setminus \mc S$ which contradicts the sparseness assumption.
+\qed\\
+
+\label{appendix:sectiontr}
 \begin{theorem}[Vapnik and Chervonenkis \cite{vapnik2015uniform}]\label{theorem:vceapprox}
 Let $X$ be a domain set and $D$ a probability distribution over $X$. Let $H$ be a class of subsets of $X$ of finite VC-dimension $d$. Let $\epsilon, \delta \in (0,1)$. Let $S \subseteq X$ be picked i.i.d according to $D$ of size $m$. If $m > \frac{c}{\epsilon^2}(d\log \frac{d}{\epsilon}+\log\frac{1}{\delta})$, then  with probability $1-\delta$ over the choice of $S$, we have that $\forall h \in H$
 $$\bigg|\frac{|h\cap S|}{|S|} - P(h)\bigg| < \epsilon$$
 \end{theorem}
 
-\iffalse
-\begin{theorem}
-\label{thm:algAlphacp}
-Given the number of clusters $k$ and parameters $\alpha$, $\eta$ and $t$. There exists a clustering instance $(\mc X, d)$ such that Alg. \ref{alg:alphacp} outputs a tree $T$ with the following property. There exists $\mc S \subseteq \mc X$ and there exists clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ which satisfies $(\alpha, \eta)$-center proximity w.r.t $\mc X, \mc S$ and $k$ such that $ t(\mc C_{\mc S}) = t$ and $r(\mc C_{\mc S}) = r$ and the following holds. 
 
-If $\alpha < 2 + \sqrt 5$ and $\eta \le 1$ and then $T$ doesn't capture $\mc C_{\mc S}$.
-\end{theorem}
-
-\begin{proof}
-Define $\mc X \subseteq \mathbb{R}$ as follows. 
-
-Let $t' = \frac{t}{2}-1$. Let $O_1 = \{P_{t'}(0) \thinspace\cup\thinspace P_{t'}(2\alpha) \thinspace\cup\thinspace P_{t'}(4\alpha+2) \thinspace\cup\thinspace P_{t'}(6\alpha+2)\}$ and $O_2 = \{P_{2}(\alpha+1) \thinspace\cup\thinspace P_{2}(3\alpha+1) \thinspace\cup\thinspace P_{2}(5\alpha+1) \}$. For $3\le i\le k$, define $B_i = P_t (16\alpha+2+i \alpha )$. Now, let $\mc X = \{ O_1 \cup O_2 \cup B_3 \cup \ldots \cup B_k \}$. The set $\mc X$ is also shown in Fig. \ref{fig:algAlphacp}.
-
-Now, let $B_1 = \{P_{t'}(0) \thinspace\cup\thinspace  P_{2}(\alpha+1) \thinspace\cup\thinspace P_{t'}(2\alpha) \}$ and $B_2 = \{\ P_{t'}(4\alpha+2) \thinspace\cup\thinspace P_{2}(5\alpha+1)\thinspace\cup\thinspace P_{t'}(6\alpha+2)\}$. Now, define $\mc S = \{B_1 \cup \ldots \cup B_k\} \subseteq \mc X$. It is easy to see that for $\alpha \le 2+\sqrt{5}$, $\mc S$ is $(\alpha, 1)$-center $t$-min nice and the clustering $\mc C_{\mc S} = \{B_1, \ldots, B_k\}$ satisfies $(\alpha, 1)$-center proximity. However, we will show that the tree outputted by Alg. \ref{alg:alphacp} doesn't contain a pruning such that the corresponding clustering respects $\mc C_{\mc S}$.
-
-Denote by $B_{12} = \{P_{t'}(2\alpha) \cup P_{2}(3\alpha+1) \cup P_{t'}(4\alpha+2) \}$. Alg. \ref{alg:alphacp}, iterates through pairs of points in increasing order of their distance. Hence, it first merges points in $B_3$ to $B_k$ into $k-2$ clusters. Now, observe that $B_1, B_{12}$ and $B_{2}$ have the radius $\alpha + 1$ (as our centers must be part of the dataset $\mc X$). Hence, the algorithm can choose to merge points in $B_{12}$ into the same cluster before merging points from $B_1$ and $B_2$ together. In this case, there exists no pruning of the tree which respects the clustering $\mc C_{\mc S}$.
-\end{proof}
-
-\begin{figure}
-\input{figures/lbdFig1}
-\caption{$\mc X \subseteq \mathbb{R}$ such that Alg. \ref{alg:alphacp} doesn't capture all the $(\alpha, \eta)$-center $t$-min proximal subsets of $\mc X$.}
-\label{fig:algAlphacp}
-\end{figure}
-\fi
 \end{document}
