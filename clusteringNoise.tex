@@ -500,7 +500,7 @@ Fix any $\mc S \subseteq \mc X$. Let $\mc C^*_S = \{S_1^*, \ldots, S_k^*\}$ be a
 \item \label{fact:1} If the algorithm merges points from a good cluster $S_i^*$ with points from some other good cluster,  then at this step the distance being considered $d = d(p,q) > r_i$.	
 \item \label{fact:2} When the algorithm considers the distance $d = r_i$, it merges all points from $S_i^*$ (and possibly points from $\mc X\setminus \mc S$) into a single cluster $C_i$. Hence, there exists a node in the tree $N_i$ which contains all the points from $S_i^*$ and no points from any other good cluster $S_j^*$. 	
 \end{enumerate}
-Note that the theorem follows from these two facts. We now state both of these facts formally below and prove them.
+Note that the theorem follows from these two facts. Similar reasoning was also used in proof of Lemma 3 in \cite{balcan2012clustering}. We now prove both of these facts formally. 
 
 \noindent\textit{\underline{Proof of Fact \ref{fact:1}}}\\
 Let $\mc C^{(l)} = \{C_1, \ldots, C_{k'}\}$ be the current clustering of $\mc X$. Let $l+1$ be the first merge step which merges points from the good cluster $S_i^*$ with points from some other good cluster. Let $p, q \in \mc X$ be the pair of points being considered at this step and $B = B(p, d(p, q))$ the ball that satisfies the sparse distance condition at this merge step. Denote by $Y = Y_{B}^{C^{(l)}}$. We need to show that $d(p, q) > r_i$. To prove this, we need Claim \ref{claim:fromBothCluster} below. 
@@ -521,7 +521,7 @@ Let the framework be as given in Claim \ref{claim:fromBothCluster}. Then, $d(p, 
 \vspace{-0.1in} \noindent If $d(p, q) > r$, then the claim follows trivially. We assume that $d(p, q) \le r$. From claim \ref{claim:fromBothCluster}, $B$ contains $p_i \in S_i^*$ and $p_j \in S_j^*$. Let $r_i = d(c_i, q_i)$ for some $q_i \in S_i^*$.
 
 $d(c_i, q_i) < \frac{1}{\alpha} d(q_i, c_j) < \frac{1}{\alpha} [ \frac{1}{\alpha}d(p_i, p_j) + \frac{1}{\alpha}d(c_i, q_i) + d(p_i, p_j) + 2d(c_i, q_i)]$
-This implies that $(\alpha^2 - 2\alpha - 1)d(q_i, c_i) < (\alpha + 1) d(p_i, p_j)$. For $\alpha \ge 2 + \sqrt 7$, this implies that $d(c_i, q_i) < d(p_i, p_j)/2$. Now, using triangle inequality, we get that $d(c_i, q_i) < d(p_i, p_j)/2 \le \frac{1}{2}[d(p, p_i) + d(p, p_j)] < d(p, q)$.\qed\\
+This implies that $(\alpha^2 - 2\alpha - 1)d(q_i, c_i) < (\alpha + 1) d(p_i, p_j)$. For $\alpha \ge 2 + \sqrt 7$, this implies that $d(c_i, q_i) < d(p_i, p_j)/2$. Now, using triangle inequality, we get that $d(c_i, q_i) < d(p_i, p_j)/2 \le \frac{1}{2}[d(p, p_i) + d(p, p_j)] < d(p, q)$. This result was also stated in \cite{balcan2012clustering}.\qed\\
 
 \noindent\textit{\underline{Proof of Fact \ref{fact:2}
 }}\\
