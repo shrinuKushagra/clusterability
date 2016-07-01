@@ -127,7 +127,7 @@ In Section \ref{sec:cswithout}, we describe an efficient algorithm that, for any
 \label{sec:Notation}
 Let $(\mb M, d)$ be a metric space. Given a data set $\mc X \subseteq \mc M$ and an integer $k$. A $k$-clustering of $\mc X$ denoted by $\mc C_{\mc X}$ is a partition of $\mc X$ into $k$ disjoints sets. Given points $c_1, \ldots, c_k \in \mb M$, we define the clustering induced by these points (or {\it centers}) by assigning each $x \in \mc X$ to its nearest center. In the {\it steiner} setting, the centers can be arbitrary points of the metric space $\mb M$. In the {\it proper} setting, we restrict our centers to be members of the data set $\mc X$. In this paper, we will be working in the {\bf proper} setting.
 
-For any set $\mc A\subseteq \mc X$ with centre $c\in \mb M$, we define the radius of $\mc A$ as $r_c(\mc A) = \max_{x \in \mc A} d(x, c)$. Throughout, we will use the notation $\mc C_{\mc X}$ to denote the clustering of the set $\mc X$ and $\mc C_{\mc S}$ to denote the clustering of some $\mc S\subseteq \mc X$. 
+For any set $\mc A\subseteq \mc X$ with center $c\in \mb M$, we define the radius of $\mc A$ as $r_c(\mc A) = \max_{x \in \mc A} d(x, c)$. Throughout, we will use the notation $\mc C_{\mc X}$ to denote the clustering of the set $\mc X$ and $\mc C_{\mc S}$ to denote the clustering of some $\mc S\subseteq \mc X$. 
 
 \begin{definition}[$r(\mc C_{\mc X})$ , $m(\mc C_{\mc X})$] Given a clustering $\mc C_{\mc X} = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k \in \mb M$. 
 \begin{itemize}[nolistsep, noitemsep]
@@ -164,7 +164,7 @@ Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\
 \begin{itemize}[nolistsep, noitemsep]
 \label{defn:alphacpnoise}	
 
-\item[$\diamond$] {\bf $\alpha$-centre proximity}: For all $x \in S_i$ and $i\neq j$, $\thinspace\alpha d(x, s_i) < d(x, s_j)$
+\item[$\diamond$] {\bf $\alpha$-center proximity}: For all $x \in S_i$ and $i\neq j$, $\thinspace\alpha d(x, s_i) < d(x, s_j)$
 \item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$, 
 \vspace{-0.1in}\begin{align*}
 r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{m(\mc C_{\mc S})}{2}
@@ -185,7 +185,7 @@ Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S}$ has $(\lambda, \eta)
 \begin{itemize}[nolistsep, noitemsep]
 \label{defn:lambdacsnoise}	
 
-\item[$\diamond$] {\bf $\lambda$-centre separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda r({\mc C}_{\mc S})$
+\item[$\diamond$] {\bf $\lambda$-center separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda r({\mc C}_{\mc S})$
 \item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$, 
 \vspace{-0.1in}\begin{align*}
 r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{m(\mc C_{\mc S})}{2}
@@ -194,7 +194,7 @@ r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S
 %Note: In the setting of this paper, we will restrict the centers $s_i \in \mc X$. 
 \end{definition}
 
-We denote a ball of radius $x$ at centre $c$ by $B(c, x)$. We denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. If the location is clear from the context, we will use the notation $P_i$.
+We denote a ball of radius $x$ at center $c$ by $B(c, x)$. We denote by $P_{i}(c)$ a collection of $i$ many points sitting on the same location $c$. If the location is clear from the context, we will use the notation $P_i$.
 
 %\noindent{\textbf{Important Note}}: For the sake of generality, all the definitions of this section has been stated in the steiner setting. It is important to note that, in this paper, we will only use these definitions in the {\bf proper} setting.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -399,7 +399,7 @@ We are given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. Our 
 
 In the next section, we propose a clustering algorithm (Alg.\ref{alg:lambdacs}) and prove (Theorem.\ref{thm:lambdacsnoise}) that our algorithm indeed achieves the above mentioned goal (under certain assumptions on the parameters $\lambda$ and $\eta$). It is important to note that our algorithm only knows $\mc X$ and has no knowledge of the set $\mc S$. 
 
-Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it constructs a list of balls which have radius atmost $r$ and contain atleast $t$ points. It then constructs a graph as follows. Each ball found in the first phase is represented by a vertex. If two balls have a `large' intersection then their is an edge between the corresponding vertices in the graph. We then find the connected components in the graph which correspond to the clustering of the original set $\mc X$. 
+Intuitively, Alg.\ref{alg:lambdacs} works as follows. In the first phase, it constructs a list of balls which have radius at most $r$ and contain at least $t$ points. It then constructs a graph as follows. Each ball found in the first phase is represented by a vertex. If two balls have a `large' intersection then their is an edge between the corresponding vertices in the graph. We then find the connected components in the graph which correspond to the clustering of the original set $\mc X$. 
 
 
 \begin{algorithm}[!ht]	
@@ -562,7 +562,7 @@ Assume that there exists a tree $T$ and prunings $P$ and $P'$ such that $P$ resp
 \qed\\
 
 \noindent\textbf{Proof of Thm. \ref{thm:nolistalphacp}}
-The clustering instance $\mc X$ is a simple extension of our tree example (Fig. \ref{fig:noalgalphacp}). In the tree example $ 4$ balls were placed side-by-side one another. Let  $G_1 = \{B_1, B_1', B_2, B_2'\}$ be the balls as in Fig. \ref{fig:noalgalphacp}. Now, construct $G_2 = \{B_3, B_3', B_4, B_4'\}$ exactly identical to $G_1$ but far. In this way, we cosntruct $k/2$ copies of $G_1$. Now, it easy to see that any list $\mc L$ should have size atleast $2^{k/2}$.\qed\\
+The clustering instance $\mc X$ is a simple extension of our tree example (Fig. \ref{fig:noalgalphacp}). In the tree example $ 4$ balls were placed side-by-side one another. Let  $G_1 = \{B_1, B_1', B_2, B_2'\}$ be the balls as in Fig. \ref{fig:noalgalphacp}. Now, construct $G_2 = \{B_3, B_3', B_4, B_4'\}$ exactly identical to $G_1$ but far. In this way, we cosntruct $k/2$ copies of $G_1$. Now, it easy to see that any list $\mc L$ should have size at least $2^{k/2}$.\qed\\
 
 
 \noindent\textbf{Proof of Thm. \ref{thm:nosparsealg}}
