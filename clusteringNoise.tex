@@ -11,7 +11,6 @@
 \usepackage[toc,page]{appendix}
 
 \usepackage{enumitem}
-
 \usepackage{tikz}
 \usetikzlibrary{shapes, calc, arrows, through, intersections, decorations.pathreplacing, patterns}
 
@@ -42,17 +41,16 @@
 \renewcommand{\algocf@caption@boxruled}{%
   \hrule
   \hbox to \hsize{%
-    \vrule\hskip-0.1pt
-    \vbox{   
+    \vrule\hskip-0.4pt
+    \vbox{
        \vskip\interspacetitleboxruled%
-       \unhbox\algocf@capbox
+       \unhbox\algocf@capbox\hfill
        \vskip\interspacetitleboxruled
        }%
-     \hskip-0.1pt\vrule%
+     \hskip-0.4pt\vrule%
    }\nointerlineskip%
 }%
 \makeatother
-
 
 \title{Finding Meaningful Cluster Structure amidst Background Noise}
 \author{Shrinu Kushagra\inst{1}, Samira Samadi\inst{2} \and Shai Ben-David\inst{1}}
@@ -217,7 +215,7 @@ Given a clustering instance $(\mc X, d)$ and a parameter $t$, we introduce an ef
 Our algorithm has a linkage based structure similar to \cite{balcan2012clustering}. However, our method benefits from a novel {\it sparse distance condition}. We introduce the algorithm in Alg.~\ref{alg:alphacp} and prove its efficiency and correctness in Theorem.~\ref{thm:algcptime} and Theorem.~\ref{thm:alphacpnoise} respectively. 
 
 \begin{definition}[Sparse distance condition]
-	 Given a clustering $\mc C = \{C_1,\ldots,C_k\}$ of the set $\mc X$ and a parameter $t$. We say that the ball $B \subseteq \mc X$ satisfies the sparse distance condition w.r.t clustering $\mc C$ when the following holds.
+	 Given a clustering $\mc C = \{C_1,\\\ldots,C_k\}$ of the set $\mc X$ and a parameter $t$. We say that the ball $B \subseteq \mc X$ satisfies the sparse distance condition w.r.t clustering $\mc C$ when the following holds.
 \begin{itemize}[noitemsep,nolistsep,leftmargin=*]
 \item $|B| \ge t$.
 \item For any $C_i \in \mc C$, if $C_i \cap B \neq \phi$, then $C_i \subseteq B$ or $|B \cap C_i| \ge t/2$.
@@ -233,13 +231,10 @@ Intuitively, Alg.\ref{alg:alphacp} works as follows. It maintains a clustering $
 	
 \vspace{0.1in}Let $\mc C^{(l)}$ denote the clustering $\mc X$ after $l$ merge steps have been performed. Initialize $\mc C^{(0)}$ so that all points are in their own cluster. That is, $\mc C^{(0)} = \{ \{x\}: x \in \mc X\}$.
 	
-	Go over all pairs of points $p, q$ in increasing order of the distance $d(p, q)$. If $B = B(p, d(p, q))$ satisfies the sparse distance condition then
-	\begin{itemize}[noitemsep]
-	\renewcommand\labelitemi{}
-	\item Merge all the clusters which intersect with $B$ into a single cluster.
-	\end{itemize}
+	Go over all pairs of points $p, q$ in increasing order of the distance $d(p, q)$. If $B = B(p, d(p, q))$ satisfies the sparse distance condition then\\
+	\hspace{0.24in}Merge all the clusters which intersect with $B$ into a single cluster.
 	
-	Output clustering tree $T$. The leaves of $T$ are the points in dataset $\mc X$. The internal nodes correspond to the merges performed.
+	\vspace{0.1in}Output clustering tree $T$. The leaves of $T$ are the points in dataset $\mc X$. The internal nodes correspond to the merges performed.
 \caption{Alg. for $(\alpha, \eta)$-center proximity with parameter $t$}	
 \label{alg:alphacp}
 \end{algorithm}
@@ -353,16 +348,11 @@ Intuitively, Alg.~\ref{alg:lambdacs} works as follows. In the first phase, it co
 	\vspace{0.1in}\textbf{Phase 1}\\
 	Let $\mc L$ denote the list of balls found so far. Initialize $\mc L$ to be the empty set. $\mc L = \phi$.
 	
-	Go over all pairs of points $p, q \in \mc X$ in increasing order of the distance $d(p, q)$. 		\begin{itemize}[noitemsep, nolistsep]
-	\renewcommand\labelitemi{}
-	\item Let $B := B(p, d(p, q))$. 
-	\item If $|B| \ge t$ and $r(B) \le r$ then
-		\begin{itemize}[noitemsep, nolistsep]
-		\renewcommand\labelitemii{}
-		\item $\mc L = \mc L \thinspace\cup B$
-		\end{itemize}
-	\end{itemize}
-	Output the list of balls $\mc L = \{B_1, \ldots, B_l\}$ to the second phase of the algorithm.
+	Go over all pairs of points $p, q \in \mc X$ in increasing order of the distance $d(p, q)$. Let $B := B(p, d(p, q))$. If $|B| \ge t$ and $r(B) \le r$ then
+	
+	\hspace{0.24in}$\mc L = \mc L \thinspace\cup B$
+	
+	\vspace{0.1in}Output the list of balls $\mc L = \{B_1, \ldots, B_l\}$ to the second phase of the algorithm.
 	
 	\vspace{0.1in}\textbf{Phase 2}\\
 	Construct a graph $G = (V, E)$ as follows. $V = \{v_1, v_2, \ldots, v_l\}$. If $|B_i \cap B_j| \ge t/2$ then construct an edge between $v_i$ and $v_j$.
