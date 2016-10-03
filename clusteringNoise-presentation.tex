@@ -61,57 +61,35 @@
 % and table of contents.
 \section{Introduction}
 
-\begin{frame}{What is clustering}
-  Input: A list of objects $\mc X$\\
-  Output: 
-  \begin{itemize}
-  \item {
-    Clustering is typically an {\color{red}under-specified} task
-     \begin{itemize}
-         \item Which algorithm/objective to choose?
-         \item Sensitive to the choice of metric, etc.         
-         \item Solution is not unique
-     \end{itemize}
-  }
-  \pause
-  \item {   
-    Clustering is {\color{red}computationally expensive}
-     \begin{itemize}
-         \item Solving K-means, K-median, K-medoids, K-center, Min Normalized-Cut, ... is NP-hard 
-     \end{itemize}
-  }
-  \pause
-  \item {What can we do?}
+\begin{frame}{Clustering - Introduction}
+  Input: A list of objects $\mc X$ and the number of clusters $k$\\
+  Output: A  clustering (partition) $\mc C$ of the set $\mc X$. That is, $\mc C = \{X_1, \ldots, X_k\}$\\
   
+  \pause
+  \vspace{0.1in} Most common approach
+  \begin{itemize}
+  	\item Associate a cost with each possible clustering $\mc C$.
+  	\item Find the clustering with minimum cost. $$\min_{\mc C} \sum_{i=1}^k \sum_{x \in X_i} \|x - \mu(X_i)\|^2$$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Clustering - Challenges}  
+  Computationally expensive\\
+  \begin{itemize}
+  	\item Minimizing objective is NP-Hard.
+  	\item Approximating is also hard.
+  \end{itemize}
+  \vspace{0.1in}Multiple solutions
+  \begin{itemize}
+  	\item Same set can be clustered in multiple ways.
+  	\item Different clusterings depending upon application.
   \end{itemize}
 \end{frame}
 
 
-\begin{frame}{Our Approach}
+\begin{frame}{Clustering is difficult only when it doesnt matter}
   \begin{itemize}
-  \item {
-     Learner can {\color{red}interact} with an expert to get ``{\color{red} advice}''
-     
-  }
-  \pause
-  \item {   
-    Same-Cluster Query
-    \begin{itemize}
-        \item Do $x_1$ and $x_2$ belong to the same cluster?
-        \item No need to know the number of clusters beforehand
-    \end{itemize}
-  }
-  \pause 
-  \item {   
-    Learner should output the ``true'' clustering
-    \begin{itemize}
-        \item Consistent with expert's knowledge
-    \end{itemize}
-  }
-  \pause 
-  \item Query complexity?
-  \item Computational complexity?
-  
+  	\item $K$-Means used in practice  
   \end{itemize}
 \end{frame}
 
