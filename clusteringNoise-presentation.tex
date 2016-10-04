@@ -88,272 +88,227 @@
 
 
 \begin{frame}{Clustering is difficult only when it doesnt matter}
+  
+  Theory vs Practice
   \begin{itemize}
-  	\item $K$-Means used in practice  
+	\item Theory says not possible to find ``optimal clustering''.
+  	\item In practice, $K$-Means is used.
+  	\item Successful on various tasks.
+  \end{itemize}
+  
+  \vspace{0.2in}Possible explanation/solution.
+  \begin{itemize}  
+  	\item Real world data sets have some nice structure.
+  	\item Clustering is easy (computationally) if the input has this nice structure. 
+  	\item Formalize ``data is well-separated'' assumption.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Notions of clusterability}
+  \begin{itemize}
+  	\item $\alpha$-center proximity\\
+    A clustering $\mc C$ satisfies $\alpha$-center proximity w.r.t $\mc X$ if there exist centers $c_1, \ldots, c_k$  such that the following holds. For all $x \in X_i$ and $i\neq j$, $$\alpha d(x, c_i) < d(x, c_j)$$ 
+  	\item $\lambda$-center separation\\
+  	A clustering $\mc C$ has $\lambda$-center separation w.r.t $\mc X$ if there exists centers $c_1, \ldots, c_k$ such that the following holds. For all $i\neq j$, 
+  	$$d(c_i, c_j) > \lambda r(\mc C)$$
   \end{itemize}
 \end{frame}
 
 \section{Previous Work}
 
-\begin{frame}{Dealing with Computational Complexity}
+\begin{frame}{Known Results}
+  Intuition
   \begin{itemize}
+    \item $\alpha$ controls how separated the clusters are.
+    \item Bigger the $\alpha$, more the separation.  
+  \end{itemize}
   
-    \item Hardness of clustering
-    \begin{itemize}
-        \item 2-means (Dasgupta (2009))
-        \item Planar k-means (Mahajan et. al (2009), Vattani (2009))
-        \item k-median, k-center, ...
-    \end{itemize}
-    \pause
-    \item Approximate algorithms for K-means
-    \begin{itemize}
-        \item $(9+\epsilon)$-approximation (Kanungo et al. (2002))
-        \item PTAS for fixed $k$ (Kumar et al. (2004))
-        \item NP-hard in general (Awasthi et al. (2015))
-    \end{itemize}
-    
-    \pause
-    \item Niceness assumptions (Awasthi et al. (2012), Ackerman and Ben-David (2009))
-    \begin{itemize}
-        \item Avoid worst-case scenarios
-        \item From deep learning to SAT solvers
-        \item In clustering: clusters are ``well-separated''
-        \item Quest for finding realistic and testable notions
-    \end{itemize}
-    
-    \pause
-    \item Heuristics
-        \begin{itemize}
-            \item Loyd algorithm, local search, ...
-            \item Relaxation/``Convexification''
-        \end{itemize}
-        
-        
+  \vspace{0.2in}Goal: Find the optimal $k$-median solution. It is known that the optimal solution satisfies $\alpha$-center proximity. 
+  \begin{itemize}
+    \item $\alpha > \sqrt{2}+1$ - Efficient algorithm based on finding a $k$-pruning of a hierarchical clustering tree.
+    \item $\alpha < 2$ - Problem NP-Hard.  
   \end{itemize}
 \end{frame}
 
-
-\begin{frame}{Dealing with Under-Specificity}
+\begin{frame}{Known results}
+	Limitations
+	\begin{itemize}
+		\item Assumes entire set $\mc X$ has a nice structure.
+		\item Too strict. Unrealistic in pratical situations.
+	\end{itemize}
+	\vspace{0.1in}Solution
+	\begin{itemize}
+		\item Noise - Add points which do not have any structure
+	\end{itemize}
+	\vspace{0.2in}Goal: Find the optimal $k$-median solution. It is known that the optimal solution satisfies $\alpha$-center proximity except for an $\epsilon$ fraction of points. 
   \begin{itemize}
-  
-    \item Constrained Clustering (Wagstaff et al. (2000))
-    \begin{itemize}
-        \item ``Must/Cannot'' constraints
-        \item Heuristic approach
-    \end{itemize}
-    
-    \pause
-    
-    \item Metric Learning using Side-Information (Xing et. al (2003), Alipanahi et. al (2008))
-        \begin{itemize}
-            \item Maps points of the same cluster close to each other and ... 
-            \item How can we ``consistently'' cluster the points in the new space?
-        \end{itemize}
-    \pause
-    \item Metric Learning for K-means (Ashtiani and Ben-David (2015))
-    \begin{itemize}
-        \item Receives the clustering of a small subset of data
-        \item Finds a ``consistent'' mapping
-        \item Sample complexity analysis only
-    \end{itemize}
-    \pause
-    \item Interactive Clustering (Balcan and Blum (2008))
-    \begin{itemize}
-        \item Merge-Split model 
-        \item Hard to evaluate long queries
-    \end{itemize}
-
+    \item $\alpha > 2+\sqrt{7} \approx 4.6$ - Efficient algorithm  finds a $1+O(\epsilon)$ approximation to $k$-median optimal.
   \end{itemize}
 \end{frame}
-
-
 
 \section{Big Picture}
 
 \begin{frame}{Problem Setting}
-  
-  %\begin{figure}
-  %  \begin{overprint}
-  %      \onslide<1> \centering\includegraphics[scale=0.5]{Figures/1.png}
-  %  \end{overprint}
-  %\end{figure}
-    
+  Limitations
   \begin{itemize}
-    \item $X = \{x_i\}_{i=1}^{n} \subset \mathbb{R}^d$
-    \item $k$ is the number of clusters
-
+  	\item Impossible to verify - Can't find optimal solution. No way to verify if the optimal has that property.
+  	\item Small noise - Upper bounded by a fraction of the dataset.  
+  \end{itemize}
+  \vspace{0.2in}Our framework
+  \begin{itemize}
+  	\item Noise is structureless.
+  	\item Efficient representation of all nice solutions.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Well-Clustered Data}
+\begin{frame}{Contributions}
+  Results under $\alpha$-center proximity\\
   \begin{itemize}
-    
-    \item Nicely separated clusters 
-
+  	\item $\alpha < 3 + 2\sqrt{2} \approx 5.8$ and noise is small - No efficient representation exists. 
+  	\item $\alpha > 2 + \sqrt{7} \approx 4.6$ and noise is sparse - Efficient algorithm which captures all solutions.
+  	\item $\alpha < 3 + \sqrt{2} \approx 4.4$ and noise is sparse - No efficient representation exists.
   \end{itemize}
 \end{frame}
 
-
-\begin{frame}{$\gamma$-Margin Condition}
-  \begin{itemize}
-	\item Admits a polynomial time algorithm for $\gamma > 2$
-    \item What about smaller $\gamma$, especially $\gamma \rightarrow 0$?
-    \item Can we use queries?
-
+\begin{frame}{Contributions}
+  Results under $\lambda$-center separation\\
+ \begin{itemize}
+  	\item $\lambda < 6$ and noise is small - No efficient representation exists. 
+  	\item $\lambda > 4$ and noise is sparse - Efficient algorithm which captures all solutions.
+  	\item $\lambda < 4$ and noise is sparse - No efficient representation exists.
   \end{itemize}
+  \vspace{0.2in}Structureless noise is natural.
 \end{frame}
 
+\section{Preliminaries}
 
+\begin{frame}{Definitions}
+	Given a clustering $\mc C = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k$, $m(\mc{C}) = \min_i |C_i|$ and $r(\mc{C}) = \max_i \thinspace r(C_i)$.
+	
+	\vspace{0.1in}\begin{block}{($\alpha, \eta$)-center proximity}
+	Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ has $(\alpha, \eta)$-center proximity if there exists centers $s_1, \ldots, s_k$  such that the following holds.
+	\begin{itemize}
+  	\item[$\diamond$] {\bf $\alpha$-center proximity}: For all $x \in S_i$ and $i\neq j$, $\thinspace\alpha d(x, s_i) < d(x, s_j)$
+	\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$, $r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{m(\mc C_{\mc S})}{2}$
+	\end{itemize}
+	\end{block}
+\end{frame}
 
-\begin{frame}{Outline of Contributions}
-  \begin{itemize}
-    
-    \item Clustering with same-cluster queries
-    
-    \begin{itemize}
-        \item Polynomial time algorithm (in $k$, $d$, $n$, and $\frac{1}{\gamma}$)
-        \item Reasonably small number of queries
-        \item Looking for the ``exact'' solution
-    \end{itemize}
-    
-    \pause
-    \item The case of K-means clustering
-    \begin{itemize}
-        \item Oracle conforms to the optimal k-means solution
-        \item Hardness result and lower bounds
-    \end{itemize}
+\begin{frame}{Definitions}
+	Given a clustering $\mc C = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k$, $m(\mc{C}) = \min_i |C_i|$ and $r(\mc{C}) = \max_i \thinspace r(C_i)$.
 
-  \end{itemize}
+	\vspace{0.1in}\begin{block}{($\lambda, \eta$)-center separation}
+	Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S}$ has $(\lambda, \eta)$-center separation if there exists centers $s_1, \ldots, s_k$ such that $\mc C_{\mc X}$ is the clustering induced by these centers and the following holds.
+
+	\begin{itemize}
+	\label{defn:lambdacsnoise}	
+
+	\item[$\diamond$] {\bf $\lambda$-center separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda r({\mc C}_{\mc S})$
+	\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$, $r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{m(\mc C_{\mc S})}{2}$
+	\end{itemize}
+	\end{block}
 \end{frame}
 
 \section{Algorithmic Approach}
 
-\begin{frame}{Clustering with Advice}
-  \begin{itemize}
-    
-    \item $\theta(n^2)$ is trivial 
-    
+
+\begin{frame}{Clustering under $\alpha$-center proximity}
+	\begin{block}{The algorithm}
+	  Input: $(\mc X, d)$ and a parameter $t$.\\
+	  Output: A hierarchical clustering tree.\\
+	  \vspace{0.1in}Initialize every point in its own cluster.\\
+	  Go over all pairs of points $p, q$ in increasing order of distance.\\
+	  If $B := B(p, d(p, q))$ satisfies the sparse-distance condition
+	  \begin{itemize}
+	  	\item Merge all clusters that intersect with $B$ into a single cluster
+	  \end{itemize}
+    \end{block}
+        
+    \vspace{0.2in}We say that the ball $B$ satisfies the sparse distance condition w.r.t clustering $\mc C$ when the following holds.
+	\begin{itemize}
+	  \item $|B| \ge t$.
+	  \item For any $X_i \in \mc C$, if $X_i \cap B \neq \emptyset$, then $X_i \subseteq B$ or $|B \cap X_i| \ge t/2$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Clustering under $\alpha$-center proximity}
+	\begin{block}{Proof Idea}
+	\begin{itemize}
+	  \item Let the target clustering be $\mc C^* = \{S_1^*, \ldots, S_k^*\}$
+	  \item If points from $S_i^*$ is merged with points from $S_j^*$,  then at this step the distance being considered $d = d(p,q) > r(S_i^*)$.	
+      \item When the algorithm considers the distance $d = r(S_i^*)$, it merges all points from $S_i^*$ into a single cluster. 
+    \end{itemize} 	
+	\end{block}
+\end{frame}
+
+\begin{frame}{Clustering under $\alpha$-center proximity}
+	\begin{block}{Result}
+	\begin{itemize}
+	  \item Given a clustering instance $(\mc X, d)$ and a parameter $t$. outputs a tree $\mc T$ with the following property. For all $k$, $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ which satisfy $(2+\sqrt{7}, 1)$-center proximity the following holds. If $m(\mc C_{\mc S}^*) = t$ then $\mc T$ captures $\mc C_{\mc S}$.
+	  \item Runs in polynomial time.
+	\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Clustering under $\alpha$-center proximity}
+	If $\alpha < 3 + \sqrt{2}$ and noise is sparse, then there doesn't exist a clustering tree which can capture all nice solutions.
+	\begin{figure}[!t]
+	  \begin{center}
+	    \includegraphics[trim={47mm 205mm 12mm 44mm},clip,width=\textwidth]{lbdFig2.pdf}
+	  \end{center}
+	\end{figure}
+	Same ideas can be extended to a list output. Any list should have size $> 2^{k/2}$
+\end{frame}
+
+\begin{frame}{Clustering under $\alpha$-center proximity}
+	If $\alpha < 3 + 2\sqrt{2}$ and noise is arbitrary, then there doesn't exist a clustering tree which can capture all nice solutions.
+	\begin{figure}[!t]
+	  \begin{center}
+	    \includegraphics[trim={47mm 205mm 12mm 44mm},clip,width=\textwidth]{lbdFig3.pdf}
+	  \end{center}
+	\end{figure}
+	Same ideas can be extended to a list output. Any list should have size $> 2^{k/2}$
+\end{frame}
+
+\begin{frame}{Clustering under $\lambda$-center separation}
+	\begin{block}{The algorithm}
+	  Input: $(\mc X, d)$ and parameters $r$ and $t$.\\
+	  Output: A clustering of $\mc X$.\\
+	  \vspace{0.1in}Initialize every point in its own cluster.\\
+	  Construct a list $L$ of balls $B$ such that $r(B) \le r$ and $m(B) \ge t$.\\
+	  Construct a vertex in a graph for every ball in the list. \\
+	  If $B_i \cap B_j \ge t/2$, connect the vertices by an edge.\\
+	  Output the connected components as a clustering of the set.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Clustering under $\lambda$-center separation}
+	\begin{block}{Proof Idea}
+	\begin{itemize}
+	  \item Let the target clustering be $\mc C^* = \{S_1^*, \ldots, S_k^*\}$
+	  \item If $B_{i1}$ and $B_{i2}$ intersect $S_i^*$ then the vertices $v_{i1}$ and $v_{i2}$ are connected.
+	  \item If $B_{i1}$ intersects $S_i^*$ and $B_{j1}$ intersects $S_j^*$ then $v_{i1}$ and $v_{j1}$ are disconnected in $G$.	
+    \end{itemize} 	
+	\end{block}
+\end{frame}
+
+\begin{frame}{Clustering under $\lambda$-center separation}
+	\begin{block}{Result}
+	\begin{itemize}
+	  \item Given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. For every $k$, for every $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^* = \{S_1^*, \ldots, S_k^*\}$ which satisfy $(4, 1)$-center separation such that $ m(\mc C_{\mc S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$, the following holds. Alg. outputs a clustering $\mc C$ such that $\mc C|_{\mc S} = \mc C_{\mc S}^*$.
+	  \item Runs in polynomial time.
+	\end{itemize}
+	\end{block}
+	The lower bounds are obtained using identical techniques as the lower bounds for $\alpha$-center proximity case.
+\end{frame}
+
+\begin{frame}{Sparse noise is natural}
     \begin{itemize}
-        \item We want at most $O(\log n)$ queries
+	  \item Let data $\mc S$ has nice structure (cohesive and separated sets).
+	  \item Uniform random noise $\mc N$ is added to this data.
+	  \item $\mc X = \mc S \cup \mc N$ satisfies the structureless noise definition with high probability.
     \end{itemize}
-
-  \end{itemize}
 \end{frame}
-
-\begin{frame}{Active Clustering Algorithm}
-
-    \begin{block}
-    
-
-
-    \begin{itemize}
-    
-
-    \item Uniformly select points and find their corresponding cluster
-    \item Continue until we have ``enough'' points from one cluster
-    \item Estimate the center
-    \item Binary search to find the boundary
-    \item Remove the cluster
-    \item Continue with the remaining clusters
-      \end{itemize}
-  
-  \end{block}
-  \pause
-  \begin{itemize}
-      \item Don't ask the oracle the same query again
-      \item Don't need to have $k$ in advance
-  \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Analysis}
-  \begin{itemize}
-    
-    \item How many points from each cluster?
-    \begin{itemize}
-        \item Enough to estimate the center
-        \item $\|\mu - \hat{\mu}\| < \frac{\gamma R}{2}$
-
-    \end{itemize}
-    \pause
-    
-    \item Generalized Hoeffding's inequality for Hilbert spaces
-    \begin{itemize}
-        \item Need $O(\frac{\log \frac{1}{\delta}}{\gamma ^2})$ points from each cluster
-        \item Independent of $d$
-    \end{itemize}    
-    \pause
-    \item Number of queries for each cluster
-    \begin{itemize}
-        \item $O(k\frac{\log \frac{k}{\delta}}{\gamma ^2})$ for finding the center
-        \item $\log n$ for binary search
-    \end{itemize}        
-    \pause
-    \begin{theorem}
-        The proposed algorithm finds the exact clustering with probability at least $1-\delta$ and
-        \begin{itemize}
-            \item Asks $O(k \log n  + \frac{k^2 \log \frac{k}{\delta}}{\gamma ^2})$ queries
-            \item Runs in $O(kn \log n  + \frac{k^2 \log \frac{k}{\delta}}{\gamma ^2})$ time       
-            \end{itemize}   
-    \end{theorem}
-
-
-  \end{itemize}
-\end{frame}
-
-
-\section{The case of K-means Clustering}
-
-\begin{frame}{Lower bound for Number of Queries}
-  \begin{itemize}
-    
-    \item Still hard if learner asks ``a few'' queries?
-    \pause
-    \item NP-hard with $O(\log n + \log k)$ queries
-    \begin{itemize}
-        \item Simulation trick
-    \end{itemize}
-    
-  \end{itemize}
-\end{frame}
-
-
-
-\section{Conclusions}
-
-\begin{frame}{Summary}
-  \begin{itemize}
-    
-    \item Interactive model for clustering
-    \pause
-    \item A weaker notion of ``clusterability'' 
-    \pause
-    \item An efficient algorithm for this setting
-    \pause
-    \item Makes NP-hard problems easy using rather small queries
-    \pause
-
-  \end{itemize}
-\end{frame}
-
-\begin{frame}{Future Work}
-  \begin{itemize}
-    
-    \item Noisy oracle
-    \begin{itemize}
-        \item Adversarial?
-    \end{itemize}
-    \pause
-    \item Abstentions
-    \begin{itemize}
-        \item Possible with $O(\log nk)$ abstentions
-    \end{itemize}
-    \pause
-    \item Other clustering problems?
-
-  \end{itemize}
-\end{frame}
-
 
 \begin{frame}
     \Huge{\centerline{Thank You!}}
