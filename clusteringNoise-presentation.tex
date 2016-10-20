@@ -11,6 +11,7 @@
 % notice. 
 
 \documentclass{beamer}
+\usepackage{color}
 
 \usetheme{Madrid}
 
@@ -23,8 +24,9 @@
       \column{.75\linewidth}
       \centering
       \vspace{25pt}\\ Shrinu Kushagra\\ \vspace{15pt}
-      Oct 04, 2016 \\ \vspace{15pt}
-      Joint work with Samira Samadi and Shai Ben-David
+      Oct 21, 2016 \\ 
+      ALT 2016, Bari, Italy \\ \vspace{15pt}
+      Joint work with Samira Samadi (Georgia Tech)and Shai Ben-David (University of Waterloo)
     \end{columns}
     \vspace{5pt}
 	  \begin{figure}
@@ -52,24 +54,27 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Outline}
-  \tableofcontents
-  % You might wish to add the option [pausesections]
-\end{frame}
 
 % Section and subsections will appear in the presentation overview
 % and table of contents.
 \section{Introduction}
 
 \begin{frame}{Clustering - Introduction}
-  Input: A list of objects $\mc X$ and the number of clusters $k$\\
-  Output: A  clustering (partition) $\mc C$ of the set $\mc X$. That is, $\mc C = \{X_1, \ldots, X_k\}$\\
+  Input: $\mc X$ and $k$\\
+  \begin{figure}
+	  \includegraphics[trim = 50 150 50 200, clip, width=0.8\linewidth]{clustp.pdf}
+	\end{figure}
+	
   
-  \pause
-  \vspace{0.1in} Most common approach
+  Output: Partition into $k$ clusters. $\mc C = \{X_1, \ldots, X_k\}$
+\end{frame}
+
+\begin{frame}{Clustering - Introduction}
+  Most common approach
   \begin{itemize}
   	\item Associate a cost with each possible clustering $\mc C$.
   	\item Find the clustering with minimum cost. $$\min_{\mc C} \sum_{i=1}^k \sum_{x \in X_i} \|x - \mu(X_i)\|^2$$
+	\item $k$-means and $k$-median 
   \end{itemize}
 \end{frame}
 
@@ -77,142 +82,146 @@
   Computationally expensive\\
   \begin{itemize}
   	\item Minimizing objective is NP-Hard.
-  	\item Approximating is also hard.
   \end{itemize}
   \vspace{0.1in}Multiple solutions
   \begin{itemize}
   	\item Same set can be clustered in multiple ways.
-  	\item Different clusterings depending upon application.
   \end{itemize}
+  \vspace{0.1in}Theory vs Practice
+  \begin{itemize}
+	\item $k$-means successfully used on various tasks.
+  \end{itemize}
+  
 \end{frame}
 
-
-\begin{frame}{Clustering is difficult only when it doesnt matter}
+\begin{frame}{CDNM}
   
-  Theory vs Practice
-  \begin{itemize}
-	\item Theory says not possible to find ``optimal clustering''.
-  	\item In practice, $K$-Means is used.
-  	\item Successful on various tasks.
-  \end{itemize}
-  
-  \vspace{0.2in}Possible explanation/solution.
-  \begin{itemize}  
-  	\item Real world data sets have some nice structure.
-  	\item Clustering is easy (computationally) if the input has this nice structure. 
-  	\item Formalize ``data is well-separated'' assumption.
-  \end{itemize}
+  \begin{center}Clustering is difficult only when it does not matter
+  \end{center}
 \end{frame}
 
 \begin{frame}{Notions of clusterability}
-  \begin{itemize}
-  	\item $\alpha$-center proximity\\
-    A clustering $\mc C$ satisfies $\alpha$-center proximity w.r.t $\mc X$ if there exist centers $c_1, \ldots, c_k$  such that the following holds. For all $x \in X_i$ and $i\neq j$, $$\alpha d(x, c_i) < d(x, c_j)$$ 
-  	\item $\lambda$-center separation\\
-  	A clustering $\mc C$ has $\lambda$-center separation w.r.t $\mc X$ if there exists centers $c_1, \ldots, c_k$ such that the following holds. For all $i\neq j$, 
-  	$$d(c_i, c_j) > \lambda r(\mc C)$$
-  \end{itemize}
+   $\alpha$-center proximity\\
+   $$\alpha d(x, c_i) < d(x, c_j)$$ 
+   \begin{figure}
+	  \includegraphics[trim = 0 0 0 100, clip, width=\linewidth]{figures/1.pdf}
+   \end{figure}
+   
 \end{frame}
+
+%\begin{frame}{Notions of clusterability}
+%  \begin{itemize}
+%  	\item $\alpha$-center proximity\\
+%    A clustering $\mc C$ satisfies $\alpha$-center proximity w.r.t $\mc X$ if there exist centers $c_1, \ldots, c_k$  such that the following holds. For all $x \in X_i$ and $i\neq j$, $$\alpha d(x, c_i) < d(x, c_j)$$ 
+%  	\item $\lambda$-center separation\\
+%  	A clustering $\mc C$ has $\lambda$-center separation w.r.t $\mc X$ if there exists centers $c_1, \ldots, c_k$ such that the following holds. For all $i\neq j$, 
+%  	$$d(c_i, c_j) > \lambda r(\mc C)$$
+%  \end{itemize}
+%\end{frame}
 
 \section{Previous Work}
 
 \begin{frame}{Known Results}
-  Intuition
-  \begin{itemize}
-    \item $\alpha$ controls how separated the clusters are.
-    \item Bigger the $\alpha$, more the separation.  
-  \end{itemize}
   
-  \vspace{0.2in}Goal: Find the optimal $k$-median solution. It is known that the optimal solution satisfies $\alpha$-center proximity. 
+  Goal: Find the optimal $k$-median solution. $$\min_{c_1, \ldots, c_k \in \mc X} \sum_{i=1}^k \sum_{x \in X_i} \|x - c_i\|^2$$ 
+  Given: Optimal solution satisfies $\alpha$-center proximity.\\
+  \pause
+  \vspace{0.2in}Results 
   \begin{itemize}
-    \item $\alpha > \sqrt{2}+1$ - Efficient algorithm based on finding a $k$-pruning of a hierarchical clustering tree.
-    \item $\alpha < 2$ - Problem NP-Hard.  
+    \item Polytime for $\alpha > \sqrt{2}+1$ %algorithm based on finding a $k$-pruning of a hierarchical clustering tree.
+    \item NP-Hard for $\alpha < 2$.  
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Known results}
-	Limitations
-	\begin{itemize}
-		\item Assumes entire set $\mc X$ has a nice structure.
-		\item Too strict. Unrealistic in pratical situations.
-	\end{itemize}
-	\vspace{0.1in}Solution
-	\begin{itemize}
-		\item Noise - Add points which do not have any structure
-	\end{itemize}
-	\vspace{0.2in}Goal: Find the optimal $k$-median solution. It is known that the optimal solution satisfies $\alpha$-center proximity except for an $\epsilon$ fraction of points. 
+\begin{frame}{Known Results}
+  
+  Goal: Find the optimal $k$-median solution. $$\min_{c_1, \ldots, c_k \in \mc X} \sum_{i=1}^k \sum_{x \in X_i} \|x - c_i\|^2$$ 
+  Given: Optimal solution satisfies $\alpha$-center proximity except for an $\epsilon$ fraction of points.\\
+  \pause
+  \vspace{0.2in}Results 
   \begin{itemize}
-    \item $\alpha > 2+\sqrt{7} \approx 4.6$ - Efficient algorithm  finds a $1+O(\epsilon)$ approximation to $k$-median optimal.
+    \item $(1+O(\epsilon))$-approx for $\alpha > 2+\sqrt{7} \approx 4.6$
   \end{itemize}
 \end{frame}
+
+
+%\begin{frame}{Known results}
+%	Limitations
+%	\begin{itemize}
+%		\item Assumes entire set $\mc X$ has a nice structure.
+%		\item Too strict. Unrealistic in pratical situations.
+%	\end{itemize}
+%	\vspace{0.1in}Solution
+%	\begin{itemize}
+%		\item Noise - Add points which do not have any structure
+%	\end{itemize}
+%	\vspace{0.2in}Goal: Find the optimal $k$-median solution. It is known that the optimal solution satisfies $\alpha$-center proximity except for an $\epsilon$ fraction of points. 
+%  \begin{itemize}
+%    \item $\alpha > 2+\sqrt{7} \approx 4.6$ - Efficient algorithm  finds a $1+O(\epsilon)$ approximation to $k$-median optimal.
+%  \end{itemize}
+%\end{frame}
 
 \section{Big Picture}
 
 \begin{frame}{Problem Setting}
   Limitations
   \begin{itemize}
-  	\item Impossible to verify - Can't find optimal solution. No way to verify if the optimal has that property.
-  	\item Small noise - Upper bounded by a fraction of the dataset.  
+  	\item Assumption on optimal %Impossible to verify - Can't find optimal solution. No way to verify if the optimal has that property.
+  	\item Strict %Small noise - Upper bounded by a fraction of the dataset.  
   \end{itemize}
-  \vspace{0.2in}Our framework
+\end{frame}
+
+\begin{frame}{Problem Setting}
+  Our framework
   \begin{itemize}
-  	\item Noise is structureless.
   	\item Efficient representation of all nice solutions.
+  	\item Noise is structureless.
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Contributions}
-  Results under $\alpha$-center proximity\\
-  \begin{itemize}
-  	\item $\alpha < 3 + 2\sqrt{2} \approx 5.8$ and noise is small - No efficient representation exists. 
-  	\item $\alpha > 2 + \sqrt{7} \approx 4.6$ and noise is sparse - Efficient algorithm which captures all solutions.
-  	\item $\alpha < 3 + \sqrt{2} \approx 4.4$ and noise is sparse - No efficient representation exists.
-  \end{itemize}
+\begin{frame}{Clustering tree}
+	\begin{figure}
+	  \includegraphics[trim = 50 150 50 200, clip, width=0.8\linewidth]{hier.pdf}
+	\end{figure}
+	\vspace{-1in}Example 3-clusterings $\{\{p\}, \{q\}, \{r, s, t\}\}$ and $\{\{p, q\}, \{r\}, \{s, t\}\}$
 \end{frame}
 
-\begin{frame}{Contributions}
-  Results under $\lambda$-center separation\\
- \begin{itemize}
-  	\item $\lambda < 6$ and noise is small - No efficient representation exists. 
-  	\item $\lambda > 4$ and noise is sparse - Efficient algorithm which captures all solutions.
-  	\item $\lambda < 4$ and noise is sparse - No efficient representation exists.
-  \end{itemize}
-  \vspace{0.2in}Structureless noise is natural.
+\begin{frame}{Sparse noise}
+    Any ball of small radius contains few points from $\mc X$.
+    \begin{figure}
+	  \includegraphics[trim = 100 0 0 100, clip, width=\linewidth]{figures/2.pdf}
+   \end{figure}
+    	 
+	\textcolor{red}{Add figure}
 \end{frame}
 
 \section{Preliminaries}
 
-\begin{frame}{Definitions}
-	Given a clustering $\mc C = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k$, $m(\mc{C}) = \min_i |C_i|$ and $r(\mc{C}) = \max_i \thinspace r(C_i)$.
-	
-	\vspace{0.1in}\begin{block}{($\alpha, \eta$)-center proximity}
-	Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S} = \{S_1, \ldots, S_k\}$ has $(\alpha, \eta)$-center proximity if there exists centers $s_1, \ldots, s_k$  such that the following holds.
+\begin{frame}{Definition}
+	\begin{block}{($\alpha, \eta$)-center proximity}
+	Given $\mc S \subseteq \mc X$
 	\begin{itemize}
-  	\item[$\diamond$] {\bf $\alpha$-center proximity}: For all $x \in S_i$ and $i\neq j$, $\thinspace\alpha d(x, s_i) < d(x, s_j)$
-	\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$, $r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{m(\mc C_{\mc S})}{2}$
-	\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}{Definitions}
-	Given a clustering $\mc C = \{C_1, \ldots, C_k\}$ induced by centers $c_1, \ldots, c_k$, $m(\mc{C}) = \min_i |C_i|$ and $r(\mc{C}) = \max_i \thinspace r(C_i)$.
-
-	\vspace{0.1in}\begin{block}{($\lambda, \eta$)-center separation}
-	Given $\mc S \subseteq \mc X$, a clustering $\mc C_{\mc S}$ has $(\lambda, \eta)$-center separation if there exists centers $s_1, \ldots, s_k$ such that $\mc C_{\mc X}$ is the clustering induced by these centers and the following holds.
-
-	\begin{itemize}
-	\label{defn:lambdacsnoise}	
-
-	\item[$\diamond$] {\bf $\lambda$-center separation}: For all $i\neq j$, $\thinspace d(s_i, s_j) > \lambda r({\mc C}_{\mc S})$
-	\item[$\diamond$]{\bf $\eta$-sparse noise}: For any ball $B$, $r(B)\leq \eta \thinspace r(\mc{C}_{\mc S}) \implies |B\cap (\mc X\setminus \mc S)| < \frac{m(\mc C_{\mc S})}{2}$
+  	\item[$\diamond$] $\mc S$ has {\bf $\alpha$-center proximity}
+	\item[$\diamond$]$\mc X \setminus \mc S$ is {\bf $\eta$-sparse}
 	\end{itemize}
 	\end{block}
 \end{frame}
 
 \section{Algorithmic Approach}
 
+\begin{frame}{Results}
+  \begin{itemize}
+  	\item $\alpha < 5.8$ and noise is small (but adverserial)\\ \textcolor{red}{No efficient representation}. 
+  	\pause
+  	\item $\alpha > 4.6$ and noise is sparse\\ 
+  	\textcolor{green}{Clustering tree in poly time}.
+  	\pause
+  	\item $\alpha < 4.4$ and noise is sparse\\ 
+  	\textcolor{red}{No efficient representation}. 
+  \end{itemize}
+\end{frame}
 
-\begin{frame}{Clustering under $\alpha$-center proximity}
+\begin{frame}{Clustering under $(\alpha, \eta)$-center proximity}
 	\begin{block}{The algorithm}
 	  Input: $(\mc X, d)$ and a parameter $t$.\\
 	  Output: A hierarchical clustering tree.\\
@@ -231,26 +240,18 @@
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Clustering under $\alpha$-center proximity}
-	\begin{block}{Proof Idea}
-	\begin{itemize}
-	  \item Let the target clustering be $\mc C^* = \{S_1^*, \ldots, S_k^*\}$
-	  \item If points from $S_i^*$ is merged with points from $S_j^*$,  then at this step the distance being considered $d = d(p,q) > r(S_i^*)$.	
-      \item When the algorithm considers the distance $d = r(S_i^*)$, it merges all points from $S_i^*$ into a single cluster. 
-    \end{itemize} 	
-	\end{block}
+\begin{frame}{Satisfies sparse-distance}
+   \begin{figure}
+	  \includegraphics[trim = 100 0 0 100, clip, width=\linewidth]{figures/3.pdf}
+   \end{figure}
+\end{frame}
+\begin{frame}{Doesn't satisfy sparse-distance}   
+   \begin{figure}
+	  \includegraphics[trim = 100 0 0 100, clip, width=\linewidth]{figures/4.pdf}
+   \end{figure}
 \end{frame}
 
-\begin{frame}{Clustering under $\alpha$-center proximity}
-	\begin{block}{Result}
-	\begin{itemize}
-	  \item Given a clustering instance $(\mc X, d)$ and a parameter $t$. outputs a tree $\mc T$ with the following property. For all $k$, $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^*_{\mc S} = \{S_1^*, \ldots, S_k^*\}$ which satisfy $(2+\sqrt{7}, 1)$-center proximity the following holds. If $m(\mc C_{\mc S}^*) = t$ then $\mc T$ captures $\mc C_{\mc S}$.
-	  \item Runs in polynomial time.
-	\end{itemize}
-	\end{block}
-\end{frame}
-
-\begin{frame}{Clustering under $\alpha$-center proximity}
+\begin{frame}{Lower bound}
 	If $\alpha < 3 + \sqrt{2}$ and noise is sparse, then there doesn't exist a clustering tree which can capture all nice solutions.
 	\begin{figure}[!t]
 	  \begin{center}
@@ -260,52 +261,11 @@
 	Same ideas can be extended to a list output. Any list should have size $> 2^{k/2}$
 \end{frame}
 
-\begin{frame}{Clustering under $\alpha$-center proximity}
-	If $\alpha < 3 + 2\sqrt{2}$ and noise is arbitrary, then there doesn't exist a clustering tree which can capture all nice solutions.
-	\begin{figure}[!t]
-	  \begin{center}
-	    \includegraphics[trim={47mm 205mm 12mm 44mm},clip,width=\textwidth]{lbdFig3.pdf}
-	  \end{center}
-	\end{figure}
-	Same ideas can be extended to a list output. Any list should have size $> 2^{k/2}$
-\end{frame}
-
-\begin{frame}{Clustering under $\lambda$-center separation}
-	\begin{block}{The algorithm}
-	  Input: $(\mc X, d)$ and parameters $r$ and $t$.\\
-	  Output: A clustering of $\mc X$.\\
-	  \vspace{0.1in}Initialize every point in its own cluster.\\
-	  Construct a list $L$ of balls $B$ such that $r(B) \le r$ and $m(B) \ge t$.\\
-	  Construct a vertex in a graph for every ball in the list. \\
-	  If $B_i \cap B_j \ge t/2$, connect the vertices by an edge.\\
-	  Output the connected components as a clustering of the set.
-    \end{block}
-\end{frame}
-
-\begin{frame}{Clustering under $\lambda$-center separation}
-	\begin{block}{Proof Idea}
-	\begin{itemize}
-	  \item Let the target clustering be $\mc C^* = \{S_1^*, \ldots, S_k^*\}$
-	  \item If $B_{i1}$ and $B_{i2}$ intersect $S_i^*$ then the vertices $v_{i1}$ and $v_{i2}$ are connected.
-	  \item If $B_{i1}$ intersects $S_i^*$ and $B_{j1}$ intersects $S_j^*$ then $v_{i1}$ and $v_{j1}$ are disconnected in $G$.	
-    \end{itemize} 	
-	\end{block}
-\end{frame}
-
-\begin{frame}{Clustering under $\lambda$-center separation}
-	\begin{block}{Result}
-	\begin{itemize}
-	  \item Given a clustering instance $(\mc X, d)$ and parameters $r$ and $t$. For every $k$, for every $\mc S \subseteq \mc X$ and for all $k$-clusterings $\mc C^* = \{S_1^*, \ldots, S_k^*\}$ which satisfy $(4, 1)$-center separation such that $ m(\mc C_{\mc S}^*) = t$ and $r(\mc C_{\mc S}^*) = r$, the following holds. Alg. outputs a clustering $\mc C$ such that $\mc C|_{\mc S} = \mc C_{\mc S}^*$.
-	  \item Runs in polynomial time.
-	\end{itemize}
-	\end{block}
-	The lower bounds are obtained using identical techniques as the lower bounds for $\alpha$-center proximity case.
-\end{frame}
-
-\begin{frame}{Sparse noise is natural}
+\begin{frame}{Justification of sparse noise}
     \begin{itemize}
-	  \item Let data $\mc S$ has nice structure (cohesive and separated sets).
-	  \item Uniform random noise $\mc N$ is added to this data.
+	  \item Data $\mc S$ has nice structure.
+	  \item Noise $\mc N$ is added by a non-concentrated distribution.
+	  \pause
 	  \item $\mc X = \mc S \cup \mc N$ satisfies the structureless noise definition with high probability.
     \end{itemize}
 \end{frame}
